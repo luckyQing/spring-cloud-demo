@@ -1,0 +1,31 @@
+logging:
+  config: classpath:log4j2.xml
+
+spring:
+  application:
+    name: spring-cloud-gateway
+
+server:
+  port: 80
+  servlet:
+    context-path: /
+  compression:
+    enabled: true
+  undertow:
+    direct-buffers: true
+
+management:
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+        
+eureka: 
+  client:       
+    registerWithEureka: true   
+    fetchRegistry: true
+    service-url: 
+      defaultZone: http://nodeA:10001/eureka/,http://nodeB:10002/eureka/
