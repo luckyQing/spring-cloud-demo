@@ -6,8 +6,7 @@ spring:  application:    name: eureka-nodeA
 server:
   port: 10001
   servlet:
-    context-path: /
-  compression:    enabled: true
+    context-path: /  compression:    enabled: true
   undertow:    direct-buffers: true
 management:
   endpoint:
