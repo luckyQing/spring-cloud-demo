@@ -5,6 +5,8 @@
 >| 项目名 | 说明 | 端口 |
 >| - | - | - |
 >| common | 公共配置等 | - |
+>| demo-order-service | 订单服务 | 20011 |
+>| demo-product-service | 商品服务 | 20021 |
 >| eureka-nodeA | eureka节点A | 10001 |
 >| eureka-nodeB | eureka节点B | 10002 |
 >| spring-boot-admin | 服务监控 | 10011 |
@@ -23,6 +25,14 @@
 spring:
   profiles:
     include: email,mq
+
+或
+spring:
+  profiles:
+    include:
+      - 子项1
+      - 子项2
+      - 子项3  
 ```
 
 # 三、注意事项
