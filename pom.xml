@@ -19,9 +19,11 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<java.version>1.8</java.version>
 		<spring-cloud>Greenwich.SR1</spring-cloud>
+		<spring.boot.admin>2.1.3</spring.boot.admin>
+		<mapper>2.1.5</mapper>
+		<pagehelper>1.2.10</pagehelper>
 		<fastjson>1.2.47</fastjson>
 		<springfox-swagger2>2.7.0</springfox-swagger2>
-		<spring.boot.admin>2.1.3</spring.boot.admin>
 	</properties>
 
 	<dependencyManagement>
@@ -44,6 +46,18 @@
 				<groupId>de.codecentric</groupId>
 				<artifactId>spring-boot-admin-starter-client</artifactId>
 				<version>${spring.boot.admin}</version>
+			</dependency>
+			
+			<dependency>
+			    <groupId>tk.mybatis</groupId>
+			    <artifactId>mapper-spring-boot-starter</artifactId>
+			    <version>${mapper}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.github.pagehelper</groupId>
+				<artifactId>pagehelper-spring-boot-starter</artifactId>
+				<version>${pagehelper}</version>
 			</dependency>
 
 			<dependency>
