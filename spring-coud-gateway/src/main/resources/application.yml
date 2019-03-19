@@ -1,15 +1,8 @@
 spring:
   profiles:
-    include: common
+    include: common,eureka-client
   application:
     name: spring-cloud-gateway
 
 server:
   port: 80
-
-eureka: 
-  client:       
-    registerWithEureka: true   
-    fetchRegistry: true
-    service-url: 
-      defaultZone: http://nodeA:10001/eureka/,http://nodeB:10002/eureka/

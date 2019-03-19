@@ -2,7 +2,7 @@ spring:
   profiles:
     include: common,eureka-client
   application:
-    name: spring-boot-admin
+    name: demo-order-service
 
 server:
-  port: 10011
+  port: 20011

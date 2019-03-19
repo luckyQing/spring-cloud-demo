@@ -6,16 +6,9 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.liyulin</groupId>
-		<artifactId>spring-cloud-demo</artifactId>
+		<artifactId>demo-order-module</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	<artifactId>feign-client</artifactId>
+	<artifactId>demo-order-base-domain</artifactId>
 	<packaging>jar</packaging>
-
-	<dependencies>
-		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-openfeign</artifactId>
-		</dependency>
-	</dependencies>
 </project>

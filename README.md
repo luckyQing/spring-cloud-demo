@@ -2,16 +2,80 @@
 此项目为spring cloud微服务学习示例项目。
 
 ----------
->| 项目名 | 说明 | 端口 |
->| - | - | - |
->| common | 公共配置等 | - |
->| demo-order-service | 订单服务 | 20011 |
->| demo-product-service | 商品服务 | 20021 |
->| eureka-nodeA | eureka节点A | 10001 |
->| eureka-nodeB | eureka节点B | 10002 |
->| feign-client | rpc feign接口封装 | - |
->| spring-boot-admin | 服务监控 | 10011 |
->| spring-cloud-gateway | 服务网关 | 80 |
+> <table>
+> 	<tr>
+> 		<th>模块</th>
+> 		<th>项目名</th>
+> 		<th>说明</th>
+> 		<th>端口</th>
+> 	</tr>
+> 	<tr>
+> 		<td>公共配置</td>
+> 		<td>common</td>
+> 		<td>-</td>
+> 		<td>-</td>
+> 	</tr>
+> 	<tr>
+> 		<td rowspan=3>订单模块</td>
+> 		<td>demo-order-module</td>
+> 		<td>订单模块父项目</td>
+> 		<td>-</td>
+> 	</tr>
+> 	<tr>
+> 		<td>demo-order-service</td>
+> 		<td>订单服务</td>
+> 		<td>20011</td>
+> 	</tr>
+> 	<tr>
+> 		<td>demo-order-base-domain</td>
+> 		<td>订单服务自动生成的DAO代码</td>
+> 		<td>-</td>
+> 	</tr>
+> 	<tr>
+> 		<td rowspan=4>商品模块</td>
+> 		<td>demo-product-module</td>
+> 		<td>商品模块父项目</td>
+> 		<td>-</td>
+> 	</tr>
+> 	<tr>
+> 		<td>demo-product-service</td>
+> 		<td>商品服务</td>
+> 		<td>20021</td>
+> 	</tr>
+> 	<tr>
+> 		<td>demo-product-base-domain</td>
+> 		<td>商品服务自动生成的DAO代码</td>
+> 		<td>-</td>
+> 	</tr>
+> 	<tr>
+> 		<td>demo-product-rpc</td>
+> 		<td>商品服务rpc接口封装</td>
+> 		<td>-</td>
+> 	</tr>
+> 	<tr>
+> 		<td rowspan=2>服务注册中心</td>
+> 		<td>eureka-nodeA</td>
+> 		<td>eureka节点A</td>
+> 		<td>10001</td>
+> 	</tr>
+> 	<tr>
+> 		<td>eureka-nodeB</td>
+> 		<td>eureka节点B</td>
+> 		<td>10002</td>
+> 	</tr>
+> 	<tr>
+> 		<td>服务监控</td>
+> 		<td>spring-boot-admin</td>
+> 		<td>-</td>
+> 		<td>10011</td>
+> 	</tr>
+> 	<tr>
+> 		<td>服务网关</td>
+> 		<td>spring-cloud-gateway</td>
+> 		<td>-</td>
+> 		<td>80</td>
+> 	</tr>
+> </table>
 
 ----------
 
