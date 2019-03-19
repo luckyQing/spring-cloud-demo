@@ -9,6 +9,7 @@
 >| demo-product-service | 商品服务 | 20021 |
 >| eureka-nodeA | eureka节点A | 10001 |
 >| eureka-nodeB | eureka节点B | 10002 |
+>| feign-client | rpc feign接口封装 | - |
 >| spring-boot-admin | 服务监控 | 10011 |
 >| spring-cloud-gateway | 服务网关 | 80 |
 
