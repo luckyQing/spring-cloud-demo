@@ -17,5 +17,10 @@
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-gateway</artifactId>
 		</dependency>
+
+		<dependency>
+			<groupId>com.liyulin</groupId>
+			<artifactId>common</artifactId>
+		</dependency>
 	</dependencies>
 </project>

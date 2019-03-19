@@ -17,6 +17,10 @@
 			<groupId>de.codecentric</groupId>
 			<artifactId>spring-boot-admin-starter-server</artifactId>
 		</dependency>
-	</dependencies>
 
+		<dependency>
+			<groupId>com.liyulin</groupId>
+			<artifactId>common</artifactId>
+		</dependency>
+	</dependencies>
 </project>

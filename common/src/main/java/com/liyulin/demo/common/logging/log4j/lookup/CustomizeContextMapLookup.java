@@ -1,4 +1,4 @@
-package com.liyulin.demo.common.listener;
+package com.liyulin.demo.common.logging.log4j.lookup;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -20,20 +20,38 @@ import org.yaml.snakeyaml.Yaml;
  */
 @Plugin(name = "cctx", category = StrLookup.CATEGORY)
 public class CustomizeContextMapLookup implements StrLookup {
-
+	
+	/** yaml文件名 */
+	private static final String YAML_FILE_NAME = "application.yml";
+	/** spring yaml文件中key的分隔符 */
+	private static final String SPRING_YAML_KEY_SEPARATOR = "\\.";
+	/** yaml文件中的应用名key */
+	private static final String APP_NAME_KEY = "spring.application.name";
+	/** 存储设置的变量 */
 	private static final Map<String, String> DATA = new HashMap<>();
+
 	static {
 		// 解析yaml
-		ClassPathResource resource = new ClassPathResource("application.yml");
+		ClassPathResource resource = new ClassPathResource(YAML_FILE_NAME);
 		Yaml yaml = new Yaml();
 		try (InputStream yamlInputStream = resource.getInputStream()) {
 			Map<String, Object> yamlJson = yaml.load(yamlInputStream);
-			String appName = getYamlValue("spring.application.name", yamlJson);
+			String appName = getYamlValue(APP_NAME_KEY, yamlJson);
 
 			DATA.put("appName", appName);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public String lookup(String key) {
+		return DATA.get(key);
+	}
+
+	@Override
+	public String lookup(LogEvent event, String key) {
+		return DATA.get(key);
 	}
 
 	/**
@@ -45,16 +63,15 @@ public class CustomizeContextMapLookup implements StrLookup {
 	 */
 	@SuppressWarnings("unchecked")
 	private static String getYamlValue(String name, Map<String, Object> yamlJson) {
-		String separator = "\\.";
-		String[] keys = name.split(separator);
+		String[] keys = name.split(SPRING_YAML_KEY_SEPARATOR);
 		if (Objects.isNull(keys) || keys.length == 0) {
 			return null;
 		}
-		
+
 		if (keys.length == 1) {
 			return String.valueOf(yamlJson.get(keys[0]));
 		}
-		
+
 		Map<String, Object> tempMap = null;
 		String value = null;
 		for (int i = 0; i < keys.length; i++) {
@@ -68,16 +85,6 @@ public class CustomizeContextMapLookup implements StrLookup {
 		}
 
 		return value;
-	}
-
-	@Override
-	public String lookup(String key) {
-		return DATA.get(key);
-	}
-
-	@Override
-	public String lookup(LogEvent event, String key) {
-		return DATA.get(key);
 	}
 
 }
