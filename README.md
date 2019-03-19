@@ -17,6 +17,13 @@
 ```
 如果选用的注册中心是eureka，那么就推荐@EnableEurekaClient，如果是其他的注册中心，那么推荐使用@EnableDiscoveryClient。
 ```
+## （二）spring boot引入其他的yaml文件
+```
+比如src/main/resources下有application-email.yml、application-mq.yml等文件，在yaml中添加
+spring:
+  profiles:
+    include: email,mq
+```
 
 # 三、注意事项
 ```

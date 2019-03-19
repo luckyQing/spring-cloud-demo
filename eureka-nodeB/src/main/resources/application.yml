@@ -1,28 +1,12 @@
-logging:
-  config: classpath:log4j2.xml
-
 spring:
+  profiles:
+    include: common
   application:
     name: eureka-nodeB
 
 server:
   port: 10002
-  servlet:
-    context-path: /
-  compression:
-    enabled: true
-  undertow:
-    direct-buffers: true
 
-management:
-  endpoint:
-    health:
-      show-details: always
-  endpoints:
-    web:
-      exposure:
-        include: "*"
-        
 eureka:  instance:
     hostname: nodeB
   client:    service-url:      defaultZone: http://nodeA:10001/eureka/

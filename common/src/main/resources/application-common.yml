@@ -1,0 +1,15 @@
+logging:
+  config: classpath:log4j2.xml
+  
+server:
+  servlet:
+    context-path: /  compression:    enabled: true
+  undertow:    direct-buffers: true
+management:
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: "*"
