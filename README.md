@@ -53,7 +53,12 @@
 > 		<td>-</td>
 > 	</tr>
 > 	<tr>
-> 		<td rowspan=2>服务注册中心</td>
+> 		<td rowspan=3>服务注册中心</td>
+> 		<td>demo-eureka-module</td>
+> 		<td>服务注册中心模块父项目</td>
+> 		<td>-</td>
+> 	</tr>
+> 	<tr>
 > 		<td>eureka-nodeA</td>
 > 		<td>eureka节点A</td>
 > 		<td>10001</td>

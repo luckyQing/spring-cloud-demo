@@ -47,11 +47,11 @@
 				<artifactId>spring-boot-admin-starter-client</artifactId>
 				<version>${spring.boot.admin}</version>
 			</dependency>
-			
+
 			<dependency>
-			    <groupId>tk.mybatis</groupId>
-			    <artifactId>mapper-spring-boot-starter</artifactId>
-			    <version>${mapper}</version>
+				<groupId>tk.mybatis</groupId>
+				<artifactId>mapper-spring-boot-starter</artifactId>
+				<version>${mapper}</version>
 			</dependency>
 
 			<dependency>
@@ -159,12 +159,11 @@
 	</build>
 
 	<modules>
-		<module>eureka-nodeA</module>
-		<module>eureka-nodeB</module>
 		<module>spring-boot-admin</module>
 		<module>spring-coud-gateway</module>
 		<module>common</module>
 		<module>demo-order-module</module>
 		<module>demo-product-module</module>
+		<module>demo-eureka-module</module>
 	</modules>
 </project>

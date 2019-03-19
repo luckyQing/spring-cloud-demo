@@ -9,8 +9,8 @@
 		<artifactId>spring-cloud-demo</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	<artifactId>eureka-nodeA</artifactId>
-	<packaging>jar</packaging>
+	<artifactId>demo-eureka-module</artifactId>
+	<packaging>pom</packaging>
 
 	<dependencies>
 		<dependency>
@@ -29,4 +29,9 @@
 			<artifactId>common</artifactId>
 		</dependency>
 	</dependencies>
+
+	<modules>
+		<module>demo-eureka-nodeA</module>
+		<module>demo-eureka-nodeB</module>
+	</modules>
 </project>
