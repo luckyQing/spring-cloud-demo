@@ -4,7 +4,8 @@ logging:
 server:
   servlet:
     context-path: /  compression:    enabled: true
-  undertow:    direct-buffers: false
+  undertow:    direct-buffers: true
+# 监控跟踪
 management:
   endpoint:
     health:
@@ -12,4 +13,4 @@ management:
   endpoints:
     web:
       exposure:
-        include: "*"
+        include: '*'

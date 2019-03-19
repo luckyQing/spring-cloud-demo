@@ -1,4 +1,4 @@
-package com.liyulin.boot.demo;
+package com.liyulin.demo;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

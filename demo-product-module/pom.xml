@@ -17,6 +17,7 @@
 			<artifactId>common</artifactId>
 		</dependency>
 	</dependencies>
+	
 	<modules>
 		<module>demo-product-service</module>
 		<module>demo-product-base-domain</module>
