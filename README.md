@@ -16,6 +16,12 @@
 > 		<td>-</td>
 > 	</tr>
 > 	<tr>
+> 		<td>ORM</td>
+> 		<td>demo-spring-boot-starter-mapper</td>
+> 		<td>mybatis、mapper封装</td>
+> 		<td>-</td>
+> 	</tr>
+> 	<tr>
 > 		<td rowspan=3>订单模块</td>
 > 		<td>demo-order-module</td>
 > 		<td>订单模块父项目</td>
