@@ -1,4 +1,4 @@
-# 一、说明
+# 一、项目说明
 此项目为spring cloud微服务学习示例项目。
 
 ----------
@@ -90,7 +90,21 @@
 
 ----------
 
-# 二、笔记
+# 二、技术栈
+| 名称 | 说明 |
+| - | - |
+| spring boot | 手脚架 |
+| spring cloud gateway | 服务网关 |
+| eureka | 服务注册 |
+| [spring boot admin](https://github.com/codecentric/spring-boot-admin) | 服务监控 |
+| feign | 声明式服务调用 |
+| sleuth、log4j2 | 链路追踪、日志 |
+| [mybatis](http://www.mybatis.org/mybatis-3/zh/index.html) 、[mapper](https://github.com/abel533/Mapper)| ORM |
+| [swagger](https://swagger.io/) | 接口文档 |
+| [Lombok](https://www.projectlombok.org/) | 简化代码 |
+
+
+# 三、笔记
 ## （一）@EnableDiscoveryClient与@EnableEurekaClient区别
 ```
 如果选用的注册中心是eureka，那么就推荐@EnableEurekaClient，如果是其他的注册中心，那么推荐使用@EnableDiscoveryClient。
@@ -111,7 +125,7 @@ spring:
       - 子项3  
 ```
 
-# 三、注意事项
+# 四、注意事项
 ```
 1、更改hosts文件，添加如下内容
   127.0.0.1       nodeA
