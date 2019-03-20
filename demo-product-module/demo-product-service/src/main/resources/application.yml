@@ -2,8 +2,8 @@ spring:
   profiles:
     include: 
       - common
-      - eureka-client
-      - mysql
+      - eureka
+      - product-db
   application:
     name: demo-product-service
 

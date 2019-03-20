@@ -1,6 +1,6 @@
 spring:
   profiles:
-    include: common,eureka-client
+    include: common,eureka
   application:
     name: spring-boot-admin
 
