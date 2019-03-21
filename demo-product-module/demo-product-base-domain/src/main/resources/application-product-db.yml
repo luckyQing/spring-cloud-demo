@@ -1,13 +1,24 @@
 spring: 
   datasource:
-    driver-class-name: com.mysql.jdbc.Driver
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://127.0.0.1:3306/demo_product?characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&serverTimezone=Asia/Shanghai
     username: root
-    password: 123456
+    password: 123456    
 
 mybatis:
-  type-aliases-package: com.liyulin.dmo.product.base.domain.entity
+  type-aliases-package: com.liyulin.demo.**.entity
+  mapper-locations: classpath:com/liyulin/demo/**/mapper/*.xml
   
 mapper: 
   identity: MYSQL
-  mappers: com.liyulin.demo.product.base.domain.dao.ProductInfoMapper
+  not-empty: true   # 按主键插入或更新时，是否判断字符串 != ''
+  # 多个接口时，逗号隔开
+  #mappers: com.liyulin.demo.mybatis.mapper.ext.ExtMapper
+
+# 分页插件  
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql

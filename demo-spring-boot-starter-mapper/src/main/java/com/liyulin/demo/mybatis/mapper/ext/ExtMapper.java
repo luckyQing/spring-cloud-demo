@@ -12,5 +12,5 @@ import tk.mybatis.mapper.common.Marker;
 @RegisterMapper
 public interface ExtMapper<T> extends Mapper<T>, BatchInsertExtMapper<T>, BatchInsertSelectiveExtMapper<T>,
 		BatchUpdateExtMapper<T>, BatchUpdateSelectiveExtMapper<T>/* InsertListMapper<T> */, Marker {
-
+	
 }
