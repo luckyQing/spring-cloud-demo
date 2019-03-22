@@ -1,5 +1,5 @@
 package com.liyulin.demo.common.dao;
 
-public class BaseDto {
+public interface BaseDao {
 
 }

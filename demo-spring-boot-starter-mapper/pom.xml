@@ -39,5 +39,10 @@
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 		</dependency>
+
+		<dependency>
+			<groupId>com.liyulin</groupId>
+			<artifactId>common</artifactId>
+		</dependency>
 	</dependencies>
 </project>
