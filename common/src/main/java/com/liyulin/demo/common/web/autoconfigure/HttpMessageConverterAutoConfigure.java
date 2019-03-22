@@ -15,7 +15,7 @@ import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
 
 @Configuration
 @ConditionalOnWebApplication
-public class HttpMessageConverterConfigure implements WebMvcConfigurer {
+public class HttpMessageConverterAutoConfigure implements WebMvcConfigurer {
 	
 	@Override
 	public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
