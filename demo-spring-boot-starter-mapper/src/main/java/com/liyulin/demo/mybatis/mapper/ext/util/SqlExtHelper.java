@@ -1,6 +1,11 @@
 package com.liyulin.demo.mybatis.mapper.ext.util;
 
+import java.util.Set;
+
+import tk.mybatis.mapper.LogicDeleteException;
+import tk.mybatis.mapper.annotation.LogicDelete;
 import tk.mybatis.mapper.entity.EntityColumn;
+import tk.mybatis.mapper.mapperhelper.EntityHelper;
 import tk.mybatis.mapper.mapperhelper.SqlHelper;
 import tk.mybatis.mapper.util.StringUtil;
 
@@ -122,5 +127,5 @@ public class SqlExtHelper extends SqlHelper {
 		sql.append("</if>");
 		return sql.toString();
 	}
-
+	
 }

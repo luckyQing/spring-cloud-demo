@@ -38,6 +38,6 @@ public class BaseEntity {
 
 	/** 记录状态=={'1':'正常','2':'已删除'} */
 	@Column(name = "f_sys_del_state")
-	protected int delState;
+	protected Integer delState;
 
 }

@@ -1,9 +1,7 @@
 package com.liyulin.demo.mybatis.plugin;
 
-import java.text.DateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import java.util.Objects;
 import java.util.Properties;
 import java.util.regex.Matcher;
@@ -25,6 +23,7 @@ import org.apache.ibatis.type.TypeHandlerRegistry;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
+import com.liyulin.demo.common.util.DateUtil;
 import com.liyulin.demo.common.util.LogUtil;
 
 /**
@@ -43,23 +42,24 @@ public class SqlLogInterceptor implements Interceptor {
 
 	@Override
 	public Object intercept(Invocation invocation) throws Throwable {
-		MappedStatement mappedStatement = (MappedStatement) invocation.getArgs()[0];
-		Object parameter = null;
-		if (invocation.getArgs().length > 1) {
-			parameter = invocation.getArgs()[1];
-		}
-		String sqlId = mappedStatement.getId();
-		BoundSql boundSql = mappedStatement.getBoundSql(parameter);
-		Configuration configuration = mappedStatement.getConfiguration();
 		Object returnValue = null;
 		long start = System.currentTimeMillis();
-		returnValue = invocation.proceed();
-		long end = System.currentTimeMillis();
-
-		long time = (end - start);
-		showSql(configuration, boundSql, sqlId, time, returnValue);
-
-		return returnValue;
+		try {
+			returnValue = invocation.proceed();
+			return returnValue;
+		} finally {
+			long end = System.currentTimeMillis();
+			long time = (end - start);
+			MappedStatement mappedStatement = (MappedStatement) invocation.getArgs()[0];
+			Object parameter = null;
+			if (invocation.getArgs().length > 1) {
+				parameter = invocation.getArgs()[1];
+			}
+			String sqlId = mappedStatement.getId();
+			BoundSql boundSql = mappedStatement.getBoundSql(parameter);
+			Configuration configuration = mappedStatement.getConfiguration();
+			showSql(configuration, boundSql, sqlId, time, returnValue);
+		}
 	}
 
 	@Override
@@ -108,9 +108,11 @@ public class SqlLogInterceptor implements Interceptor {
 		if (obj instanceof String) {
 			params = "'" + String.valueOf(obj) + "'";
 		} else if (obj instanceof Date) {
-			DateFormat formatter = DateFormat.getDateTimeInstance(DateFormat.DEFAULT, DateFormat.DEFAULT, Locale.CHINA);
-			params = "'" + formatter.format(obj) + "'";
-		} else if (obj != null) {
+			Date date = (Date) obj;
+			params = "'" + DateUtil.formatDateTime(date) + "'";
+		} else if (Objects.isNull(obj)) {
+			params = "null";
+		} else {
 			params = obj.toString();
 		}
 

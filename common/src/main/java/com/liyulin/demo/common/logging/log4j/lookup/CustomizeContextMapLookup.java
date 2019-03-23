@@ -34,13 +34,16 @@ public class CustomizeContextMapLookup implements StrLookup {
 		// 解析yaml
 		ClassPathResource resource = new ClassPathResource(YAML_FILE_NAME);
 		Yaml yaml = new Yaml();
+		String appName = null;
 		try (InputStream yamlInputStream = resource.getInputStream()) {
 			Map<String, Object> yamlJson = yaml.load(yamlInputStream);
-			String appName = getYamlValue(APP_NAME_KEY, yamlJson);
-
-			DATA.put("appName", appName);
+			appName = getYamlValue(APP_NAME_KEY, yamlJson);
 		} catch (IOException e) {
+			// 抛异常，则取当前jar名
+			appName = "common";
 			e.printStackTrace();
+		} finally {
+			DATA.put("appName", appName);
 		}
 	}
 

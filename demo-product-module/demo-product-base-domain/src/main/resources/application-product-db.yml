@@ -13,8 +13,6 @@ mybatis:
 mapper: 
   identity: MYSQL
   not-empty: true   # 按主键插入或更新时，是否判断字符串 != ''
-  # 多个接口时，逗号隔开
-  #mappers: com.liyulin.demo.mybatis.mapper.ext.ExtMapper
 
 # 分页插件  
 pagehelper:

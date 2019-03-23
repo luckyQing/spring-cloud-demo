@@ -17,7 +17,7 @@ public class BatchUpdateExtMapperProvider extends MapperTemplate {
 	 *
 	 * @param ms
 	 */
-	public String batchUpdateByPrimaryKey(MappedStatement ms) {
+	public String updateListByPrimaryKey(MappedStatement ms) {
 		Class<?> entityClass = getEntityClass(ms);
 		StringBuilder sql = new StringBuilder();
 		sql.append(SqlHelper.updateTable(entityClass, tableName(entityClass)));
@@ -32,7 +32,7 @@ public class BatchUpdateExtMapperProvider extends MapperTemplate {
 	 * @param ms
 	 * @return
 	 */
-	public String batchUpdateByPrimaryKeySelective(MappedStatement ms) {
+	public String updateListByPrimaryKeySelective(MappedStatement ms) {
 		Class<?> entityClass = getEntityClass(ms);
 		StringBuilder sql = new StringBuilder();
 		sql.append(SqlHelper.updateTable(entityClass, tableName(entityClass)));

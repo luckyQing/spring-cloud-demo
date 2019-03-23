@@ -15,52 +15,13 @@ import tk.mybatis.mapper.mapperhelper.MapperTemplate;
 import tk.mybatis.mapper.mapperhelper.SelectKeyHelper;
 import tk.mybatis.mapper.mapperhelper.SqlHelper;
 
-public class BatchInsertExtMapperProvider extends MapperTemplate {
+public class InsertListSelectiveExtMapperProvider extends MapperTemplate {
 
-	public BatchInsertExtMapperProvider(Class<?> mapperClass, MapperHelper mapperHelper) {
+	public InsertListSelectiveExtMapperProvider(Class<?> mapperClass, MapperHelper mapperHelper) {
 		super(mapperClass, mapperHelper);
 	}
 
-	public String batchInsert(MappedStatement ms) {
-		Class<?> entityClass = getEntityClass(ms);
-		// 获取全部列
-		Set<EntityColumnExt> columnList = EntityExtHelper.getColumnExts(entityClass);
-
-		StringBuilder sql = new StringBuilder(256);
-		processKey(sql, entityClass, ms, columnList);
-		sql.append(SqlHelper.insertIntoTable(entityClass, tableName(entityClass)));
-		sql.append(SqlHelper.insertColumns(entityClass, false, false, false));
-		sql.append("VALUES");
-		sql.append("<foreach item=\"item\" index=\"index\" collection=\"list\" separator=\",\">");
-		sql.append("<trim prefix=\"(\" suffix=\")\" suffixOverrides=\",\">");
-		for (EntityColumnExt column : columnList) {
-			if (!column.isInsertable()) {
-				continue;
-			}
-			// 优先使用传入的属性值,当原属性property!=null时，用原属性
-			// 自增的情况下,如果默认有值,就会备份到property_cache中,所以这里需要先判断备份的值是否存在
-			if (column.isIdentity()) {
-				sql.append(SqlExtHelper.getIfCacheNotNullExt(column, column.getColumnExtHolder(null, "_cache", ",")));
-			} else {
-				// 其他情况值仍然存在原property中
-				sql.append(
-						SqlExtHelper.getIfNotNullExt(column, column.getColumnExtHolder(null, null, ","), isNotEmpty()));
-			}
-			// 当属性为null时，如果存在主键策略，会自动获取值，如果不存在，则使用null
-			if (column.isIdentity()) {
-				sql.append(SqlExtHelper.getIfCacheIsNullExt(column, column.getColumnExtHolder(null, null, null) + ","));
-			} else {
-				// 当null的时候，如果不指定jdbcType，oracle可能会报异常，指定VARCHAR不影响其他
-				sql.append(
-						SqlExtHelper.getIfIsNullExt(column, column.getColumnExtHolder(null, null, ","), isNotEmpty()));
-			}
-		}
-		sql.append("</trim>");
-		sql.append("</foreach>");
-		return sql.toString();
-	}
-
-	public String batchInsertSelective(MappedStatement ms) {
+	public String insertListSelective(MappedStatement ms) {
 		final Class<?> entityClass = getEntityClass(ms);
 		StringBuilder sql = new StringBuilder(128);
 		// 获取全部列

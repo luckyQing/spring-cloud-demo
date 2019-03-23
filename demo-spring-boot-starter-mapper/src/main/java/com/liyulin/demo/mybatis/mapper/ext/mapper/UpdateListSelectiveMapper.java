@@ -6,9 +6,9 @@ import org.apache.ibatis.annotations.UpdateProvider;
 
 import com.liyulin.demo.mybatis.mapper.ext.provider.BatchUpdateExtMapperProvider;
 
-public interface BatchUpdateExtMapper<T> {
+public interface UpdateListSelectiveMapper<T> {
 
 	@UpdateProvider(type = BatchUpdateExtMapperProvider.class, method = "dynamicSQL")
-	int batchUpdateByPrimaryKey(List<T> list);
+	int updateListByPrimaryKeySelective(List<T> list);
 
 }
