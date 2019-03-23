@@ -4,16 +4,14 @@ import java.util.Set;
 
 import org.apache.ibatis.mapping.MappedStatement;
 
-import com.liyulin.demo.mybatis.mapper.ext.util.EntityColumnExt;
-import com.liyulin.demo.mybatis.mapper.ext.util.EntityExtHelper;
-import com.liyulin.demo.mybatis.mapper.ext.util.SqlExtHelper;
-
 import tk.mybatis.mapper.MapperException;
 import tk.mybatis.mapper.entity.EntityColumn;
+import tk.mybatis.mapper.mapperhelper.EntityHelper;
 import tk.mybatis.mapper.mapperhelper.MapperHelper;
 import tk.mybatis.mapper.mapperhelper.MapperTemplate;
 import tk.mybatis.mapper.mapperhelper.SelectKeyHelper;
 import tk.mybatis.mapper.mapperhelper.SqlHelper;
+import tk.mybatis.mapper.provider.base.BaseInsertProvider;
 
 public class InsertListSelectiveExtMapperProvider extends MapperTemplate {
 
@@ -22,44 +20,53 @@ public class InsertListSelectiveExtMapperProvider extends MapperTemplate {
 	}
 
 	public String insertListSelective(MappedStatement ms) {
-		final Class<?> entityClass = getEntityClass(ms);
-		StringBuilder sql = new StringBuilder(128);
+		String entityName = "item";
+		Class<?> entityClass = getEntityClass(ms);
+		StringBuilder sql = new StringBuilder();
 		// 获取全部列
-		Set<EntityColumnExt> columnList = EntityExtHelper.getColumnExts(entityClass);
+		Set<EntityColumn> columnList = EntityHelper.getColumns(entityClass);
+		EntityColumn logicDeleteColumn = SqlHelper.getLogicDeleteColumn(entityClass);
 		processKey(sql, entityClass, ms, columnList);
-
-		sql.append("<foreach item=\"item\" collection=\"list\" separator=\";\">");
+		sql.append("<foreach item=\"" + entityName + "\" collection=\"list\" separator=\";\">");
 		sql.append(SqlHelper.insertIntoTable(entityClass, tableName(entityClass)));
 		sql.append("<trim prefix=\"(\" suffix=\")\" suffixOverrides=\",\">");
-		for (EntityColumnExt column : columnList) {
+		for (EntityColumn column : columnList) {
 			if (!column.isInsertable()) {
 				continue;
 			}
 			if (column.isIdentity()) {
-				sql.append(column.getColumn() + ",");
+				sql.append(column.getColumn()).append(",");
 			} else {
-				sql.append(SqlExtHelper.getIfNotNullExt(column, column.getColumn() + ",", isNotEmpty()));
+				if (logicDeleteColumn != null && logicDeleteColumn == column) {
+					sql.append(column.getColumn()).append(",");
+					continue;
+				}
+				sql.append(SqlHelper.getIfNotNull(entityName, column, column.getColumn() + ",", isNotEmpty()));
 			}
 		}
 		sql.append("</trim>");
 		sql.append("<trim prefix=\"VALUES(\" suffix=\")\" suffixOverrides=\",\">");
-		for (EntityColumnExt column : columnList) {
+		for (EntityColumn column : columnList) {
 			if (!column.isInsertable()) {
+				continue;
+			}
+			if (logicDeleteColumn != null && logicDeleteColumn == column) {
+				sql.append(SqlHelper.getLogicDeletedValue(column, false)).append(",");
 				continue;
 			}
 			// 优先使用传入的属性值,当原属性property!=null时，用原属性
 			// 自增的情况下,如果默认有值,就会备份到property_cache中,所以这里需要先判断备份的值是否存在
 			if (column.isIdentity()) {
-				sql.append(SqlExtHelper.getIfCacheNotNullExt(column, column.getColumnExtHolder(null, "_cache", ",")));
+				sql.append(SqlHelper.getIfCacheNotNull(column, column.getColumnHolder(entityName, "_cache", ",")));
 			} else {
 				// 其他情况值仍然存在原property中
-				sql.append(
-						SqlExtHelper.getIfNotNullExt(column, column.getColumnExtHolder(null, null, ","), isNotEmpty()));
+				sql.append(SqlHelper.getIfNotNull(entityName, column, column.getColumnHolder(entityName, null, ","),
+						isNotEmpty()));
 			}
 			// 当属性为null时，如果存在主键策略，会自动获取值，如果不存在，则使用null
 			// 序列的情况
 			if (column.isIdentity()) {
-				sql.append(SqlExtHelper.getIfCacheIsNullExt(column, column.getColumnExtHolder(null, null, null) + ","));
+				sql.append(SqlHelper.getIfCacheIsNull(column, column.getColumnHolder(entityName) + ","));
 			}
 		}
 		sql.append("</trim>");
@@ -67,8 +74,10 @@ public class InsertListSelectiveExtMapperProvider extends MapperTemplate {
 		return sql.toString();
 	}
 
-	private void processKey(StringBuilder sql, Class<?> entityClass, MappedStatement ms,
-			Set<EntityColumnExt> columnList) {
+	/**
+	 * @since {@link BaseInsertProvider#processKey}
+	 */
+	private void processKey(StringBuilder sql, Class<?> entityClass, MappedStatement ms, Set<EntityColumn> columnList) {
 		// Identity列只能有一个
 		Boolean hasIdentityKey = false;
 		// 先处理cache或bind节点

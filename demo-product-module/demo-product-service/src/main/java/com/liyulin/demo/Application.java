@@ -41,10 +41,10 @@ public class Application {
 	
 	private void batchInsert() {
 		List<ProductInfoEntity> list = new ArrayList<>();
-		for(int i=13; i<16;i++) {
+		for(int i=23; i<26;i++) {
 			ProductInfoEntity entity = new ProductInfoEntity();
 			entity.setId(BigInteger.valueOf(i));
-			entity.setName("手机");
+			entity.setName("手机11");
 			entity.setSellPrice(BigInteger.valueOf(12800));
 			entity.setStock(BigInteger.valueOf(100));
 			entity.setAddTime(new Date());
@@ -52,7 +52,7 @@ public class Application {
 			list.add(entity);
 		}
 		
-		productInfoMapper.insertList(list);
+		productInfoMapper.updateListByPrimaryKeySelective(list);
 	}
 	
 	@PostConstruct
