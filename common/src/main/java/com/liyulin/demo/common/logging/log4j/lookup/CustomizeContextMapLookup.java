@@ -42,9 +42,8 @@ public class CustomizeContextMapLookup implements StrLookup {
 			// 抛异常，则取当前jar名
 			appName = "common";
 			e.printStackTrace();
-		} finally {
-			DATA.put("appName", appName);
 		}
+		DATA.put("appName", appName);
 	}
 
 	@Override
