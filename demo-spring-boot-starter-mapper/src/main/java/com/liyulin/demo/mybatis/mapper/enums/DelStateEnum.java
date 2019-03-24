@@ -1,4 +1,4 @@
-package com.liyulin.demo.mybatis.mapper.ext.enums;
+package com.liyulin.demo.mybatis.mapper.enums;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

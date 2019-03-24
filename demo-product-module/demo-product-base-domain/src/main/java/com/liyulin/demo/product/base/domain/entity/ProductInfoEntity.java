@@ -5,7 +5,7 @@ import java.math.BigInteger;
 import javax.persistence.Column;
 import javax.persistence.Table;
 
-import com.liyulin.demo.mybatis.mapper.ext.entity.BaseEntity;
+import com.liyulin.demo.mybatis.mapper.entity.BaseEntity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

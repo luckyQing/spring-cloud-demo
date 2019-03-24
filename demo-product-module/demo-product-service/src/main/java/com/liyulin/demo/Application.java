@@ -13,7 +13,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import com.liyulin.demo.mybatis.mapper.ext.enums.DelStateEnum;
+import com.liyulin.demo.mybatis.mapper.enums.DelStateEnum;
 import com.liyulin.demo.product.base.domain.entity.ProductInfoEntity;
 import com.liyulin.demo.product.base.domain.mapper.ProductInfoBaseMapper;
 

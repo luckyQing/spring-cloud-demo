@@ -1,4 +1,4 @@
-package com.liyulin.demo.mybatis.mapper.ext.entity;
+package com.liyulin.demo.mybatis.mapper.entity;
 
 import java.math.BigInteger;
 import java.util.Date;
