@@ -16,10 +16,20 @@
 > 		<td>-</td>
 > 	</tr>
 > 	<tr>
-> 		<td>ORM</td>
-> 		<td>demo-spring-boot-starter-mapper</td>
-> 		<td>mybatis、mapper封装</td>
+> 		<td rowspan=3>服务注册中心</td>
+> 		<td>demo-eureka-module</td>
+> 		<td>服务注册中心模块父项目</td>
 > 		<td>-</td>
+> 	</tr>
+> 	<tr>
+> 		<td>eureka-nodeA</td>
+> 		<td>eureka节点A</td>
+> 		<td>10001</td>
+> 	</tr>
+> 	<tr>
+> 		<td>eureka-nodeB</td>
+> 		<td>eureka节点B</td>
+> 		<td>10002</td>
 > 	</tr>
 > 	<tr>
 > 		<td rowspan=3>订单模块</td>
@@ -59,20 +69,10 @@
 > 		<td>-</td>
 > 	</tr>
 > 	<tr>
-> 		<td rowspan=3>服务注册中心</td>
-> 		<td>demo-eureka-module</td>
-> 		<td>服务注册中心模块父项目</td>
+> 		<td>ORM</td>
+> 		<td>demo-spring-boot-starter-mapper</td>
+> 		<td>mybatis、mapper封装</td>
 > 		<td>-</td>
-> 	</tr>
-> 	<tr>
-> 		<td>eureka-nodeA</td>
-> 		<td>eureka节点A</td>
-> 		<td>10001</td>
-> 	</tr>
-> 	<tr>
-> 		<td>eureka-nodeB</td>
-> 		<td>eureka节点B</td>
-> 		<td>10002</td>
 > 	</tr>
 > 	<tr>
 > 		<td>服务监控</td>
