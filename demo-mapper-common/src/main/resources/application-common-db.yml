@@ -1,0 +1,21 @@
+spring: 
+  datasource:
+    #url公共参数
+    url-common-paramters: characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+mybatis:
+  type-aliases-package: com.liyulin.demo.**.entity
+  mapper-locations: classpath:com/liyulin/demo/**/mapper/*.xml
+  
+mapper: 
+  identity: MYSQL
+  not-empty: true   # 按主键插入或更新时，是否判断字符串 != ''
+
+# 分页插件  
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql

@@ -1,22 +1,7 @@
 spring: 
+  profiles:
+    include: common-db
   datasource:
-    type: com.zaxxer.hikari.HikariDataSource
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/demo_product?characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://127.0.0.1:3306/demo_product?${spring.datasource.url-common-paramters}
     username: root
-    password: 123456    
-
-mybatis:
-  type-aliases-package: com.liyulin.demo.**.entity
-  mapper-locations: classpath:com/liyulin/demo/**/mapper/*.xml
-  
-mapper: 
-  identity: MYSQL
-  not-empty: true   # 按主键插入或更新时，是否判断字符串 != ''
-
-# 分页插件  
-pagehelper:
-  helperDialect: mysql
-  reasonable: true
-  supportMethodsArguments: true
-  params: count=countSql
+    password: 123456
