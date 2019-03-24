@@ -2,6 +2,7 @@ package com.liyulin.demo;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -24,11 +25,10 @@ import tk.mybatis.spring.annotation.MapperScan;
 @EnableTransactionManagement
 @MapperScan(basePackages = "com.liyulin.demo.**.domain.mapper")
 public class Application {
-	
+
 	@Autowired
 	private ProductInfoBaseMapper productInfoBaseMapper;
-	
-	
+
 	private void insert() {
 		ProductInfoEntity entity = new ProductInfoEntity();
 		entity.setId(BigInteger.valueOf(70));
@@ -39,10 +39,10 @@ public class Application {
 		entity.setDelState(DelStateEnum.NORMAL.getDelState());
 		productInfoBaseMapper.insert(entity);
 	}
-	
+
 	private void batchInsert() {
 		List<ProductInfoEntity> list = new ArrayList<>();
-		for(int i=23; i<26;i++) {
+		for (int i = 23; i < 26; i++) {
 			ProductInfoEntity entity = new ProductInfoEntity();
 			entity.setId(BigInteger.valueOf(i));
 			entity.setName("手机11");
@@ -52,13 +52,29 @@ public class Application {
 			entity.setDelState(DelStateEnum.NORMAL.getDelState());
 			list.add(entity);
 		}
-		
+
 		productInfoBaseMapper.updateListByPrimaryKeySelective(list);
 	}
-	
+
+	private void update() {
+		ProductInfoEntity entity = new ProductInfoEntity();
+		entity.setId(BigInteger.valueOf(70));
+		entity.setName("手机111");
+		entity.setSellPrice(BigInteger.valueOf(120));
+		entity.setStock(BigInteger.valueOf(10));
+		entity.setAddTime(new Date());
+		entity.setDelState(DelStateEnum.DELETED.getDelState());
+		productInfoBaseMapper.updateByPrimaryKeySelective(entity);
+	}
+
+	private void delete() {
+		productInfoBaseMapper.logicDeleteByPrimaryKeys(Arrays.asList(BigInteger.valueOf(1), BigInteger.valueOf(2)),
+				BigInteger.valueOf(29), new Date());
+	}
+
 	@PostConstruct
 	public void test() {
-		batchInsert();
+		delete();
 	}
 
 	public static void main(String[] args) {
