@@ -9,7 +9,7 @@
 		<artifactId>spring-cloud-demo</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	<artifactId>demo-spring-boot-starter-mapper</artifactId>
+	<artifactId>demo-mapper-common</artifactId>
 	<packaging>jar</packaging>
 
 	<dependencies>

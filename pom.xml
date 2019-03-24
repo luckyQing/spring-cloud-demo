@@ -75,7 +75,7 @@
 
 			<dependency>
 				<groupId>com.liyulin</groupId>
-				<artifactId>demo-spring-boot-starter-mapper</artifactId>
+				<artifactId>demo-mapper-common</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 
@@ -183,6 +183,6 @@
 		<module>demo-product-module</module>
 		<module>demo-eureka-module</module>
 		<module>common</module>
-		<module>demo-spring-boot-starter-mapper</module>
+		<module>demo-mapper-common</module>
 	</modules>
 </project>

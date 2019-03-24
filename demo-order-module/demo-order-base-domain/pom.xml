@@ -15,7 +15,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.liyulin</groupId>
-			<artifactId>demo-spring-boot-starter-mapper</artifactId>
+			<artifactId>demo-mapper-common</artifactId>
 		</dependency>
 	</dependencies>
 </project>
