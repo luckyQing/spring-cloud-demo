@@ -3,35 +3,34 @@ package com.liyulin.demo.product.base.domain.entity;
 import java.math.BigInteger;
 
 import javax.persistence.Column;
-import javax.persistence.Id;
 import javax.persistence.Table;
 
 import com.liyulin.demo.mybatis.mapper.ext.entity.BaseEntity;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 
-@Setter
 @Getter
-@ToString
+@Setter
+@NoArgsConstructor
+@SuperBuilder
 @Table(name = "t_product_info")
 public class ProductInfoEntity extends BaseEntity {
 
-	@Id
-	@Column(name = "f_id")
-	protected BigInteger id;
+	private static final long serialVersionUID = 1L;
 
 	/** 商品名称 */
 	@Column(name = "f_name")
-	protected String name;
+	private String name;
 
 	/** 销售价格（单位：万分之一元） */
 	@Column(name = "f_sell_price")
-	protected BigInteger sellPrice;
+	private BigInteger sellPrice;
 
 	/** 库存 */
 	@Column(name = "f_stock")
-	protected BigInteger stock;
+	private BigInteger stock;
 
 }

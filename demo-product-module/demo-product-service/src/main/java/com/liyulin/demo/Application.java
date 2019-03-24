@@ -13,8 +13,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import com.liyulin.demo.mybatis.mapper.ext.enums.DelStateEnum;
 import com.liyulin.demo.product.base.domain.entity.ProductInfoEntity;
-import com.liyulin.demo.product.base.domain.mapper.ProductInfoMapper;
+import com.liyulin.demo.product.base.domain.mapper.ProductInfoBaseMapper;
 
 import tk.mybatis.spring.annotation.MapperScan;
 
@@ -25,7 +26,7 @@ import tk.mybatis.spring.annotation.MapperScan;
 public class Application {
 	
 	@Autowired
-	private ProductInfoMapper productInfoMapper;
+	private ProductInfoBaseMapper productInfoBaseMapper;
 	
 	
 	private void insert() {
@@ -35,8 +36,8 @@ public class Application {
 		entity.setSellPrice(BigInteger.valueOf(12800));
 		entity.setStock(BigInteger.valueOf(100));
 		entity.setAddTime(new Date());
-		entity.setDelState(1);
-		productInfoMapper.insert(entity);
+		entity.setDelState(DelStateEnum.NORMAL.getDelState());
+		productInfoBaseMapper.insert(entity);
 	}
 	
 	private void batchInsert() {
@@ -48,11 +49,11 @@ public class Application {
 			entity.setSellPrice(BigInteger.valueOf(12800));
 			entity.setStock(BigInteger.valueOf(100));
 			entity.setAddTime(new Date());
-			entity.setDelState(1);
+			entity.setDelState(DelStateEnum.NORMAL.getDelState());
 			list.add(entity);
 		}
 		
-		productInfoMapper.updateListByPrimaryKeySelective(list);
+		productInfoBaseMapper.updateListByPrimaryKeySelective(list);
 	}
 	
 	@PostConstruct

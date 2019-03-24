@@ -16,7 +16,7 @@ import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
 @Configuration
 @ConditionalOnWebApplication
 public class HttpMessageConverterAutoConfigure implements WebMvcConfigurer {
-	
+
 	@Override
 	public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
 		converters.add(buildJsonHttpMessageConverter());
@@ -24,14 +24,9 @@ public class HttpMessageConverterAutoConfigure implements WebMvcConfigurer {
 
 	private FastJsonHttpMessageConverter buildJsonHttpMessageConverter() {
 		FastJsonConfig fastJsonConfig = new FastJsonConfig();
-		fastJsonConfig.setSerializerFeatures(
-				SerializerFeature.WriteNullNumberAsZero,
-				SerializerFeature.WriteMapNullValue, 
-				SerializerFeature.WriteNullListAsEmpty,
-				SerializerFeature.WriteNullStringAsEmpty, 
-				SerializerFeature.WriteNullBooleanAsFalse,
-				SerializerFeature.WriteDateUseDateFormat,
-				SerializerFeature.WriteBigDecimalAsPlain,
+		fastJsonConfig.setSerializerFeatures(SerializerFeature.WriteMapNullValue,
+				SerializerFeature.WriteNullListAsEmpty, SerializerFeature.WriteNullStringAsEmpty,
+				SerializerFeature.WriteDateUseDateFormat, SerializerFeature.WriteBigDecimalAsPlain,
 				SerializerFeature.WriteEnumUsingToString,
 				// 禁用“循环引用检测”
 				SerializerFeature.DisableCircularReferenceDetect);
@@ -41,5 +36,5 @@ public class HttpMessageConverterAutoConfigure implements WebMvcConfigurer {
 		fastJsonHttpMessageConverter.setFastJsonConfig(fastJsonConfig);
 		return fastJsonHttpMessageConverter;
 	}
-	
+
 }
