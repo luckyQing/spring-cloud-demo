@@ -7,6 +7,8 @@ import javax.persistence.Table;
 
 import com.liyulin.demo.mybatis.mapper.entity.BaseEntity;
 
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -32,5 +34,19 @@ public class ProductInfoEntity extends BaseEntity {
 	/** 库存 */
 	@Column(name = "f_stock")
 	private BigInteger stock;
+
+	@Getter
+	@AllArgsConstructor(access = AccessLevel.PRIVATE)
+	public enum Columns {
+		/** 商品名称 */
+		NAME("name", "f_name"),
+		/** 销售价格 */
+		SELL_PRICE("sellPrice", "f_sell_price"),
+		/** 库存 */
+		STOCK("stock", "f_stock");
+
+		private String property;
+		private String column;
+	}
 
 }

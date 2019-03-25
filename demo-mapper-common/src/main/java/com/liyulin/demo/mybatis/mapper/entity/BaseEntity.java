@@ -73,7 +73,7 @@ public class BaseEntity extends BaseDto {
 		/** 删除者 */
 		DEL_USER("delUser", "f_sys_del_user"),
 		/** 删除状态 */
-		DEL_STATE("delState", "f_sys_del_state"),;
+		DEL_STATE("delState", "f_sys_del_state");
 
 		private String property;
 		private String column;
