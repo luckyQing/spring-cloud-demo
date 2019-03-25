@@ -3,8 +3,7 @@ package com.liyulin.demo.common.util;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.message.ParameterizedMessage;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
+import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -14,8 +13,8 @@ import lombok.extern.slf4j.Slf4j;
  * @date 2019年3月23日上午11:37:26
  */
 @Slf4j
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
-public final class LogUtil {
+@UtilityClass
+public class LogUtil {
 
 	/** 日志最大长度 */
 	private static final int LOG_MAX_LENGTH = 2048;
