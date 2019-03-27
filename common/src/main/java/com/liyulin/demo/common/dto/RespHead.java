@@ -1,6 +1,6 @@
 package com.liyulin.demo.common.dto;
 
-import com.liyulin.demo.common.exception.code.IReturnCodeEnum;
+import com.liyulin.demo.common.exception.enums.IBaseReturnCode;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -28,7 +28,7 @@ public class RespHead extends BaseDto {
 	@ApiModelProperty(value = "错误详情")
 	private String error;
 
-	public RespHead(IReturnCodeEnum returnCode) {
+	public RespHead(IBaseReturnCode returnCode) {
 		this.code = returnCode.getCode();
 		this.msg = returnCode.getMsg();
 	}

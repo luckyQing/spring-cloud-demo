@@ -15,7 +15,7 @@ import com.liyulin.demo.mybatis.mapper.ext.provider.BatchUpdateExtMapperProvider
 public interface UpdateListMapper<T> {
 
 	/**
-	 * 批量更新（null值也更新
+	 * 批量更新（null值也更新）
 	 * 
 	 * @param list
 	 * @return
