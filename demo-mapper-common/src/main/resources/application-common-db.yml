@@ -15,7 +15,11 @@ mapper:
 
 # 分页插件  
 pagehelper:
-  helperDialect: mysql
+  helper-dialect: mysql
+  #分页合理化参数
   reasonable: true
-  supportMethodsArguments: true
+  support-methods-arguments: true
+  #使用 RowBounds 分页会进行 count 查询
+  row-bounds-with-count: true
+  default-count: true
   params: count=countSql

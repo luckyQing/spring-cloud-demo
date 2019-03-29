@@ -14,10 +14,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import com.alibaba.fastjson.JSON;
+import com.github.pagehelper.PageInfo;
+import com.liyulin.demo.common.util.LogUtil;
+import com.liyulin.demo.mybatis.mapper.entity.BaseEntity;
 import com.liyulin.demo.mybatis.mapper.enums.DelStateEnum;
 import com.liyulin.demo.product.base.domain.entity.ProductInfoEntity;
 import com.liyulin.demo.product.base.domain.mapper.ProductInfoBaseMapper;
 
+import tk.mybatis.mapper.entity.Example;
 import tk.mybatis.spring.annotation.MapperScan;
 
 @SpringBootApplication
@@ -66,6 +71,15 @@ public class Application {
 		entity.setDelState(DelStateEnum.DELETED.getDelState());
 		productInfoBaseMapper.updateByPrimaryKeySelective(entity);
 	}
+	
+	private void page() {
+		Example example = new Example(ProductInfoEntity.class);
+		example.createCriteria().andEqualTo(BaseEntity.Columns.DEL_STATE.getProperty(), DelStateEnum.DELETED.getDelState());
+		example.orderBy(BaseEntity.Columns.ID.getProperty()).desc();
+		
+		PageInfo<ProductInfoEntity> pageInfo = productInfoBaseMapper.pageByExample(example, 1, 10);
+		LogUtil.info("count=>{};list=>{} ", pageInfo.getTotal(), JSON.toJSONString(pageInfo.getList()));
+	}
 
 	private void delete() {
 		productInfoBaseMapper.logicDeleteByPrimaryKeys(Arrays.asList(BigInteger.valueOf(1), BigInteger.valueOf(2)),
@@ -74,7 +88,7 @@ public class Application {
 
 	@PostConstruct
 	public void test() {
-		delete();
+		page();
 	}
 
 	public static void main(String[] args) {
