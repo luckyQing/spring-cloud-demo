@@ -1,4 +1,4 @@
-package com.liyulin.demo.product.base.rpc;
+package com.liyulin.demo.product.rpc;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -13,8 +13,8 @@ import com.liyulin.demo.common.dto.BasePageResp;
 import com.liyulin.demo.common.dto.Req;
 import com.liyulin.demo.common.dto.Resp;
 import com.liyulin.demo.common.web.openfeign.condition.OnFeignClientCondition;
-import com.liyulin.demo.product.base.rpc.request.PageProductReqBody;
-import com.liyulin.demo.product.base.rpc.response.ProductInfoRespBody;
+import com.liyulin.demo.product.rpc.request.PageProductReqBody;
+import com.liyulin.demo.product.rpc.response.ProductInfoRespBody;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

@@ -54,6 +54,11 @@
 > 		<td>-</td>
 > 	</tr>
 > 	<tr>
+> 		<td>demo-order-rpc</td>
+> 		<td>订单服务rpc接口封装</td>
+> 		<td>-</td>
+> 	</tr>
+> 	<tr>
 > 		<td rowspan=4>商品模块</td>
 > 		<td>demo-product-module</td>
 > 		<td>商品模块父项目</td>

@@ -10,25 +10,19 @@ import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import com.alibaba.fastjson.JSON;
-import com.github.pagehelper.PageInfo;
-import com.liyulin.demo.common.util.LogUtil;
+import com.liyulin.demo.common.annotation.MainService;
+import com.liyulin.demo.common.dto.BasePageResp;
 import com.liyulin.demo.mybatis.mapper.entity.BaseEntity;
 import com.liyulin.demo.mybatis.mapper.enums.DelStateEnum;
 import com.liyulin.demo.product.base.domain.entity.ProductInfoEntity;
 import com.liyulin.demo.product.base.domain.mapper.ProductInfoBaseMapper;
+import com.liyulin.demo.product.rpc.response.ProductInfoRespBody;
 
 import tk.mybatis.mapper.entity.Example;
-import tk.mybatis.spring.annotation.MapperScan;
 
-@SpringBootApplication
-@EnableDiscoveryClient
-@EnableTransactionManagement
-@MapperScan(basePackages = "com.liyulin.demo.**.domain.mapper")
+@MainService
 public class Application {
 
 	@Autowired
@@ -73,14 +67,22 @@ public class Application {
 	}
 	
 	private void page() {
+//		Example example = new Example(ProductInfoEntity.class);
+//		example.createCriteria().andEqualTo(BaseEntity.Columns.DEL_STATE.getProperty(), DelStateEnum.DELETED.getDelState());
+//		example.orderBy(BaseEntity.Columns.ID.getProperty()).desc();
+//		
+//		PageInfo<ProductInfoEntity> pageInfo = productInfoBaseMapper.pageByExample(example, 1, 10);
+//		LogUtil.info("count=>{};list=>{} ", pageInfo.getTotal(), JSON.toJSONString(pageInfo.getList()));
+	}
+
+	public void test1() {
 		Example example = new Example(ProductInfoEntity.class);
 		example.createCriteria().andEqualTo(BaseEntity.Columns.DEL_STATE.getProperty(), DelStateEnum.DELETED.getDelState());
 		example.orderBy(BaseEntity.Columns.ID.getProperty()).desc();
-		
-		PageInfo<ProductInfoEntity> pageInfo = productInfoBaseMapper.pageByExample(example, 1, 10);
-		LogUtil.info("count=>{};list=>{} ", pageInfo.getTotal(), JSON.toJSONString(pageInfo.getList()));
+		BasePageResp<ProductInfoRespBody> entitydatas = productInfoBaseMapper.pageRespByExample(example, 1, 10);
+		System.err.println(JSON.toJSONString(entitydatas));
 	}
-
+	
 	private void delete() {
 		productInfoBaseMapper.logicDeleteByPrimaryKeys(Arrays.asList(BigInteger.valueOf(1), BigInteger.valueOf(2)),
 				BigInteger.valueOf(29), new Date());
@@ -88,7 +90,7 @@ public class Application {
 
 	@PostConstruct
 	public void test() {
-		page();
+		test1();
 	}
 
 	public static void main(String[] args) {

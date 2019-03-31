@@ -1,9 +1,16 @@
 package com.liyulin.demo.mybatis.mapper.ext;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.BeanUtils;
+
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
+import com.liyulin.demo.common.dto.BaseEntityRespBody;
+import com.liyulin.demo.common.dto.BasePageResp;
+import com.liyulin.demo.common.util.ClassUtil;
+import com.liyulin.demo.common.util.CollectionUtil;
 import com.liyulin.demo.mybatis.mapper.entity.BaseEntity;
 import com.liyulin.demo.mybatis.mapper.ext.mapper.InsertListSelectiveMapper;
 import com.liyulin.demo.mybatis.mapper.ext.mapper.LogicDeleteMapper;
@@ -18,37 +25,106 @@ import tk.mybatis.mapper.common.Mapper;
 import tk.mybatis.mapper.common.Marker;
 import tk.mybatis.mapper.entity.Example;
 
+/**
+ * 通用mapper超类
+ *
+ * @param <T> entity
+ * @param <R> entity对应的resp对象
+ * @param <PK> 表主键类型
+ * @author liyulin
+ * @date 2019年3月31日下午4:16:10
+ */
 @RegisterMapper
-public interface ExtMapper<T extends BaseEntity, BigInteger> extends Mapper<T>, IdListMapper<T, BigInteger>,
-		InsertListMapper<T>, InsertListSelectiveMapper<T>, UpdateListMapper<T>, UpdateListSelectiveMapper<T>,
-		UpdateByPrimaryKeySelectiveForceMapper<T>, LogicDeleteMapper<T>, Marker {
+public interface ExtMapper<T extends BaseEntity, R extends BaseEntityRespBody, PK>
+		extends Mapper<T>, IdListMapper<T, PK>, InsertListMapper<T>, InsertListSelectiveMapper<T>, UpdateListMapper<T>,
+		UpdateListSelectiveMapper<T>, UpdateByPrimaryKeySelectiveForceMapper<T>, LogicDeleteMapper<T>, Marker {
 
 	/**
-	 * 根据example条件分页查询
+	 * 根据example条件分页查询，返回entity对象
 	 * 
 	 * @param example
 	 * @param pageNum
 	 * @param pageSize
 	 * @return
 	 */
-	default PageInfo<T> pageByExample(Example example, int pageNum, int pageSize) {
+	default BasePageResp<T> pageEntityByExample(Example example, int pageNum, int pageSize) {
 		PageHelper.startPage(pageNum, pageSize);
-		List<T> list = selectByExample(example);
-		return new PageInfo<>(list);
+		List<T> datas = selectByExample(example);
+		Page<T> page = PageHelper.getLocalPage();
+
+		return new BasePageResp<>(datas, pageNum, pageSize, page.getTotal());
 	}
 
 	/**
-	 * 根据entity条件分页查询
+	 * 根据example条件分页查询，返回resp对象
+	 * 
+	 * @param example
+	 * @param clazz
+	 * @param pageNum
+	 * @param pageSize
+	 * @return
+	 */
+	default BasePageResp<R> pageRespByExample(Example example, int pageNum, int pageSize) {
+		PageHelper.startPage(pageNum, pageSize);
+		List<T> entitydatas = selectByExample(example);
+		Page<T> page = PageHelper.getLocalPage();
+		if (CollectionUtil.isEmpty(entitydatas)) {
+			return new BasePageResp<>(null, pageNum, pageSize, page.getTotal());
+		}
+
+		Class<R> clazz = ClassUtil.getActualTypeArgumentFromSuperGenericInterface(getClass(), 1);
+		List<R> respDatas = new ArrayList<>(entitydatas.size());
+		for (T item : entitydatas) {
+			R r = BeanUtils.instantiateClass(clazz);
+			BeanUtils.copyProperties(item, r);
+			respDatas.add(r);
+		}
+
+		return new BasePageResp<>(respDatas, pageNum, pageSize, page.getTotal());
+	}
+
+	/**
+	 * 根据entity条件分页查询，返回entity对象
 	 * 
 	 * @param entity
 	 * @param pageNum
 	 * @param pageSize
 	 * @return
 	 */
-	default PageInfo<T> pageByEntity(T entity, int pageNum, int pageSize) {
+	default BasePageResp<T> pageEntityByEntity(T entity, int pageNum, int pageSize) {
 		PageHelper.startPage(pageNum, pageSize);
-		List<T> list = select(entity);
-		return new PageInfo<>(list);
+		List<T> datas = select(entity);
+		Page<T> page = PageHelper.getLocalPage();
+
+		return new BasePageResp<>(datas, pageNum, pageSize, page.getTotal());
+	}
+
+	/**
+	 * 根据example条件分页查询，返回resp对象
+	 * 
+	 * @param example
+	 * @param clazz
+	 * @param pageNum
+	 * @param pageSize
+	 * @return
+	 */
+	default BasePageResp<R> pageRespByEntity(T entity, int pageNum, int pageSize) {
+		PageHelper.startPage(pageNum, pageSize);
+		List<T> entitydatas = select(entity);
+		Page<T> page = PageHelper.getLocalPage();
+		if (CollectionUtil.isEmpty(entitydatas)) {
+			return new BasePageResp<>(null, pageNum, pageSize, page.getTotal());
+		}
+
+		Class<R> clazz = ClassUtil.getActualTypeArgumentFromSuperGenericInterface(getClass(), 1);
+		List<R> respDatas = new ArrayList<>(entitydatas.size());
+		for (T item : entitydatas) {
+			R r = BeanUtils.instantiateClass(clazz);
+			BeanUtils.copyProperties(item, r);
+			respDatas.add(r);
+		}
+
+		return new BasePageResp<>(respDatas, pageNum, pageSize, page.getTotal());
 	}
 
 }

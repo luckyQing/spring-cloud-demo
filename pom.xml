@@ -22,7 +22,6 @@
 		<spring.boot.admin>2.1.3</spring.boot.admin>
 		<mapper>2.1.5</mapper>
 		<pagehelper-start>1.2.10</pagehelper-start>
-		<pagehelper>5.1.8</pagehelper>
 		<mysql>8.0.15</mysql>
 		<fastjson>1.2.47</fastjson>
 		<springfox-swagger2>2.7.0</springfox-swagger2>
@@ -63,12 +62,6 @@
 			</dependency>
 
 			<dependency>
-				<groupId>com.github.pagehelper</groupId>
-				<artifactId>pagehelper</artifactId>
-				<version>${pagehelper}</version>
-			</dependency>
-
-			<dependency>
 				<groupId>mysql</groupId>
 				<artifactId>mysql-connector-java</artifactId>
 				<version>${mysql}</version>
@@ -89,6 +82,12 @@
 			<dependency>
 				<groupId>com.liyulin</groupId>
 				<artifactId>demo-product-rpc</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>com.liyulin</groupId>
+				<artifactId>demo-order-rpc</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 

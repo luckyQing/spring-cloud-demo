@@ -4,6 +4,7 @@ import com.liyulin.demo.common.exception.enums.IBaseReturnCode;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
@@ -27,6 +28,10 @@ public class RespHead extends BaseDto {
 
 	@ApiModelProperty(value = "错误详情")
 	private String error;
+	
+	@ApiModelProperty(value = "响应时间戳")
+	@Builder.Default
+	private long timestamp = System.currentTimeMillis();
 
 	public RespHead(IBaseReturnCode returnCode) {
 		this.code = returnCode.getCode();

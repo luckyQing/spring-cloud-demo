@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import com.github.pagehelper.PageInfo;
-
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -34,21 +32,16 @@ public class BasePageResp<T extends BaseDto> extends BaseDto {
 	@ApiModelProperty(value = "总数据条数")
 	private long pageTotal;
 
-	public BasePageResp(PageInfo<T> pageInfo) {
-		if (!Objects.isNull(pageInfo)) {
-			pageIndex = pageInfo.getPageNum();
-			pageSize = pageInfo.getPageSize();
-			pageTotal = pageInfo.getTotal();
-			datas = pageInfo.getList();
-		}
-	}
-
 	public List<T> getDatas() {
 		if (Objects.isNull(datas)) {
 			datas = new ArrayList<T>();
 		}
 
 		return datas;
+	}
+	
+	public <R> void transResp() {
+		
 	}
 
 }

@@ -3,14 +3,19 @@ package com.liyulin.demo.common.dto;
 import java.math.BigInteger;
 import java.util.Date;
 
+import com.alibaba.fastjson.annotation.JSONField;
+import com.liyulin.demo.common.util.DateUtil;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 @Setter
 @Getter
+@NoArgsConstructor
 @SuperBuilder
 @ApiModel(description = "实体对象对应的响应对象基类")
 public class BaseEntityRespBody extends BaseDto {
@@ -21,12 +26,15 @@ public class BaseEntityRespBody extends BaseDto {
 	private BigInteger id;
 
 	@ApiModelProperty(value = "创建时间 ")
+	@JSONField(format = DateUtil.FOROMAT_DATETIME)
 	private Date addTime;
 
 	@ApiModelProperty(value = "更新时间")
+	@JSONField(format = DateUtil.FOROMAT_DATETIME)
 	private Date updTime;
 
 	@ApiModelProperty(value = "删除时间")
+	@JSONField(format = DateUtil.FOROMAT_DATETIME)
 	private Date delTime;
 
 	@ApiModelProperty(value = "新增者")

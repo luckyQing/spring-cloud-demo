@@ -12,9 +12,9 @@ import com.liyulin.demo.common.dto.BasePageReq;
 import com.liyulin.demo.common.dto.BasePageResp;
 import com.liyulin.demo.common.dto.Req;
 import com.liyulin.demo.common.dto.Resp;
-import com.liyulin.demo.product.base.rpc.ProductInfoRpc;
-import com.liyulin.demo.product.base.rpc.request.PageProductReqBody;
-import com.liyulin.demo.product.base.rpc.response.ProductInfoRespBody;
+import com.liyulin.demo.product.rpc.ProductInfoRpc;
+import com.liyulin.demo.product.rpc.request.PageProductReqBody;
+import com.liyulin.demo.product.rpc.response.ProductInfoRespBody;
 import com.liyulin.demo.service.ProductRpcService;
 
 import io.swagger.annotations.Api;
@@ -26,11 +26,11 @@ public class ProductRpcController implements ProductInfoRpc {
 
 	@Autowired
 	private ProductRpcService productRpcService;
-	
+
 	@Override
 	public Resp<BasePageResp<ProductInfoRespBody>> pageProduct(
 			@RequestBody @Valid Req<@NotNull BasePageReq<PageProductReqBody>> req) {
-		return productRpcService.pageProduct(req.getBody());
+		return new Resp<>(productRpcService.pageProduct(req.getBody()));
 	}
 
 }

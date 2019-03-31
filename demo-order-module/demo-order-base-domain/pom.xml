@@ -17,5 +17,10 @@
 			<groupId>com.liyulin</groupId>
 			<artifactId>demo-mapper-common</artifactId>
 		</dependency>
+		
+		<dependency>
+			<groupId>com.liyulin</groupId>
+			<artifactId>demo-order-rpc</artifactId>
+		</dependency>
 	</dependencies>
 </project>

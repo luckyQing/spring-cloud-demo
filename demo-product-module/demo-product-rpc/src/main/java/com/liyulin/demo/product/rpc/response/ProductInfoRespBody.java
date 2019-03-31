@@ -1,4 +1,4 @@
-package com.liyulin.demo.product.base.rpc.response;
+package com.liyulin.demo.product.rpc.response;
 
 import java.math.BigInteger;
 
@@ -7,11 +7,13 @@ import com.liyulin.demo.common.dto.BaseEntityRespBody;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 @Setter
 @Getter
+@NoArgsConstructor
 @SuperBuilder
 @ApiModel(description = "商品信息响应信息")
 public class ProductInfoRespBody extends BaseEntityRespBody {

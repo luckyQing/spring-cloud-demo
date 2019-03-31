@@ -1,5 +1,7 @@
 package com.liyulin.demo.common.dto;
 
+import com.liyulin.demo.common.exception.enums.ReturnCodeEnum;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -17,12 +19,12 @@ public class Resp<T extends BaseDto> extends BaseDto {
 	private static final long serialVersionUID = 1L;
 
 	@ApiModelProperty(value = "响应头部")
-	private ReqHead head;
+	private RespHead head = new RespHead(ReturnCodeEnum.SUCCESS);
 
 	@ApiModelProperty(value = "响应体")
 	private T body;
 
-	public Resp(ReqHead head) {
+	public Resp(RespHead head) {
 		this.head = head;
 	}
 
