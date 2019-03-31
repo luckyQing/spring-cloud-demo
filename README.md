@@ -38,7 +38,7 @@
 > 		<td>-</td>
 > 	</tr>
 > 	<tr>
-> 		<td rowspan=3>订单模块</td>
+> 		<td rowspan=4>订单模块</td>
 > 		<td>demo-order-module</td>
 > 		<td>订单模块父项目</td>
 > 		<td>-</td>
