@@ -28,7 +28,7 @@ public class Swagger2AutoConfigure {
 		return new Docket(DocumentationType.SWAGGER_2).groupName(groupName)
 				.genericModelSubstitutes(DeferredResult.class).useDefaultResponseMessages(false)
 				.forCodeGeneration(false).apiInfo(apiInfo()).select()
-				.apis(RequestHandlerSelectors.basePackage("com.liyulin")).paths(PathSelectors.any()).build();
+				.apis(RequestHandlerSelectors.basePackage("com.liyulin.demo")).paths(PathSelectors.any()).build();
 	}
 
 	private ApiInfo apiInfo() {

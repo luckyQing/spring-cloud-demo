@@ -18,7 +18,7 @@ import com.liyulin.demo.mybatis.mapper.entity.BaseEntity;
 import com.liyulin.demo.mybatis.mapper.enums.DelStateEnum;
 import com.liyulin.demo.product.base.domain.entity.ProductInfoEntity;
 import com.liyulin.demo.product.base.domain.mapper.ProductInfoBaseMapper;
-import com.liyulin.demo.product.rpc.response.ProductInfoRespBody;
+import com.liyulin.demo.product.rpc.response.base.ProductInfoRespBody;
 
 import tk.mybatis.mapper.entity.Example;
 

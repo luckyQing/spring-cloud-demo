@@ -1,4 +1,4 @@
-package com.liyulin.demo.product.rpc.request;
+package com.liyulin.demo.product.rpc.request.base;
 
 import com.liyulin.demo.common.dto.BaseDto;
 

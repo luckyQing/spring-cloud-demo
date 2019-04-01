@@ -1,4 +1,4 @@
-package com.liyulin.demo.product.rpc.response;
+package com.liyulin.demo.product.rpc.response.base;
 
 import java.math.BigInteger;
 

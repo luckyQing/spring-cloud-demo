@@ -1,4 +1,4 @@
-package com.liyulin.demo.controller;
+package com.liyulin.demo.controller.rpc;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -13,15 +13,12 @@ import com.liyulin.demo.common.dto.BasePageResp;
 import com.liyulin.demo.common.dto.Req;
 import com.liyulin.demo.common.dto.Resp;
 import com.liyulin.demo.product.rpc.ProductInfoRpc;
-import com.liyulin.demo.product.rpc.request.PageProductReqBody;
-import com.liyulin.demo.product.rpc.response.ProductInfoRespBody;
-import com.liyulin.demo.service.ProductRpcService;
-
-import io.swagger.annotations.Api;
+import com.liyulin.demo.product.rpc.request.base.PageProductReqBody;
+import com.liyulin.demo.product.rpc.response.base.ProductInfoRespBody;
+import com.liyulin.demo.service.rpc.ProductRpcService;
 
 @RestController
 @Validated
-@Api(tags = "商品信息接口")
 public class ProductRpcController implements ProductInfoRpc {
 
 	@Autowired
