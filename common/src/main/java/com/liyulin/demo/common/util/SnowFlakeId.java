@@ -15,7 +15,7 @@ package com.liyulin.demo.common.util;
  * SnowFlake的优点是，整体上按照时间自增排序，并且整个分布式系统内不会产生ID碰撞(由数据中心ID和机器ID作区分)，并且效率较高，
  * 经测试，SnowFlake每秒能够产生26万ID左右。
  */
-public class SnowFlake {
+public class SnowFlakeId {
 	/**
 	 * 起始的时间戳
 	 */
@@ -47,14 +47,14 @@ public class SnowFlake {
 	 * 如果需要分布式集群来生成ID时，需要指定数据中心标识ID和机器进程标识ID，并且每一个服务器的数据
 	 * 中心标识ID和机器进程标识ID作为联合键全局唯一，这样才能保证集群生成的ID都是唯一的。
 	 */
-	// TODO:服务名作为cachekey
+	// TODO:在分布式集群环境下，可以用服务名作为唯一编码，在配置中心配置。
 	private long datacenterId; // 数据中心
 	private long machineId; // 机器标识
 
 	private long sequence = 0L; // 序列号
 	private volatile long lastStmp = -1L;// 上一次时间戳
 
-	public SnowFlake(long datacenterId, long machineId) {
+	public SnowFlakeId(long datacenterId, long machineId) {
 		if (datacenterId > MAX_DATACENTER_NUM || datacenterId < 0) {
 			throw new IllegalArgumentException("datacenterId can't be greater than MAX_DATACENTER_NUM or less than 0");
 		}

@@ -45,7 +45,7 @@ public class CustomizeContextMapLookup implements StrLookup {
 		}
 		DATA.put("appName", appName);
 	}
-
+	
 	@Override
 	public String lookup(String key) {
 		return DATA.get(key);
