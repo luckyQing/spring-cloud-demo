@@ -67,6 +67,54 @@ public class LogUtil {
 		log.error(msg, t);
 	}
 
+	public static void trace(String msg, int maxLength) {
+		log.trace(truncate(msg, maxLength));
+	}
+
+	public static void trace(int maxLength, String format, Object... args) {
+		log.trace(truncate(maxLength, format, args));
+	}
+
+	public static void debug(String msg, int maxLength) {
+		log.debug(truncate(msg, maxLength));
+	}
+
+	public static void debug(int maxLength, String format, Object... args) {
+		log.debug(truncate(maxLength, format, args));
+	}
+
+	public static void info(String msg, int maxLength) {
+		log.info(truncate(msg, maxLength));
+	}
+
+	public static void info(int maxLength, String format, Object... args) {
+		log.info(truncate(maxLength, format, args));
+	}
+
+	public static void warn(String msg, int maxLength) {
+		log.warn(truncate(msg, maxLength));
+	}
+
+	public static void warn(int maxLength, String format, Object... args) {
+		log.warn(truncate(maxLength, format, args));
+	}
+
+	public void warn(String msg, Throwable t, int maxLength) {
+		log.warn(msg, t, maxLength);
+	}
+
+	public static void error(String msg, int maxLength) {
+		log.error(truncate(msg, maxLength));
+	}
+
+	public static void error(int maxLength, String format, Object... args) {
+		log.error(truncate(maxLength, format, args));
+	}
+
+	public void error(String msg, Throwable t, int maxLength) {
+		log.error(msg, t, maxLength);
+	}
+
 	private static String truncate(String format, Object... args) {
 		String msg = ParameterizedMessage.format(format, args);
 		return StringUtils.truncate(msg, LOG_MAX_LENGTH);
@@ -74,6 +122,15 @@ public class LogUtil {
 
 	private static String truncate(String msg) {
 		return StringUtils.truncate(msg, LOG_MAX_LENGTH);
+	}
+
+	private static String truncate(int maxLength, String format, Object... args) {
+		String msg = ParameterizedMessage.format(format, args);
+		return StringUtils.truncate(msg, maxLength);
+	}
+
+	private static String truncate(String msg, int maxLength) {
+		return StringUtils.truncate(msg, maxLength);
 	}
 
 }
