@@ -1,6 +1,7 @@
 package com.liyulin.demo.common.util;
 
-import java.net.UnknownHostException;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 /**
  * Twitter_Snowflake
@@ -13,7 +14,7 @@ import java.net.UnknownHostException;
  * 得到的值），这里的的开始时间截，一般是我们的id生成器开始使用的时间，由我们程序来指定的（如下下面程序IdWorker类的startTime属性）。
  * 41位的时间截，可以使用69年，年T = (1L << 41) / (1000L * 60 * 60 * 24 * 365) = 69
  * <li>10位的数据机器位，可以部署在1024个节点，包括5位datacenterId和5位workerId
- * <li>12位序列，毫秒内的计数，12位的计数顺序号支持每个节点每毫秒(同一机器，同一时间截)产生4096个ID序号
+ * <li>12位序列，毫秒内的计数，12位的计数顺序号支持每个节点每毫秒(同一机器，同一时间截)产生4096个ID序号。12位不够用时强制得到新的时间前缀。
  * </ul>
  * <p>加起来刚好64位，为一个Long型。
  * 
@@ -22,66 +23,48 @@ import java.net.UnknownHostException;
  * <li>优点：整体上按照时间自增排序，并且整个分布式系统内不会产生ID碰撞(由数据中心ID和机器ID作区分)，并且效率较高。
  * <li>缺点：对系统时间的依赖性非常强，需关闭ntp的时间同步功能。
  * </ul>
+ * 
+ * <h2>改造</h2>
+ * <ul>
+ * <li>将5位datacenterId和5位workerId合并为dataMachineId（10位的数据机器位）。
+ * <li>dataMachineId通过分布式配置中心配置，默认为0.
+ * </ul>
  */
+@Component
 public final class SnowFlakeIdUtil {
 	/** 起始的时间戳 */
 	private final static long START_STMP = 1480166465631L;
 
 	/** 每一部分占用的位数 */
 	private final static long SEQUENCE_BIT = 12; // 序列号占用的位数
-	private final static long MACHINE_BIT = 5; // 机器标识占用的位数
-	private final static long DATACENTER_BIT = 5;// 数据中心占用的位数
+	private final static long DATE_MACHINE_BIT = 10; // 数据机器位
 
 	/** 每一部分的最大值 */
-	private final static long MAX_DATACENTER_NUM = -1L ^ (-1L << DATACENTER_BIT);
-	private final static long MAX_MACHINE_NUM = -1L ^ (-1L << MACHINE_BIT);
+	private final static long MAX_DATE_MACHINE_NUM = -1L ^ (-1L << DATE_MACHINE_BIT);
 	private final static long MAX_SEQUENCE = -1L ^ (-1L << SEQUENCE_BIT);
 
 	/** 每一部分向左的位移 */
-	private final static long MACHINE_LEFT = SEQUENCE_BIT;
-	private final static long DATACENTER_LEFT = SEQUENCE_BIT + MACHINE_BIT;
-	private final static long TIMESTMP_LEFT = DATACENTER_LEFT + DATACENTER_BIT;
+	private final static long DATE_MACHINE_LEFT = SEQUENCE_BIT;
+	private final static long TIMESTMP_LEFT = DATE_MACHINE_LEFT + DATE_MACHINE_BIT;
 
-	/**
-	 * 如果不指定这两个参数，那么会使用默认的值1。如果只考虑部署单机服务器，那么可以不考虑这两个参数，
-	 * 如果需要分布式集群来生成ID时，需要指定数据中心标识ID和机器进程标识ID，并且每一个服务器的数据
-	 * 中心标识ID和机器进程标识ID作为联合键全局唯一，这样才能保证集群生成的ID都是唯一的。
-	 */
-	// TODO:在分布式集群环境下，可以用服务名作为唯一编码，在配置中心配置。
-	/** 数据中心 */
-	private long datacenterId;
-	/** 机器标识 */
-	private long machineId;
+	/** 数据机器标识（通过分布式配置中心配置，默认为0）  */
+	@Value("${basic.data-machineId:0}")
+	private long dataMachineId;
 	/** 序列号 */
 	private long sequence = 0L;
 	/** 上一次时间戳 */
 	private volatile long lastStmp = -1L;
 	
-	private static SnowFlakeIdUtil flowIdWorker = new SnowFlakeIdUtil();
+	private static SnowFlakeIdUtil idWorker = new SnowFlakeIdUtil();
 
 	public static SnowFlakeIdUtil getInstance() {
-		return flowIdWorker;
+		return idWorker;
 	}
 	
-	private long getDatacenterId() {
-		try {
-			String ip = WebUtil.getLocalIP().split(".")[3];
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
-		}
-		return 0;
-	}
-
-	private SnowFlakeIdUtil(/*long datacenterId, long machineId*/) {
-		
-		if (datacenterId > MAX_DATACENTER_NUM || datacenterId < 0) {
+	public SnowFlakeIdUtil() {
+		if (dataMachineId > MAX_DATE_MACHINE_NUM || dataMachineId < 0) {
 			throw new IllegalArgumentException("datacenterId can't be greater than MAX_DATACENTER_NUM or less than 0");
 		}
-		if (machineId > MAX_MACHINE_NUM || machineId < 0) {
-			throw new IllegalArgumentException("machineId can't be greater than MAX_MACHINE_NUM or less than 0");
-		}
-		this.datacenterId = datacenterId;
-		this.machineId = machineId;
 	}
 
 	/**
@@ -110,8 +93,7 @@ public final class SnowFlakeIdUtil {
 		lastStmp = currStmp;
 
 		return (currStmp - START_STMP) << TIMESTMP_LEFT // 时间戳部分
-				| datacenterId << DATACENTER_LEFT // 数据中心部分
-				| machineId << MACHINE_LEFT // 机器标识部分
+				| dataMachineId << DATE_MACHINE_LEFT // 数据机器标识部分
 				| sequence; // 序列号部分
 	}
 
@@ -125,10 +107,6 @@ public final class SnowFlakeIdUtil {
 
 	private long getNewstmp() {
 		return System.currentTimeMillis();
-	}
-
-	public static void main(String[] args) {
-
 	}
 
 }

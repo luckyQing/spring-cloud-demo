@@ -1,3 +1,6 @@
+basic:
+  data-machineId: 1
+  
 spring:
   profiles:
     include: 
