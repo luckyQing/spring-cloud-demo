@@ -1,6 +1,6 @@
-package com.liyulin.demo.common.exception;
+package com.liyulin.demo.common.business.exception;
 
-import com.liyulin.demo.common.exception.enums.IBaseReturnCode;
+import com.liyulin.demo.common.business.exception.enums.IBaseReturnCode;
 
 public class BusinessException extends Exception {
 

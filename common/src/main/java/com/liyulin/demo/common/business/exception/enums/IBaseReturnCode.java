@@ -1,4 +1,4 @@
-package com.liyulin.demo.common.exception.enums;
+package com.liyulin.demo.common.business.exception.enums;
 
 /**
  * 状态码格式接口类：XXXXXX（服务模块编码|类型）

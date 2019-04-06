@@ -1,4 +1,4 @@
-package com.liyulin.demo.common.exception.enums;
+package com.liyulin.demo.common.business.exception.enums;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

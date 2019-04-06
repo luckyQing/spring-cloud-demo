@@ -6,8 +6,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.liyulin.demo.common.dto.BasePageReq;
-import com.liyulin.demo.common.dto.BasePageResp;
+import com.liyulin.demo.common.business.dto.BasePageReq;
+import com.liyulin.demo.common.business.dto.BasePageResp;
 import com.liyulin.demo.mybatis.biz.BaseBiz;
 import com.liyulin.demo.mybatis.mapper.entity.BaseEntity;
 import com.liyulin.demo.mybatis.mapper.enums.DelStateEnum;

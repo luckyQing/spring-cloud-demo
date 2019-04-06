@@ -6,7 +6,7 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Id;
 
-import com.liyulin.demo.common.dto.BaseDto;
+import com.liyulin.demo.common.business.dto.BaseDto;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

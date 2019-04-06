@@ -1,5 +1,4 @@
-package com.liyulin.demo.common.dto;
-
+package com.liyulin.demo.common.business.dto;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -13,18 +12,21 @@ import lombok.experimental.SuperBuilder;
 @Getter
 @Setter
 @SuperBuilder
-@ApiModel(description="请求头部")
+@ApiModel(description = "请求头部")
 public class ReqHead extends BaseDto {
 
 	private static final long serialVersionUID = 1L;
 
-	@ApiModelProperty(value = "全局唯一交易流水号", required = true, example="")
+	@ApiModelProperty(value = "全局唯一交易流水号", required = true, example = "")
 	@NotBlank
 	private String transactionId;
-	
+
+	@ApiModelProperty(value = "请求令牌")
+	private String token;
+
 	@ApiModelProperty(value = "请求时间戳", required = true)
 	@NotNull
-	// TODO：5分钟以内
+	// TODO：1分钟以内
 	private long timestamp;
 
 }

@@ -4,8 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.liyulin.demo.biz.rpc.ProductRpcBiz;
-import com.liyulin.demo.common.dto.BasePageReq;
-import com.liyulin.demo.common.dto.BasePageResp;
+import com.liyulin.demo.common.business.dto.BasePageReq;
+import com.liyulin.demo.common.business.dto.BasePageResp;
 import com.liyulin.demo.product.rpc.request.base.PageProductReqBody;
 import com.liyulin.demo.product.rpc.response.base.ProductInfoRespBody;
 

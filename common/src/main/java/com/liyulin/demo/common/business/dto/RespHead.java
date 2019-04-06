@@ -1,6 +1,7 @@
-package com.liyulin.demo.common.dto;
+package com.liyulin.demo.common.business.dto;
 
-import com.liyulin.demo.common.exception.enums.IBaseReturnCode;
+import com.liyulin.demo.common.business.exception.enums.IBaseReturnCode;
+import com.liyulin.demo.common.util.TransactionIdUtil;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -18,7 +19,8 @@ public class RespHead extends BaseDto {
 	private static final long serialVersionUID = 1L;
 
 	@ApiModelProperty(value = "全局唯一交易流水号")
-	private String transactionId;
+	@Builder.Default
+	private String transactionId = TransactionIdUtil.getInstance().nextId();
 
 	@ApiModelProperty(value = "响应状态码")
 	private String code;
@@ -36,6 +38,11 @@ public class RespHead extends BaseDto {
 	public RespHead(IBaseReturnCode returnCode) {
 		this.code = returnCode.getCode();
 		this.msg = returnCode.getMsg();
+	}
+	
+	public RespHead(String code, String msg) {
+		this.code = code;
+		this.msg = msg;
 	}
 
 }

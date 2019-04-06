@@ -1,6 +1,6 @@
 package com.liyulin.demo.product.rpc.request.base;
 
-import com.liyulin.demo.common.dto.BaseDto;
+import com.liyulin.demo.common.business.dto.BaseDto;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

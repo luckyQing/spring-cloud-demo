@@ -1,4 +1,4 @@
-package com.liyulin.demo.common.dto;
+package com.liyulin.demo.common.business.dto;
 
 import java.util.ArrayList;
 import java.util.List;

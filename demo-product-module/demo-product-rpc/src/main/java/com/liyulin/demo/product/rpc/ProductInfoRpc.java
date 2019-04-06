@@ -8,10 +8,10 @@ import org.springframework.context.annotation.Conditional;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import com.liyulin.demo.common.dto.BasePageReq;
-import com.liyulin.demo.common.dto.BasePageResp;
-import com.liyulin.demo.common.dto.Req;
-import com.liyulin.demo.common.dto.Resp;
+import com.liyulin.demo.common.business.dto.BasePageReq;
+import com.liyulin.demo.common.business.dto.BasePageResp;
+import com.liyulin.demo.common.business.dto.Req;
+import com.liyulin.demo.common.business.dto.Resp;
 import com.liyulin.demo.common.web.openfeign.condition.OnFeignClientCondition;
 import com.liyulin.demo.product.rpc.request.base.PageProductReqBody;
 import com.liyulin.demo.product.rpc.response.base.ProductInfoRespBody;
@@ -27,6 +27,6 @@ public interface ProductInfoRpc {
 	@ApiOperation("分页查询商品信息")
 	@PostMapping("rpc/pass/product/productInfo/pageProduct")
 	Resp<BasePageResp<ProductInfoRespBody>> pageProduct(
-			@RequestBody @Valid Req<@NotNull BasePageReq<PageProductReqBody>> req);
+			@RequestBody @Valid Req<com.liyulin.demo.common.business.dto.BasePageReq<PageProductReqBody>> req);
 
 }

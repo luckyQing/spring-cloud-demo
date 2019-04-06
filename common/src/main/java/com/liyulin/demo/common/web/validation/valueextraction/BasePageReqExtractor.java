@@ -5,7 +5,7 @@ import javax.validation.valueextraction.ValueExtractor;
 
 import org.hibernate.validator.internal.engine.valueextraction.ValueExtractorDescriptor;
 
-import com.liyulin.demo.common.dto.BasePageReq;
+import com.liyulin.demo.common.business.dto.BasePageReq;
 
 /**
  * {@link BasePageReq}泛型参数T校验生效

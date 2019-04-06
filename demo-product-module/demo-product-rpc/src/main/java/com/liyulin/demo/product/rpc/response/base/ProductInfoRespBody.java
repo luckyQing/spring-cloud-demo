@@ -2,7 +2,7 @@ package com.liyulin.demo.product.rpc.response.base;
 
 import java.math.BigInteger;
 
-import com.liyulin.demo.common.dto.BaseEntityRespBody;
+import com.liyulin.demo.common.business.dto.BaseEntityRespBody;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
