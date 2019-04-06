@@ -7,7 +7,7 @@ import com.liyulin.demo.biz.oms.ProductOmsBiz;
 import com.liyulin.demo.common.business.dto.BaseDto;
 import com.liyulin.demo.common.business.dto.Resp;
 import com.liyulin.demo.common.business.util.RespUtil;
-import com.liyulin.demo.product.rpc.request.oms.ProductInsertReqBody;
+import com.liyulin.demo.rpc.product.request.oms.ProductInsertReqBody;
 
 /**
  * 商品信息 oms service

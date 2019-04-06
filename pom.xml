@@ -81,13 +81,7 @@
 
 			<dependency>
 				<groupId>com.liyulin</groupId>
-				<artifactId>demo-product-rpc</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			
-			<dependency>
-				<groupId>com.liyulin</groupId>
-				<artifactId>demo-order-rpc</artifactId>
+				<artifactId>demo-rpc</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 
@@ -185,10 +179,11 @@
 	<modules>
 		<module>spring-boot-admin</module>
 		<module>spring-coud-gateway</module>
+		<module>common</module>
+		<module>demo-mapper-common</module>
+		<module>demo-rpc</module>
 		<module>demo-order-module</module>
 		<module>demo-product-module</module>
 		<module>demo-eureka-module</module>
-		<module>common</module>
-		<module>demo-mapper-common</module>
 	</modules>
 </project>

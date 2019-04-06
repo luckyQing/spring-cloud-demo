@@ -6,21 +6,21 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.liyulin</groupId>
-		<artifactId>demo-order-module</artifactId>
+		<artifactId>spring-cloud-demo</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	<artifactId>demo-order-base-domain</artifactId>
+	<artifactId>demo-rpc</artifactId>
 	<packaging>jar</packaging>
 
 	<dependencies>
 		<dependency>
 			<groupId>com.liyulin</groupId>
-			<artifactId>demo-mapper-common</artifactId>
+			<artifactId>common</artifactId>
 		</dependency>
-		
+
 		<dependency>
-			<groupId>com.liyulin</groupId>
-			<artifactId>demo-rpc</artifactId>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-openfeign</artifactId>
 		</dependency>
 	</dependencies>
 </project>

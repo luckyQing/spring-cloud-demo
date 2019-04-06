@@ -21,6 +21,5 @@
 	<modules>
 		<module>demo-product-service</module>
 		<module>demo-product-base-domain</module>
-		<module>demo-product-rpc</module>
 	</modules>
 </project>

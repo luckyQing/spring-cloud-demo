@@ -38,7 +38,13 @@
 > 		<td>-</td>
 > 	</tr>
 > 	<tr>
-> 		<td rowspan=4>订单模块</td>
+> 		<td>所有服务的rpc接口</td>
+> 		<td>demo-rpc</td>
+> 		<td>包括请求、响应对象、rpc接口</td>
+> 		<td>-</td>
+> 	</tr>
+> 	<tr>
+> 		<td rowspan=3>订单模块</td>
 > 		<td>demo-order-module</td>
 > 		<td>订单模块父项目</td>
 > 		<td>-</td>
@@ -54,12 +60,7 @@
 > 		<td>-</td>
 > 	</tr>
 > 	<tr>
-> 		<td>demo-order-rpc</td>
-> 		<td>订单服务rpc接口封装</td>
-> 		<td>-</td>
-> 	</tr>
-> 	<tr>
-> 		<td rowspan=4>商品模块</td>
+> 		<td rowspan=3>商品模块</td>
 > 		<td>demo-product-module</td>
 > 		<td>商品模块父项目</td>
 > 		<td>-</td>
@@ -72,11 +73,6 @@
 > 	<tr>
 > 		<td>demo-product-base-domain</td>
 > 		<td>商品服务自动生成的DAO代码</td>
-> 		<td>-</td>
-> 	</tr>
-> 	<tr>
-> 		<td>demo-product-rpc</td>
-> 		<td>商品服务rpc接口封装</td>
 > 		<td>-</td>
 > 	</tr>
 > 	<tr>

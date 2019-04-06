@@ -7,7 +7,7 @@ import org.springframework.boot.SpringApplication;
 
 import com.liyulin.demo.biz.oms.ProductOmsBiz;
 import com.liyulin.demo.common.annotation.MainService;
-import com.liyulin.demo.product.rpc.request.oms.ProductInsertReqBody;
+import com.liyulin.demo.rpc.product.request.oms.ProductInsertReqBody;
 
 @MainService
 public class Application {

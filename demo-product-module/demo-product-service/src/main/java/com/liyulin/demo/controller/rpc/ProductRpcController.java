@@ -11,9 +11,9 @@ import com.liyulin.demo.common.business.dto.BasePageReq;
 import com.liyulin.demo.common.business.dto.BasePageResp;
 import com.liyulin.demo.common.business.dto.Req;
 import com.liyulin.demo.common.business.dto.Resp;
-import com.liyulin.demo.product.rpc.ProductInfoRpc;
-import com.liyulin.demo.product.rpc.request.base.PageProductReqBody;
-import com.liyulin.demo.product.rpc.response.base.ProductInfoRespBody;
+import com.liyulin.demo.rpc.product.ProductInfoRpc;
+import com.liyulin.demo.rpc.product.request.base.PageProductReqBody;
+import com.liyulin.demo.rpc.product.response.base.ProductInfoRespBody;
 import com.liyulin.demo.service.rpc.ProductRpcService;
 
 @RestController

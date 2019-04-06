@@ -20,7 +20,7 @@
 		
 		<dependency>
 			<groupId>com.liyulin</groupId>
-			<artifactId>demo-product-rpc</artifactId>
+			<artifactId>demo-rpc</artifactId>
 		</dependency>
 	</dependencies>
 </project>

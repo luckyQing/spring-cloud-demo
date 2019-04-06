@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.liyulin.demo.common.business.dto.BaseDto;
 import com.liyulin.demo.common.business.dto.Req;
 import com.liyulin.demo.common.business.dto.Resp;
-import com.liyulin.demo.product.rpc.request.oms.ProductInsertReqBody;
+import com.liyulin.demo.rpc.product.request.oms.ProductInsertReqBody;
 import com.liyulin.demo.service.oms.ProductOmsService;
 
 import io.swagger.annotations.Api;
