@@ -17,14 +17,14 @@ public class ReqHead extends BaseDto {
 
 	private static final long serialVersionUID = 1L;
 
-	@ApiModelProperty(value = "全局唯一交易流水号", required = true, example = "")
+	@ApiModelProperty(value = "全局唯一交易流水号", required = true, example = "eb9f81e7cee1c000")
 	@NotBlank
 	private String transactionId;
 
 	@ApiModelProperty(value = "请求令牌")
 	private String token;
 
-	@ApiModelProperty(value = "请求时间戳", required = true)
+	@ApiModelProperty(value = "请求时间戳", required = true, example = "1554551377629")
 	@NotNull
 	// TODO：1分钟以内
 	private long timestamp;

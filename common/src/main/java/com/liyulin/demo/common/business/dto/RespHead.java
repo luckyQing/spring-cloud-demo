@@ -18,7 +18,7 @@ public class RespHead extends BaseDto {
 
 	private static final long serialVersionUID = 1L;
 
-	@ApiModelProperty(value = "全局唯一交易流水号")
+	@ApiModelProperty(value = "全局唯一交易流水号", example = "eb9f81e7cee1c000")
 	@Builder.Default
 	private String transactionId = TransactionIdUtil.getInstance().nextId();
 
@@ -31,7 +31,7 @@ public class RespHead extends BaseDto {
 	@ApiModelProperty(value = "错误详情")
 	private String error;
 	
-	@ApiModelProperty(value = "响应时间戳")
+	@ApiModelProperty(value = "响应时间戳", example = "1554551377629")
 	@Builder.Default
 	private long timestamp = System.currentTimeMillis();
 

@@ -57,20 +57,15 @@ public final class TransactionIdUtil {
 	}
 
 	private TransactionIdUtil() {
-		String ipStr = null;
+		String[] ipArray = null;
 		try {
-			ipStr = WebUtil.getLocalIP().replaceAll("\\.", "");
+			ipArray = WebUtil.getLocalIP().split("\\.");
 		} catch (UnknownHostException e) {
 			log.error(e.getMessage(), e);
 		}
-		ip = Long.valueOf(ipStr);
-		if (ip > MAX_IP_NUM || ip < 0) {
-			throw new IllegalArgumentException("IPId can't be greater than MAX_IP_NUM or less than 0");
-		}
+
+		ip = Long.valueOf(ipArray[2]) << 8 | Long.valueOf(ipArray[3]) & MAX_IP_NUM;
 		pid = Long.valueOf(ManagementFactory.getRuntimeMXBean().getName().split("@")[0]) & MAX_PID_NUM;
-		if (pid > MAX_PID_NUM || pid < 0) {
-			throw new IllegalArgumentException("PIDId can't be greater than MAX_PID_NUM or less than 0");
-		}
 	}
 
 	/**
