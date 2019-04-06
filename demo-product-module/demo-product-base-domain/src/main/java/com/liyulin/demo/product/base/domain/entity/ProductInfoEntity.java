@@ -1,7 +1,5 @@
 package com.liyulin.demo.product.base.domain.entity;
 
-import java.math.BigInteger;
-
 import javax.persistence.Column;
 import javax.persistence.Table;
 
@@ -29,11 +27,11 @@ public class ProductInfoEntity extends BaseEntity {
 
 	/** 销售价格（单位：万分之一元） */
 	@Column(name = "f_sell_price")
-	private BigInteger sellPrice;
+	private Long sellPrice;
 
 	/** 库存 */
 	@Column(name = "f_stock")
-	private BigInteger stock;
+	private Long stock;
 
 	@Getter
 	@AllArgsConstructor(access = AccessLevel.PRIVATE)

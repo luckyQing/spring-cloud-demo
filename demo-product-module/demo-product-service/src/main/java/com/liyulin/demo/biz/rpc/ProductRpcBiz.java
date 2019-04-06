@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.liyulin.demo.common.dto.BasePageReq;
 import com.liyulin.demo.common.dto.BasePageResp;
+import com.liyulin.demo.mybatis.biz.BaseBiz;
 import com.liyulin.demo.mybatis.mapper.entity.BaseEntity;
 import com.liyulin.demo.mybatis.mapper.enums.DelStateEnum;
 import com.liyulin.demo.product.base.domain.entity.ProductInfoEntity;
@@ -25,7 +26,7 @@ import tk.mybatis.mapper.entity.Example.Criteria;
  * @date 2019年3月31日下午4:51:08
  */
 @Repository
-public class ProductRpcBiz {
+public class ProductRpcBiz extends BaseBiz<ProductInfoEntity> {
 
 	@Autowired
 	private ProductInfoBaseMapper productInfoBaseMapper;

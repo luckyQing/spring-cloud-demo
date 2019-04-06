@@ -1,7 +1,5 @@
 package com.liyulin.demo.order.base.domain.entity;
 
-import java.math.BigInteger;
-
 import javax.persistence.Column;
 import javax.persistence.Table;
 
@@ -31,7 +29,7 @@ public class OrderBillEntity extends BaseEntity {
 
 	/** 订单金额总金额 */
 	@Column(name = "f_amount")
-	private BigInteger amount;
+	private Long amount;
 
 	/** 支付状态（1：待支付；2：支付成功；3：支付失败） */
 	@Column(name = "f_pay_state")
@@ -43,7 +41,7 @@ public class OrderBillEntity extends BaseEntity {
 
 	/** 购买人id（demo_user库t_user_info表f_id） */
 	@Column(name = "f_buyer")
-	private BigInteger buyer;
+	private Long buyer;
 
 	@Getter
 	@AllArgsConstructor(access = AccessLevel.PRIVATE)

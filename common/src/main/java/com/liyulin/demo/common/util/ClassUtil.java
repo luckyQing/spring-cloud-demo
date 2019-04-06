@@ -32,4 +32,19 @@ public class ClassUtil {
 		return (Class<T>) superInterfaceType.getActualTypeArguments()[index];
 	}
 
+	/**
+	 * 获取类的泛型Class对象
+	 * 
+	 * @param clazz
+	 * @param index 泛型所在的索引位置
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	public <T> Class<T> getActualTypeArgumentFromSuperGenericClass(Class<?> clazz, int index) {
+		Type type = clazz.getGenericSuperclass();
+
+		ParameterizedType superClassType = (ParameterizedType) type;
+		return (Class<T>) superClassType.getActualTypeArguments()[index];
+	}
+
 }

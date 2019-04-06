@@ -1,7 +1,5 @@
 package com.liyulin.demo.order.base.domain.entity;
 
-import java.math.BigInteger;
-
 import javax.persistence.Column;
 import javax.persistence.Table;
 
@@ -31,11 +29,11 @@ public class OrderDeliveryInfoEntity extends BaseEntity {
 
 	/** 所属订单（t_order_bill表f_id） */
 	@Column(name = "t_order_bill_id")
-	private BigInteger orderBillId;
+	private Long orderBillId;
 
 	/** 购买的商品id（demo_product库t_product_info表f_id） */
 	@Column(name = "t_product_info_id")
-	private BigInteger productInfoId;
+	private Long productInfoId;
 
 	/** 商品名称 */
 	@Column(name = "f_product_name")
@@ -43,7 +41,7 @@ public class OrderDeliveryInfoEntity extends BaseEntity {
 
 	/** 商品购买价格（单位：万分之一元） */
 	@Column(name = "f_price")
-	private BigInteger price;
+	private Long price;
 
 	/** 购买数量 */
 	@Column(name = "f_buy_count")

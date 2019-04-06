@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.liyulin.demo.common.dto.BasePageReq;
 import com.liyulin.demo.common.dto.BasePageResp;
+import com.liyulin.demo.mybatis.biz.BaseBiz;
 import com.liyulin.demo.mybatis.mapper.entity.BaseEntity;
 import com.liyulin.demo.mybatis.mapper.enums.DelStateEnum;
 import com.liyulin.demo.product.base.domain.entity.ProductInfoEntity;
@@ -26,16 +27,20 @@ import tk.mybatis.mapper.entity.Example.Criteria;
  * @date 2019年3月31日下午4:51:08
  */
 @Repository
-public class ProductOmsBiz {
+public class ProductOmsBiz extends BaseBiz<ProductInfoEntity> {
 
 	@Autowired
 	private ProductInfoBaseMapper productInfoBaseMapper;
 
 	public boolean insert(ProductInsertReqBody reqBody) {
-		ProductInfoEntity record = new ProductInfoEntity();
-		return productInfoBaseMapper.insertSelective(record)>0;
+		ProductInfoEntity record = create();
+		record.setName(reqBody.getName());
+		record.setSellPrice(reqBody.getSellPrice());
+		record.setStock(reqBody.getStock());
+		
+		return productInfoBaseMapper.insertSelective(record) > 0;
 	}
-	
+
 	/**
 	 * 分页查询商品信息
 	 * 

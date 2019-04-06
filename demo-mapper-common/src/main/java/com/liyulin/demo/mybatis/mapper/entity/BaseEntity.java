@@ -25,7 +25,7 @@ public class BaseEntity extends BaseDto {
 
 	@Id
 	@Column(name = "f_id")
-	private BigInteger id;
+	private long id;
 
 	/** 创建时间 */
 	@Column(name = "f_sys_add_time")

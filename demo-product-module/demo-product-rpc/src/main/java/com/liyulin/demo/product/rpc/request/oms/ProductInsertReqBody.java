@@ -1,9 +1,8 @@
 package com.liyulin.demo.product.rpc.request.oms;
 
-import java.math.BigInteger;
-
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import com.liyulin.demo.common.dto.BaseDto;
 
@@ -25,10 +24,12 @@ public class ProductInsertReqBody extends BaseDto {
 
 	@ApiModelProperty(value = "销售价格（单位：万分之一元）", required = true)
 	@Min(100)
-	private BigInteger sellPrice;
+	@NotNull
+	private Long sellPrice;
 
 	@ApiModelProperty(value = "库存", required = true)
 	@Min(1)
-	private BigInteger stock;
+	@NotNull
+	private Long stock;
 
 }
