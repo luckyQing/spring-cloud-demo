@@ -1,6 +1,5 @@
 package com.liyulin.demo.common.business.dto;
 
-import java.math.BigInteger;
 import java.util.Date;
 
 import com.alibaba.fastjson.annotation.JSONField;
@@ -23,7 +22,7 @@ public class BaseEntityRespBody extends BaseDto {
 	private static final long serialVersionUID = 1L;
 
 	@ApiModelProperty(value = "商品id")
-	private BigInteger id;
+	private long id;
 
 	@ApiModelProperty(value = "创建时间 ")
 	@JSONField(format = DateUtil.FOROMAT_DATETIME)
@@ -38,13 +37,13 @@ public class BaseEntityRespBody extends BaseDto {
 	private Date delTime;
 
 	@ApiModelProperty(value = "新增者")
-	private BigInteger addUser;
+	private long addUser;
 
 	@ApiModelProperty(value = "更新者")
-	private BigInteger updUser;
+	private long updUser;
 
 	@ApiModelProperty(value = "删除者")
-	private BigInteger delUser;
+	private long delUser;
 
 	@ApiModelProperty(value = "删除状态=={'1':'正常','2':'已删除'}")
 	private Integer delState;

@@ -1,4 +1,4 @@
-package com.liyulin.demo.rpc.order.response.base;
+package com.liyulin.demo.rpc.order.response.oms;
 
 import java.math.BigInteger;
 

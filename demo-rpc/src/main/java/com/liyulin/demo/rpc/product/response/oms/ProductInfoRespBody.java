@@ -1,6 +1,4 @@
-package com.liyulin.demo.rpc.product.response.base;
-
-import java.math.BigInteger;
+package com.liyulin.demo.rpc.product.response.oms;
 
 import com.liyulin.demo.common.business.dto.BaseEntityRespBody;
 
@@ -24,9 +22,9 @@ public class ProductInfoRespBody extends BaseEntityRespBody {
 	private String name;
 
 	@ApiModelProperty(value = "销售价格（单位：万分之一元）")
-	private BigInteger sellPrice;
+	private long sellPrice;
 
 	@ApiModelProperty(value = "库存")
-	private BigInteger stock;
+	private long stock;
 
 }

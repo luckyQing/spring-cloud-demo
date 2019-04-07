@@ -1,6 +1,5 @@
 package com.liyulin.demo.mybatis.mapper.ext.mapper;
 
-import java.math.BigInteger;
 import java.util.Date;
 import java.util.List;
 
@@ -19,22 +18,25 @@ public interface LogicDeleteMapper<T> {
 
 	/**
 	 * 根据主键字段进行逻辑删除，方法参数必须包含完整的主键属性
-	 *
-	 * @param key
+	 * 
+	 * @param id 主键id
+	 * @param delUser 删除人
+	 * @param delTime 删除时间
 	 * @return
 	 */
 	@UpdateProvider(type = LogicDeleteProvider.class, method = "dynamicSQL")
-	int logicDeleteByPrimaryKey(@Param("id") BigInteger id, @Param("delUser") BigInteger delUser,
-			@Param("delTime") Date delTime);
+	int logicDeleteByPrimaryKey(@Param("id") Long id, @Param("delUser") Long delUser, @Param("delTime") Date delTime);
 
 	/**
 	 * 根据主键字段进行批量逻辑删除，方法参数必须包含完整的主键属性
-	 *
-	 * @param key
+	 * 
+	 * @param ids 主键id集合
+	 * @param delUser 删除人
+	 * @param delTime 删除时间
 	 * @return
 	 */
 	@UpdateProvider(type = LogicDeleteProvider.class, method = "dynamicSQL")
-	int logicDeleteByPrimaryKeys(@Param("ids") List<BigInteger> ids, @Param("delUser") BigInteger delUser,
+	int logicDeleteByPrimaryKeys(@Param("ids") List<Long> ids, @Param("delUser") Long delUser,
 			@Param("delTime") Date delTime);
 
 }

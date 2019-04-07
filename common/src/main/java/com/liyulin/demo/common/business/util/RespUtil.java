@@ -25,6 +25,15 @@ public class RespUtil {
 	public static <R extends BaseDto> Resp<R> success() {
 		return new Resp<>(new RespHead(ReturnCodeEnum.SUCCESS));
 	}
+	
+	/**
+	 * 构造响应成功对象
+	 * 
+	 * @return
+	 */
+	public static <R extends BaseDto> Resp<R> success(R r) {
+		return new Resp<>(r);
+	}
 
 	/**
 	 * 构造响应错误对象

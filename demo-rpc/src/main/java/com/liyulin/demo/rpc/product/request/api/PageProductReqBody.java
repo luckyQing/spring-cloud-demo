@@ -1,4 +1,4 @@
-package com.liyulin.demo.rpc.product.request.base;
+package com.liyulin.demo.rpc.product.request.api;
 
 import com.liyulin.demo.common.business.dto.BaseDto;
 
@@ -14,7 +14,7 @@ public class PageProductReqBody extends BaseDto {
 
 	private static final long serialVersionUID = 1L;
 
-	@ApiModelProperty(value = "商品名称")
+	@ApiModelProperty(value = "商品名称（模糊匹配）")
 	private String name;
 
 }
