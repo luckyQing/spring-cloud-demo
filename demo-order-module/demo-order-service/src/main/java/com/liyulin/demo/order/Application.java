@@ -1,4 +1,4 @@
-package com.liyulin.demo;
+package com.liyulin.demo.order;
 
 import org.springframework.boot.SpringApplication;
 

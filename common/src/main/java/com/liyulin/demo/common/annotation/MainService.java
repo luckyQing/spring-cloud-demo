@@ -9,6 +9,7 @@ import java.lang.annotation.Target;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
@@ -24,11 +25,12 @@ import tk.mybatis.spring.annotation.MapperScan;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = "com.liyulin.demo")
+@EnableFeignClients(basePackages = { "com.liyulin.demo.rpc" })
 @EnableDiscoveryClient
 @EnableSwagger2
 @EnableTransactionManagement
-@MapperScan(basePackages= {"com.liyulin.demo.*.base.mapper", "com.liyulin.demo.*.mapper"})
+@MapperScan(basePackages = { "com.liyulin.demo.*.base.mapper", "com.liyulin.demo.*.mapper" })
 public @interface MainService {
 
 }

@@ -1,4 +1,4 @@
-package com.liyulin.demo;
+package com.liyulin.demo.product;
 
 import java.util.ArrayList;
 import java.util.Arrays;
