@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.UpdateProvider;
 
-import com.liyulin.demo.mybatis.mapper.ext.provider.BatchUpdateExtMapperProvider;
+import com.liyulin.demo.mybatis.mapper.ext.provider.BatchUpdateMapperProvider;
 
 /**
  * 批量更新（null值也更新）
@@ -12,7 +12,7 @@ import com.liyulin.demo.mybatis.mapper.ext.provider.BatchUpdateExtMapperProvider
  * @author liyulin
  * @date 2019年3月24日下午8:39:42
  */
-public interface UpdateListMapper<T> {
+public interface UpdateListByPrimaryKeyMapper<T> {
 
 	/**
 	 * 批量更新（null值也更新）
@@ -20,7 +20,7 @@ public interface UpdateListMapper<T> {
 	 * @param list
 	 * @return
 	 */
-	@UpdateProvider(type = BatchUpdateExtMapperProvider.class, method = "dynamicSQL")
+	@UpdateProvider(type = BatchUpdateMapperProvider.class, method = "dynamicSQL")
 	int updateListByPrimaryKey(List<T> list);
 
 }

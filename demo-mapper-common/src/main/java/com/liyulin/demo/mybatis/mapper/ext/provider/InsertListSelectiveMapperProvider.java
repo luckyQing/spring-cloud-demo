@@ -13,9 +13,9 @@ import tk.mybatis.mapper.mapperhelper.SelectKeyHelper;
 import tk.mybatis.mapper.mapperhelper.SqlHelper;
 import tk.mybatis.mapper.provider.base.BaseInsertProvider;
 
-public class InsertListSelectiveExtMapperProvider extends MapperTemplate {
+public class InsertListSelectiveMapperProvider extends MapperTemplate {
 
-	public InsertListSelectiveExtMapperProvider(Class<?> mapperClass, MapperHelper mapperHelper) {
+	public InsertListSelectiveMapperProvider(Class<?> mapperClass, MapperHelper mapperHelper) {
 		super(mapperClass, mapperHelper);
 	}
 

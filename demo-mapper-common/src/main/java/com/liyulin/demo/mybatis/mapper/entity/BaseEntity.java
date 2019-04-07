@@ -1,6 +1,5 @@
 package com.liyulin.demo.mybatis.mapper.entity;
 
-import java.math.BigInteger;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -25,7 +24,7 @@ public class BaseEntity extends BaseDto {
 
 	@Id
 	@Column(name = "f_id")
-	private long id;
+	private Long id;
 
 	/** 创建时间 */
 	@Column(name = "f_sys_add_time")
@@ -41,15 +40,15 @@ public class BaseEntity extends BaseDto {
 
 	/** 新增者 */
 	@Column(name = "f_sys_add_user")
-	private BigInteger addUser;
+	private Long addUser;
 
 	/** 更新者 */
 	@Column(name = "f_sys_upd_user")
-	private BigInteger updUser;
+	private Long updUser;
 
 	/** 删除者 */
 	@Column(name = "f_sys_del_user")
-	private BigInteger delUser;
+	private Long delUser;
 
 	/** 删除状态=={'1':'正常','2':'已删除'} */
 	@Column(name = "f_sys_del_state")

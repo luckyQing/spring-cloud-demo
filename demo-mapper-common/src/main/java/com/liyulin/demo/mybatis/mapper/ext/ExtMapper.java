@@ -14,8 +14,10 @@ import com.liyulin.demo.common.util.CollectionUtil;
 import com.liyulin.demo.mybatis.mapper.entity.BaseEntity;
 import com.liyulin.demo.mybatis.mapper.ext.mapper.InsertListSelectiveMapper;
 import com.liyulin.demo.mybatis.mapper.ext.mapper.LogicDeleteMapper;
-import com.liyulin.demo.mybatis.mapper.ext.mapper.UpdateListMapper;
-import com.liyulin.demo.mybatis.mapper.ext.mapper.UpdateListSelectiveMapper;
+import com.liyulin.demo.mybatis.mapper.ext.mapper.UpdateListByExamplesMapper;
+import com.liyulin.demo.mybatis.mapper.ext.mapper.UpdateListByExamplesSelectiveMapper;
+import com.liyulin.demo.mybatis.mapper.ext.mapper.UpdateListByPrimaryKeyMapper;
+import com.liyulin.demo.mybatis.mapper.ext.mapper.UpdateListByPrimaryKeySelectiveMapper;
 
 import tk.mybatis.mapper.additional.idlist.IdListMapper;
 import tk.mybatis.mapper.additional.insert.InsertListMapper;
@@ -35,9 +37,10 @@ import tk.mybatis.mapper.entity.Example;
  * @date 2019年3月31日下午4:16:10
  */
 @RegisterMapper
-public interface ExtMapper<T extends BaseEntity, R extends BaseEntityRespBody, PK>
-		extends Mapper<T>, IdListMapper<T, PK>, InsertListMapper<T>, InsertListSelectiveMapper<T>, UpdateListMapper<T>,
-		UpdateListSelectiveMapper<T>, UpdateByPrimaryKeySelectiveForceMapper<T>, LogicDeleteMapper<T>, Marker {
+public interface ExtMapper<T extends BaseEntity, R extends BaseEntityRespBody, PK> extends Mapper<T>,
+		IdListMapper<T, PK>, InsertListMapper<T>, InsertListSelectiveMapper<T>, UpdateListByPrimaryKeyMapper<T>,
+		UpdateListByPrimaryKeySelectiveMapper<T>, UpdateByPrimaryKeySelectiveForceMapper<T>,
+		UpdateListByExamplesMapper<T>, UpdateListByExamplesSelectiveMapper<T>, LogicDeleteMapper<T>, Marker {
 
 	/**
 	 * 根据example条件分页查询，返回entity对象

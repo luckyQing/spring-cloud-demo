@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.InsertProvider;
 
-import com.liyulin.demo.mybatis.mapper.ext.provider.InsertListSelectiveExtMapperProvider;
+import com.liyulin.demo.mybatis.mapper.ext.provider.InsertListSelectiveMapperProvider;
 
 /**
  * 批量插入（不为null的值）
@@ -20,7 +20,7 @@ public interface InsertListSelectiveMapper<T> {
 	 * @param list
 	 * @return
 	 */
-	@InsertProvider(type = InsertListSelectiveExtMapperProvider.class, method = "dynamicSQL")
+	@InsertProvider(type = InsertListSelectiveMapperProvider.class, method = "dynamicSQL")
 	int insertListSelective(List<? extends T> list);
 
 }
