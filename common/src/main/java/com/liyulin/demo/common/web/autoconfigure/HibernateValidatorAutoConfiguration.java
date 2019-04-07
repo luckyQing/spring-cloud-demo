@@ -13,6 +13,7 @@ import org.springframework.validation.beanvalidation.MethodValidationPostProcess
 
 import com.liyulin.demo.common.web.validation.valueextraction.BasePageReqExtractor;
 import com.liyulin.demo.common.web.validation.valueextraction.ReqExtractor;
+import com.liyulin.demo.common.web.validation.valueextraction.ReqObjectBodyExtractor;
 
 /**
  * Hibernate Validator校验配置
@@ -39,6 +40,7 @@ public class HibernateValidatorAutoConfiguration {
 		ValidatorFactory validatorFactory = Validation.byProvider(HibernateValidator.class).configure()
 				.addValueExtractor(ReqExtractor.DESCRIPTOR.getValueExtractor())
 				.addValueExtractor(BasePageReqExtractor.DESCRIPTOR.getValueExtractor())
+				.addValueExtractor(ReqObjectBodyExtractor.DESCRIPTOR.getValueExtractor())
 				.addProperty("hibernate.validator.fail_fast", "true").buildValidatorFactory();
 
 		Validator validator = validatorFactory.getValidator();

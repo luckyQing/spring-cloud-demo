@@ -31,4 +31,34 @@ public class ObjectUtil {
 		return object != null;
 	}
 
+	/**
+	 * objects是否都为null
+	 * 
+	 * @param objects
+	 * @return
+	 */
+	public static boolean isAllNull(Object... objects) {
+		for (Object object : objects) {
+			if (object != null) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * objects是否都不为null
+	 * 
+	 * @param objects
+	 * @return
+	 */
+	public static boolean isAllNotNull(Object... objects) {
+		for (Object object : objects) {
+			if (object == null) {
+				return false;
+			}
+		}
+		return true;
+	}
+
 }
