@@ -22,7 +22,7 @@ public class BaseEntityRespBody extends BaseDto {
 	private static final long serialVersionUID = 1L;
 
 	@ApiModelProperty(value = "商品id")
-	private long id;
+	private Long id;
 
 	@ApiModelProperty(value = "创建时间 ")
 	@JSONField(format = DateUtil.FOROMAT_DATETIME)
@@ -37,13 +37,13 @@ public class BaseEntityRespBody extends BaseDto {
 	private Date delTime;
 
 	@ApiModelProperty(value = "新增者")
-	private long addUser;
+	private Long addUser;
 
 	@ApiModelProperty(value = "更新者")
-	private long updUser;
+	private Long updUser;
 
 	@ApiModelProperty(value = "删除者")
-	private long delUser;
+	private Long delUser;
 
 	@ApiModelProperty(value = "删除状态=={'1':'正常','2':'已删除'}")
 	private Integer delState;

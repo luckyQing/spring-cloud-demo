@@ -28,7 +28,7 @@ import tk.mybatis.spring.annotation.MapperScan;
 @EnableDiscoveryClient
 @EnableSwagger2
 @EnableTransactionManagement
-@MapperScan(basePackages = "com.liyulin.demo.**.domain.mapper")
+@MapperScan(basePackages= {"com.liyulin.demo.*.base.mapper", "com.liyulin.demo.*.mapper"})
 public @interface MainService {
-	
+
 }

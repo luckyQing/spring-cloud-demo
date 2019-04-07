@@ -7,7 +7,7 @@ spring:
 
 mybatis:
   type-aliases-package: com.liyulin.demo.**.entity
-  mapper-locations: classpath:com/liyulin/demo/**/mapper/*.xml
+  mapper-locations: classpath:com/liyulin/demo/**/*Mapper.xml
   
 mapper: 
   identity: MYSQL
