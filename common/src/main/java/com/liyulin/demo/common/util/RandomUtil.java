@@ -1,6 +1,8 @@
 package com.liyulin.demo.common.util;
 
 import java.util.List;
+import java.util.Random;
+import java.util.UUID;
 
 import lombok.experimental.UtilityClass;
 
@@ -12,6 +14,44 @@ import lombok.experimental.UtilityClass;
  */
 @UtilityClass
 public class RandomUtil {
+
+	/**
+	 * 创建指定数量的随机字符串
+	 * 
+	 * @param pureNumber 是否是纯数字
+	 * @param length 随机串长度
+	 * @return
+	 */
+	public static String createRandom(boolean pureNumber, int length) {
+		StringBuilder result = new StringBuilder(length);
+		String strTable = pureNumber ? "1234567890" : "1234567890abcdefghijkmnpqrstuvwxyz";
+		for (int i = 0; i < length; i++) {
+			int index = (int) Math.floor(Math.random() * strTable.length());
+			result.append(strTable.charAt(index));
+		}
+
+		return result.toString();
+	}
+
+	/**
+	 * 生成uuid
+	 * 
+	 * @return
+	 */
+	public static String uuid() {
+		return UUID.randomUUID().toString().replaceAll("-", "");
+	}
+
+	/**
+	 * 生成指定范围随机数
+	 * 
+	 * @param min
+	 * @param max
+	 * @return
+	 */
+	public static int rangeRandom(int min, int max) {
+		return new Random().nextInt(max - min + 1) + min;
+	}
 
 	/**
 	 * 随机排序
