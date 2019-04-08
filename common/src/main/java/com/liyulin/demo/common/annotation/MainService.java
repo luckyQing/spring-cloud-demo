@@ -34,26 +34,3 @@ import tk.mybatis.spring.annotation.MapperScan;
 public @interface MainService {
 
 }
-
-
-
-
-
-
-//@Target(ElementType.TYPE)
-//@Retention(RetentionPolicy.RUNTIME)
-//@Documented
-//@Inherited
-//@SpringBootConfiguration
-//@EnableAutoConfiguration
-//@ComponentScan(basePackages = "com.liyulin.demo", excludeFilters = {
-//		@Filter(type = FilterType.CUSTOM, classes = TypeExcludeFilter.class),
-//		@Filter(type = FilterType.CUSTOM, classes = AutoConfigurationExcludeFilter.class) })
-//@EnableFeignClients(basePackages = { "com.liyulin.demo.rpc" })
-//@EnableDiscoveryClient
-//@EnableSwagger2
-//@EnableTransactionManagement
-//@MapperScan(basePackages = { "com.liyulin.demo.*.base.mapper", "com.liyulin.demo.*.mapper" })
-//public @interface MainService {
-//
-//}
