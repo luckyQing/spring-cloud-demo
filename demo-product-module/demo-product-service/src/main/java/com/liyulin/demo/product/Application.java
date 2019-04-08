@@ -29,7 +29,6 @@ public class Application {
 	@Autowired
 	private ProductInfoRpcService productInfoRpcService;
 
-	@PostConstruct
 	public void test() {
 		List<UpdateStockReqBody> list = new ArrayList<>();
 		
@@ -47,7 +46,8 @@ public class Application {
 		Req<ReqObjectBody<List<UpdateStockReqBody>>> req = new Req<>(new ReqObjectBody<>(list));
 		productInfoRpcService.updateStock(req);
 	}
-	
+
+	@PostConstruct
 	public void test2() {
 		ProductInfoEntity record1 = new ProductInfoEntity();
 		record1.setName("手机33333");
@@ -65,7 +65,9 @@ public class Application {
 
 		Example example2 = new Example(ProductInfoEntity.class);
 		example2.createCriteria().andEqualTo(BaseEntity.Columns.ID.getProperty(), 4)
-				.andNotEqualTo(BaseEntity.Columns.DEL_STATE.getProperty(), DelStateEnum.DELETED.getDelState());
+		.andGreaterThanOrEqualTo(ProductInfoEntity.Columns.STOCK.getProperty(), 0);
+		
+//				.andNotEqualTo(BaseEntity.Columns.DEL_STATE.getProperty(), DelStateEnum.DELETED.getDelState())
 
 		productInfoBaseMapper.updateListByExamplesSelective(Arrays.asList(record1, record2), Arrays.asList(example1, example2));
 	}
