@@ -1,6 +1,7 @@
 package com.liyulin.demo.common.web.openfeign.condition;
 
 import java.lang.annotation.Annotation;
+import java.util.Map;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.context.ApplicationContext;
@@ -10,6 +11,10 @@ import org.springframework.core.type.AnnotatedTypeMetadata;
 import org.springframework.core.type.ClassMetadata;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.liyulin.demo.common.util.ArrayUtil;
+import com.liyulin.demo.common.util.CollectionUtil;
+import com.liyulin.demo.common.util.ObjectUtil;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -44,26 +49,18 @@ public class OnFeignClientCondition implements Condition {
 
 		// 2、获取ApplicationContext里面interface对应的所有实例bean
 		ApplicationContext applicationContext = (ApplicationContext) context.getResourceLoader();
-		String[] beanNames = applicationContext.getBeanNamesForType(interfaceClass);
+		Map<String, ?> beansOfTypeMap = applicationContext.getBeansOfType(interfaceClass);
 
 		// 3、判断是否存在RPC interface的实现类，且实现类上有Controller、RestController注解
-		if (null == beanNames || beanNames.length == 0) {
+		if (CollectionUtil.isEmpty(beansOfTypeMap)) {
 			return true;
 		}
-
-		for (String beanName : beanNames) {
-			Class<?> implementsClass = null;
-			try {
-				implementsClass = Class.forName(beanName);
-			} catch (ClassNotFoundException e) {
-				log.error(e.getMessage(), e);
-			}
-			
-			Annotation[] annotations = implementsClass.getAnnotations();
-			if (null == annotations) {
+		for (Map.Entry<String, ?> entry : beansOfTypeMap.entrySet()) {
+			Annotation[] annotations = entry.getValue().getClass().getAnnotations();
+			if (ArrayUtil.isEmpty(annotations)) {
 				continue;
 			}
-			
+
 			for (Annotation annotation : annotations) {
 				// 注解本身就是RestController或Controller注解
 				if (isRpcImplementClass(annotation)) {
@@ -72,9 +69,10 @@ public class OnFeignClientCondition implements Condition {
 
 				// 注解继承了RestController或Controller注解
 				Class<? extends Annotation> annotationType = annotation.annotationType();
-				if (null == annotationType) {
+				if (ObjectUtil.isNull(annotationType)) {
 					continue;
 				}
+				
 				Annotation[] annotationTypeAnnotations = annotationType.getAnnotations();
 				if (null != annotationTypeAnnotations) {
 					for (Annotation annotationTypeAnnotation : annotationTypeAnnotations) {
