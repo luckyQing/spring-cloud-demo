@@ -38,6 +38,10 @@ public class ObjectUtil {
 	 * @return
 	 */
 	public static boolean isAllNull(Object... objects) {
+		if (objects == null) {
+			return true;
+		}
+		
 		for (Object object : objects) {
 			if (object != null) {
 				return false;
@@ -53,6 +57,10 @@ public class ObjectUtil {
 	 * @return
 	 */
 	public static boolean isAllNotNull(Object... objects) {
+		if (objects == null) {
+			return false;
+		}
+		
 		for (Object object : objects) {
 			if (object == null) {
 				return false;
