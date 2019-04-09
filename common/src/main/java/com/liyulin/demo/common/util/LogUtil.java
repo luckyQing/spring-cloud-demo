@@ -99,20 +99,12 @@ public class LogUtil {
 		log.warn(truncate(maxLength, format, args));
 	}
 
-	public void warn(String msg, Throwable t, int maxLength) {
-		log.warn(msg, t, maxLength);
-	}
-
 	public static void error(String msg, int maxLength) {
 		log.error(truncate(msg, maxLength));
 	}
 
 	public static void error(int maxLength, String format, Object... args) {
 		log.error(truncate(maxLength, format, args));
-	}
-
-	public void error(String msg, Throwable t, int maxLength) {
-		log.error(msg, t, maxLength);
 	}
 
 	private static String truncate(String format, Object... args) {
