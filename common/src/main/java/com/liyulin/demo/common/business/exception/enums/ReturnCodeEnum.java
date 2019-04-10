@@ -27,8 +27,8 @@ public enum ReturnCodeEnum implements IBaseReturnCode {
 	SERVER_ERROR("100500", "服务器异常"),
 	/** 无权限访问 */
 	NO_ACCESS("100401", "无权限访问"),
-	/** rpc请求失败 */
-	RPC_FAIL("100404", "rpc请求失败"),
+	/** 请求url错误 */
+	REQUEST_URL_ERROR("100404", "请求url错误"),
 	/** 请求超时 */
 	REQUEST_TIMEOUT("100408", "请求超时"),
 	/** 重复提交 */
@@ -37,6 +37,10 @@ public enum ReturnCodeEnum implements IBaseReturnCode {
 	PARAMETERS_MISSING("100412", "参数不全"),
 	/** 请求方式不支持 */
 	REQUEST_METHOD_NOT_SUPPORTED("100415", "请求方式不支持"),
+	/** 请求类型不支持 */
+	UNSUPPORTED_MEDIA_TYPE("100416", "请求类型不支持"),
+	/** 上传文件大小超过限制 */
+	UPLOAD_FILE_SIZE_EXCEEDED("100418", "上传文件大小超过限制"),
 	/** 签名错误 */
 	SIGN_ERROR("100400", "签名错误"),
 	/** 获取锁失败 */

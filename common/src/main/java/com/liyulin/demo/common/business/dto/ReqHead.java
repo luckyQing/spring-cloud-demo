@@ -24,6 +24,10 @@ public class ReqHead extends BaseDto {
 	@ApiModelProperty(value = "请求令牌")
 	private String token;
 
+	@ApiModelProperty(value = "接口版本号", required = true)
+	@NotBlank
+	private String apiVersion;
+
 	@ApiModelProperty(value = "请求时间戳", required = true, example = "1554551377629")
 	@NotNull
 	// TODO：1分钟以内
