@@ -1,13 +1,11 @@
 package com.liyulin.demo.common.web.aop;
 
+import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.util.Date;
 import java.util.stream.Stream;
 
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.JoinPoint;
@@ -117,10 +115,7 @@ public class LogAop {
 	}
 
 	/**
-	 * 获取有效的请求参数
-	 * 
-	 * <p>
-	 * 过滤掉{@link HttpServletRequest}、{@link HttpServletResponse}（他们序列化会报错）
+	 * 获取有效的请求参数（过滤掉不能序列化的）
 	 * 
 	 * @param args
 	 * @return
@@ -137,7 +132,7 @@ public class LogAop {
 				break;
 			}
 		}
-		
+
 		if (!needFilter) {
 			return args;
 		}
@@ -154,7 +149,7 @@ public class LogAop {
 	 * @return
 	 */
 	private boolean needFilter(Object object) {
-		return ((object instanceof ServletRequest) || (object instanceof ServletResponse));
+		return !(object instanceof Serializable);
 	}
 
 }
