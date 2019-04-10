@@ -48,7 +48,7 @@ public class ExceptionUtil {
 			// 参数校验
 			BindException exs = (BindException) e;
 			List<ObjectError> errorList = exs.getAllErrors();
-			if (null != errorList && errorList.size() > 0) {
+			if (CollectionUtil.isNotEmpty(errorList)) {
 				ObjectError objectError = errorList.get(0);
 				return new RespHead(ReturnCodeEnum.VALIDATE_FAIL.getCode(), objectError.getDefaultMessage());
 			}
@@ -57,7 +57,7 @@ public class ExceptionUtil {
 			// 参数校验
 			ConstraintViolationException constraintViolationException = (ConstraintViolationException) e;
 			Set<ConstraintViolation<?>> constraintViolationSet = constraintViolationException.getConstraintViolations();
-			if (null != constraintViolationSet && constraintViolationSet.size() > 0) {
+			if (CollectionUtil.isNotEmpty(constraintViolationSet)) {
 				for (ConstraintViolation<?> eConstraintViolation : constraintViolationSet) {
 					return new RespHead(ReturnCodeEnum.VALIDATE_FAIL.getCode(), eConstraintViolation.getMessage());
 				}
@@ -68,13 +68,13 @@ public class ExceptionUtil {
 			// 参数校验
 			List<ObjectError> objectErrors = ((MethodArgumentNotValidException) e).getBindingResult().getAllErrors();
 			StringBuilder sb = new StringBuilder();
-			if (objectErrors != null && objectErrors.size() > 0) {
+			if (CollectionUtil.isNotEmpty(objectErrors)) {
 				for (int i = 0, size = objectErrors.size(); i < size; i++) {
 					if (size > 1) {
 						sb.append((i + 1) + ".");
 					}
-					String validateField = objectErrors.get(i).getCodes() != null ? objectErrors.get(i).getCodes()[0]
-							: "";
+					String validateField = ArrayUtil.isNotEmpty(objectErrors.get(i).getCodes()) ? objectErrors.get(i).getCodes()[0]
+							: StringUtils.EMPTY;
 					sb.append(validateField + "-" + objectErrors.get(i).getDefaultMessage());
 					if (i < size - 1) {
 						sb.append("; ");
