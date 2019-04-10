@@ -47,7 +47,7 @@ public class Application {
 		productInfoRpcService.updateStock(req);
 	}
 
-	@PostConstruct
+//	@PostConstruct
 	public void test2() {
 		ProductInfoEntity record1 = new ProductInfoEntity();
 		record1.setName("手机33333");

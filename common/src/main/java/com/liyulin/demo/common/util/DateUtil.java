@@ -30,6 +30,8 @@ public class DateUtil {
 	public static final String FOROMAT_DATE = "yyyy-MM-dd";
 	/** 格式：yyyy-MM-dd HH:mm:ss */
 	public static final String FOROMAT_DATETIME = "yyyy-MM-dd HH:mm:ss";
+	/** 格式：yyyy-MM-dd HH:mm:ss.SSS */
+	public static final String FOROMAT_DATETIME_HH_MM_SS_SSS = "yyyy-MM-dd HH:mm:ss.SSS";
 	/** 格式：yyyy-MM-dd HH */
 	public static final String FOROMAT_DATETIME_HH = "yyyy-MM-dd HH";
 	/** 格式：yyyy-MM-dd HH:mm */

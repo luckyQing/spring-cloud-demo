@@ -2,9 +2,12 @@ package com.liyulin.demo.common.web.aop;
 
 import java.lang.reflect.Method;
 import java.util.Date;
+import java.util.stream.Stream;
 
-import javax.servlet.ServletInputStream;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.JoinPoint;
@@ -18,6 +21,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import com.liyulin.demo.common.util.ArrayUtil;
 import com.liyulin.demo.common.util.ExceptionUtil;
 import com.liyulin.demo.common.util.LogUtil;
 import com.liyulin.demo.common.util.ObjectUtil;
@@ -36,11 +40,13 @@ import io.swagger.annotations.ApiOperation;
 @Component
 public class LogAop {
 
+	/** 切面 */
+	private static final String POINTCUT = "execution( * com.liyulin.demo..controller..*.*(..))";
 	/** 切面方法名 */
 	private static final String AOP_METHOD_NAME = "aopLog()";
 	private static ThreadLocal<LogDto> logDtoThreadLocal = new ThreadLocal<>();
 
-	@Pointcut("execution( * com.liyulin.demo..controller..*.*(..))")
+	@Pointcut(POINTCUT)
 	public void aopLog() {
 	}
 
@@ -49,7 +55,6 @@ public class LogAop {
 		if (null == RequestContextHolder.getRequestAttributes()) {
 			return;
 		}
-
 		MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
 		Method method = methodSignature.getMethod();
 		ApiOperation operation = method.getAnnotation(ApiOperation.class);
@@ -58,13 +63,14 @@ public class LogAop {
 
 		ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
 		HttpServletRequest request = attributes.getRequest();
-		ServletInputStream inputStream = request.getInputStream();
 		logDto.setUrl(request.getRequestURL().toString());
-		logDto.setRequestParams(ReqParameterUtil.getReqParams(request));
+
+		Object[] args = joinPoint.getArgs();
+		logDto.setRequestParams(getValidArgs(args));
 		logDto.setIp(WebUtil.getRealIP(request));
 		logDto.setOs(request.getHeader("User-Agent"));
 		logDto.setHttpMethod(request.getMethod());
-		
+
 		String classMethod = joinPoint.getSignature().getDeclaringType().getTypeName();
 		logDto.setClassMethod(classMethod);
 		logDto.setReqStartTime(new Date());
@@ -108,6 +114,47 @@ public class LogAop {
 
 	private void clearThreadLocal() {
 		logDtoThreadLocal.remove();
+	}
+
+	/**
+	 * 获取有效的请求参数
+	 * 
+	 * <p>
+	 * 过滤掉{@link HttpServletRequest}、{@link HttpServletResponse}（他们序列化会报错）
+	 * 
+	 * @param args
+	 * @return
+	 */
+	private Object[] getValidArgs(Object[] args) {
+		if (ArrayUtil.isEmpty(args)) {
+			return args;
+		}
+
+		boolean needFilter = false;
+		for (Object arg : args) {
+			if (needFilter(arg)) {
+				needFilter = true;
+				break;
+			}
+		}
+		
+		if (!needFilter) {
+			return args;
+		}
+
+		return Stream.of(args).filter(arg -> {
+			return !needFilter(arg);
+		}).toArray();
+	}
+
+	/**
+	 * 是否需要过滤
+	 * 
+	 * @param object
+	 * @return
+	 */
+	private boolean needFilter(Object object) {
+		return ((object instanceof ServletRequest) || (object instanceof ServletResponse));
 	}
 
 }

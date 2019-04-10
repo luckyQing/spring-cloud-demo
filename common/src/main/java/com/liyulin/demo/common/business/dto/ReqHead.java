@@ -5,12 +5,16 @@ import javax.validation.constraints.NotNull;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @SuperBuilder
 @ApiModel(description = "请求头部")
 public class ReqHead extends BaseDto {
@@ -24,7 +28,7 @@ public class ReqHead extends BaseDto {
 	@ApiModelProperty(value = "请求令牌")
 	private String token;
 
-	@ApiModelProperty(value = "接口版本号", required = true)
+	@ApiModelProperty(value = "接口版本号", required = true, example = "1.0.0")
 	@NotBlank
 	private String apiVersion;
 
