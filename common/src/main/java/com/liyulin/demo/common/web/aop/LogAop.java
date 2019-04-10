@@ -40,7 +40,7 @@ public class LogAop {
 	private static final String AOP_METHOD_NAME = "aopLog()";
 	private static ThreadLocal<LogDto> logDtoThreadLocal = new ThreadLocal<>();
 
-	@Pointcut("execution( * com.vphonor..provider..*.*(..))")
+	@Pointcut("execution( * com.liyulin.demo..controller..*.*(..))")
 	public void aopLog() {
 	}
 
