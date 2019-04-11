@@ -60,7 +60,7 @@ public class LogUtil {
 	}
 
 	public static void error(String format, Object... args) {
-		log.error(truncate(format, args));
+		log.error(format, args);
 	}
 
 	public void error(String msg, Throwable t) {

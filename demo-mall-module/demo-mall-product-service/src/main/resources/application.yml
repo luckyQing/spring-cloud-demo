@@ -2,7 +2,7 @@ basic:
   data-machineId: 1
 spring:
   application:
-    name: demo-product-service
+    name: demo-mall-product-service
   profiles:
     include: 
       - common

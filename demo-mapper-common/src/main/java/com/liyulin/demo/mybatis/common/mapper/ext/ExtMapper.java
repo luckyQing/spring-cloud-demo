@@ -51,9 +51,8 @@ public interface ExtMapper<T extends BaseEntity, R extends BaseEntityRespBody, P
 	 * @return
 	 */
 	default BasePageResp<T> pageEntityByExample(Example example, int pageNum, int pageSize) {
-		PageHelper.startPage(pageNum, pageSize);
+		Page<T> page = PageHelper.startPage(pageNum, pageSize, true);
 		List<T> datas = selectByExample(example);
-		Page<T> page = PageHelper.getLocalPage();
 
 		return new BasePageResp<>(datas, pageNum, pageSize, page.getTotal());
 	}
@@ -68,9 +67,8 @@ public interface ExtMapper<T extends BaseEntity, R extends BaseEntityRespBody, P
 	 * @return
 	 */
 	default BasePageResp<R> pageRespByExample(Example example, int pageNum, int pageSize) {
-		PageHelper.startPage(pageNum, pageSize);
+		Page<T> page = PageHelper.startPage(pageNum, pageSize, true);
 		List<T> entitydatas = selectByExample(example);
-		Page<T> page = PageHelper.getLocalPage();
 		if (CollectionUtil.isEmpty(entitydatas)) {
 			return new BasePageResp<>(null, pageNum, pageSize, page.getTotal());
 		}
@@ -95,9 +93,8 @@ public interface ExtMapper<T extends BaseEntity, R extends BaseEntityRespBody, P
 	 * @return
 	 */
 	default BasePageResp<T> pageEntityByEntity(T entity, int pageNum, int pageSize) {
-		PageHelper.startPage(pageNum, pageSize);
+		Page<T> page = PageHelper.startPage(pageNum, pageSize, true);
 		List<T> datas = select(entity);
-		Page<T> page = PageHelper.getLocalPage();
 
 		return new BasePageResp<>(datas, pageNum, pageSize, page.getTotal());
 	}
@@ -112,9 +109,8 @@ public interface ExtMapper<T extends BaseEntity, R extends BaseEntityRespBody, P
 	 * @return
 	 */
 	default BasePageResp<R> pageRespByEntity(T entity, int pageNum, int pageSize) {
-		PageHelper.startPage(pageNum, pageSize);
+		Page<T> page = PageHelper.startPage(pageNum, pageSize, true);
 		List<T> entitydatas = select(entity);
-		Page<T> page = PageHelper.getLocalPage();
 		if (CollectionUtil.isEmpty(entitydatas)) {
 			return new BasePageResp<>(null, pageNum, pageSize, page.getTotal());
 		}

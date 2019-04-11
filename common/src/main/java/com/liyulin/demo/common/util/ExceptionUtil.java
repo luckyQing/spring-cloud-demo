@@ -29,8 +29,8 @@ import lombok.experimental.UtilityClass;
  */
 @UtilityClass
 public class ExceptionUtil {
-	/** 换行符 */
-	private String lineSeparator = System.getProperty("line.separator");
+	/** 错误分隔符 */
+	private String ERROR_SEPARATOR = " | ";
 
 	/**
 	 * 异常信息序列化
@@ -40,7 +40,7 @@ public class ExceptionUtil {
 	 */
 	public String toString(Throwable t) {
 		StackTraceElement[] stackTraceElements = t.getStackTrace();
-		return t.getClass().getTypeName() + lineSeparator + StringUtils.join(stackTraceElements, lineSeparator);
+		return t.getClass().getTypeName() + ERROR_SEPARATOR + StringUtils.join(stackTraceElements, ERROR_SEPARATOR);
 	}
 
 	public RespHead parse(Throwable e) {
@@ -73,7 +73,8 @@ public class ExceptionUtil {
 					if (size > 1) {
 						sb.append((i + 1) + ".");
 					}
-					String validateField = ArrayUtil.isNotEmpty(objectErrors.get(i).getCodes()) ? objectErrors.get(i).getCodes()[0]
+					String validateField = ArrayUtil.isNotEmpty(objectErrors.get(i).getCodes())
+							? objectErrors.get(i).getCodes()[0]
 							: StringUtils.EMPTY;
 					sb.append(validateField + "-" + objectErrors.get(i).getDefaultMessage());
 					if (i < size - 1) {

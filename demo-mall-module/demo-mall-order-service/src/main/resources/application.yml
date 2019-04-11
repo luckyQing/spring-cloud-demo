@@ -3,7 +3,7 @@ basic:
   
 spring:
   application:
-    name: demo-order-service
+    name: demo-mall-order-service
   profiles:
     include: 
       - common

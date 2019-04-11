@@ -13,7 +13,7 @@ import com.github.pagehelper.PageHelper;
 import com.liyulin.demo.common.business.dto.BasePageReq;
 import com.liyulin.demo.common.business.dto.BasePageResp;
 import com.liyulin.demo.common.util.CollectionUtil;
-import com.liyulin.demo.mall.product.entity.ProductInfoEntity;
+import com.liyulin.demo.mall.product.entity.base.ProductInfoEntity;
 import com.liyulin.demo.mall.product.mapper.base.ProductInfoBaseMapper;
 import com.liyulin.demo.mybatis.common.biz.BaseBiz;
 import com.liyulin.demo.mybatis.common.mapper.entity.BaseEntity;
@@ -52,9 +52,8 @@ public class ProductInfoApiBiz extends BaseBiz<ProductInfoEntity> {
 		criteria.andEqualTo(BaseEntity.Columns.DEL_STATE.getProperty(), DelStateEnum.DELETED.getDelState());
 		example.orderBy(BaseEntity.Columns.ADD_TIME.getProperty()).desc();
 
-		PageHelper.startPage(req.getPageNum(), req.getPageSize());
+		Page<ProductInfoEntity> page = PageHelper.startPage(req.getPageNum(), req.getPageSize(), true);
 		List<ProductInfoEntity> entitydatas = productInfoBaseMapper.selectByExample(example);
-		Page<ProductInfoEntity> page = PageHelper.getLocalPage();
 		
 		if (CollectionUtil.isEmpty(entitydatas)) {
 			return new BasePageResp<>(null, req.getPageNum(), req.getPageSize(), 0);

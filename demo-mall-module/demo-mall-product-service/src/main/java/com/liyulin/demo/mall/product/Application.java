@@ -4,13 +4,15 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 
 import com.liyulin.demo.common.annotation.MainService;
 import com.liyulin.demo.common.business.dto.Req;
 import com.liyulin.demo.common.business.dto.ReqObjectBody;
-import com.liyulin.demo.mall.product.entity.ProductInfoEntity;
+import com.liyulin.demo.mall.product.entity.base.ProductInfoEntity;
 import com.liyulin.demo.mall.product.mapper.base.ProductInfoBaseMapper;
 import com.liyulin.demo.mall.product.service.rpc.ProductInfoRpcService;
 import com.liyulin.demo.mybatis.common.mapper.entity.BaseEntity;
@@ -45,7 +47,7 @@ public class Application {
 		productInfoRpcService.updateStock(req);
 	}
 
-//	@PostConstruct
+	@PostConstruct
 	public void test2() {
 		ProductInfoEntity record1 = new ProductInfoEntity();
 		record1.setName("手机33333");

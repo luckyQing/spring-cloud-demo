@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.liyulin.demo.common.util.ObjectUtil;
-import com.liyulin.demo.mall.product.entity.ProductInfoEntity;
+import com.liyulin.demo.mall.product.entity.base.ProductInfoEntity;
 import com.liyulin.demo.mall.product.mapper.base.ProductInfoBaseMapper;
 import com.liyulin.demo.mall.product.mapper.rpc.ProductInfoRpcMapper;
 import com.liyulin.demo.mybatis.common.biz.BaseBiz;

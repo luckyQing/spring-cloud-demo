@@ -6,6 +6,7 @@ import java.util.Objects;
 import java.util.Properties;
 import java.util.regex.Matcher;
 
+import org.apache.ibatis.cache.CacheKey;
 import org.apache.ibatis.executor.Executor;
 import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.mapping.MappedStatement;
@@ -34,8 +35,9 @@ import com.liyulin.demo.common.util.LogUtil;
  */
 @Component
 @Intercepts({ @Signature(type = Executor.class, method = "update", args = { MappedStatement.class, Object.class }),
-		@Signature(type = Executor.class, method = "query", args = { MappedStatement.class, Object.class,
-				RowBounds.class, ResultHandler.class }) })
+		@Signature(type = Executor.class, method = "query", args = { MappedStatement.class, Object.class, RowBounds.class, ResultHandler.class }),
+		@Signature(type = Executor.class, method = "query", args = { MappedStatement.class, Object.class, RowBounds.class, ResultHandler.class, CacheKey.class, BoundSql.class }),
+		@Signature(type = Executor.class, method = "queryCursor", args = { MappedStatement.class, Object.class, RowBounds.class }) })
 public class SqlLogInterceptor implements Interceptor {
 
 	private static final String QUOTE = "\\?";
@@ -51,12 +53,14 @@ public class SqlLogInterceptor implements Interceptor {
 			long end = System.currentTimeMillis();
 			long time = (end - start);
 			MappedStatement mappedStatement = (MappedStatement) invocation.getArgs()[0];
-			Object parameter = null;
-			if (invocation.getArgs().length > 1) {
-				parameter = invocation.getArgs()[1];
+			BoundSql boundSql = null;
+			if (invocation.getArgs().length == 6) {
+				boundSql = (BoundSql) invocation.getArgs()[5];
+			} else {
+				Object parameter = invocation.getArgs()[1];
+				boundSql = mappedStatement.getBoundSql(parameter);
 			}
 			String sqlId = mappedStatement.getId();
-			BoundSql boundSql = mappedStatement.getBoundSql(parameter);
 			Configuration configuration = mappedStatement.getConfiguration();
 			showSql(configuration, boundSql, sqlId, time, returnValue);
 		}
@@ -144,7 +148,7 @@ public class SqlLogInterceptor implements Interceptor {
 				}
 			}
 		}
-		
+
 		return sql;
 	}
 

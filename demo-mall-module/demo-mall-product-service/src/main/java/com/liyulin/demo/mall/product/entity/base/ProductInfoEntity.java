@@ -1,4 +1,4 @@
-package com.liyulin.demo.mall.product.entity;
+package com.liyulin.demo.mall.product.entity.base;
 
 import javax.persistence.Column;
 import javax.persistence.Table;

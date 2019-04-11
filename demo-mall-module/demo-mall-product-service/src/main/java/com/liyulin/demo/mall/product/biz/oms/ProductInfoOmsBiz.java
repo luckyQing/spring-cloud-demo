@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.liyulin.demo.common.business.dto.BasePageReq;
 import com.liyulin.demo.common.business.dto.BasePageResp;
-import com.liyulin.demo.mall.product.entity.ProductInfoEntity;
+import com.liyulin.demo.mall.product.entity.base.ProductInfoEntity;
 import com.liyulin.demo.mall.product.mapper.base.ProductInfoBaseMapper;
 import com.liyulin.demo.mybatis.common.biz.BaseBiz;
 import com.liyulin.demo.mybatis.common.mapper.entity.BaseEntity;

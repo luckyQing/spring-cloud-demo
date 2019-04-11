@@ -3,7 +3,7 @@ package com.liyulin.demo.mall.order.biz.api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.liyulin.demo.mall.order.entity.OrderDeliveryInfoEntity;
+import com.liyulin.demo.mall.order.entity.base.OrderDeliveryInfoEntity;
 import com.liyulin.demo.mall.order.mapper.base.OrderDeliveryInfoBaseMapper;
 import com.liyulin.demo.mybatis.common.biz.BaseBiz;
 

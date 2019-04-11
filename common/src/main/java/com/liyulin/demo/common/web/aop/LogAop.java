@@ -94,8 +94,6 @@ public class LogAop {
 
 	@AfterThrowing(throwing = "e", pointcut = AOP_METHOD_NAME)
 	public void doAfterThrowing(Throwable e) {
-		LogUtil.error(e.getMessage(), e);
-
 		LogDto logDto = logDtoThreadLocal.get();
 		if (ObjectUtil.isNull(logDto)) {
 			return;
@@ -134,7 +132,7 @@ public class LogAop {
 		}
 
 		if (!needFilter) {
-			return args;
+			return args.length == 1 ? args[0] : args;
 		}
 
 		Object[] tempArgs = Stream.of(args).filter(arg -> {

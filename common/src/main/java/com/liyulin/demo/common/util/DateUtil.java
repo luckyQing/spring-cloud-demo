@@ -40,11 +40,14 @@ public class DateUtil {
 	public static final Map<Integer, DateTimeFormatter> DATETIME_FORMATTER_ROUTE = new HashMap<>();
 
 	static {
-		Field[] fields = DateUtil.class.getFields();// 所有公有
+		// 所有公有
+		Field[] fields = DateUtil.class.getFields();
+		// 日期格式变量前缀
+		String dateFormatPrefix = "FOROMAT_";
 		for (int i = 0; i < fields.length; i++) {
 			Field field = fields[i];
 			String fieldName = field.getName();
-			if (fieldName.startsWith("FOROMAT_")) {
+			if (fieldName.startsWith(dateFormatPrefix)) {
 				String format = null;
 				try {
 					format = String.valueOf(field.get(field));
@@ -58,6 +61,15 @@ public class DateUtil {
 
 	private static void setDateTimeFormatterRoute(String format) {
 		DATETIME_FORMATTER_ROUTE.put(format.length(), DateTimeFormat.forPattern(format));
+	}
+
+	/**
+	 * 获取当前时间
+	 * 
+	 * @return
+	 */
+	public static Date now() {
+		return new Date();
 	}
 
 	/**

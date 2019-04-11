@@ -12,6 +12,9 @@ mybatis:
 mapper: 
   identity: MYSQL
   not-empty: true   # 按主键插入或更新时，是否判断字符串 != ''
+  configuration:
+    interceptors:
+    - com.liyulin.demo.mybatis.plugin.SqlLogInterceptor
 
 # 分页插件  
 pagehelper:
@@ -19,7 +22,4 @@ pagehelper:
   #分页合理化参数
   reasonable: true
   support-methods-arguments: true
-  #使用 RowBounds 分页会进行 count 查询
-  row-bounds-with-count: true
-  default-count: true
   params: count=countSql
