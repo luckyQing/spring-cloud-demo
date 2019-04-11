@@ -57,7 +57,7 @@ public class LogDto extends BaseDto {
 	private Integer reqDealTime;
 
 	/** 请求的参数信息 */
-	private Object[] requestParams;
+	private Object requestParams;
 
 	/** 响应数据 */
 	private Object responseData;

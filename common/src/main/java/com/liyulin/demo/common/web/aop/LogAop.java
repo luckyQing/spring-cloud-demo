@@ -64,7 +64,7 @@ public class LogAop {
 		logDto.setUrl(request.getRequestURL().toString());
 
 		Object[] args = joinPoint.getArgs();
-		logDto.setRequestParams(getValidArgs(args));
+		logDto.setRequestParams(filterArgs(args));
 		logDto.setIp(WebUtil.getRealIP(request));
 		logDto.setOs(request.getHeader("User-Agent"));
 		logDto.setHttpMethod(request.getMethod());
@@ -120,7 +120,7 @@ public class LogAop {
 	 * @param args
 	 * @return
 	 */
-	private Object[] getValidArgs(Object[] args) {
+	private Object filterArgs(Object[] args) {
 		if (ArrayUtil.isEmpty(args)) {
 			return args;
 		}
@@ -137,9 +137,11 @@ public class LogAop {
 			return args;
 		}
 
-		return Stream.of(args).filter(arg -> {
+		Object[] tempArgs = Stream.of(args).filter(arg -> {
 			return !needFilter(arg);
 		}).toArray();
+
+		return getValidArgs(tempArgs);
 	}
 
 	/**
@@ -150,6 +152,25 @@ public class LogAop {
 	 */
 	private boolean needFilter(Object object) {
 		return !(object instanceof Serializable);
+	}
+
+	/**
+	 * 获取有效的参数（如果是request对象，则优先从ParameterMap里取）
+	 * 
+	 * @param args
+	 * @return
+	 */
+	private Object getValidArgs(Object[] args) {
+		if (ArrayUtil.isEmpty(args)) {
+			return args;
+		}
+
+		if (args.length == 1 && args[0] instanceof HttpServletRequest) {
+			HttpServletRequest request = (HttpServletRequest) args[0];
+			return request.getParameterMap();
+		}
+
+		return args;
 	}
 
 }
