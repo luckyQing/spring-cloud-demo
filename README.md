@@ -116,6 +116,27 @@ spring:
       - 子项3  
 ```
 
+## （三）sleuth
+### 3.1、log4j2集成sleuth
+```
+日志打印pattern中加入“[%X{X-B3-TraceId},%X{X-B3-SpanId},%X{X-B3-ParentSpanId},%X{X-Span-Export}]”。
+
+各字段解释：
+TraceId为此次调用链共享id；
+SpanId本应用唯一id；
+ParentSpanId为上级应用唯一id；
+X-Span-Export是否是发送给Zipkin。
+```
+### 3.2、sleuth的原理
+```
+Spring Cloud Sleuth可以追踪10种类型的组件：async、Hystrix，messaging，websocket，rxjava，scheduling，web（Spring MVC Controller，Servlet），webclient（Spring RestTemplate）、Feign、Zuul。
+
+例如scheduling
+原理是AOP（TraceSchedulingAspect、TraceSchedulingAutoConfiguration）处理Scheduled注解，只要是在IOC容器中的Bean带有@Scheduled注解的方法的调用都会被sleuth处理。
+
+其他组件实现见包org.springframework.cloud.sleuth.instrument。
+```
+
 # 四、注意事项
 ```
 1、更改hosts文件，添加如下内容
