@@ -1,8 +1,8 @@
 spring:
-  profiles:
-    include: common,eureka
   application:
     name: spring-cloud-gateway
+  profiles:
+    include: common,eureka
 
 server:
   port: 80

@@ -13,7 +13,6 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
-import tk.mybatis.spring.annotation.MapperScan;
 
 /**
  * 服务启动类注解
@@ -30,7 +29,6 @@ import tk.mybatis.spring.annotation.MapperScan;
 @EnableDiscoveryClient
 @EnableSwagger2
 @EnableTransactionManagement
-@MapperScan(basePackages = { "com.liyulin.demo.*.base.mapper", "com.liyulin.demo.*.mapper" })
 public @interface MainService {
 
 }

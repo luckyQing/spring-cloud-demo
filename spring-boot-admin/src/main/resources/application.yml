@@ -1,8 +1,8 @@
 spring:
-  profiles:
-    include: common,eureka
   application:
     name: spring-boot-admin
+  profiles:
+    include: common,eureka
 
 server:
   port: 10011

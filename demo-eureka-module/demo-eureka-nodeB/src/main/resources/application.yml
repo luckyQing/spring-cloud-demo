@@ -1,8 +1,8 @@
 spring:
-  profiles:
-    include: common
   application:
     name: demo-eureka-nodeB
+  profiles:
+    include: common
 
 server:
   port: 10002

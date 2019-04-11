@@ -1,4 +1,4 @@
-spring:  profiles:    include: common  application:    name: demo-eureka-nodeA
+spring:  application:    name: demo-eureka-nodeA  profiles:    include: common
 server:
   port: 10001
 # 多节点配置

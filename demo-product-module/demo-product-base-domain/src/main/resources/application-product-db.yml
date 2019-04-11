@@ -1,7 +1,0 @@
-spring: 
-  profiles:
-    include: common-db
-  datasource:
-    url: jdbc:mysql://127.0.0.1:3306/demo_product?${spring.datasource.url-common-paramters}
-    username: root
-    password: 123456
