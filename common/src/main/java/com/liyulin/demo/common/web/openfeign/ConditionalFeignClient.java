@@ -26,7 +26,7 @@ import springfox.documentation.annotations.ApiIgnore;
 @Conditional(OnFeignClientCondition.class)
 @FeignClient
 @ApiIgnore
-public @interface FeignClientCondition {
+public @interface ConditionalFeignClient {
 
 	@AliasFor(annotation = FeignClient.class, attribute = "value")
 	String value() default "";

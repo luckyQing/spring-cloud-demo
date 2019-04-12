@@ -6,8 +6,6 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
-import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.context.annotation.Conditional;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -15,7 +13,8 @@ import com.liyulin.demo.common.business.dto.BaseDto;
 import com.liyulin.demo.common.business.dto.Req;
 import com.liyulin.demo.common.business.dto.ReqObjectBody;
 import com.liyulin.demo.common.business.dto.Resp;
-import com.liyulin.demo.common.web.openfeign.condition.OnFeignClientCondition;
+import com.liyulin.demo.common.web.openfeign.ConditionalFeignClient;
+import com.liyulin.demo.rpc.constants.RpcConstants;
 import com.liyulin.demo.rpc.product.request.rpc.QryProductByIdReqBody;
 import com.liyulin.demo.rpc.product.request.rpc.UpdateStockReqBody;
 import com.liyulin.demo.rpc.product.response.rpc.QryProductByIdRespBody;
@@ -23,8 +22,9 @@ import com.liyulin.demo.rpc.product.response.rpc.QryProductByIdRespBody;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
-@Conditional(OnFeignClientCondition.class)
-@FeignClient
+@ConditionalFeignClient(value = RpcConstants.Product.FEIGN_CLIENT_NAME)
+//@FeignClient(RpcConstants.Product.FEIGN_CLIENT_NAME)
+//@ConditionalOnProperty(name="xx", matchIfMissing=false)
 @Api(tags = "商品信息rpc相关接口")
 public interface ProductInfoRpc {
 

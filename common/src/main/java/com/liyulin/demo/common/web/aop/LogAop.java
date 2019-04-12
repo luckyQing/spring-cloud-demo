@@ -53,6 +53,7 @@ public class LogAop {
 		if (null == RequestContextHolder.getRequestAttributes()) {
 			return;
 		}
+		// FIXME:rpc接口获取描述
 		MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
 		Method method = methodSignature.getMethod();
 		ApiOperation operation = method.getAnnotation(ApiOperation.class);

@@ -1,6 +1,6 @@
 spring:
   application:
-    name: demo-eureka-nodeB
+    name: demo_eureka_nodeB
   profiles:
     include: common
 

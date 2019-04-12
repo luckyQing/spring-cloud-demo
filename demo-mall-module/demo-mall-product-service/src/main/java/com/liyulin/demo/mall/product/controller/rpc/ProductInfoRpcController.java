@@ -27,17 +27,17 @@ import com.liyulin.demo.rpc.product.response.rpc.QryProductByIdRespBody;
 public class ProductInfoRpcController implements ProductInfoRpc {
 
 	@Autowired
-	private ProductInfoRpcService productRpcService;
+	private ProductInfoRpcService productInfoRpcService;
 
 	@Override
 	public Resp<QryProductByIdRespBody> qryProductById(@RequestBody @Valid Req<@NotNull QryProductByIdReqBody> req) {
-		return RespUtil.success(productRpcService.qryProductById(req.getBody()));
+		return RespUtil.success(productInfoRpcService.qryProductById(req.getBody()));
 	}
 
 	@Override
 	public Resp<BaseDto> updateStock(
 			@RequestBody @Valid Req<@NotNull ReqObjectBody<@NotEmpty List<UpdateStockReqBody>>> req) {
-		return productRpcService.updateStock(req);
+		return productInfoRpcService.updateStock(req);
 	}
 
 }
