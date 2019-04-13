@@ -41,7 +41,7 @@ public class ObjectUtil {
 		if (objects == null) {
 			return true;
 		}
-		
+
 		for (Object object : objects) {
 			if (object != null) {
 				return false;
@@ -60,13 +60,24 @@ public class ObjectUtil {
 		if (objects == null) {
 			return false;
 		}
-		
+
 		for (Object object : objects) {
 			if (object == null) {
 				return false;
 			}
 		}
 		return true;
+	}
+
+	/**
+	 * 判断两对象的字符串是否相等
+	 * 
+	 * @param a
+	 * @param b
+	 * @return
+	 */
+	public static boolean equals(Object a, Object b) {
+		return (a == b) || (a != null && a.equals(b));
 	}
 
 }

@@ -3,12 +3,15 @@ package com.liyulin.demo.common.web.aop;
 import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.util.Date;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 import java.util.stream.Stream;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Aspect;
@@ -42,7 +45,8 @@ public class LogAop {
 	private static final String POINTCUT = "execution( * com.liyulin.demo..controller..*.*(..))";
 	/** 切面方法名 */
 	private static final String AOP_METHOD_NAME = "aopLog()";
-	private static ThreadLocal<LogDto> logDtoThreadLocal = new ThreadLocal<>();
+	private ThreadLocal<LogDto> logDtoThreadLocal = new ThreadLocal<>();
+	private ConcurrentMap<String, String> apiDescMap = new ConcurrentHashMap<>();
 
 	@Pointcut(POINTCUT)
 	public void aopLog() {
@@ -53,26 +57,26 @@ public class LogAop {
 		if (null == RequestContextHolder.getRequestAttributes()) {
 			return;
 		}
-		// FIXME:rpc接口获取描述
-		MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
-		Method method = methodSignature.getMethod();
-		ApiOperation operation = method.getAnnotation(ApiOperation.class);
 		LogDto logDto = new LogDto();
-		logDto.setApiDesc(ObjectUtil.isNotNull(operation) ? operation.value() : StringUtils.EMPTY);
+		logDto.setReqStartTime(new Date());
 
 		ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
 		HttpServletRequest request = attributes.getRequest();
-		logDto.setUrl(request.getRequestURL().toString());
+		
+		String apiDesc = getApiDesc(joinPoint, request.getServletPath());
+		logDto.setApiDesc(apiDesc);
 
 		Object[] args = joinPoint.getArgs();
 		logDto.setRequestParams(filterArgs(args));
+
+		logDto.setUrl(request.getRequestURL().toString());
 		logDto.setIp(WebUtil.getRealIP(request));
 		logDto.setOs(request.getHeader("User-Agent"));
 		logDto.setHttpMethod(request.getMethod());
-
-		String classMethod = joinPoint.getSignature().getDeclaringType().getTypeName();
+		
+		Signature signature = joinPoint.getSignature();
+		String classMethod = signature.getDeclaringTypeName() + "." + signature.getName();
 		logDto.setClassMethod(classMethod);
-		logDto.setReqStartTime(new Date());
 
 		logDtoThreadLocal.set(logDto);
 	}
@@ -111,6 +115,52 @@ public class LogAop {
 
 	private void clearThreadLocal() {
 		logDtoThreadLocal.remove();
+	}
+
+	private String getApiDesc(JoinPoint joinPoint, String path) {
+		// 先从缓存取
+		String apiDesc = apiDescMap.get(path);
+		if (ObjectUtil.isNotNull(apiDesc)) {
+			return apiDesc;
+		}
+
+		// 缓存没有，则通过反射获取
+		MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
+		Method method = methodSignature.getMethod();
+		ApiOperation operation = method.getAnnotation(ApiOperation.class);
+		apiDesc = ObjectUtil.isNotNull(operation) ? operation.value() : StringUtils.EMPTY;
+		if (StringUtils.isBlank(apiDesc)) {
+			// 如果为空，则从接口类rpc取
+			Object controller = joinPoint.getTarget();
+			Class<?> controllerClass = controller.getClass();
+			Class<?>[] interfaces = controllerClass.getInterfaces();
+			if (ArrayUtil.isNotEmpty(interfaces)) {
+				Class<?> rpcClass = interfaces[0];
+				Method[] methods = rpcClass.getMethods();
+				for (Method rpcMethod : methods) {
+					if (isSameMethod(rpcMethod, method)) {
+						operation = rpcMethod.getAnnotation(ApiOperation.class);
+						apiDesc = ObjectUtil.isNotNull(operation) ? operation.value() : StringUtils.EMPTY;
+						break;
+					}
+				}
+			}
+		}
+
+		apiDescMap.putIfAbsent(path, apiDesc);
+
+		return apiDesc;
+	}
+
+	/**
+	 * 是否是同一个method
+	 * 
+	 * @param a
+	 * @param b
+	 * @return
+	 */
+	private boolean isSameMethod(Method a, Method b) {
+		return (a.getReturnType() == b.getReturnType()) && ObjectUtil.equals(a.getName(), b.getName());
 	}
 
 	/**
