@@ -18,8 +18,10 @@ import com.liyulin.demo.common.business.dto.Resp;
 import com.liyulin.demo.common.web.openfeign.condition.OnFeignClientCondition;
 import com.liyulin.demo.rpc.constants.RpcConstants;
 import com.liyulin.demo.rpc.product.request.rpc.QryProductByIdReqBody;
+import com.liyulin.demo.rpc.product.request.rpc.QryProductByIdsReqBody;
 import com.liyulin.demo.rpc.product.request.rpc.UpdateStockReqBody;
 import com.liyulin.demo.rpc.product.response.rpc.QryProductByIdRespBody;
+import com.liyulin.demo.rpc.product.response.rpc.QryProductByIdsRespBody;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -30,9 +32,13 @@ import io.swagger.annotations.ApiOperation;
 @Api(tags = "商品信息rpc相关接口")
 public interface ProductInfoRpc {
 
-	@ApiOperation("分页查询商品信息")
+	@ApiOperation("根据id查询商品信息")
 	@PostMapping("rpc/pass/product/productInfo/qryProductById")
 	Resp<QryProductByIdRespBody> qryProductById(@RequestBody @Valid Req<@NotNull QryProductByIdReqBody> req);
+
+	@ApiOperation("根据ids查询商品信息")
+	@PostMapping("rpc/pass/product/productInfo/qryProductByIds")
+	Resp<QryProductByIdsRespBody> qryProductByIds(@RequestBody @Valid Req<@NotNull QryProductByIdsReqBody> req);
 
 	@ApiOperation("更新库存")
 	@PostMapping("rpc/pass/product/productInfo/updateStock")

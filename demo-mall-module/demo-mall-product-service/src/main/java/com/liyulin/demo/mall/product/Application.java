@@ -2,7 +2,7 @@ package com.liyulin.demo.mall.product;
 
 import org.springframework.boot.SpringApplication;
 
-import com.liyulin.demo.common.annotation.MainService;
+import com.liyulin.demo.common.support.annotation.MainService;
 
 @MainService
 public class Application {

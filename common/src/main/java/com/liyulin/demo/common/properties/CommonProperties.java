@@ -33,4 +33,7 @@ public class CommonProperties extends BaseDto {
 	/** hibernate validator开关 （默认true） */
 	private boolean validator = true;
 
+	/** api版本 */
+	private String apiVersion;
+
 }

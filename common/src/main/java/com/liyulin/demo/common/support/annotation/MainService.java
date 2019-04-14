@@ -1,4 +1,4 @@
-package com.liyulin.demo.common.annotation;
+package com.liyulin.demo.common.support.annotation;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

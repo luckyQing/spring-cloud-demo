@@ -14,8 +14,10 @@ import com.liyulin.demo.common.business.util.RespUtil;
 import com.liyulin.demo.mall.product.biz.rpc.ProductInfoRpcBiz;
 import com.liyulin.demo.mall.product.enums.ProductReturnCodeEnum;
 import com.liyulin.demo.rpc.product.request.rpc.QryProductByIdReqBody;
+import com.liyulin.demo.rpc.product.request.rpc.QryProductByIdsReqBody;
 import com.liyulin.demo.rpc.product.request.rpc.UpdateStockReqBody;
 import com.liyulin.demo.rpc.product.response.rpc.QryProductByIdRespBody;
+import com.liyulin.demo.rpc.product.response.rpc.QryProductByIdsRespBody;
 
 /**
  * 商品信息rpc service
@@ -37,6 +39,16 @@ public class ProductInfoRpcService {
 	 */
 	public QryProductByIdRespBody qryProductById(QryProductByIdReqBody reqBody) {
 		return productRpcBiz.qryProductById(reqBody);
+	}
+	
+	/**
+	 * 根据ids查询商品信息
+	 * 
+	 * @param reqBody
+	 * @return
+	 */
+	public QryProductByIdsRespBody qryProductByIds(QryProductByIdsReqBody reqBody) {
+		return productRpcBiz.qryProductByIds(reqBody);
 	}
 
 	/**
