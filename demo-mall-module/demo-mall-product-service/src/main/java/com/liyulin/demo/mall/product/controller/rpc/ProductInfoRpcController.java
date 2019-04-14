@@ -25,10 +25,10 @@ import com.liyulin.demo.rpc.product.response.rpc.QryProductByIdRespBody;
 @RestController
 @Validated
 public class ProductInfoRpcController implements ProductInfoRpc {
-
+	
 	@Autowired
 	private ProductInfoRpcService productInfoRpcService;
-
+	
 	@Override
 	public Resp<QryProductByIdRespBody> qryProductById(@RequestBody @Valid Req<@NotNull QryProductByIdReqBody> req) {
 		return RespUtil.success(productInfoRpcService.qryProductById(req.getBody()));

@@ -1,8 +1,10 @@
 package com.liyulin.demo.common.web.openfeign.condition;
 
 import java.lang.annotation.Annotation;
-import java.util.Map;
+import java.util.Set;
 
+import org.apache.commons.lang3.StringUtils;
+import org.reflections.Reflections;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Condition;
@@ -35,6 +37,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class OnFeignClientCondition implements Condition {
 
+	/** 扫描类所在的包 */
+	private static final String SCAN_PACKAGE = getScanPackage(OnFeignClientCondition.class.getTypeName());
+
 	@Override
 	public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {
 		// 1、获取使用@FeignClient的interface的Class
@@ -47,20 +52,23 @@ public class OnFeignClientCondition implements Condition {
 			log.error(e.getMessage(), e);
 		}
 
-		// 2、获取ApplicationContext里面interface对应的所有实例bean
-		ApplicationContext applicationContext = (ApplicationContext) context.getResourceLoader();
-		Map<String, ?> beansOfTypeMap = applicationContext.getBeansOfType(interfaceClass);
+		// 2、获取interface对应的所有实现类
+		Reflections reflections = new Reflections(SCAN_PACKAGE);
+		Set<?> subTypes = reflections.getSubTypesOf(interfaceClass);
 
 		// 3、判断是否存在RPC interface的实现类，且实现类上有Controller、RestController注解
-		if (CollectionUtil.isEmpty(beansOfTypeMap)) {
+		if (CollectionUtil.isEmpty(subTypes)) {
 			return true;
 		}
-		for (Map.Entry<String, ?> entry : beansOfTypeMap.entrySet()) {
-			Annotation[] annotations = entry.getValue().getClass().getAnnotations();
+		// 遍历bean
+		for (Object subType : subTypes) {
+			Class<?> subTypeClass = (Class<?>) subType;
+			Annotation[] annotations = subTypeClass.getAnnotations();
 			if (ArrayUtil.isEmpty(annotations)) {
 				continue;
 			}
 
+			// 遍历bean上修饰的注解
 			for (Annotation annotation : annotations) {
 				// 注解本身就是RestController或Controller注解
 				if (isRpcImplementClass(annotation)) {
@@ -72,7 +80,7 @@ public class OnFeignClientCondition implements Condition {
 				if (ObjectUtil.isNull(annotationType)) {
 					continue;
 				}
-				
+
 				Annotation[] annotationTypeAnnotations = annotationType.getAnnotations();
 				if (null != annotationTypeAnnotations) {
 					for (Annotation annotationTypeAnnotation : annotationTypeAnnotations) {
@@ -89,6 +97,23 @@ public class OnFeignClientCondition implements Condition {
 
 	private boolean isRpcImplementClass(Annotation annotation) {
 		return annotation instanceof RestController || annotation instanceof Controller;
+	}
+
+	/**
+	 * 获取扫描类的包名（两个"."）
+	 * 
+	 * @param typeName
+	 * @return
+	 */
+	private static String getScanPackage(String typeName) {
+		int dotCount = 0;
+		for (int i = 0; i < typeName.length(); i++) {
+			if (typeName.charAt(i) == '.' && (++dotCount) == 3) {
+				return typeName.substring(0, i);
+			}
+		}
+
+		return StringUtils.EMPTY;
 	}
 
 }

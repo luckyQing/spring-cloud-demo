@@ -11,6 +11,7 @@ build
 .settings
 *.class
 *.jar
+*.log
 mvnw
 .apt_generated
 .factorypath
