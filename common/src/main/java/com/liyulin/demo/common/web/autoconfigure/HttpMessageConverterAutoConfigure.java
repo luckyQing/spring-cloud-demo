@@ -3,7 +3,6 @@ package com.liyulin.demo.common.web.autoconfigure;
 import java.util.Arrays;
 import java.util.List;
 
-import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -14,7 +13,6 @@ import com.alibaba.fastjson.support.config.FastJsonConfig;
 import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
 
 @Configuration
-@ConditionalOnWebApplication
 public class HttpMessageConverterAutoConfigure implements WebMvcConfigurer {
 
 	@Override

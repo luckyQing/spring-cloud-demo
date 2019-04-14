@@ -1,5 +1,6 @@
-basic:
-  data-machineId: 1
+com:
+  liyulin:
+    data-machine-id: 1
   
 spring:
   application:

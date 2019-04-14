@@ -1,7 +1,6 @@
 package com.liyulin.demo.common.util;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+import com.liyulin.demo.common.properties.CommonProperties;
 
 /**
  * Twitter_Snowflake
@@ -30,7 +29,6 @@ import org.springframework.stereotype.Component;
  * <li>dataMachineId通过分布式配置中心配置，默认为0.
  * </ul>
  */
-@Component
 public final class SnowFlakeIdUtil {
 	/** 起始的时间戳 */
 	private final static long START_STAMP = 1480166465631L;
@@ -48,22 +46,34 @@ public final class SnowFlakeIdUtil {
 	private final static long TIMESTAMP_LEFT = DATE_MACHINE_LEFT + DATE_MACHINE_BIT;
 
 	/** 数据机器标识（通过分布式配置中心配置，默认为0）  */
-	@Value("${basic.data-machineId:0}")
 	private long dataMachineId;
 	/** 序列号 */
 	private long sequence = 0L;
 	/** 上一次时间戳 */
 	private volatile long lastStamp = -1L;
 	
-	private static SnowFlakeIdUtil idWorker = new SnowFlakeIdUtil();
+	private static volatile SnowFlakeIdUtil idWorker = null;
 
 	public static SnowFlakeIdUtil getInstance() {
+		if (ObjectUtil.isNull(idWorker)) {
+			synchronized (SnowFlakeIdUtil.class) {
+				if (ObjectUtil.isNull(idWorker)) {
+					idWorker = new SnowFlakeIdUtil();
+				}
+			}
+		}
+
 		return idWorker;
 	}
 	
 	private SnowFlakeIdUtil() {
+		Long dataMachineIdL = SpringUtil.getBean(CommonProperties.class).getDataMachineId();
+		if (ObjectUtil.isNull(dataMachineIdL)) {
+			throw new IllegalArgumentException(CommonProperties.PREFIX + ".data-machine-id未配置！");
+		}
+		dataMachineId = dataMachineIdL;
 		if (dataMachineId > MAX_DATE_MACHINE_NUM || dataMachineId < 0) {
-			throw new IllegalArgumentException("dataMachineId can't be greater than MAX_DATE_MACHINE_NUM or less than 0");
+			throw new IllegalArgumentException("dataMachineId 取值范围[0, " + MAX_DATE_MACHINE_NUM + "]");
 		}
 	}
 
@@ -75,7 +85,7 @@ public final class SnowFlakeIdUtil {
 	public synchronized long nextId() {
 		long currStamp = getNewStamp();
 		if (currStamp < lastStamp) {
-			throw new RuntimeException("Clock moved backwards. Refusing to generate id");
+			throw new RuntimeException("发生时钟回拨，拒绝生产id");
 		}
 
 		if (currStamp == lastStamp) {

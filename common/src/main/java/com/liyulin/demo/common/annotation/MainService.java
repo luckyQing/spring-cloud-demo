@@ -12,8 +12,6 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
-
 /**
  * 服务启动类注解
  *
@@ -27,7 +25,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @SpringBootApplication(scanBasePackages = "com.liyulin.demo")
 @EnableFeignClients(basePackages = { "com.liyulin.demo.rpc" })
 @EnableDiscoveryClient
-@EnableSwagger2
 @EnableTransactionManagement
 public @interface MainService {
 

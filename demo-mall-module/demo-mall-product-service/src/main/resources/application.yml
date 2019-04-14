@@ -1,5 +1,4 @@
-basic:
-  data-machineId: 1
+com:  liyulin:    data-machine-id: 1
 spring:
   application:
     name: demo_mall_product_service
