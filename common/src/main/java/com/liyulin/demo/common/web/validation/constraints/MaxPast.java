@@ -18,7 +18,7 @@ import com.liyulin.demo.common.web.validation.constraints.MaxPast.List;
 import com.liyulin.demo.common.web.validation.constraintvalidators.MaxPastValidator;
 
 /**
- * 时间校验注解（用于判断否个请求是否在过去的某个时间范围内）
+ * 时间校验注解（用于判断某个请求是否在过去的某个时间范围内）
  *
  * @author liyulin
  * @date 2019年4月15日上午11:10:16

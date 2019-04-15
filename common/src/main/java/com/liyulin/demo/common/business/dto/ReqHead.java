@@ -34,7 +34,7 @@ public class ReqHead extends BaseDto {
 	@NotBlank
 	private String apiVersion;
 
-	@ApiModelProperty(value = "请求时间戳", required = true, example = "1554551377629")
+	@ApiModelProperty(value = "请求时间戳（2分钟内有效）", required = true, example = "1554551377629")
 	@NotNull
 	@MaxPast(value = 120000, message = "请求时间错误")
 	private long timestamp;
