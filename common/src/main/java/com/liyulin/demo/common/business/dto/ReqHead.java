@@ -3,6 +3,8 @@ package com.liyulin.demo.common.business.dto;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import com.liyulin.demo.common.web.validation.constraints.MaxPast;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -34,7 +36,7 @@ public class ReqHead extends BaseDto {
 
 	@ApiModelProperty(value = "请求时间戳", required = true, example = "1554551377629")
 	@NotNull
-	// TODO：1分钟以内
+	@MaxPast(value = 120000, message = "请求时间错误")
 	private long timestamp;
 
 }
