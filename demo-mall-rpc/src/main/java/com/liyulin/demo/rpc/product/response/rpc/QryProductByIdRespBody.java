@@ -19,15 +19,15 @@ public class QryProductByIdRespBody extends BaseDto {
 	private static final long serialVersionUID = 1L;
 
 	@ApiModelProperty(value = "商品id")
-	private long id;
+	private Long id;
 
 	@ApiModelProperty(value = "商品名称")
 	private String name;
 
 	@ApiModelProperty(value = "销售价格（单位：万分之一元）")
-	private long sellPrice;
+	private Long sellPrice;
 
 	@ApiModelProperty(value = "库存")
-	private long stock;
+	private Long stock;
 
 }

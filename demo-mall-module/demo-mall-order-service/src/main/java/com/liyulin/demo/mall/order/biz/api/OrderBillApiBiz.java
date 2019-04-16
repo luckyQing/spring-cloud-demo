@@ -14,9 +14,14 @@ import com.liyulin.demo.mybatis.common.biz.BaseBiz;
  * @date 2019年4月8日上午12:53:39
  */
 @Repository
-public class OrderBillApiBiz extends BaseBiz<OrderBillEntity>{
+public class OrderBillApiBiz extends BaseBiz<OrderBillEntity> {
 
 	@Autowired
 	private OrderBillBaseMapper orderBillBaseMapper;
-	
+
+	public long create(OrderBillEntity entity) {
+		orderBillBaseMapper.insertSelective(entity);
+		return entity.getId();
+	}
+
 }

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.liyulin.demo.common.business.dto.Req;
 import com.liyulin.demo.common.business.dto.Resp;
+import com.liyulin.demo.mall.order.exception.UpdateStockException;
 import com.liyulin.demo.mall.order.service.api.OrderApiService;
 import com.liyulin.demo.rpc.order.request.api.CreateOrderReqBody;
 import com.liyulin.demo.rpc.order.response.api.CreateOrderRespBody;
@@ -30,8 +31,9 @@ public class OrderApiController {
 
 	@ApiOperation("创建订单")
 	@PostMapping("create")
-	public Resp<CreateOrderRespBody> create(@RequestBody @Valid Req<@NotNull CreateOrderReqBody> req) {
+	public Resp<CreateOrderRespBody> create(@RequestBody @Valid Req<@NotNull CreateOrderReqBody> req)
+			throws UpdateStockException {
 		return orderApiService.create(req);
 	}
-	
+
 }

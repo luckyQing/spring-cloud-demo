@@ -46,8 +46,8 @@ public class ExceptionUtil {
 	public RespHead parse(Throwable e) {
 		if (e instanceof BindException) {
 			// 参数校验
-			BindException exs = (BindException) e;
-			List<ObjectError> errorList = exs.getAllErrors();
+			BindException bindException = (BindException) e;
+			List<ObjectError> errorList = bindException.getAllErrors();
 			if (CollectionUtil.isNotEmpty(errorList)) {
 				ObjectError objectError = errorList.get(0);
 				return new RespHead(ReturnCodeEnum.VALIDATE_FAIL.getCode(), objectError.getDefaultMessage());
@@ -58,8 +58,8 @@ public class ExceptionUtil {
 			ConstraintViolationException constraintViolationException = (ConstraintViolationException) e;
 			Set<ConstraintViolation<?>> constraintViolationSet = constraintViolationException.getConstraintViolations();
 			if (CollectionUtil.isNotEmpty(constraintViolationSet)) {
-				for (ConstraintViolation<?> eConstraintViolation : constraintViolationSet) {
-					return new RespHead(ReturnCodeEnum.VALIDATE_FAIL.getCode(), eConstraintViolation.getMessage());
+				for (ConstraintViolation<?> constraintViolation : constraintViolationSet) {
+					return new RespHead(ReturnCodeEnum.VALIDATE_FAIL.getCode(), constraintViolation.getMessage());
 				}
 			}
 			return new RespHead(ReturnCodeEnum.VALIDATE_FAIL.getCode(), e.getMessage());
