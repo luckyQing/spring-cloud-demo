@@ -1,6 +1,8 @@
 com:
   liyulin:
     data-machine-id: 1
+    swagger: true
+    validator: true
   
 spring:
   application:

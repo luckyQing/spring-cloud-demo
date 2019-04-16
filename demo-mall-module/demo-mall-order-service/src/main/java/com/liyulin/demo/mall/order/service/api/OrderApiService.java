@@ -53,6 +53,7 @@ public class OrderApiService {
 	 * @return
 	 * @throws UpdateStockException 
 	 */
+	// TODO:分布式事务
 	public Resp<CreateOrderRespBody> create(Req<CreateOrderReqBody> req) throws UpdateStockException {
 		List<CreateOrderProductInfoReqBody> products = req.getBody().getProducts();
 		// 1、查询商品信息
