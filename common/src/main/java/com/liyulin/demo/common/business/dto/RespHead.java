@@ -1,12 +1,14 @@
 package com.liyulin.demo.common.business.dto;
 
 import com.liyulin.demo.common.business.exception.enums.IBaseReturnCode;
+import com.liyulin.demo.common.business.mock.strategy.RespHeadCodeAttributeStrategy;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
+import uk.co.jemos.podam.common.PodamStrategyValue;
 
 @Getter
 @Setter
@@ -20,6 +22,7 @@ public class RespHead extends BaseDto {
 	private String transactionId;
 
 	@ApiModelProperty(value = "响应状态码", example = "100500")
+	@PodamStrategyValue(RespHeadCodeAttributeStrategy.class)
 	private String code;
 
 	@ApiModelProperty(value = "提示信息", example = "服务器异常")
@@ -32,13 +35,17 @@ public class RespHead extends BaseDto {
 	private long timestamp;
 
 	public RespHead(IBaseReturnCode returnCode) {
-		this.code = returnCode.getCode();
-		this.msg = returnCode.getMsg();
+		setReturnCode(returnCode);
 	}
 
 	public RespHead(String code, String msg) {
 		this.code = code;
 		this.msg = msg;
+	}
+
+	public void setReturnCode(IBaseReturnCode returnCode) {
+		this.code = returnCode.getCode();
+		this.msg = returnCode.getMsg();
 	}
 
 }

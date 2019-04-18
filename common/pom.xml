@@ -70,7 +70,6 @@
 		<dependency>
 			<groupId>uk.co.jemos.podam</groupId>
 			<artifactId>podam</artifactId>
-			<scope>provided</scope>
 		</dependency>
 
 		<dependency>

@@ -129,6 +129,7 @@ public class OrderApiService {
 		}).sum();
 		orderBillEntity.setAmount(amount);
 		orderBillEntity.setPayState(PayStateEnum.PENDING_PAY.getState());
+		orderBillEntity.setBuyer(1L);
 		orderBillEntity.setAddTime(new Date());
 		orderBillEntity.setDelState(DelStateEnum.NORMAL.getDelState());
 

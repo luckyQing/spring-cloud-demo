@@ -1,4 +1,4 @@
-package com.liyulin.demo.common.test;
+package com.liyulin.demo.common.business.test;
 
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,10 +23,10 @@ import lombok.extern.slf4j.Slf4j;
 public class BaseTest {
 
 	@Autowired
-	protected WebApplicationContext webApplicationContext;
+	protected WebApplicationContext applicationContext;
 
 	public <T> T postXml(String url, Object req, Class<T> beanClass) throws Exception {
-		MockMvc mvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+		MockMvc mvc = MockMvcBuilders.webAppContextSetup(applicationContext).build();
 		String xml = JAXBUtil.beanToXml(req);
 		log.info("requestBody={}", xml);
 
@@ -40,7 +40,7 @@ public class BaseTest {
 	}
 
 	public <T> T postJson(String url, Object req, TypeReference<T> typeReference) throws Exception {
-		MockMvc mvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+		MockMvc mvc = MockMvcBuilders.webAppContextSetup(applicationContext).build();
 		String requestBody = JSON.toJSONString(req);
 		log.info("requestBody={}", requestBody);
 

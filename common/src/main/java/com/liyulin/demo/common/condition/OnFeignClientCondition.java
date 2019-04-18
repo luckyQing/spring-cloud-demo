@@ -1,4 +1,4 @@
-package com.liyulin.demo.common.web.openfeign.condition;
+package com.liyulin.demo.common.condition;
 
 import java.lang.annotation.Annotation;
 import java.util.Set;

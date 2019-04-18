@@ -1,7 +1,7 @@
 com:  liyulin:    data-machine-id: 1    swagger: true    validator: true    
 spring:
   application:
-    name: demo_mall_product_service
+    name: demo-mall-product-service
   profiles:
     include: 
       - common

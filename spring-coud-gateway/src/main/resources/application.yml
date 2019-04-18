@@ -1,6 +1,6 @@
 spring:
   application:
-    name: spring_cloud_gateway
+    name: spring-cloud-gateway
   profiles:
     include: common,eureka
 

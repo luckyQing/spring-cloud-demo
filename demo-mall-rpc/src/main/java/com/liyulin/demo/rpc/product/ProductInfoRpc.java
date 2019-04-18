@@ -15,7 +15,7 @@ import com.liyulin.demo.common.business.dto.BaseDto;
 import com.liyulin.demo.common.business.dto.Req;
 import com.liyulin.demo.common.business.dto.ReqObjectBody;
 import com.liyulin.demo.common.business.dto.Resp;
-import com.liyulin.demo.common.web.openfeign.condition.OnFeignClientCondition;
+import com.liyulin.demo.common.condition.OnFeignClientCondition;
 import com.liyulin.demo.rpc.constants.RpcConstants;
 import com.liyulin.demo.rpc.product.request.rpc.QryProductByIdReqBody;
 import com.liyulin.demo.rpc.product.request.rpc.QryProductByIdsReqBody;

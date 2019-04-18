@@ -22,6 +22,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import com.liyulin.demo.common.constants.CommonConstants;
 import com.liyulin.demo.common.util.ArrayUtil;
 import com.liyulin.demo.common.util.ExceptionUtil;
 import com.liyulin.demo.common.util.LogUtil;
@@ -39,16 +40,14 @@ import io.swagger.annotations.ApiOperation;
  */
 @Aspect
 @Component
-public class LogAop {
+public class LogAspect {
 
-	/** 切面 */
-	private static final String POINTCUT = "execution( * com.liyulin.demo..controller..*.*(..))";
 	/** 切面方法名 */
 	private static final String AOP_METHOD_NAME = "aopLog()";
 	private ThreadLocal<LogDto> logDtoThreadLocal = new ThreadLocal<>();
 	private ConcurrentMap<String, String> apiDescMap = new ConcurrentHashMap<>();
 
-	@Pointcut(POINTCUT)
+	@Pointcut(CommonConstants.LOG_AOP_EXECUTION)
 	public void aopLog() {
 	}
 

@@ -6,7 +6,7 @@ com:
   
 spring:
   application:
-    name: demo_mall_order_service
+    name: demo-mall-order-service
   profiles:
     include: 
       - common

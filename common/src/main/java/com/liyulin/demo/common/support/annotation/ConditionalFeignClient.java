@@ -1,4 +1,4 @@
-package com.liyulin.demo.common.web.openfeign;
+package com.liyulin.demo.common.support.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Inherited;
@@ -10,7 +10,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.core.annotation.AliasFor;
 
-import com.liyulin.demo.common.web.openfeign.condition.OnFeignClientCondition;
+import com.liyulin.demo.common.condition.OnFeignClientCondition;
 
 import springfox.documentation.annotations.ApiIgnore;
 
