@@ -7,7 +7,6 @@ spring:
       - common
       - common-db
       - eureka
-      - product-db
   datasource:
     url: jdbc:mysql://127.0.0.1:3306/demo_product?${spring.datasource.url-common-paramters}
     username: root
