@@ -60,6 +60,17 @@
 > 		<td>-</td>
 > 	</tr>
 > 	<tr>
+> 		<td rowspan=2>服务合并模块</td>
+> 		<td>demo-merge-module</td>
+> 		<td>合并模块父项目</td>
+> 		<td>-</td>
+> 	</tr>
+> 	<tr>
+> 		<td>demo-merge-mall</td>
+> 		<td>电商合并服务</td>
+> 		<td>30001</td>
+> 	</tr>
+> 	<tr>
 > 		<td>服务监控</td>
 > 		<td>spring-boot-admin</td>
 > 		<td>-</td>
