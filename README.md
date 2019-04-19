@@ -95,14 +95,14 @@
 # 二、技术栈
 | 名称 | 说明 |
 | - | - |
-| spring boot | 手脚架 |
-| spring cloud gateway | 服务网关 |
-| eureka | 服务注册 |
+| [spring boot](https://spring.io/projects/spring-boot/) | 手脚架 |
+| [spring cloud gateway](https://spring.io/projects/spring-cloud-gateway) | 服务网关 |
+| [eureka](https://spring.io/projects/spring-cloud-netflix) | 服务注册 |
 | [spring boot admin](https://github.com/codecentric/spring-boot-admin) | 服务监控 |
-| feign | 声明式服务调用 |
-| sleuth、log4j2 | 链路追踪、日志 |
+| [openfeign](https://spring.io/projects/spring-cloud-openfeign) | 声明式服务调用 |
+| [sleuth](https://spring.io/projects/spring-cloud-sleuth)、[log4j2](https://logging.apache.org/log4j/2.x/) | 链路追踪、日志 |
 | [mybatis](http://www.mybatis.org/mybatis-3/zh/index.html) 、[mapper](https://github.com/abel533/Mapper)| ORM |
-| [swagger](https://swagger.io/) | 接口文档 |
+| [swagger](https://swagger.io/)、[gitbook](https://www.gitbook.com/) | 接口文档 |
 | [Lombok](https://www.projectlombok.org/) | 简化代码 |
 
 
