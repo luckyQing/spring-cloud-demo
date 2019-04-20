@@ -4,6 +4,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 import com.liyulin.demo.common.business.dto.BaseDto;
+import com.liyulin.demo.common.constants.CommonConstants;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -17,26 +18,27 @@ import lombok.Setter;
 @Getter
 @Setter
 @Configuration
-@ConfigurationProperties(prefix = CommonProperties.PREFIX)
+@ConfigurationProperties(prefix = CommonConstants.COMMON_PROPERTIES_PREFIX)
 public class CommonProperties extends BaseDto {
 
 	private static final long serialVersionUID = 1L;
 
-	public static final String PREFIX = "com.liyulin";
-
 	/** id生成器数据机器标识配置 */
 	private Long dataMachineId;
 
-	/** swagger开关 （默认true） */
-	private boolean swagger = true;
+	/** swagger开关 （默认false） */
+	private boolean swagger = false;
 
-	/** hibernate validator开关 （默认true） */
-	private boolean validator = true;
+	/** hibernate validator开关 （默认false） */
+	private boolean validator = false;
 
 	/** api版本 */
 	private String apiVersion;
 
 	/** mock开关 （默认false） */
 	private boolean mock = false;
+
+	/** 是否强制开启服务发现 */
+	private boolean forceEnableDiscoveryClient = false;
 
 }

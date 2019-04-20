@@ -12,12 +12,11 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
 import com.liyulin.demo.common.constants.CommonConstants;
-import com.liyulin.demo.common.properties.CommonProperties;
 import com.liyulin.demo.common.util.MockUtil;
 
 @Aspect
 @Component
-@ConditionalOnProperty(prefix = CommonProperties.PREFIX, name = "mock", havingValue = "true", matchIfMissing = false)
+@ConditionalOnProperty(prefix = CommonConstants.COMMON_PROPERTIES_PREFIX, name = "mock", havingValue = "true", matchIfMissing = false)
 public class MockAspect {
 
 	@Around(CommonConstants.LOG_AOP_EXECUTION)

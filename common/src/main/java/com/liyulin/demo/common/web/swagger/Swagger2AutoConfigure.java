@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.context.request.async.DeferredResult;
 
-import com.liyulin.demo.common.properties.CommonProperties;
+import com.liyulin.demo.common.constants.CommonConstants;
 
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
@@ -19,7 +19,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @Configuration
 @EnableSwagger2
-@ConditionalOnProperty(prefix = CommonProperties.PREFIX, name = "swagger", havingValue = "true", matchIfMissing = false)
+@ConditionalOnProperty(prefix = CommonConstants.COMMON_PROPERTIES_PREFIX, name = "swagger", havingValue = "true", matchIfMissing = false)
 public class Swagger2AutoConfigure {
 
 	@Value("${spring.application.name}")

@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
 
-import com.liyulin.demo.common.properties.CommonProperties;
+import com.liyulin.demo.common.constants.CommonConstants;
 import com.liyulin.demo.common.web.validation.valueextraction.BasePageReqExtractor;
 import com.liyulin.demo.common.web.validation.valueextraction.ReqExtractor;
 import com.liyulin.demo.common.web.validation.valueextraction.ReqObjectBodyExtractor;
@@ -24,7 +24,7 @@ import com.liyulin.demo.common.web.validation.valueextraction.ReqObjectBodyExtra
  * @date 2019年3月29日下午11:14:39
  */
 @Configuration
-@ConditionalOnProperty(prefix = CommonProperties.PREFIX, name = "validator", havingValue = "true", matchIfMissing = false)
+@ConditionalOnProperty(prefix = CommonConstants.COMMON_PROPERTIES_PREFIX, name = "validator", havingValue = "true", matchIfMissing = false)
 public class HibernateValidatorAutoConfiguration {
 
 	@Bean
