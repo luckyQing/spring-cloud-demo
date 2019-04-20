@@ -1,6 +1,6 @@
 spring:
   application:
-    name: spring_boot_admin
+    name: spring-boot-admin
   profiles:
     include: common,eureka
 

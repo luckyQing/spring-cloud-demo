@@ -1,5 +1,9 @@
 logging:
   config: classpath:log4j2.xml
+
+com: 
+  liyulin: 
+    apiVersion: 1.0.0
   
 server:
   servlet:

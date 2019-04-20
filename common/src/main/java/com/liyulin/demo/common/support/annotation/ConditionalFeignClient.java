@@ -1,5 +1,6 @@
-package com.liyulin.demo.common.web.openfeign;
+package com.liyulin.demo.common.support.annotation;
 
+import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Inherited;
 import java.lang.annotation.Retention;
@@ -10,7 +11,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.core.annotation.AliasFor;
 
-import com.liyulin.demo.common.web.openfeign.condition.OnFeignClientCondition;
+import com.liyulin.demo.common.condition.OnFeignClientCondition;
 
 import springfox.documentation.annotations.ApiIgnore;
 
@@ -22,14 +23,15 @@ import springfox.documentation.annotations.ApiIgnore;
  */
 @Target({ ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
+@Documented
 @Inherited
-@Conditional(OnFeignClientCondition.class)
 @FeignClient
+@Conditional(OnFeignClientCondition.class)
 @ApiIgnore
 public @interface ConditionalFeignClient {
 
-	@AliasFor(annotation = FeignClient.class, attribute = "value")
-	String value() default "";
+	@AliasFor(annotation = FeignClient.class, attribute = "name")
+	public String name() default "";
 
 	@AliasFor(annotation = FeignClient.class, attribute = "url")
 	String url() default "";

@@ -36,4 +36,7 @@ public class CommonProperties extends BaseDto {
 	/** api版本 */
 	private String apiVersion;
 
+	/** mock开关 （默认false） */
+	private boolean mock = false;
+
 }
