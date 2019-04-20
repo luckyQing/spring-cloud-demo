@@ -4,10 +4,10 @@
 ----------
 > <table>
 > 	<tr>
-> 		<th nowrap='nowrap'>模块</th>
-> 		<th nowrap='nowrap'>项目名</th>
+> 		<th width="150px">模块</th>
+> 		<th width="225px">项目名</th>
 > 		<th>说明</th>
-> 		<th nowrap='nowrap'>端口</th>
+> 		<th width="70px">端口</th>
 > 	</tr>
 > 	<tr>
 > 		<td>公共配置</td>
