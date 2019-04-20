@@ -112,7 +112,63 @@
 | [Lombok](https://www.projectlombok.org/) | 简化代码 |
 
 
-# 三、笔记
+# 三、相关说明
+## （一）接口协议
+```
+请求数据采用json格式，通过http body传输。
+1、请求对象Req由head、body、sign三部分组成。body部分为请求的实际参数；head部分为app版本号，接口版本号，亲求时间戳（默认2分钟内有效），请求的token，交易流水号；sign为请求参数的签名。
+{
+	"body": {
+		"products": [{
+				"buyCount": 1,
+				"productId": 4
+			}
+		]
+	},
+	"head": {
+        "appVersion": "1.0.0",
+		"apiVersion": "1.0.0",
+		"timestamp": 1555778393862,
+		"token": "string",
+		"transactionId": "eb9f81e7cee1c000"
+	},
+	"sign": "string"
+}
+
+2、响应对象Resp组成
+{
+	"head": {
+		"transactionId": null,
+		"code": "100200",
+		"msg": "成功",
+		"error": null,
+		"timestamp": 0
+	},
+	"body": {
+		"id": "2",
+		"name": "手机",
+		"price": "1200"
+	}
+}
+```
+
+## （二）服务合并
+```
+单个服务以jar的形式，通过maven引入合并服务中。在单体服务中，feign接口通过http请求；服务合并后，feign接口通过内部进程的方式通信。
+```
+
+## （三）接口mock数据
+```
+接口通过切面拦截的方式，通过反射可以获取返回对象的所有信息，然后根据对象的属性类型，可以随机生成数据；对于特定要求的数据，可以制定mock规则，生成指定格式的数据。
+```
+
+## （四）单元测试
+```
+通过ServletContext的类型，可以知道当前环境是单元测试，还是非单元测试；从而动态的控制eureka的开、关，控制rpc的调用方式。
+通过切面的方式，如果当前环境是单元测试，则直接拦截返回mock数据（mock数据在测试用例调用之前pop进队列，后面直接poll返回）；如果是非单元测试环境，则直接跳过，触发真实的http请求。
+```
+
+# 四、笔记
 ## （一）@EnableDiscoveryClient与@EnableEurekaClient区别
 ```
 如果选用的注册中心是eureka，那么就推荐@EnableEurekaClient，如果是其他的注册中心，那么推荐使用@EnableDiscoveryClient。
@@ -154,7 +210,7 @@ Spring Cloud Sleuth可以追踪10种类型的组件：async、Hystrix、messagin
 其他组件实现见包org.springframework.cloud.sleuth.instrument。
 ```
 
-# 四、注意事项
+# 五、注意事项
 ```
 1、更改hosts文件，添加如下内容
   127.0.0.1       nodeA
