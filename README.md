@@ -4,10 +4,10 @@
 ----------
 > <table>
 > 	<tr>
-> 		<th>模块</th>
-> 		<th>项目名</th>
+> 		<th width="120px">模块</th>
+> 		<th width="210px">项目名</th>
 > 		<th>说明</th>
-> 		<th>端口</th>
+> 		<th width="70px">端口</th>
 > 	</tr>
 > 	<tr>
 > 		<td>公共配置</td>
