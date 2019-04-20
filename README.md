@@ -167,6 +167,13 @@
 通过ServletContext的类型，可以知道当前环境是单元测试，还是非单元测试；从而动态的控制eureka的开、关，控制rpc的调用方式。
 通过切面的方式，如果当前环境是单元测试，则直接拦截返回mock数据（mock数据在测试用例调用之前pop进队列，后面直接poll返回）；如果是非单元测试环境，则直接跳过，触发真实的http请求。
 ```
+## （五）接口文档
+```
+接口文档由三个步骤自动生成：
+1、通过swagger自动生成接口文档的json格式数据；
+2、将json格式数据转化为markdown格式；
+3、在服务启动时将markdown格式数据上传（可根据配置的开关控制是否上传）到gitbook。
+```
 
 # 四、笔记
 ## （一）@EnableDiscoveryClient与@EnableEurekaClient区别
