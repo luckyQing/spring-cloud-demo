@@ -12,7 +12,7 @@ import com.liyulin.demo.common.business.dto.Req;
 import com.liyulin.demo.common.business.dto.Resp;
 import com.liyulin.demo.common.business.exception.enums.ReturnCodeEnum;
 import com.liyulin.demo.common.business.test.BaseTest;
-import com.liyulin.demo.common.business.test.FiegnMockAspect;
+import com.liyulin.demo.common.business.test.FeignMockAspect;
 import com.liyulin.demo.common.business.util.ReqUtil;
 import com.liyulin.demo.common.util.MockUtil;
 import com.liyulin.demo.rpc.order.request.api.CreateOrderProductInfoReqBody;
@@ -30,10 +30,10 @@ public class OrderApiControllerTest extends BaseTest {
 		Resp<QryProductByIdsRespBody> qryProductByIdsResp = MockUtil.mock(Resp.class, QryProductByIdsRespBody.class);
 		List<QryProductByIdRespBody> list = qryProductByIdsResp.getBody().getProductInfos();
 		list.get(0).setId(4L);
-		FiegnMockAspect.push(qryProductByIdsResp);
+		FeignMockAspect.push(qryProductByIdsResp);
 		
 		Resp<BaseDto> updateStockResp = MockUtil.mock(Resp.class, BaseDto.class);
-		FiegnMockAspect.push(updateStockResp);
+		FeignMockAspect.push(updateStockResp);
 		
 		// build args
 		CreateOrderProductInfoReqBody createOrderProductInfoReqBody = new CreateOrderProductInfoReqBody();

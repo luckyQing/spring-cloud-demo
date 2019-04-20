@@ -14,7 +14,7 @@ import com.liyulin.demo.common.constants.CommonConstants;
 @Aspect
 @Component
 @Conditional(OnTestCondition.class)
-public class FiegnMockAspect {
+public class FeignMockAspect {
 
 	private static ConcurrentLinkedQueue<Object> mockData = new ConcurrentLinkedQueue<>();
 

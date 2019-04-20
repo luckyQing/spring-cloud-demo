@@ -12,7 +12,13 @@
 > 	<tr>
 > 		<td>公共配置</td>
 > 		<td>common</td>
+> 		<td>日志切面、rpc测试挡板、接口mock数据、公共实体对象、工具类、公共拦截器、log4j2日志模板等</td>
 > 		<td>-</td>
+> 	</tr>
+> 	<tr>
+> 		<td>代码生成</td>
+> 		<td>demo-code-auto-generate</td>
+> 		<td>自动生成entity、dao、biz、service、controller、公共配置等业务无关代码</td>
 > 		<td>-</td>
 > 	</tr>
 > 	<tr>
@@ -56,7 +62,7 @@
 > 	<tr>
 > 		<td>ORM</td>
 > 		<td>demo-mapper-common</td>
-> 		<td>mybatis、mapper封装</td>
+> 		<td>mybatis、mapper封装。业务无关mapper动态生成，sql日志打印等</td>
 > 		<td>-</td>
 > 	</tr>
 > 	<tr>

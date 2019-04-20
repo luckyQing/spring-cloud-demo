@@ -3,6 +3,9 @@ com:
     data-machine-id: 1
     swagger: true
     validator: true
+
+server:
+  port: 20011
   
 spring:
   application:
@@ -12,10 +15,8 @@ spring:
       - common
       - common-db
       - eureka
+      
   datasource:
     url: jdbc:mysql://127.0.0.1:3306/demo_order?${spring.datasource.url-common-paramters}
     username: root
     password: 123456
-
-server:
-  port: 20011
