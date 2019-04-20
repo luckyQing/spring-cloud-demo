@@ -20,7 +20,7 @@ import com.liyulin.demo.common.util.LogUtil;
 import com.liyulin.demo.common.util.ObjectUtil;
 import com.liyulin.demo.common.util.TestUtil;
 import com.liyulin.demo.common.util.WebUtil;
-import com.liyulin.demo.common.web.aop.dto.LogAspectDto;
+import com.liyulin.demo.common.web.aop.dto.FeignAspectDto;
 import com.liyulin.demo.common.web.aop.util.AspectUtil;
 
 @Aspect
@@ -40,7 +40,7 @@ public class FeignAspect {
 			return mockData.poll();
 		}
 		
-		LogAspectDto logDto = new LogAspectDto();
+		FeignAspectDto logDto = new FeignAspectDto();
 		logDto.setReqStartTime(new Date());
 		
 		ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
@@ -73,7 +73,7 @@ public class FeignAspect {
 		logDto.setResponseData(result);
 		
 		// 3、打印日志
-		LogUtil.info("rpc.logDto.info=>{}", logDto);
+		LogUtil.info("rpc.logDto=>{}", logDto);
 
 		return result;
 	}
