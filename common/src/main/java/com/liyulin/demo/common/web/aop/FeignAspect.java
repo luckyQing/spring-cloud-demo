@@ -1,12 +1,17 @@
 package com.liyulin.demo.common.web.aop;
 
-import java.io.Serializable;
+import java.util.Date;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.liyulin.demo.common.business.dto.Req;
 import com.liyulin.demo.common.business.util.ReqHeadUtil;
@@ -15,6 +20,8 @@ import com.liyulin.demo.common.util.LogUtil;
 import com.liyulin.demo.common.util.ObjectUtil;
 import com.liyulin.demo.common.util.TestUtil;
 import com.liyulin.demo.common.util.WebUtil;
+import com.liyulin.demo.common.web.aop.dto.LogAspectDto;
+import com.liyulin.demo.common.web.aop.util.AspectUtil;
 
 @Aspect
 @Component
@@ -27,13 +34,26 @@ public class FeignAspect {
 	}
 
 	@Around(CommonConstants.FEIGN_MOCK_AOP_EXECUTION)
-	public Object around(ProceedingJoinPoint jp) throws Throwable {
+	public Object around(ProceedingJoinPoint joinPoint) throws Throwable {
+		// 如果为单元测试环境，则直接返回mock数据
 		if (TestUtil.isTestEnv()) {
 			return mockData.poll();
 		}
+		
+		LogAspectDto logDto = new LogAspectDto();
+		logDto.setReqStartTime(new Date());
+		
+		ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+		HttpServletRequest request = attributes.getRequest();
+		String apiDesc = AspectUtil.getFeignMethodDesc(joinPoint, request.getServletPath());
+		logDto.setApiDesc(apiDesc);
+		
+		Signature signature = joinPoint.getSignature();
+		String classMethod = signature.getDeclaringTypeName() + "." + signature.getName();
+		logDto.setClassMethod(classMethod);
 
 		// 1、填充head
-		Object[] args = jp.getArgs();
+		Object[] args = joinPoint.getArgs();
 		if (ObjectUtil.isNotNull(args) 
 				&& args.length == 1 
 				&& ObjectUtil.isNotNull(args[0]) 
@@ -42,16 +62,18 @@ public class FeignAspect {
 			req.setHead(ReqHeadUtil.of());
 			// TODO:填充token、sign
 		}
+		
+		logDto.setRequestParams(WebUtil.getRequestArgs(args));
 
-		// 2、打印请求参数
-		LogUtil.info("rpc.args={}", WebUtil.getRequestArgs(args));
-
-		Object result = jp.proceed();
-
-		// 3、打印返回参数
-		if (result instanceof Serializable) {
-			LogUtil.info("rpc.result={}", result);
-		}
+		// 2、rpc
+		Object result = joinPoint.proceed();
+		
+		logDto.setReqEndTime(new Date());
+		logDto.setReqDealTime((int) (logDto.getReqEndTime().getTime() - logDto.getReqStartTime().getTime()));
+		logDto.setResponseData(result);
+		
+		// 3、打印日志
+		LogUtil.info("rpc.logDto.info=>{}", logDto);
 
 		return result;
 	}
