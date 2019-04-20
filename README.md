@@ -4,7 +4,7 @@
 ----------
 > <table>
 > 	<tr>
-> 		<th width="145px">模块</th>
+> 		<th width="150px">模块</th>
 > 		<th width="225px">项目名</th>
 > 		<th>说明</th>
 > 		<th width="70px">端口</th>
