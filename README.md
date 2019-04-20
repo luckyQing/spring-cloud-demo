@@ -4,8 +4,8 @@
 ----------
 > <table>
 > 	<tr>
-> 		<th width="120px">模块</th>
-> 		<th width="210px">项目名</th>
+> 		<th width="140px">模块</th>
+> 		<th width="250px">项目名</th>
 > 		<th>说明</th>
 > 		<th width="70px">端口</th>
 > 	</tr>
@@ -54,7 +54,7 @@
 > 		<td>20021</td>
 > 	</tr>
 > 	<tr>
-> 		<td>电商模块的rpc接口</td>
+> 		<td>电商模块rpc接口</td>
 > 		<td>demo-mall-rpc</td>
 > 		<td>包括请求、响应对象、rpc接口</td>
 > 		<td>-</td>
