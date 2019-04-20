@@ -1,10 +1,12 @@
 package com.liyulin.demo.common.util;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.net.HttpURLConnection;
 import java.net.InetAddress;
 import java.net.URL;
 import java.net.UnknownHostException;
+import java.util.stream.Stream;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -111,6 +113,65 @@ public class WebUtil {
 		}
 
 		return canConnect;
+	}
+	
+	/**
+	 * 获取有效的请求参数（过滤掉不能序列化的）
+	 * 
+	 * @param args
+	 * @return
+	 */
+	public static Object getRequestArgs(Object[] args) {
+		if (ArrayUtil.isEmpty(args)) {
+			return args;
+		}
+
+		boolean needFilter = false;
+		for (Object arg : args) {
+			if (needFilter(arg)) {
+				needFilter = true;
+				break;
+			}
+		}
+
+		if (!needFilter) {
+			return args.length == 1 ? args[0] : args;
+		}
+
+		Object[] tempArgs = Stream.of(args).filter(arg -> {
+			return !needFilter(arg);
+		}).toArray();
+
+		return getValidArgs(tempArgs);
+	}
+
+	/**
+	 * 是否需要过滤
+	 * 
+	 * @param object
+	 * @return
+	 */
+	private static boolean needFilter(Object object) {
+		return !(object instanceof Serializable);
+	}
+
+	/**
+	 * 获取有效的参数（如果是request对象，则优先从ParameterMap里取）
+	 * 
+	 * @param args
+	 * @return
+	 */
+	private static Object getValidArgs(Object[] args) {
+		if (ArrayUtil.isEmpty(args)) {
+			return args;
+		}
+
+		if (args.length == 1 && args[0] instanceof HttpServletRequest) {
+			HttpServletRequest request = (HttpServletRequest) args[0];
+			return request.getParameterMap();
+		}
+
+		return args;
 	}
 
 }

@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import com.liyulin.demo.common.business.dto.BaseDto;
 import com.liyulin.demo.common.business.dto.Req;
-import com.liyulin.demo.common.business.dto.ReqObjectBody;
 import com.liyulin.demo.common.business.dto.Resp;
 import com.liyulin.demo.common.business.util.ReqUtil;
 import com.liyulin.demo.common.business.util.RespUtil;
@@ -63,7 +62,7 @@ public class OrderApiService {
 
 		QryProductByIdsReqBody qryProductByIdsReqBody = QryProductByIdsReqBody.builder().ids(productIds).build();
 		Resp<QryProductByIdsRespBody> qryProductByIdsResp = productInfoRpc
-				.qryProductByIds(ReqUtil.of(qryProductByIdsReqBody));
+				.qryProductByIds(ReqUtil.build(qryProductByIdsReqBody));
 		if (!RespUtil.isSuccess(qryProductByIdsResp)) {
 			return RespUtil.error(qryProductByIdsResp);
 		}
@@ -83,8 +82,7 @@ public class OrderApiService {
 			return updateStockReqBody;
 		}).collect(Collectors.toList());
 		
-		Req<ReqObjectBody<List<UpdateStockReqBody>>> updateStockReq = new Req<>(new ReqObjectBody<>(list));
-		Resp<BaseDto> updateStockResp = productInfoRpc.updateStock(updateStockReq);
+		Resp<BaseDto> updateStockResp = productInfoRpc.updateStock(ReqUtil.build(list));
 		if(RespUtil.isSuccess(updateStockResp)) {
 			CreateOrderRespBody createOrderRespBody = new CreateOrderRespBody();
 			createOrderRespBody.setOrderId(orderBillId);

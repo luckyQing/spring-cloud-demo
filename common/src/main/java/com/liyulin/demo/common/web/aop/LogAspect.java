@@ -1,11 +1,9 @@
 package com.liyulin.demo.common.web.aop;
 
-import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.util.Date;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
-import java.util.stream.Stream;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -66,7 +64,7 @@ public class LogAspect {
 		logDto.setApiDesc(apiDesc);
 
 		Object[] args = joinPoint.getArgs();
-		logDto.setRequestParams(filterArgs(args));
+		logDto.setRequestParams(WebUtil.getRequestArgs(args));
 
 		logDto.setUrl(request.getRequestURL().toString());
 		logDto.setIp(WebUtil.getRealIP(request));
@@ -160,65 +158,6 @@ public class LogAspect {
 	 */
 	private boolean isSameMethod(Method a, Method b) {
 		return (a.getReturnType() == b.getReturnType()) && ObjectUtil.equals(a.getName(), b.getName());
-	}
-
-	/**
-	 * 获取有效的请求参数（过滤掉不能序列化的）
-	 * 
-	 * @param args
-	 * @return
-	 */
-	private Object filterArgs(Object[] args) {
-		if (ArrayUtil.isEmpty(args)) {
-			return args;
-		}
-
-		boolean needFilter = false;
-		for (Object arg : args) {
-			if (needFilter(arg)) {
-				needFilter = true;
-				break;
-			}
-		}
-
-		if (!needFilter) {
-			return args.length == 1 ? args[0] : args;
-		}
-
-		Object[] tempArgs = Stream.of(args).filter(arg -> {
-			return !needFilter(arg);
-		}).toArray();
-
-		return getValidArgs(tempArgs);
-	}
-
-	/**
-	 * 是否需要过滤
-	 * 
-	 * @param object
-	 * @return
-	 */
-	private boolean needFilter(Object object) {
-		return !(object instanceof Serializable);
-	}
-
-	/**
-	 * 获取有效的参数（如果是request对象，则优先从ParameterMap里取）
-	 * 
-	 * @param args
-	 * @return
-	 */
-	private Object getValidArgs(Object[] args) {
-		if (ArrayUtil.isEmpty(args)) {
-			return args;
-		}
-
-		if (args.length == 1 && args[0] instanceof HttpServletRequest) {
-			HttpServletRequest request = (HttpServletRequest) args[0];
-			return request.getParameterMap();
-		}
-
-		return args;
 	}
 
 }

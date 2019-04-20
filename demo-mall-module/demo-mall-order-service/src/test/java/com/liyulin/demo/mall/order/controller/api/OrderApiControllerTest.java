@@ -12,9 +12,9 @@ import com.liyulin.demo.common.business.dto.Req;
 import com.liyulin.demo.common.business.dto.Resp;
 import com.liyulin.demo.common.business.exception.enums.ReturnCodeEnum;
 import com.liyulin.demo.common.business.test.BaseTest;
-import com.liyulin.demo.common.business.test.FeignMockAspect;
 import com.liyulin.demo.common.business.util.ReqUtil;
 import com.liyulin.demo.common.util.MockUtil;
+import com.liyulin.demo.common.web.aop.FeignAspect;
 import com.liyulin.demo.rpc.order.request.api.CreateOrderProductInfoReqBody;
 import com.liyulin.demo.rpc.order.request.api.CreateOrderReqBody;
 import com.liyulin.demo.rpc.order.response.api.CreateOrderRespBody;
@@ -30,10 +30,10 @@ public class OrderApiControllerTest extends BaseTest {
 		Resp<QryProductByIdsRespBody> qryProductByIdsResp = MockUtil.mock(Resp.class, QryProductByIdsRespBody.class);
 		List<QryProductByIdRespBody> list = qryProductByIdsResp.getBody().getProductInfos();
 		list.get(0).setId(4L);
-		FeignMockAspect.push(qryProductByIdsResp);
+		FeignAspect.push(qryProductByIdsResp);
 		
 		Resp<BaseDto> updateStockResp = MockUtil.mock(Resp.class, BaseDto.class);
-		FeignMockAspect.push(updateStockResp);
+		FeignAspect.push(updateStockResp);
 		
 		// build args
 		CreateOrderProductInfoReqBody createOrderProductInfoReqBody = new CreateOrderProductInfoReqBody();
@@ -42,11 +42,11 @@ public class OrderApiControllerTest extends BaseTest {
 		
 		CreateOrderReqBody reqBody = new CreateOrderReqBody();
 		reqBody.setProducts(Arrays.asList(createOrderProductInfoReqBody));
-		Req<CreateOrderReqBody> req = ReqUtil.of(reqBody);
+		Req<CreateOrderReqBody> req = ReqUtil.buildWithHead(reqBody);
 		req.setSign("test");
 
 		// send req
-		Resp<CreateOrderRespBody> result = super.postJson("/api/pass/order/order/create",
+		Resp<CreateOrderRespBody> result = super.postJson("/api/auth/order/order/create",
 				req, new TypeReference<Resp<CreateOrderRespBody>>() {
 				});
 
