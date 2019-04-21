@@ -198,7 +198,7 @@ spring:
 ```
 
 ## （三）sleuth
-### 3.1、log4j2集成sleuth
+### 4.3.1、log4j2集成sleuth
 ```
 日志打印pattern中加入“[%X{X-B3-TraceId},%X{X-B3-SpanId},%X{X-B3-ParentSpanId},%X{X-Span-Export}]”。
 
@@ -208,7 +208,7 @@ SpanId本应用唯一id；
 ParentSpanId为上级应用唯一id；
 X-Span-Export是否是发送给Zipkin。
 ```
-### 3.2、sleuth的原理
+### 4.3.2、sleuth的原理
 ```
 Spring Cloud Sleuth可以追踪10种类型的组件：async、Hystrix、messaging、websocket、rxjava、scheduling、web（Spring MVC Controller，Servlet）、webclient（Spring RestTemplate）、Feign、Zuul。
 
