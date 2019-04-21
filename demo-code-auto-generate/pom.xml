@@ -12,11 +12,64 @@
 	<artifactId>demo-code-auto-generate</artifactId>
 	<packaging>jar</packaging>
 
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <java>1.8</java>
+        <lombok>1.18.2</lombok>
+        <freemarker>2.3.28</freemarker>
+        <flying-saucer-pdf>9.1.16</flying-saucer-pdf>
+        <slf4j>1.7.25</slf4j>
+        <log4j2>2.11.1</log4j2>
+        <junit>4.12</junit>
+    </properties>
+
 	<dependencies>
+
+		<dependency>
+			<groupId>uk.com.robust-it</groupId>
+			<artifactId>cloning</artifactId>
+			<version>1.9.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>fastjson</artifactId>
+			<version>1.2.57</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.freemarker</groupId>
+			<artifactId>freemarker</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+		</dependency>
+
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>com.liyulin</groupId>
+			<artifactId>demo-mapper-common</artifactId>
+		</dependency>
 	</dependencies>
+
+	<build>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<includes>
+					<!--包含文件夹以及子文件夹下所有资源-->
+					<include>**/*.*</include>
+				</includes>
+			</resource>
+		</resources>
+
+	</build>
+
 </project>
