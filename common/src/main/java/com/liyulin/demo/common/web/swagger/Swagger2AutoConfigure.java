@@ -1,5 +1,6 @@
 package com.liyulin.demo.common.web.swagger;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
@@ -18,6 +19,12 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
+/**
+ * swagger2配置
+ *
+ * @author liyulin
+ * @date 2019年4月22日上午12:31:04
+ */
 @Configuration
 @EnableSwagger2
 @ConditionalOnProperty(prefix = CommonConstants.COMMON_PROPERTIES_PREFIX, name = CommonProperties.PropertiesName.SWAGGER, havingValue = "true", matchIfMissing = false)
@@ -25,6 +32,8 @@ public class Swagger2AutoConfigure {
 
 	@Value("${spring.application.name}")
 	private String groupName;
+	@Autowired
+	private CommonProperties commonProperties;
 
 	@Bean
 	public Docket createRestApi() {
@@ -35,8 +44,8 @@ public class Swagger2AutoConfigure {
 	}
 
 	private ApiInfo apiInfo() {
-		Contact contact = new Contact("cc", "https://swagger.io", "yulin.li@github.com");
-		return new ApiInfoBuilder().title("API接口文档").description("swagger2").contact(contact).version("1.0").build();
+		Contact contact = new Contact("cc", "https://swagger.io", "1634753825@qq.com");
+		return new ApiInfoBuilder().title("API接口文档").description("swagger2").contact(contact).version(commonProperties.getApiVersion()).build();
 	}
 
 }

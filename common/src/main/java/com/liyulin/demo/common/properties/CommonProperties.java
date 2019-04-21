@@ -10,7 +10,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * 配置
+ * yml文件公共属性配置定义
  *
  * @author liyulin
  * @date 2019年4月14日下午4:45:04
