@@ -1,4 +1,4 @@
-package com.liyulin.demo.common.business.mock.aop;
+package com.liyulin.demo.common.web.aop;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
@@ -12,11 +12,18 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
 import com.liyulin.demo.common.constants.CommonConstants;
+import com.liyulin.demo.common.properties.CommonProperties;
 import com.liyulin.demo.common.util.MockUtil;
 
+/**
+ * mock切面
+ *
+ * @author liyulin
+ * @date 2019年4月21日下午3:32:44
+ */
 @Aspect
 @Component
-@ConditionalOnProperty(prefix = CommonConstants.COMMON_PROPERTIES_PREFIX, name = "mock", havingValue = "true", matchIfMissing = false)
+@ConditionalOnProperty(prefix = CommonConstants.COMMON_PROPERTIES_PREFIX, name = CommonProperties.PropertiesName.MOCK, havingValue = "true", matchIfMissing = false)
 public class MockAspect {
 
 	@Around(CommonConstants.LOG_AOP_EXECUTION)

@@ -70,7 +70,8 @@ public final class SnowFlakeIdUtil {
 	private SnowFlakeIdUtil() {
 		Long dataMachineIdL = SpringUtil.getBean(CommonProperties.class).getDataMachineId();
 		if (ObjectUtil.isNull(dataMachineIdL)) {
-			throw new IllegalArgumentException(CommonConstants.COMMON_PROPERTIES_PREFIX + ".data-machine-id未配置！");
+			throw new IllegalArgumentException(CommonConstants.COMMON_PROPERTIES_PREFIX + "."
+					+ CommonProperties.PropertiesName.DATA_MACHINE_ID + "未配置！");
 		}
 		dataMachineId = dataMachineIdL;
 		if (dataMachineId > MAX_DATE_MACHINE_NUM || dataMachineId < 0) {

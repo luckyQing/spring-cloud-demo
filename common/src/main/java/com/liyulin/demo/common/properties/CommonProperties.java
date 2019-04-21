@@ -41,4 +41,13 @@ public class CommonProperties extends BaseDto {
 	/** 是否强制开启服务发现 */
 	private boolean forceEnableDiscoveryClient = false;
 
+	public static final class PropertiesName {
+		public static final String DATA_MACHINE_ID = "dataMachineId";
+		public static final String SWAGGER = "swagger";
+		public static final String VALIDATOR = "validator";
+		public static final String API_VERSION = "apiVersion";
+		public static final String MOCK = "mock";
+		public static final String FORCE_ENABLE_DISCOVERY_CLIENT = "forceEnableDiscoveryClient";
+	}
+
 }

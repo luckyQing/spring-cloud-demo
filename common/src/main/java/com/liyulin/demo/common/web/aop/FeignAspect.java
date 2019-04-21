@@ -23,6 +23,12 @@ import com.liyulin.demo.common.util.WebUtil;
 import com.liyulin.demo.common.web.aop.dto.FeignAspectDto;
 import com.liyulin.demo.common.web.aop.util.AspectUtil;
 
+/**
+ * feign切面
+ *
+ * @author liyulin
+ * @date 2019年4月21日下午3:32:33
+ */
 @Aspect
 @Component
 public class FeignAspect {
