@@ -18,7 +18,7 @@ import com.liyulin.demo.common.business.util.ReqHeadUtil;
 import com.liyulin.demo.common.constants.CommonConstants;
 import com.liyulin.demo.common.util.LogUtil;
 import com.liyulin.demo.common.util.ObjectUtil;
-import com.liyulin.demo.common.util.TestUtil;
+import com.liyulin.demo.common.util.UnitTestUtil;
 import com.liyulin.demo.common.util.WebUtil;
 import com.liyulin.demo.common.web.aop.dto.FeignAspectDto;
 import com.liyulin.demo.common.web.aop.util.AspectUtil;
@@ -42,7 +42,7 @@ public class FeignAspect {
 	@Around(CommonConstants.FEIGN_MOCK_AOP_EXECUTION)
 	public Object around(ProceedingJoinPoint joinPoint) throws Throwable {
 		// 如果为单元测试环境，则直接返回mock数据
-		if (TestUtil.isTest()) {
+		if (UnitTestUtil.isTest()) {
 			return mockData.poll();
 		}
 		

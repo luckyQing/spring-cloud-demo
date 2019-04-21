@@ -14,7 +14,7 @@ import org.springframework.web.context.WebApplicationContext;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.liyulin.demo.common.util.JAXBUtil;
-import com.liyulin.demo.common.util.TestUtil;
+import com.liyulin.demo.common.util.UnitTestUtil;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -24,7 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 public class BaseTest {
 	
 	static {
-		TestUtil.setTest(true);
+		UnitTestUtil.setTest(true);
 		// 单元测试环境下，关闭eureka
 		System.setProperty("eureka.client.enabled", "false");
 	}
