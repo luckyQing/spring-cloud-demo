@@ -34,10 +34,10 @@ import lombok.extern.slf4j.Slf4j;
  * @date 2019年3月22日下午2:30:00
  */
 @Slf4j
-public class OnFeignClientCondition implements Condition {
+public class FeignClientCondition implements Condition {
 
 	/** 扫描类所在的包 */
-	private static final String SCAN_PACKAGE = getScanPackage(OnFeignClientCondition.class.getTypeName());
+	private static final String SCAN_PACKAGE = getScanPackage(FeignClientCondition.class.getTypeName());
 
 	@Override
 	public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {
