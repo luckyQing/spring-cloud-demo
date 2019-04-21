@@ -42,7 +42,7 @@ public class FeignAspect {
 	@Around(CommonConstants.FEIGN_MOCK_AOP_EXECUTION)
 	public Object around(ProceedingJoinPoint joinPoint) throws Throwable {
 		// 如果为单元测试环境，则直接返回mock数据
-		if (TestUtil.isTestEnv()) {
+		if (TestUtil.isTest()) {
 			return mockData.poll();
 		}
 		

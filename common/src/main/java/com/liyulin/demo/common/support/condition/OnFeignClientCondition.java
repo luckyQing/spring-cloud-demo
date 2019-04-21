@@ -6,7 +6,6 @@ import java.util.Set;
 import org.apache.commons.lang3.StringUtils;
 import org.reflections.Reflections;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Condition;
 import org.springframework.context.annotation.ConditionContext;
 import org.springframework.core.type.AnnotatedTypeMetadata;
@@ -26,8 +25,8 @@ import lombok.extern.slf4j.Slf4j;
  * <h3>判断逻辑</h3>
  * <ul>
  * <li>1、获取使用{@link FeignClient}的interface的Class；
- * <li>2、从{@link ApplicationContext}里面获取interface对应的所有实例bean；
- * <li>3、遍历所有实例bean，判断是否存在一个实例bean所对应的Class被{@link Controller}或{@link RestController}注解修饰（排除interface对应的熔断bean）；
+ * <li>2、通过放射，获取interface对应的所有实现类；
+ * <li>3、遍历interface对应的所有实现类，判断是否存在一个Class被{@link Controller}或{@link RestController}注解修饰（排除interface对应的熔断bean）；
  * <li>4、如果存在，则{@link #matches(ConditionContext, AnnotatedTypeMetadata)}返回false，{@code FeignClient}不生效；否则，返回true，{@code FeignClient}生效。
  * </ul>
  *
