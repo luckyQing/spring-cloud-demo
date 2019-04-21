@@ -13,7 +13,7 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 /**
- * 切面日志Dto
+ * feign切面日志Dto
  *
  * @author liyulin
  * @date 2019年4月9日下午5:00:23
@@ -23,27 +23,15 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
-public class LogDto extends BaseDto {
+public class FeignAspectDto extends BaseDto {
 
 	private static final long serialVersionUID = 1L;
 
 	/** 接口描述 */
 	private String apiDesc;
 
-	/** 接口url */
-	private String url;
-
-	/** http请求方式 */
-	private String httpMethod;
-
 	/** 调用的类方法 */
 	private String classMethod;
-
-	/** 客户IP地址 */
-	private String ip;
-
-	/** 操作系统相关信息 */
-	private String os;
 
 	/** 请求发起时间 */
 	@JSONField(format = DateUtil.FOROMAT_DATETIME_HH_MM_SS_SSS)
@@ -61,8 +49,5 @@ public class LogDto extends BaseDto {
 
 	/** 响应数据 */
 	private Object responseData;
-
-	/** 异常堆栈信息 */
-	private String exceptionStackInfo;
 
 }

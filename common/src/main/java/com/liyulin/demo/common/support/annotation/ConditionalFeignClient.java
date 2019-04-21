@@ -11,7 +11,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.core.annotation.AliasFor;
 
-import com.liyulin.demo.common.condition.OnFeignClientCondition;
+import com.liyulin.demo.common.support.condition.OnFeignClientCondition;
 
 import springfox.documentation.annotations.ApiIgnore;
 

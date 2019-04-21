@@ -18,7 +18,7 @@ public class ProductInfoApiControllerTest extends BaseTest {
 
 	@Test
 	public void testPageProduct() throws Exception {
-		Req<BasePageReq<PageProductReqBody>> req = ReqUtil.of(null, 1, 10);
+		Req<BasePageReq<PageProductReqBody>> req = ReqUtil.buildWithHead(null, 1, 10);
 		req.setSign("test");
 
 		Resp<BasePageResp<PageProductRespBody>> result = super.postJson("/api/pass/product/productInfo/pageProduct",
