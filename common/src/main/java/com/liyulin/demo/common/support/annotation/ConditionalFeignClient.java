@@ -11,7 +11,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.core.annotation.AliasFor;
 
-import com.liyulin.demo.common.support.condition.OnFeignClientCondition;
+import com.liyulin.demo.common.support.condition.FeignClientCondition;
 
 import springfox.documentation.annotations.ApiIgnore;
 
@@ -26,7 +26,7 @@ import springfox.documentation.annotations.ApiIgnore;
 @Documented
 @Inherited
 @FeignClient
-@Conditional(OnFeignClientCondition.class)
+@Conditional(FeignClientCondition.class)
 @ApiIgnore
 public @interface ConditionalFeignClient {
 

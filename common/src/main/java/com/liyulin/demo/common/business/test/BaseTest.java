@@ -18,6 +18,12 @@ import com.liyulin.demo.common.util.UnitTestUtil;
 
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * 单元测试基类
+ *
+ * @author liyulin
+ * @date 2019年4月22日上午12:25:45
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
 @Slf4j

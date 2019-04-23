@@ -12,7 +12,7 @@ import com.liyulin.demo.common.util.ObjectUtil;
 import lombok.experimental.UtilityClass;
 
 /**
- * 响应对象工具类
+ * {@link Resp}工具类
  *
  * @author liyulin
  * @date 2019年4月6日下午5:36:34

@@ -7,7 +7,7 @@ import com.liyulin.demo.common.util.TransactionIdUtil;
 import lombok.experimental.UtilityClass;
 
 /**
- * RespHead工具类
+ * {@link RespHead}工具类
  *
  * @author liyulin
  * @date 2019年4月14日下午5:47:57

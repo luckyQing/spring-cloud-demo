@@ -7,6 +7,12 @@ import com.liyulin.demo.common.util.TransactionIdUtil;
 
 import lombok.experimental.UtilityClass;
 
+/**
+ * {@link ReqHead}工具类
+ *
+ * @author liyulin
+ * @date 2019年4月22日上午12:26:07
+ */
 @UtilityClass
 public class ReqHeadUtil {
 

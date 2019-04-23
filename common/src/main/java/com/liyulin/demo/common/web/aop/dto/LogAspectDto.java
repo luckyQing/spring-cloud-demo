@@ -7,7 +7,7 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 /**
- * 切面日志Dto
+ * 普通接口（除了feign以外的接口）切面日志Dto
  *
  * @author liyulin
  * @date 2019年4月9日下午5:00:23

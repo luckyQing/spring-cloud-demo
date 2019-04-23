@@ -2,6 +2,12 @@ package com.liyulin.demo.common.constants;
 
 import lombok.experimental.UtilityClass;
 
+/**
+ * 公共常量定义
+ *
+ * @author liyulin
+ * @date 2019年4月22日上午12:27:46
+ */
 @UtilityClass
 public class CommonConstants {
 
