@@ -99,7 +99,7 @@ public class MultipleDataSourceAutoConfiguration implements ImportBeanDefinition
 		return dataSource;
 	}
 
-	private void registerSqlSessionFactoryBean(String beanName, SingleDataSourceProperties dataSourceProperties,
+	private SqlSessionFactoryBean registerSqlSessionFactoryBean(String beanName, SingleDataSourceProperties dataSourceProperties,
 			DataSource dataSource) {
 		// 构建bean对象
 		SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
@@ -114,18 +114,22 @@ public class MultipleDataSourceAutoConfiguration implements ImportBeanDefinition
 		sqlSessionFactoryBean.setPlugins(new Interceptor[] { sqlLogInterceptor, pageInterceptor });
 		// 注册bean
 		registerBean(beanName, sqlSessionFactoryBean);
+		
+		return sqlSessionFactoryBean;
 	}
 
-	private void registerDataSourceTransactionManager(String serviceName,
+	private DataSourceTransactionManager registerDataSourceTransactionManager(String serviceName,
 			SingleDataSourceProperties dataSourceProperties, DataSource dataSource) {
 		String dataSourceTransactionManagerBeanName = generateBeanName(serviceName, "DataSourceTransactionManager");
 		// 构建bean对象
 		DataSourceTransactionManager dataSourceTransactionManager = new DataSourceTransactionManager(dataSource);
 		// 注册bean
 		registerBean(dataSourceTransactionManagerBeanName, dataSourceTransactionManager);
+		
+		return dataSourceTransactionManager;
 	}
 
-	private void registerMapperScannerConfigurer(String serviceName, String sqlSessionFactoryBeanName,
+	private MapperScannerConfigurer registerMapperScannerConfigurer(String serviceName, String sqlSessionFactoryBeanName,
 			SingleDataSourceProperties dataSourceProperties) {
 		String mapperScannerConfigurerBeanName = generateBeanName(serviceName, "MapperScannerConfigurer");
 		// 构建bean对象
@@ -139,6 +143,8 @@ public class MultipleDataSourceAutoConfiguration implements ImportBeanDefinition
 		mapperScannerConfigurer.setBasePackage(dataSourceProperties.getMapperInterfaceLocation());
 		// 注册bean
 		registerBean(mapperScannerConfigurerBeanName, mapperScannerConfigurer);
+		
+		return mapperScannerConfigurer;
 	}
 
 	/**
