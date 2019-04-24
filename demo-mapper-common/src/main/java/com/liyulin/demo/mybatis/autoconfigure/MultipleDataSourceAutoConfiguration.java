@@ -1,18 +1,23 @@
 package com.liyulin.demo.mybatis.autoconfigure;
 
 import java.io.IOException;
-import java.lang.reflect.Field;
 import java.util.Map;
 import java.util.Properties;
 
+import javax.sql.DataSource;
+
+import org.apache.commons.lang.NullArgumentException;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.plugin.Interceptor;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
+import org.springframework.core.annotation.Order;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.type.AnnotationMetadata;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
@@ -20,107 +25,136 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import com.github.pagehelper.PageInterceptor;
 import com.liyulin.demo.common.properties.CommonProperties;
 import com.liyulin.demo.common.properties.SingleDataSourceProperties;
+import com.liyulin.demo.common.util.CollectionUtil;
 import com.liyulin.demo.common.util.LogUtil;
-import com.liyulin.demo.common.util.ObjectUtil;
 import com.liyulin.demo.mybatis.plugin.SqlLogInterceptor;
 import com.zaxxer.hikari.HikariDataSource;
 
 import tk.mybatis.spring.mapper.MapperScannerConfigurer;
 
+/**
+ * 多数据源配置
+ *
+ * @author liyulin
+ * @date 2019年4月24日下午8:06:47
+ */
 @Configuration
+@Order
 public class MultipleDataSourceAutoConfiguration implements ImportBeanDefinitionRegistrar {
 
 	@Autowired
 	private CommonProperties commonProperties;
 	@Autowired
 	private SqlLogInterceptor sqlLogInterceptor;
+	@Autowired
+	private PageInterceptor pageInterceptor;
+	private BeanDefinitionRegistry registry;
 
 	@Override
 	public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry) {
-		dynamicCreateMultipleDataSourceBeans(registry);
+		this.registry = registry;
+		dynamicCreateMultipleDataSourceBeans();
 	}
 
 	/**
-	 * 参考{@linkplain https://stackoverflow.com/questions/44777506/spring-boot-register-an-instance-as-a-bean}
-	 * {@linkplain https://stackoverflow.com/questions/25160221/how-do-i-create-beans-programmatically-in-spring-boot}
+	 * 动态创建多数据源的bean，并注册到容器中
 	 */
-	private void dynamicCreateMultipleDataSourceBeans(BeanDefinitionRegistry registry) {
-		// 1、解析“application-db-*.yml”
-//		ResourcePatternResolver resourcePatternResolver = new PathMatchingResourcePatternResolver();
-//		// 所有的数据源配置
-//		Map<String, MultipleDataSourceProperties> dataSources = new HashMap<>();
-//		try {
-//			Resource[] resources = resourcePatternResolver.getResources("classpath*:/application-db-*.yml");
-//			for (Resource resource : resources) {
-//				Yaml yaml = new Yaml();
-//				InputStream inputStream = resource.getInputStream();
-//				Map<String, Object> yamlJson = yaml.load(inputStream);
-//				// <服务名, 数据库连接配置>
-//				Map<String, MultipleDataSourceProperties> dataSource = (Map<String, MultipleDataSourceProperties>) yamlJson
-//						.get("spring.datasource");
-//				dataSources.putAll(dataSource);
-//
-//				inputStream.close();
-//			}
-//		} catch (IOException e) {
-//			LogUtil.error(e.getMessage(), e);
-//		}
+	private void dynamicCreateMultipleDataSourceBeans() {
+		// 1、获取数据源属性
 		Map<String, SingleDataSourceProperties> dataSources = commonProperties.getDataSources();
-		if (dataSources == null) {
+		if (CollectionUtil.isEmpty(dataSources)) {
 			return;
 		}
 
-		PageInterceptor pageInterceptor = buildPageInterceptor();
-		// 2、创建所有需要的bean，并加入到容器中
+		// 2、校验
+		validateDatasourceAttribute(dataSources);
+
+		// 3、创建所有需要的bean，并加入到容器中
 		dataSources.forEach((serviceName, dataSourceProperties) -> {
-			// 2.1、HikariDataSource
-			String dataSourceBeanName = generateBeanName(serviceName, "HikariDataSource");
-			// 构建bean对象
-			HikariDataSource dataSource = new HikariDataSource();
-			dataSource.setUsername(dataSourceProperties.getUsername());
-			dataSource.setPassword(dataSourceProperties.getPassword());
-			dataSource.setDriverClassName(dataSourceProperties.getDriverClassName());
-			// 注册bean
-			registerBean(dataSourceBeanName, dataSource, registry);
+			// 3.1、HikariDataSource
+			HikariDataSource dataSource = registerDataSource(serviceName, dataSourceProperties);
 
-			// 2.2、SqlSessionFactoryBean
+			// 3.2、SqlSessionFactoryBean
 			String sqlSessionFactoryBeanName = generateBeanName(serviceName, "SqlSessionFactoryName");
-			// 构建bean对象
-			SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
-			sqlSessionFactoryBean.setDataSource(dataSource);
-			PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
-			try {
-				sqlSessionFactoryBean
-						.setMapperLocations(resolver.getResources(dataSourceProperties.getMapperXmlLocation()));
-			} catch (IOException e) {
-				LogUtil.error(e.getMessage(), e);
-			}
-			sqlSessionFactoryBean.setPlugins(new Interceptor[] { sqlLogInterceptor, pageInterceptor });
-			// 注册bean
-			registerBean(sqlSessionFactoryBeanName, sqlSessionFactoryBean, registry);
+			registerSqlSessionFactoryBean(sqlSessionFactoryBeanName, dataSourceProperties, dataSource);
 
-			// 2.3、DataSourceTransactionManager
-			String dataSourceTransactionManagerBeanName = generateBeanName(serviceName, "DataSourceTransactionManager");
-			// 构建bean对象
-			DataSourceTransactionManager dataSourceTransactionManager = new DataSourceTransactionManager(dataSource);
-			// 注册bean
-			registerBean(dataSourceTransactionManagerBeanName, dataSourceTransactionManager, registry);
+			// 3.3、DataSourceTransactionManager
+			registerDataSourceTransactionManager(serviceName, dataSourceProperties, dataSource);
 
-			// 2.4、MapperScannerConfigurer
-			String mapperScannerConfigurerBeanName = generateBeanName(serviceName, "MapperScannerConfigurer");
-			// 构建bean对象
-			MapperScannerConfigurer mapperScannerConfigurer = new MapperScannerConfigurer();
-
-			Properties properties = new Properties();
-			properties.setProperty("IDENTITY", "MYSQL");
-			properties.setProperty("notEmpty", "true");
-			mapperScannerConfigurer.setProperties(properties);
-			mapperScannerConfigurer.setSqlSessionFactoryBeanName(sqlSessionFactoryBeanName);
-			mapperScannerConfigurer.setBasePackage(dataSourceProperties.getMapperInterfaceLocation());
-			// 注册bean
-			registerBean(mapperScannerConfigurerBeanName, mapperScannerConfigurer, registry);
-
+			// 3.4、MapperScannerConfigurer
+			registerMapperScannerConfigurer(serviceName, sqlSessionFactoryBeanName, dataSourceProperties);
 		});
+	}
+
+	private HikariDataSource registerDataSource(String serviceName, SingleDataSourceProperties dataSourceProperties) {
+		String dataSourceBeanName = generateBeanName(serviceName, "DataSource");
+		// 构建bean对象
+		HikariDataSource dataSource = new HikariDataSource();
+		dataSource.setUsername(dataSourceProperties.getUsername());
+		dataSource.setPassword(dataSourceProperties.getPassword());
+		dataSource.setDriverClassName(dataSourceProperties.getDriverClassName());
+		// 注册bean
+		registerBean(dataSourceBeanName, dataSource);
+
+		return dataSource;
+	}
+
+	private void registerSqlSessionFactoryBean(String beanName, SingleDataSourceProperties dataSourceProperties,
+			DataSource dataSource) {
+		// 构建bean对象
+		SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
+		sqlSessionFactoryBean.setDataSource(dataSource);
+		PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
+		try {
+			sqlSessionFactoryBean
+					.setMapperLocations(resolver.getResources(dataSourceProperties.getMapperXmlLocation()));
+		} catch (IOException e) {
+			LogUtil.error(e.getMessage(), e);
+		}
+		sqlSessionFactoryBean.setPlugins(new Interceptor[] { sqlLogInterceptor, pageInterceptor });
+		// 注册bean
+		registerBean(beanName, sqlSessionFactoryBean);
+	}
+
+	private void registerDataSourceTransactionManager(String serviceName,
+			SingleDataSourceProperties dataSourceProperties, DataSource dataSource) {
+		String dataSourceTransactionManagerBeanName = generateBeanName(serviceName, "DataSourceTransactionManager");
+		// 构建bean对象
+		DataSourceTransactionManager dataSourceTransactionManager = new DataSourceTransactionManager(dataSource);
+		// 注册bean
+		registerBean(dataSourceTransactionManagerBeanName, dataSourceTransactionManager);
+	}
+
+	private void registerMapperScannerConfigurer(String serviceName, String sqlSessionFactoryBeanName,
+			SingleDataSourceProperties dataSourceProperties) {
+		String mapperScannerConfigurerBeanName = generateBeanName(serviceName, "MapperScannerConfigurer");
+		// 构建bean对象
+		MapperScannerConfigurer mapperScannerConfigurer = new MapperScannerConfigurer();
+
+		Properties properties = new Properties();
+		properties.setProperty("IDENTITY", "MYSQL");
+		properties.setProperty("notEmpty", "true");
+		mapperScannerConfigurer.setProperties(properties);
+		mapperScannerConfigurer.setSqlSessionFactoryBeanName(sqlSessionFactoryBeanName);
+		mapperScannerConfigurer.setBasePackage(dataSourceProperties.getMapperInterfaceLocation());
+		// 注册bean
+		registerBean(mapperScannerConfigurerBeanName, mapperScannerConfigurer);
+	}
+
+	/**
+	 * 校验{@code SingleDataSourceProperties}的属性值
+	 * 
+	 * @param dataSources
+	 */
+	private void validateDatasourceAttribute(Map<String, SingleDataSourceProperties> dataSources) {
+		for (Map.Entry<String, SingleDataSourceProperties> entry : dataSources.entrySet()) {
+			SingleDataSourceProperties properties = entry.getValue();
+			if (StringUtils.isAnyBlank(properties.getUrl(), properties.getUsername(), properties.getPassword(),
+					properties.getTypeAliasesPackage(), properties.getMapperInterfaceLocation(),
+					properties.getMapperXmlLocation())) {
+				throw new NullArgumentException(SingleDataSourceProperties.class.getCanonicalName() + " attriutes");
+			}
+		}
 	}
 
 	/**
@@ -128,9 +162,8 @@ public class MultipleDataSourceAutoConfiguration implements ImportBeanDefinition
 	 * 
 	 * @param beanName
 	 * @param bean
-	 * @param registry
 	 */
-	private <T> void registerBean(String beanName, T bean, BeanDefinitionRegistry registry) {
+	private <T> void registerBean(String beanName, T bean) {
 		BeanDefinition beanDefinition = null;
 		try {
 			beanDefinition = buildBeanDefinition(bean);
@@ -150,16 +183,17 @@ public class MultipleDataSourceAutoConfiguration implements ImportBeanDefinition
 	 */
 	private <T> BeanDefinition buildBeanDefinition(T bean) throws IllegalArgumentException, IllegalAccessException {
 		BeanDefinitionBuilder builder = BeanDefinitionBuilder.rootBeanDefinition(bean.getClass());
-		Field[] fields = bean.getClass().getFields();
-		for (Field field : fields) {
-			field.setAccessible(true);
-			Object fieldValue = new Object();
-			field.get(fieldValue);
-			if (ObjectUtil.isNull(fieldValue)) {
-				continue;
-			}
-			builder.addPropertyValue(field.getName(), fieldValue);
-		}
+//		Field[] fields = bean.getClass().getFields();
+//		for (Field field : fields) {
+//			field.setAccessible(true);
+//			Object fieldValue = new Object();
+//			field.get(fieldValue);
+//			if (ObjectUtil.isNull(fieldValue)) {
+//				continue;
+//			}
+//			
+//			builder.addPropertyValue(field.getName(), fieldValue);
+//		}
 
 		return builder.getBeanDefinition();
 	}
@@ -175,7 +209,8 @@ public class MultipleDataSourceAutoConfiguration implements ImportBeanDefinition
 		return serviceName + beanClassName;
 	}
 
-	private PageInterceptor buildPageInterceptor() {
+	@Bean
+	public PageInterceptor buildPageInterceptor() {
 		PageInterceptor pageHelper = new PageInterceptor();
 		Properties p = new Properties();
 		p.setProperty("dialect", "mysql");
