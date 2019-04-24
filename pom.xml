@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.liyulin</groupId>
@@ -15,16 +17,18 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<java.version>1.8</java.version>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
 		<spring-cloud>Greenwich.SR1</spring-cloud>
 		<spring.boot.admin>2.1.3</spring.boot.admin>
-		<mapper>2.1.5</mapper>
-		<pagehelper-start>1.2.10</pagehelper-start>
+		<mapper>4.1.5</mapper>
+		<pagehelper>5.1.8</pagehelper>
 		<mysql>8.0.15</mysql>
 		<fastjson>1.2.47</fastjson>
 		<springfox-swagger2>2.7.0</springfox-swagger2>
 		<podam>7.2.3.RELEASE</podam>
 		<guava>23.0</guava>
+		<spring>5.1.6.RELEASE</spring>
 	</properties>
 
 	<dependencyManagement>
@@ -51,14 +55,14 @@
 
 			<dependency>
 				<groupId>tk.mybatis</groupId>
-				<artifactId>mapper-spring-boot-starter</artifactId>
+				<artifactId>mapper</artifactId>
 				<version>${mapper}</version>
 			</dependency>
 
 			<dependency>
 				<groupId>com.github.pagehelper</groupId>
-				<artifactId>pagehelper-spring-boot-starter</artifactId>
-				<version>${pagehelper-start}</version>
+				<artifactId>pagehelper</artifactId>
+				<version>${pagehelper}</version>
 			</dependency>
 
 			<dependency>
@@ -106,6 +110,11 @@
 				<groupId>com.google.guava</groupId>
 				<artifactId>guava</artifactId>
 				<version>${guava}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-tx</artifactId>
+				<version>${spring}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
@@ -196,6 +205,6 @@
 		<module>demo-mall-rpc</module>
 		<module>demo-mall-module</module>
 		<module>demo-merge-module</module>
-    <module>demo-code-auto-generate</module>
-  </modules>
+		<module>demo-code-auto-generate</module>
+	</modules>
 </project>

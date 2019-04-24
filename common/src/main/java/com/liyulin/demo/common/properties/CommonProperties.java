@@ -1,5 +1,7 @@
 package com.liyulin.demo.common.properties;
 
+import java.util.Map;
+
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
@@ -40,6 +42,9 @@ public class CommonProperties extends BaseDto {
 
 	/** @Async配置开关 */
 	private boolean enableAsync = true;
+	
+	/** 多数据源配置信息 */
+	private Map<String, SingleDataSourceProperties> dataSources;
 
 	public static final class PropertiesName {
 		public static final String DATA_MACHINE_ID = "dataMachineId";
