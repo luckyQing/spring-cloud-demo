@@ -26,7 +26,7 @@ import com.liyulin.demo.common.web.validation.valueextraction.ReqObjectBodyExtra
  */
 @Configuration
 @ConditionalOnProperty(prefix = CommonConstants.COMMON_PROPERTIES_PREFIX, name = CommonProperties.PropertiesName.VALIDATOR, havingValue = "true", matchIfMissing = false)
-public class HibernateValidatorAutoConfiguration {
+public class HibernateValidatorAutoConfigure {
 
 	@Bean
 	@ConditionalOnMissingBean
