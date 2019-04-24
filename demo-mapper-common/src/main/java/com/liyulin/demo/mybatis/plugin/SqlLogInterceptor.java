@@ -21,7 +21,6 @@ import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.type.TypeHandlerRegistry;
-import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
 import com.liyulin.demo.common.util.DateUtil;
@@ -33,7 +32,6 @@ import com.liyulin.demo.common.util.LogUtil;
  * @author liyulin
  * @date 2019年3月22日下午11:31:29
  */
-@Component
 @Intercepts({ @Signature(type = Executor.class, method = "update", args = { MappedStatement.class, Object.class }),
 		@Signature(type = Executor.class, method = "query", args = { MappedStatement.class, Object.class, RowBounds.class, ResultHandler.class }),
 		@Signature(type = Executor.class, method = "query", args = { MappedStatement.class, Object.class, RowBounds.class, ResultHandler.class, CacheKey.class, BoundSql.class }),

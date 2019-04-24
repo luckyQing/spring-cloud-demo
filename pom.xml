@@ -28,7 +28,6 @@
 		<springfox-swagger2>2.7.0</springfox-swagger2>
 		<podam>7.2.3.RELEASE</podam>
 		<guava>23.0</guava>
-		<spring>5.1.6.RELEASE</spring>
 	</properties>
 
 	<dependencyManagement>
@@ -111,12 +110,6 @@
 				<groupId>com.google.guava</groupId>
 				<artifactId>guava</artifactId>
 				<version>${guava}</version>
-			</dependency>
-			
-			<dependency>
-				<groupId>org.springframework</groupId>
-				<artifactId>spring-tx</artifactId>
-				<version>${spring}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
