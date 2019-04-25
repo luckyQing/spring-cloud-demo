@@ -2,7 +2,6 @@ package com.liyulin.demo.mall.product.mapper.rpc;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.liyulin.demo.rpc.product.request.rpc.UpdateStockReqBody;
@@ -13,7 +12,6 @@ import com.liyulin.demo.rpc.product.request.rpc.UpdateStockReqBody;
  * @author liyulin
  * @date 2019年4月7日下午11:40:18
  */
-@Mapper
 public interface ProductInfoRpcMapper {
 
 	/**
