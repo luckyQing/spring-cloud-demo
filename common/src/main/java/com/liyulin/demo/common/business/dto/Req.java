@@ -30,7 +30,7 @@ public class Req<T extends BaseDto> extends BaseDto {
 	private T body;
 
 	@ApiModelProperty(value = "签名", required = true)
-	@NotBlank
+	//@NotBlank
 	private String sign;
 
 	public Req(ReqHead head) {
