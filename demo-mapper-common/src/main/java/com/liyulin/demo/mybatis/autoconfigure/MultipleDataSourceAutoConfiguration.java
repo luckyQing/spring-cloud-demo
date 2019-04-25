@@ -84,8 +84,7 @@ public class MultipleDataSourceAutoConfiguration {
 			sqlLogInterceptor = new SqlLogInterceptor();
 			pageInterceptor = buildPageInterceptor();
 
-			Map<String, Object> dataSourcesMap = binder.bind(CommonProperties.PropertiesName.DATA_SOURCES, Map.class)
-					.get();
+			Map<String, Object> dataSourcesMap = binder.bind(CommonProperties.PropertiesName.DATA_SOURCES, Map.class).get();
 			Assert.state(CollectionUtil.isNotEmpty(dataSourcesMap), "不能找到数据源配置！");
 
 			dataSources = new LinkedHashMap<>(dataSourcesMap.size());

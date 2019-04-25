@@ -1,13 +1,10 @@
 package com.liyulin.demo.common.support;
 
-import java.beans.Introspector;
-
+import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.AnnotatedBeanDefinition;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.context.annotation.AnnotationBeanNameGenerator;
-import org.springframework.util.Assert;
-import org.springframework.util.ClassUtils;
 import org.springframework.util.StringUtils;
 
 import com.liyulin.demo.common.constants.CommonConstants;
@@ -31,14 +28,20 @@ public class UniqueBeanNameGenerator extends AnnotationBeanNameGenerator {
 		}
 
 		String beanClassName = definition.getBeanClassName();
+		String defaultClassName = super.buildDefaultBeanName(definition);
 		if (beanClassName.startsWith(CommonConstants.BASE_PACAKGE)) {
-			// 如果是非第三方的类，则bean名称直接返回“包名.类名”
-			return beanClassName;
+			// 如果是非第三方的类
+			// 如果该bean名称不存在容器中，则按照className的规则生成；否则按照“package+className”的规则存在。
+			BeanFactory beanFactory = (BeanFactory) registry;
+			if (beanFactory.containsBean(defaultClassName)) {
+				// 如果是非第三方的类，则bean名称直接返回“包名.类名”
+				return beanClassName;
+			} else {
+				return defaultClassName;
+			}
 		}
 
-		Assert.state(beanClassName != null, "No bean class name set");
-		String shortClassName = ClassUtils.getShortName(beanClassName);
-		return Introspector.decapitalize(shortClassName);
+		return defaultClassName;
 	}
 
 }
