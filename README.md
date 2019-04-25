@@ -74,7 +74,7 @@
 > 	<tr>
 > 		<td>ORM</td>
 > 		<td>demo-mapper-common</td>
-> 		<td>mybatis、mapper封装。业务无关mapper动态生成，sql日志打印等</td>
+> 		<td>mybatis、mapper封装。业务无关mapper动态生成，多数据源自动配置，sql日志打印等</td>
 > 		<td>-</td>
 > 	</tr>
 > 	<tr>
