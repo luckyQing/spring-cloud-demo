@@ -18,7 +18,6 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ComponentScan.Filter;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.scheduling.annotation.EnableAsync;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import com.liyulin.demo.common.constants.CommonConstants;
 import com.liyulin.demo.common.support.UniqueBeanNameGenerator;
@@ -40,7 +39,6 @@ import com.liyulin.demo.common.support.UniqueBeanNameGenerator;
 		@Filter(type = FilterType.CUSTOM, classes = AutoConfigurationExcludeFilter.class) })
 @EnableFeignClients(basePackages = { CommonConstants.BASE_RPC_PACAKGE })
 @EnableDiscoveryClient
-@EnableTransactionManagement
 @EnableAsync
 public @interface MainService {
 
