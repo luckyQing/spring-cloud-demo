@@ -1,4 +1,4 @@
-package com.liyulin.demo.mall.product.controller.api;
+package com.liyulin.demo.mall.product.test.api;
 
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
