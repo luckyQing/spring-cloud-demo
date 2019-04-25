@@ -1,0 +1,8 @@
+com:  liyulin:    data-machine-id: 2    swagger: true    validator: trueserver:  port: 30001  spring:
+  application:
+    name: demo-merge-mall
+  profiles:
+    include: 
+      - common
+      - db-product      - db-order
+      - eureka
