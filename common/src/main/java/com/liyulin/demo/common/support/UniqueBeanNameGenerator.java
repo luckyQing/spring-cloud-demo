@@ -27,8 +27,10 @@ public class UniqueBeanNameGenerator extends AnnotationBeanNameGenerator {
 			}
 		}
 
-		String beanClassName = definition.getBeanClassName();
+		// 默认的bean名称（不含package，首字母小写）
 		String defaultClassName = super.buildDefaultBeanName(definition);
+		// bean类名（package+className）
+		String beanClassName = definition.getBeanClassName();
 		if (beanClassName.startsWith(CommonConstants.BASE_PACAKGE)) {
 			// 如果是非第三方的类
 			// 如果该bean名称不存在容器中，则按照className的规则生成；否则按照“package+className”的规则存在。
