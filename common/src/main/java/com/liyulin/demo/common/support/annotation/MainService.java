@@ -16,11 +16,13 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ComponentScan.Filter;
+import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.scheduling.annotation.EnableAsync;
 
 import com.liyulin.demo.common.constants.CommonConstants;
 import com.liyulin.demo.common.support.UniqueBeanNameGenerator;
+import com.liyulin.demo.common.support.condition.MainServiceCondition;
 
 /**
  * 服务启动类注解
@@ -32,7 +34,7 @@ import com.liyulin.demo.common.support.UniqueBeanNameGenerator;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
-//@SpringBootConfiguration
+@SpringBootConfiguration
 @EnableAutoConfiguration(exclude = DataSourceAutoConfiguration.class)
 @ComponentScan(basePackages = CommonConstants.BASE_PACAKGE, nameGenerator = UniqueBeanNameGenerator.class, excludeFilters = {
 		@Filter(type = FilterType.CUSTOM, classes = TypeExcludeFilter.class),
@@ -40,6 +42,7 @@ import com.liyulin.demo.common.support.UniqueBeanNameGenerator;
 @EnableFeignClients(basePackages = { CommonConstants.BASE_RPC_PACAKGE })
 @EnableDiscoveryClient
 @EnableAsync
+@Conditional(MainServiceCondition.class)
 public @interface MainService {
-
+	
 }

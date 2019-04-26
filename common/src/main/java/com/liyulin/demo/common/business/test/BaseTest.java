@@ -38,7 +38,7 @@ public class BaseTest {
 	@Autowired
 	protected WebApplicationContext applicationContext;
 
-	public <T> T postXml(String url, Object req, Class<T> beanClass) throws Exception {
+	protected <T> T postXml(String url, Object req, Class<T> beanClass) throws Exception {
 		MockMvc mvc = MockMvcBuilders.webAppContextSetup(applicationContext).build();
 		String xml = JAXBUtil.beanToXml(req);
 		log.info("requestBody={}", xml);
@@ -52,7 +52,7 @@ public class BaseTest {
 		return JAXBUtil.xmlToBean(content, beanClass);
 	}
 
-	public <T> T postJson(String url, Object req, TypeReference<T> typeReference) throws Exception {
+	protected <T> T postJson(String url, Object req, TypeReference<T> typeReference) throws Exception {
 		MockMvc mvc = MockMvcBuilders.webAppContextSetup(applicationContext).build();
 		String requestBody = JSON.toJSONString(req);
 		log.info("requestBody={}", requestBody);
