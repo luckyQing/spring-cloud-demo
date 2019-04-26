@@ -52,7 +52,7 @@ import tk.mybatis.spring.mapper.MapperScannerConfigurer;
 @Import({ MultipleDataSourceRegistrar.class })
 public class MultipleDataSourceAutoConfiguration {
 	
-	/** {@code DataSourceTransactionManager}bean名称组成部分（后缀） */
+	/** {@code DataSourceTransactionManager} bean名称组成部分（后缀） */
 	public static final String TRANSACTION_MANAGER_NAME = "DataSourceTransactionManager";
 	
 	/**
