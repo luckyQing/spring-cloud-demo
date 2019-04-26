@@ -30,6 +30,7 @@ import org.springframework.util.Assert;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInterceptor;
+import com.liyulin.demo.common.constants.SymbolConstants;
 import com.liyulin.demo.common.properties.CommonProperties;
 import com.liyulin.demo.common.properties.SingleDataSourceProperties;
 import com.liyulin.demo.common.support.UniqueBeanNameGenerator;
@@ -69,6 +70,8 @@ public class MultipleDataSourceAutoConfiguration {
 		private PageInterceptor pageInterceptor;
 		private Binder binder;
 		private ConfigurableBeanFactory beanFactory;
+		/** jdbc url默认参数 */
+		private String defaultJdbcUrlParams = "characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&serverTimezone=Asia/Shanghai";
 
 		@Override
 		public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
@@ -135,7 +138,12 @@ public class MultipleDataSourceAutoConfiguration {
 			String dataSourceBeanName = generateBeanName(serviceName, HikariDataSource.class.getSimpleName());
 			// 构建bean对象
 			HikariDataSource dataSource = new HikariDataSource();
-			dataSource.setJdbcUrl(dataSourceProperties.getUrl());
+			String jdbcUrl = dataSourceProperties.getUrl();
+			// 如果jdbcUrl没有设置参数，则用默认设置
+			if (StringUtils.containsNone(jdbcUrl, SymbolConstants.QUESTION_MARK)) {
+				jdbcUrl += SymbolConstants.QUESTION_MARK + defaultJdbcUrlParams;
+			}
+			dataSource.setJdbcUrl(jdbcUrl);
 			dataSource.setUsername(dataSourceProperties.getUsername());
 			dataSource.setPassword(dataSourceProperties.getPassword());
 			dataSource.setDriverClassName(dataSourceProperties.getDriverClassName());
