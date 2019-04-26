@@ -51,7 +51,10 @@ import tk.mybatis.spring.mapper.MapperScannerConfigurer;
 @EnableTransactionManagement
 @Import({ MultipleDataSourceRegistrar.class })
 public class MultipleDataSourceAutoConfiguration {
-
+	
+	/** {@code DataSourceTransactionManager}bean名称组成部分（后缀） */
+	public static final String TRANSACTION_MANAGER_NAME = "DataSourceTransactionManager";
+	
 	/**
 	 * 多数据源bean注册
 	 *
@@ -116,7 +119,7 @@ public class MultipleDataSourceAutoConfiguration {
 				HikariDataSource dataSource = registerDataSource(serviceName, dataSourceProperties);
 
 				// 3.2、SqlSessionFactoryBean
-				String sqlSessionFactoryBeanName = generateBeanName(serviceName, "SqlSessionFactoryName");
+				String sqlSessionFactoryBeanName = generateBeanName(serviceName, SqlSessionFactoryBean.class.getSimpleName());
 				registerSqlSessionFactoryBean(sqlSessionFactoryBeanName, dataSourceProperties, dataSource);
 
 				// 3.3、MapperScannerConfigurer
@@ -129,7 +132,7 @@ public class MultipleDataSourceAutoConfiguration {
 
 		private HikariDataSource registerDataSource(String serviceName,
 				SingleDataSourceProperties dataSourceProperties) {
-			String dataSourceBeanName = generateBeanName(serviceName, "DataSource");
+			String dataSourceBeanName = generateBeanName(serviceName, HikariDataSource.class.getSimpleName());
 			// 构建bean对象
 			HikariDataSource dataSource = new HikariDataSource();
 			dataSource.setJdbcUrl(dataSourceProperties.getUrl());
@@ -163,7 +166,7 @@ public class MultipleDataSourceAutoConfiguration {
 
 		private DataSourceTransactionManager registerDataSourceTransactionManager(String serviceName,
 				SingleDataSourceProperties dataSourceProperties, DataSource dataSource) {
-			String dataSourceTransactionManagerBeanName = generateBeanName(serviceName, "DataSourceTransactionManager");
+			String dataSourceTransactionManagerBeanName = generateBeanName(serviceName, TRANSACTION_MANAGER_NAME);
 			// 构建bean对象
 			DataSourceTransactionManager dataSourceTransactionManager = new DataSourceTransactionManager(dataSource);
 			// 注册bean
@@ -174,7 +177,7 @@ public class MultipleDataSourceAutoConfiguration {
 
 		private MapperScannerConfigurer registerMapperScannerConfigurer(String serviceName,
 				String sqlSessionFactoryBeanName, SingleDataSourceProperties dataSourceProperties) {
-			String mapperScannerConfigurerBeanName = generateBeanName(serviceName, "MapperScannerConfigurer");
+			String mapperScannerConfigurerBeanName = generateBeanName(serviceName, MapperScannerConfigurer.class.getSimpleName());
 			// 构建bean对象
 			MapperScannerConfigurer mapperScannerConfigurer = new MapperScannerConfigurer();
 
@@ -205,7 +208,7 @@ public class MultipleDataSourceAutoConfiguration {
 		 * 生成bean名称
 		 * 
 		 * @param serviceName   服务名
-		 * @param beanClassName bean的类名
+		 * @param beanClassName bean类名
 		 * @return
 		 */
 		private String generateBeanName(String serviceName, String beanClassName) {
