@@ -95,8 +95,7 @@ public class MultipleDataSourceAutoConfiguration {
 
 			dataSources = new LinkedHashMap<>(dataSourcesMap.size());
 			for (Map.Entry<String, Object> entry : dataSourcesMap.entrySet()) {
-				dataSources.put(entry.getKey(),
-						JSON.parseObject(JSON.toJSONString(entry.getValue()), SingleDataSourceProperties.class));
+				dataSources.put(entry.getKey(), JSON.parseObject(JSON.toJSONString(entry.getValue()), SingleDataSourceProperties.class));
 			}
 
 			dynamicCreateMultipleDataSourceBeans();
@@ -106,33 +105,41 @@ public class MultipleDataSourceAutoConfiguration {
 		 * 动态创建多数据源的bean，并注册到容器中
 		 */
 		private void dynamicCreateMultipleDataSourceBeans() {
-			// 2、校验SingleDataSourceProperties的属性值
+			// 1、校验SingleDataSourceProperties的属性值
 			for (Map.Entry<String, SingleDataSourceProperties> entry : dataSources.entrySet()) {
 				SingleDataSourceProperties properties = entry.getValue();
 
+				// 所有属性都不能为空
 				boolean isAnyBlank = StringUtils.isAnyBlank(properties.getUrl(), properties.getUsername(),
 						properties.getPassword(), properties.getTypeAliasesPackage(),
 						properties.getMapperInterfaceLocation(), properties.getMapperXmlLocation());
 				Assert.state(!isAnyBlank, SingleDataSourceProperties.class.getCanonicalName() + " attriutes存在未配置的！");
 			}
 
-			// 3、创建所有需要的bean，并加入到容器中
+			// 2、创建所有需要的bean，并加入到容器中
 			dataSources.forEach((serviceName, dataSourceProperties) -> {
-				// 3.1、HikariDataSource
+				// 2.1、HikariDataSource
 				HikariDataSource dataSource = registerDataSource(serviceName, dataSourceProperties);
 
-				// 3.2、SqlSessionFactoryBean
+				// 2.2、SqlSessionFactoryBean
 				String sqlSessionFactoryBeanName = generateBeanName(serviceName, SqlSessionFactoryBean.class.getSimpleName());
 				registerSqlSessionFactoryBean(sqlSessionFactoryBeanName, dataSourceProperties, dataSource);
 
-				// 3.3、MapperScannerConfigurer
+				// 2.3、MapperScannerConfigurer
 				registerMapperScannerConfigurer(serviceName, sqlSessionFactoryBeanName, dataSourceProperties);
 
-				// 3.4、DataSourceTransactionManager
+				// 2.4、DataSourceTransactionManager
 				registerDataSourceTransactionManager(serviceName, dataSourceProperties, dataSource);
 			});
 		}
 
+		/**
+		 * 创建并注册{@code HikariDataSource}
+		 * 
+		 * @param serviceName
+		 * @param dataSourceProperties
+		 * @return
+		 */
 		private HikariDataSource registerDataSource(String serviceName,
 				SingleDataSourceProperties dataSourceProperties) {
 			String dataSourceBeanName = generateBeanName(serviceName, HikariDataSource.class.getSimpleName());
@@ -153,6 +160,14 @@ public class MultipleDataSourceAutoConfiguration {
 			return dataSource;
 		}
 
+		/**
+		 * 创建并注册{@code SqlSessionFactoryBean}
+		 * 
+		 * @param beanName
+		 * @param dataSourceProperties
+		 * @param dataSource
+		 * @return
+		 */
 		private SqlSessionFactoryBean registerSqlSessionFactoryBean(String beanName,
 				SingleDataSourceProperties dataSourceProperties, DataSource dataSource) {
 			// 构建bean对象
@@ -172,6 +187,14 @@ public class MultipleDataSourceAutoConfiguration {
 			return sqlSessionFactoryBean;
 		}
 
+		/**
+		 * 创建并注册{@code DataSourceTransactionManager}
+		 * 
+		 * @param serviceName
+		 * @param dataSourceProperties
+		 * @param dataSource
+		 * @return
+		 */
 		private DataSourceTransactionManager registerDataSourceTransactionManager(String serviceName,
 				SingleDataSourceProperties dataSourceProperties, DataSource dataSource) {
 			String dataSourceTransactionManagerBeanName = generateBeanName(serviceName, TRANSACTION_MANAGER_NAME);
@@ -183,6 +206,14 @@ public class MultipleDataSourceAutoConfiguration {
 			return dataSourceTransactionManager;
 		}
 
+		/**
+		 * 创建并注册{@code MapperScannerConfigurer}
+		 * 
+		 * @param serviceName
+		 * @param sqlSessionFactoryBeanName
+		 * @param dataSourceProperties
+		 * @return
+		 */
 		private MapperScannerConfigurer registerMapperScannerConfigurer(String serviceName,
 				String sqlSessionFactoryBeanName, SingleDataSourceProperties dataSourceProperties) {
 			String mapperScannerConfigurerBeanName = generateBeanName(serviceName, MapperScannerConfigurer.class.getSimpleName());
@@ -223,6 +254,11 @@ public class MultipleDataSourceAutoConfiguration {
 			return serviceName + beanClassName;
 		}
 
+		/**
+		 * 构建分页拦截器
+		 * 
+		 * @return
+		 */
 		private PageInterceptor buildPageInterceptor() {
 			PageInterceptor pageHelper = new PageInterceptor();
 			Properties p = new Properties();
