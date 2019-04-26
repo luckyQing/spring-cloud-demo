@@ -173,6 +173,27 @@
 2. 手动（通过new方式）构建所有需要的bean对象；
 3. 手动将bean注入到容器中。
 
+**多数据源配置示例：**
+```
+com:
+  liyulin:
+    data-sources:
+      product:
+        url: jdbc:mysql://127.0.0.1:3306/demo_product?characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+        username: root
+        password: 123456
+        type-aliases-package: com.liyulin.demo.mall.product.entity
+        mapper-interface-location: com.liyulin.demo.mall.product.mapper
+        mapper-xml-location: classpath*:com/liyulin/demo/mall/product/mybatis/**.xml
+      order:
+        url: jdbc:mysql://127.0.0.1:3306/demo_order?characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+        username: root
+        password: 123456
+        type-aliases-package: com.liyulin.demo.mall.order.entity
+        mapper-interface-location: com.liyulin.demo.mall.order.mapper
+        mapper-xml-location: classpath*:com/liyulin/demo/mall/order/mybatis/**.xml
+```
+
 ## （四）接口mock数据
 接口通过切面拦截的方式，通过反射可以获取返回对象的所有信息，然后根据对象的属性类型，可以随机生成数据；对于特定要求的数据，可以制定mock规则，生成指定格式的数据。
 
