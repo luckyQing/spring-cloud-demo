@@ -1,4 +1,4 @@
-package com.liyulin.demo.rpc;
+package com.liyulin.demo.common.test;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

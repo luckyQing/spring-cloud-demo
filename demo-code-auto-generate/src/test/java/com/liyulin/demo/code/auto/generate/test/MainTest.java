@@ -1,4 +1,4 @@
-package com.liyulin.demo.code.auto.generate;
+package com.liyulin.demo.code.auto.generate.test;
 
 import junit.framework.TestCase;
 
