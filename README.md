@@ -1,17 +1,13 @@
 # 一、项目说明
-此项目为spring cloud微服务学习示例项目。所实现功能如下：
-```
-1.服务可合并（合并后服务间通过内部进程通信；分开后通过rpc通信）
-2.可以生成mock数据，充分发挥前后端分离的作用
-3.业务无关代码自动生成
-4.接口（签名）安全保证
-5.业务无关需求（如日志打印、公共配置等）抽象为公共模块
-6.单体服务开发接阶段测试不依赖其他服务（挡板测试、关闭eureka）
-7.代码安全保护
-8.技术栈稳定、实用、易用
-
-前端每次请求传transactionId（雪花算法生成）
-```
+**此项目为spring cloud微服务学习示例项目。所实现功能如下：**
+- 服务可合并（合并后服务间通过内部进程通信；分开后通过rpc通信）
+- 可以生成mock数据，充分发挥前后端分离的作用
+- 业务无关代码自动生成
+- 接口（签名）安全保证
+- 业务无关需求（如日志打印、公共配置等）抽象为公共模块
+- 单体服务开发接阶段测试不依赖其他服务（挡板测试、关闭eureka）
+- 代码安全保护
+- 技术栈稳定、实用、易用
 
 ----------
 > <table>
@@ -123,12 +119,16 @@
 | [swagger](https://swagger.io/)、[gitbook](https://www.gitbook.com/) | 接口文档 |
 | [Lombok](https://www.projectlombok.org/) | 简化代码 |
 
-
 # 三、相关说明
 ## （一）接口协议
-```
 请求数据采用json格式，通过http body传输。
-1、请求对象Req由head、body、sign三部分组成。body部分为请求的实际参数；head部分为app版本号，接口版本号，亲求时间戳（默认2分钟内有效），请求的token，交易流水号；sign为请求参数的签名。
+
+1、请求对象Req由head、body、sign三部分组成。
+- head部分为app版本号，接口版本号，亲求时间戳（默认2分钟内有效），请求的token，交易流水号；
+- body部分为请求的实际参数；
+- sign为请求参数的签名。
+
+```
 {
 	"body": {
 		"products": [{
@@ -145,8 +145,10 @@
 	},
 	"sign": "string"
 }
+```
 
 2、响应对象Resp组成
+```
 {
 	"head": {
 		"transactionId": null,
@@ -164,48 +166,37 @@
 ```
 
 ## （二）服务合并
-```
 单个服务以jar的形式，通过maven引入合并服务中。在单体服务中，feign接口通过http请求；服务合并后，feign接口通过内部进程的方式通信。
-```
 
-## （三）多数据源的处理方案
-```
-1、定义单数据源properties对象SingleDataSourceProperties，多数据源配置数据以Map<String, SingleDataSourceProperties>的形式从yml文件中读取；
-2、手动（通过new方式）构建所有需要的bean对象；
-3、手动将bean注入到容器中。
-```
+## （三）多数据源的处理
+1. 定义单数据源properties对象SingleDataSourceProperties，多数据源配置数据以Map<String, SingleDataSourceProperties>的形式从yml文件中读取；
+2. 手动（通过new方式）构建所有需要的bean对象；
+3. 手动将bean注入到容器中。
 
 ## （四）接口mock数据
-```
 接口通过切面拦截的方式，通过反射可以获取返回对象的所有信息，然后根据对象的属性类型，可以随机生成数据；对于特定要求的数据，可以制定mock规则，生成指定格式的数据。
-```
 
 ## （五）单元测试
-```
 通过ServletContext的类型，可以知道当前环境是单元测试，还是非单元测试；从而动态控制rpc的调用方式。
 通过切面的方式，如果当前环境是单元测试，则直接拦截返回mock数据（mock数据在测试用例调用之前pop进队列，后面直接poll返回）；如果是非单元测试环境，则直接跳过，触发真实的http请求。
 在单元测试环境下，关闭eureka，减少依赖。
-```
+
 ## （六）接口文档
-```
 接口文档由三个步骤自动生成：
-1、通过swagger自动生成接口文档的json格式数据；
-2、将json格式数据转化为markdown格式；
-3、在服务启动时将markdown格式数据上传（可根据配置的开关控制是否上传）到gitbook。
-```
+1. 通过swagger自动生成接口文档的json格式数据；
+2. 将json格式数据转化为markdown格式；
+3. 在服务启动时将markdown格式数据上传（可根据配置的开关控制是否上传）到gitbook。
 
 # 四、笔记
 ## （一）@EnableDiscoveryClient与@EnableEurekaClient区别
-```
 如果选用的注册中心是eureka，那么就推荐@EnableEurekaClient，如果是其他的注册中心，那么推荐使用@EnableDiscoveryClient。
-```
+
 ## （二）spring boot引入其他的yaml文件
-```
 比如src/main/resources下有application-email.yml、application-mq.yml等文件，在yaml中添加
+```
 spring:
   profiles:
     include: email,mq
-
 或
 spring:
   profiles:
@@ -217,28 +208,27 @@ spring:
 
 ## （三）sleuth
 ### 4.3.1、log4j2集成sleuth
+日志打印pattern中加入
 ```
-日志打印pattern中加入“[%X{X-B3-TraceId},%X{X-B3-SpanId},%X{X-B3-ParentSpanId},%X{X-Span-Export}]”。
-
+[%X{X-B3-TraceId},%X{X-B3-SpanId},%X{X-B3-ParentSpanId},%X{X-Span-Export}]
+```
 各字段解释：
-TraceId为此次调用链共享id；
-SpanId本应用唯一id；
-ParentSpanId为上级应用唯一id；
-X-Span-Export是否是发送给Zipkin。
-```
+- TraceId为此次调用链共享id；
+- SpanId本应用唯一id；
+- ParentSpanId为上级应用唯一id；
+- X-Span-Export是否是发送给Zipkin。
+
 ### 4.3.2、sleuth的原理
-```
 Spring Cloud Sleuth可以追踪10种类型的组件：async、Hystrix、messaging、websocket、rxjava、scheduling、web（Spring MVC Controller，Servlet）、webclient（Spring RestTemplate）、Feign、Zuul。
 
 例如scheduling
 原理是AOP（TraceSchedulingAspect、TraceSchedulingAutoConfiguration）处理Scheduled注解，只要是在IOC容器中的Bean带有@Scheduled注解的方法的调用都会被sleuth处理。
 
 其他组件实现见包org.springframework.cloud.sleuth.instrument。
-```
 
 # 五、注意事项
+- 更改hosts文件，添加如下内容
 ```
-1、更改hosts文件，添加如下内容
   127.0.0.1       nodeA
   127.0.0.1       nodeB
 ```
