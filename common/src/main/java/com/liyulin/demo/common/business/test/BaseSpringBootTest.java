@@ -27,7 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
 @Slf4j
-public class BaseTest {
+public class BaseSpringBootTest {
 	
 	static {
 		UnitTestUtil.setTest(true);

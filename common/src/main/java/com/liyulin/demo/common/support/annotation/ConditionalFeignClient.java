@@ -16,7 +16,7 @@ import com.liyulin.demo.common.support.condition.FeignClientCondition;
 import springfox.documentation.annotations.ApiIgnore;
 
 /**
- * {@link FeignClient}自定义条件封装
+ * <code>FeignClient</code>自定义条件封装
  *
  * @author liyulin
  * @date 2019年3月22日下午2:42:14

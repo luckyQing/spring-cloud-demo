@@ -9,12 +9,12 @@ import com.liyulin.demo.common.business.dto.BasePageResp;
 import com.liyulin.demo.common.business.dto.Req;
 import com.liyulin.demo.common.business.dto.Resp;
 import com.liyulin.demo.common.business.exception.enums.ReturnCodeEnum;
-import com.liyulin.demo.common.business.test.BaseTest;
+import com.liyulin.demo.common.business.test.BaseSpringBootTest;
 import com.liyulin.demo.common.business.util.ReqUtil;
 import com.liyulin.demo.rpc.product.request.api.PageProductReqBody;
 import com.liyulin.demo.rpc.product.response.api.PageProductRespBody;
 
-public class ProductInfoApiControllerTest extends BaseTest {
+public class ProductInfoApiControllerTest extends BaseSpringBootTest {
 
 	@Test
 	public void testPageProduct() throws Exception {

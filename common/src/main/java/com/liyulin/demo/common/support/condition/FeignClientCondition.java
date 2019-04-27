@@ -19,7 +19,7 @@ import com.liyulin.demo.common.util.ObjectUtil;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * {@code FeignClient}生效条件判断
+ * <code>FeignClient</code>生效条件判断
  * 
  * <h3>判断逻辑</h3>
  * <ul>

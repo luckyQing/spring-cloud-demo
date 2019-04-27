@@ -1,6 +1,5 @@
 package com.liyulin.demo.common.support.condition.util;
 
-import java.lang.annotation.Annotation;
 import java.util.Set;
 
 import org.reflections.Reflections;
@@ -19,7 +18,10 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class ConditionUtil {
 
-	private static Reflections reflections = new Reflections(CommonConstants.BASE_PACAKGE);
+	private static Reflections reflections = null;
+	static {
+		reflections = new Reflections(CommonConstants.BASE_PACAKGE);
+	}
 
 	/**
 	 * 根据父类类型获取所有子类类型
@@ -29,16 +31,6 @@ public class ConditionUtil {
 	 */
 	public static <T> Set<Class<? extends T>> getSubTypesOf(final Class<T> type) {
 		return reflections.getSubTypesOf(type);
-	}
-
-	/**
-	 * 获取被当前注解标记的所有类
-	 * 
-	 * @param annotation
-	 * @return
-	 */
-	public Set<Class<?>> getTypesAnnotatedWith(final Class<? extends Annotation> annotation) {
-		return reflections.getTypesAnnotatedWith(annotation);
 	}
 
 }

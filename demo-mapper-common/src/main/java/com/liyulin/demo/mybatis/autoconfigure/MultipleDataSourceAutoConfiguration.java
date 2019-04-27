@@ -37,7 +37,7 @@ import com.liyulin.demo.common.support.UniqueBeanNameGenerator;
 import com.liyulin.demo.common.util.CollectionUtil;
 import com.liyulin.demo.common.util.LogUtil;
 import com.liyulin.demo.mybatis.autoconfigure.MultipleDataSourceAutoConfiguration.MultipleDataSourceRegistrar;
-import com.liyulin.demo.mybatis.plugin.SqlLogInterceptor;
+import com.liyulin.demo.mybatis.plugin.MybatisSqlLogInterceptor;
 import com.zaxxer.hikari.HikariDataSource;
 
 import tk.mybatis.spring.mapper.MapperScannerConfigurer;
@@ -53,7 +53,7 @@ import tk.mybatis.spring.mapper.MapperScannerConfigurer;
 @Import({ MultipleDataSourceRegistrar.class })
 public class MultipleDataSourceAutoConfiguration {
 	
-	/** {@code DataSourceTransactionManager} bean名称组成部分（后缀） */
+	/** <code>DataSourceTransactionManager</code> bean名称组成部分（后缀） */
 	public static final String TRANSACTION_MANAGER_NAME = "DataSourceTransactionManager";
 	
 	/**
@@ -66,7 +66,7 @@ public class MultipleDataSourceAutoConfiguration {
 			implements BeanFactoryAware, EnvironmentAware, ImportBeanDefinitionRegistrar {
 
 		private Map<String, SingleDataSourceProperties> dataSources;
-		private SqlLogInterceptor sqlLogInterceptor;
+		private MybatisSqlLogInterceptor mybatisSqlLogInterceptor;
 		private PageInterceptor pageInterceptor;
 		private Binder binder;
 		private ConfigurableBeanFactory beanFactory;
@@ -87,7 +87,7 @@ public class MultipleDataSourceAutoConfiguration {
 		@Override
 		public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata,
 				BeanDefinitionRegistry registry) {
-			sqlLogInterceptor = new SqlLogInterceptor();
+			mybatisSqlLogInterceptor = new MybatisSqlLogInterceptor();
 			pageInterceptor = buildPageInterceptor();
 
 			Map<String, Object> dataSourcesMap = binder.bind(CommonProperties.PropertiesName.DATA_SOURCES, Map.class).get();
@@ -134,7 +134,7 @@ public class MultipleDataSourceAutoConfiguration {
 		}
 
 		/**
-		 * 创建并注册{@code HikariDataSource}
+		 * 创建并注册<code>HikariDataSource</code>
 		 * 
 		 * @param serviceName
 		 * @param dataSourceProperties
@@ -161,7 +161,7 @@ public class MultipleDataSourceAutoConfiguration {
 		}
 
 		/**
-		 * 创建并注册{@code SqlSessionFactoryBean}
+		 * 创建并注册<code>SqlSessionFactoryBean</code>
 		 * 
 		 * @param beanName
 		 * @param dataSourceProperties
@@ -180,7 +180,7 @@ public class MultipleDataSourceAutoConfiguration {
 			} catch (IOException e) {
 				LogUtil.error(e.getMessage(), e);
 			}
-			sqlSessionFactoryBean.setPlugins(new Interceptor[] { sqlLogInterceptor, pageInterceptor });
+			sqlSessionFactoryBean.setPlugins(new Interceptor[] { mybatisSqlLogInterceptor, pageInterceptor });
 			// 注册bean
 			registerBean(beanName, sqlSessionFactoryBean);
 
@@ -188,7 +188,7 @@ public class MultipleDataSourceAutoConfiguration {
 		}
 
 		/**
-		 * 创建并注册{@code DataSourceTransactionManager}
+		 * 创建并注册<code>DataSourceTransactionManager</code>
 		 * 
 		 * @param serviceName
 		 * @param dataSourceProperties
@@ -207,7 +207,7 @@ public class MultipleDataSourceAutoConfiguration {
 		}
 
 		/**
-		 * 创建并注册{@code MapperScannerConfigurer}
+		 * 创建并注册<code>MapperScannerConfigurer</code>
 		 * 
 		 * @param serviceName
 		 * @param sqlSessionFactoryBeanName
