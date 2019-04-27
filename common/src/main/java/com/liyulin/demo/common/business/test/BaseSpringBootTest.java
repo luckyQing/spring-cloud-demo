@@ -19,7 +19,7 @@ import com.liyulin.demo.common.util.UnitTestUtil;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * 单元测试基类
+ * SpringBoot单元测试基类
  *
  * @author liyulin
  * @date 2019年4月22日上午12:25:45
@@ -27,7 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
 @Slf4j
-public class BaseSpringBootTest {
+public abstract class BaseSpringBootTest {
 	
 	static {
 		UnitTestUtil.setTest(true);

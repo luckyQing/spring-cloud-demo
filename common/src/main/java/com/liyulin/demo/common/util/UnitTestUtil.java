@@ -15,7 +15,7 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class UnitTestUtil {
 
-	/** 是否时单元测试环境（在加载{@link BaseSpringBootTest}时，手动初始化{@code test}的值） */
+	/** 是否是单元测试环境（在加载{@link BaseSpringBootTest}时，手动初始化<code>test</code>的值） */
 	@Getter
 	@Setter
 	private static boolean test = false;
