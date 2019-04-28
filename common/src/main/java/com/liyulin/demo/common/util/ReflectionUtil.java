@@ -1,7 +1,8 @@
-package com.liyulin.demo.common.support.condition.util;
+package com.liyulin.demo.common.util;
 
 import java.util.Set;
 
+import org.reflections.ReflectionUtils;
 import org.reflections.Reflections;
 import org.springframework.context.annotation.Condition;
 
@@ -16,7 +17,7 @@ import lombok.experimental.UtilityClass;
  * @date 2019年4月27日上午3:56:53
  */
 @UtilityClass
-public class ConditionUtil {
+public class ReflectionUtil extends ReflectionUtils {
 
 	private static Reflections reflections = null;
 	static {

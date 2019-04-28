@@ -13,10 +13,19 @@ import org.junit.runners.model.InitializationError;
 import org.junit.runners.model.RunnerBuilder;
 
 import com.liyulin.demo.common.business.test.BaseSpringBootTest;
-import com.liyulin.demo.common.support.condition.util.ConditionUtil;
 import com.liyulin.demo.common.util.ArrayUtil;
 import com.liyulin.demo.common.util.CollectionUtil;
+import com.liyulin.demo.common.util.ReflectionUtil;
 
+/**
+ * 套件测试Runner
+ * 
+ * <p>
+ * 自动搜索满足条件的Test类，以便以套件的方式进行测试
+ *
+ * @author liyulin
+ * @date 2019年4月28日上午12:54:15
+ */
 public class AllTestsRunner extends Suite {
 
 	public AllTestsRunner(Class<?> clazz, RunnerBuilder builder) throws InitializationError {
@@ -24,7 +33,7 @@ public class AllTestsRunner extends Suite {
 	}
 
 	private static Class<?>[] getSuiteClasses() {
-		Set<Class<? extends BaseSpringBootTest>> set = ConditionUtil.getSubTypesOf(BaseSpringBootTest.class);
+		Set<Class<? extends BaseSpringBootTest>> set = ReflectionUtil.getSubTypesOf(BaseSpringBootTest.class);
 		if (CollectionUtil.isEmpty(set)) {
 			return new Class<?>[0];
 		}

@@ -11,10 +11,10 @@ import org.springframework.core.type.ClassMetadata;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.liyulin.demo.common.support.condition.util.ConditionUtil;
 import com.liyulin.demo.common.util.ArrayUtil;
 import com.liyulin.demo.common.util.CollectionUtil;
 import com.liyulin.demo.common.util.ObjectUtil;
+import com.liyulin.demo.common.util.ReflectionUtil;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -48,7 +48,7 @@ public class FeignClientCondition implements Condition {
 		}
 
 		// 2、获取interface对应的所有实现类
-		Set<?> subTypes = ConditionUtil.getSubTypesOf(interfaceClass);
+		Set<?> subTypes = ReflectionUtil.getSubTypesOf(interfaceClass);
 
 		// 3、判断是否存在RPC interface的实现类，且实现类上有Controller、RestController注解
 		if (CollectionUtil.isEmpty(subTypes)) {

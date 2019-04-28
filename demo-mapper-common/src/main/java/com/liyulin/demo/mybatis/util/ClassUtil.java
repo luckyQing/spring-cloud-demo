@@ -1,4 +1,4 @@
-package com.liyulin.demo.common.util;
+package com.liyulin.demo.mybatis.util;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;

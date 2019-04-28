@@ -75,6 +75,17 @@
 > 		<td>-</td>
 > 	</tr>
 > 	<tr>
+> 		<td rowspan=2>冒烟测试模块</td>
+> 		<td>demo-smoking-test-module</td>
+> 		<td>冒烟测试模块父项目</td>
+> 		<td>-</td>
+> 	</tr>
+> 	<tr>
+> 		<td>demo-mall-smoking-test</td>
+> 		<td>商城冒烟测试</td>
+> 		<td>-</td>
+> 	</tr>
+> 	<tr>
 > 		<td rowspan=2>服务合并模块</td>
 > 		<td>demo-merge-module</td>
 > 		<td>合并模块父项目</td>
