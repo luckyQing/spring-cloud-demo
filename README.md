@@ -7,9 +7,9 @@
 - 接口（签名）安全保证
 - 业务无关功能（如日志打印、公共配置、常用工具类等）抽象为公共模块
 - 单体服务开发接阶段测试不依赖其他服务（挡板测试、关闭eureka）
+- 通过单元测试、冒烟测试减少代码的缺陷
 - 代码安全保护
 - 技术栈稳定、实用、易用
-- 通过单元测试、冒烟测试减少代码的缺陷
 
 ----------
 > <table>
@@ -120,17 +120,39 @@
 ----------
 
 # 二、技术栈
-| 名称 | 说明 |
-| - | - |
-| [spring boot](https://spring.io/projects/spring-boot/) | 手脚架 |
-| [spring cloud gateway](https://spring.io/projects/spring-cloud-gateway) | 服务网关 |
-| [eureka](https://spring.io/projects/spring-cloud-netflix) | 服务注册 |
-| [spring boot admin](https://github.com/codecentric/spring-boot-admin) | 服务监控 |
-| [openfeign](https://spring.io/projects/spring-cloud-openfeign) | 声明式服务调用 |
-| [sleuth](https://spring.io/projects/spring-cloud-sleuth)、[log4j2](https://logging.apache.org/log4j/2.x/) | 链路追踪、日志 |
-| [mybatis](http://www.mybatis.org/mybatis-3/zh/index.html) 、[mapper](https://github.com/abel533/Mapper)| ORM |
-| [swagger](https://swagger.io/)、[gitbook](https://www.gitbook.com/) | 接口文档 |
-| [Lombok](https://www.projectlombok.org/) | 简化代码 |
+## （一）服务端
+ 名称 | 说明
+---|---
+[spring boot](https://spring.io/projects/spring-boot/) | 手脚架 
+[spring cloud gateway](https://spring.io/projects/spring-cloud-gateway) | 服务网关 
+[eureka](https://spring.io/projects/spring-cloud-netflix) | 服务注册 
+[spring boot admin](https://github.com/codecentric/spring-boot-admin) | 服务监控 
+[携程apollo](https://github.com/ctripcorp/apollo) | 配置中心 
+[openfeign](https://spring.io/projects/spring-cloud-openfeign) | 声明式服务调用 
+[sleuth](https://spring.io/projects/spring-cloud-sleuth)、[log4j2](https://logging.apache.org/log4j/2.x/) | 链路追踪、日志 
+[mybatis](http://www.mybatis.org/mybatis-3/zh/index.html) 、[mapper](https://github.com/abel533/Mapper)| ORM 
+[redis](https://redis.io/) | 缓存 
+[rocketmq](https://github.com/apache/rocketmq) | 消息队列 
+[fastdfs](https://github.com/happyfish100/fastdfs) | 文件存储 
+[xxl-job](https://github.com/xuxueli/xxl-job)| 定时任务 
+[easyexcel](https://github.com/alibaba/easyexcel) | excel导入导出
+[Hibernator-Validator](http://hibernate.org/validator/) | 参数校验 
+[swagger](https://swagger.io/)、[gitbook](https://www.gitbook.com/) | 接口文档 
+[xjar](https://github.com/core-lib/xjar) | 代码安全 
+[Lombok](https://www.projectlombok.org/) | 简化代码 
+## （二）前端
+技术 | 说明
+---|---
+[Vue](https://vuejs.org/) | 前端框架
+[Vue-router](https://router.vuejs.org/) | 路由框架
+[Vuex](https://vuex.vuejs.org/) | 全局状态管理框架
+[Element](https://element.eleme.io/) | 前端UI框架
+[mpvue](https://github.com/Meituan-Dianping/mpvue) | 基于 Vue.js 的小程序开发框架
+[Axios](https://github.com/axios/axios) | 前端HTTP框架
+[Js-cookie](https://github.com/js-cookie/js-cookie) | cookie管理工具
+[nprogress](https://github.com/rstacruz/nprogress) | 进度条控件
+[quicklink](https://github.com/GoogleChromeLabs/quicklink) | 在空闲时预取viewport内的链接来加快后续页面的加载速度
+[Font Awesome](http://fontawesome.dashgame.com/) | 图标
 
 # 三、相关说明
 ## （一）接口协议
