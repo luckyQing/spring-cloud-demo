@@ -33,7 +33,7 @@ import lombok.extern.slf4j.Slf4j;
  * @date 2019年3月22日下午2:30:00
  */
 @Slf4j
-public class FeignClientCondition implements Condition {
+public class SmartFeignClientCondition implements Condition {
 	
 	@Override
 	public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {

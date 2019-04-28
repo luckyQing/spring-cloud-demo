@@ -11,7 +11,7 @@ import com.liyulin.demo.common.business.dto.BaseDto;
 import com.liyulin.demo.common.business.dto.Req;
 import com.liyulin.demo.common.business.dto.Resp;
 import com.liyulin.demo.common.business.exception.enums.ReturnCodeEnum;
-import com.liyulin.demo.common.business.test.BaseSpringBootTest;
+import com.liyulin.demo.common.business.test.AbstractSpringBootTest;
 import com.liyulin.demo.common.business.util.ReqUtil;
 import com.liyulin.demo.common.util.MockUtil;
 import com.liyulin.demo.common.web.aop.FeignAspect;
@@ -21,7 +21,7 @@ import com.liyulin.demo.rpc.order.response.api.CreateOrderRespBody;
 import com.liyulin.demo.rpc.product.response.rpc.QryProductByIdRespBody;
 import com.liyulin.demo.rpc.product.response.rpc.QryProductByIdsRespBody;
 
-public class OrderApiControllerTest extends BaseSpringBootTest {
+public class OrderApiControllerTest extends AbstractSpringBootTest {
 
 	@SuppressWarnings("unchecked")
 	@Test

@@ -6,6 +6,6 @@ package com.liyulin.demo.common.business.test;
  * @author liyulin
  * @date 2019年4月27日下午2:22:36
  */
-public abstract class BaseSmokingTest {
+public abstract class AbstractSmokingTest {
 
 }

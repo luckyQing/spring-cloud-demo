@@ -12,6 +12,7 @@ import org.springframework.boot.autoconfigure.AutoConfigurationExcludeFilter;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.context.TypeExcludeFilter;
+import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.ComponentScan;
@@ -22,7 +23,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
 
 import com.liyulin.demo.common.constants.CommonConstants;
 import com.liyulin.demo.common.support.UniqueBeanNameGenerator;
-import com.liyulin.demo.common.support.condition.MainServiceCondition;
+import com.liyulin.demo.common.support.condition.SmartSpringCloudApplicationCondition;
 
 /**
  * 服务启动类注解
@@ -41,8 +42,9 @@ import com.liyulin.demo.common.support.condition.MainServiceCondition;
 		@Filter(type = FilterType.CUSTOM, classes = AutoConfigurationExcludeFilter.class) })
 @EnableFeignClients(basePackages = { CommonConstants.BASE_RPC_PACAKGE })
 @EnableDiscoveryClient
+@EnableCircuitBreaker
 @EnableAsync
-@Conditional(MainServiceCondition.class)
-public @interface MainService {
-	
+@Conditional(SmartSpringCloudApplicationCondition.class)
+public @interface SmartSpringCloudApplication {
+
 }

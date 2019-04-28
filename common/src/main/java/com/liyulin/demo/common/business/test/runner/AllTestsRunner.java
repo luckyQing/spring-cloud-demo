@@ -12,7 +12,7 @@ import org.junit.runners.Suite;
 import org.junit.runners.model.InitializationError;
 import org.junit.runners.model.RunnerBuilder;
 
-import com.liyulin.demo.common.business.test.BaseSpringBootTest;
+import com.liyulin.demo.common.business.test.AbstractSpringBootTest;
 import com.liyulin.demo.common.util.ArrayUtil;
 import com.liyulin.demo.common.util.CollectionUtil;
 import com.liyulin.demo.common.util.ReflectionUtil;
@@ -33,7 +33,7 @@ public class AllTestsRunner extends Suite {
 	}
 
 	private static Class<?>[] getSuiteClasses() {
-		Set<Class<? extends BaseSpringBootTest>> set = ReflectionUtil.getSubTypesOf(BaseSpringBootTest.class);
+		Set<Class<? extends AbstractSpringBootTest>> set = ReflectionUtil.getSubTypesOf(AbstractSpringBootTest.class);
 		if (CollectionUtil.isEmpty(set)) {
 			return new Class<?>[0];
 		}

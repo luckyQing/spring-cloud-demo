@@ -5,15 +5,15 @@ import org.springframework.context.annotation.ConditionContext;
 import org.springframework.core.type.AnnotatedTypeMetadata;
 import org.springframework.core.type.ClassMetadata;
 
-import com.liyulin.demo.common.support.annotation.MainService;
+import com.liyulin.demo.common.support.annotation.SmartSpringCloudApplication;
 
 /**
- * 判断注解{@link MainService}是否生效
+ * 判断注解{@link SmartSpringCloudApplication}是否生效
  * 
  * @author liyulin
  * @date 2019年4月27日上午3:15:00
  */
-public class MainServiceCondition implements Condition {
+public class SmartSpringCloudApplicationCondition implements Condition {
 
 	private static String bootstrapClassName = null;
 
