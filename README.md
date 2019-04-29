@@ -1,11 +1,13 @@
 # 一、项目说明
 **此项目为spring cloud微服务学习示例项目。所实现功能如下：**
-- 服务可合并（合并后服务间通过内部进程通信；分开后通过rpc通信）
+- 接口文档自动生成（服务启动时通过swagger生成原始数据，处理后上传至gitbook）
 - 可以生成mock数据，充分发挥前后端分离的作用
+- 部署灵活，服务可合并（合并后服务间通过内部进程通信；分开后通过rpc通信）部署
 - 业务无关代码自动生成
 - 接口（签名）安全保证
-- 业务无关需求（如日志打印、公共配置等）抽象为公共模块
+- 业务无关功能（如日志打印、公共配置、常用工具类等）抽象为公共模块
 - 单体服务开发接阶段测试不依赖其他服务（挡板测试、关闭eureka）
+- 通过单元测试、冒烟测试减少代码的缺陷
 - 代码安全保护
 - 技术栈稳定、实用、易用
 
@@ -13,7 +15,7 @@
 > <table>
 > 	<tr>
 > 		<th width="150px">模块</th>
-> 		<th width="225px">项目名</th>
+> 		<th width="235px">项目名</th>
 > 		<th>说明</th>
 > 		<th width="70px">端口</th>
 > 	</tr>
@@ -74,6 +76,17 @@
 > 		<td>-</td>
 > 	</tr>
 > 	<tr>
+> 		<td rowspan=2>冒烟测试模块</td>
+> 		<td>demo-smoking-test-module</td>
+> 		<td>冒烟测试模块父项目</td>
+> 		<td>-</td>
+> 	</tr>
+> 	<tr>
+> 		<td>demo-mall-smoking-test</td>
+> 		<td>商城冒烟测试</td>
+> 		<td>-</td>
+> 	</tr>
+> 	<tr>
 > 		<td rowspan=2>服务合并模块</td>
 > 		<td>demo-merge-module</td>
 > 		<td>合并模块父项目</td>
@@ -107,17 +120,39 @@
 ----------
 
 # 二、技术栈
-| 名称 | 说明 |
-| - | - |
-| [spring boot](https://spring.io/projects/spring-boot/) | 手脚架 |
-| [spring cloud gateway](https://spring.io/projects/spring-cloud-gateway) | 服务网关 |
-| [eureka](https://spring.io/projects/spring-cloud-netflix) | 服务注册 |
-| [spring boot admin](https://github.com/codecentric/spring-boot-admin) | 服务监控 |
-| [openfeign](https://spring.io/projects/spring-cloud-openfeign) | 声明式服务调用 |
-| [sleuth](https://spring.io/projects/spring-cloud-sleuth)、[log4j2](https://logging.apache.org/log4j/2.x/) | 链路追踪、日志 |
-| [mybatis](http://www.mybatis.org/mybatis-3/zh/index.html) 、[mapper](https://github.com/abel533/Mapper)| ORM |
-| [swagger](https://swagger.io/)、[gitbook](https://www.gitbook.com/) | 接口文档 |
-| [Lombok](https://www.projectlombok.org/) | 简化代码 |
+## （一）服务端
+ 名称 | 说明
+---|---
+[spring boot](https://spring.io/projects/spring-boot/) | 手脚架 
+[spring cloud gateway](https://spring.io/projects/spring-cloud-gateway) | 服务网关 
+[eureka](https://spring.io/projects/spring-cloud-netflix) | 服务注册 
+[spring boot admin](https://github.com/codecentric/spring-boot-admin) | 服务监控 
+[携程apollo](https://github.com/ctripcorp/apollo) | 配置中心 
+[openfeign](https://spring.io/projects/spring-cloud-openfeign) | 声明式服务调用 
+[sleuth](https://spring.io/projects/spring-cloud-sleuth)、[log4j2](https://logging.apache.org/log4j/2.x/) | 链路追踪、日志 
+[mybatis](http://www.mybatis.org/mybatis-3/zh/index.html) 、[mapper](https://github.com/abel533/Mapper)| ORM 
+[redis](https://redis.io/) | 缓存 
+[rocketmq](https://github.com/apache/rocketmq) | 消息队列 
+[fastdfs](https://github.com/happyfish100/fastdfs) | 文件存储 
+[xxl-job](https://github.com/xuxueli/xxl-job)| 定时任务 
+[easyexcel](https://github.com/alibaba/easyexcel) | excel导入导出
+[Hibernator-Validator](http://hibernate.org/validator/) | 参数校验 
+[swagger](https://swagger.io/)、[gitbook](https://www.gitbook.com/) | 接口文档 
+[xjar](https://github.com/core-lib/xjar) | 代码安全 
+[Lombok](https://www.projectlombok.org/) | 简化代码 
+## （二）前端
+技术 | 说明
+---|---
+[Vue](https://vuejs.org/) | 前端框架
+[Vue-router](https://router.vuejs.org/) | 路由框架
+[Vuex](https://vuex.vuejs.org/) | 全局状态管理框架
+[Element](https://element.eleme.io/) | 前端UI框架
+[mpvue](https://github.com/Meituan-Dianping/mpvue) | 基于 Vue.js 的小程序开发框架
+[Axios](https://github.com/axios/axios) | 前端HTTP框架
+[Js-cookie](https://github.com/js-cookie/js-cookie) | cookie管理工具
+[nprogress](https://github.com/rstacruz/nprogress) | 进度条控件
+[quicklink](https://github.com/GoogleChromeLabs/quicklink) | 在空闲时预取viewport内的链接来加快后续页面的加载速度
+[Font Awesome](http://fontawesome.dashgame.com/) | 图标
 
 # 三、相关说明
 ## （一）接口协议
@@ -172,6 +207,27 @@
 1. 定义单数据源properties对象SingleDataSourceProperties，多数据源配置数据以Map<String, SingleDataSourceProperties>的形式从yml文件中读取；
 2. 手动（通过new方式）构建所有需要的bean对象；
 3. 手动将bean注入到容器中。
+
+**多数据源配置示例：**
+```
+com:
+  liyulin:
+    data-sources:
+      product:
+        url: jdbc:mysql://127.0.0.1:3306/demo_product?characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+        username: root
+        password: 123456
+        type-aliases-package: com.liyulin.demo.mall.product.entity
+        mapper-interface-location: com.liyulin.demo.mall.product.mapper
+        mapper-xml-location: classpath*:com/liyulin/demo/mall/product/mybatis/**.xml
+      order:
+        url: jdbc:mysql://127.0.0.1:3306/demo_order?characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+        username: root
+        password: 123456
+        type-aliases-package: com.liyulin.demo.mall.order.entity
+        mapper-interface-location: com.liyulin.demo.mall.order.mapper
+        mapper-xml-location: classpath*:com/liyulin/demo/mall/order/mybatis/**.xml
+```
 
 ## （四）接口mock数据
 接口通过切面拦截的方式，通过反射可以获取返回对象的所有信息，然后根据对象的属性类型，可以随机生成数据；对于特定要求的数据，可以制定mock规则，生成指定格式的数据。

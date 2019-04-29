@@ -30,13 +30,14 @@ import org.springframework.util.Assert;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInterceptor;
+import com.liyulin.demo.common.constants.SymbolConstants;
 import com.liyulin.demo.common.properties.CommonProperties;
 import com.liyulin.demo.common.properties.SingleDataSourceProperties;
 import com.liyulin.demo.common.support.UniqueBeanNameGenerator;
 import com.liyulin.demo.common.util.CollectionUtil;
 import com.liyulin.demo.common.util.LogUtil;
 import com.liyulin.demo.mybatis.autoconfigure.MultipleDataSourceAutoConfiguration.MultipleDataSourceRegistrar;
-import com.liyulin.demo.mybatis.plugin.SqlLogInterceptor;
+import com.liyulin.demo.mybatis.plugin.MybatisSqlLogInterceptor;
 import com.zaxxer.hikari.HikariDataSource;
 
 import tk.mybatis.spring.mapper.MapperScannerConfigurer;
@@ -51,7 +52,10 @@ import tk.mybatis.spring.mapper.MapperScannerConfigurer;
 @EnableTransactionManagement
 @Import({ MultipleDataSourceRegistrar.class })
 public class MultipleDataSourceAutoConfiguration {
-
+	
+	/** <code>DataSourceTransactionManager</code> bean名称组成部分（后缀） */
+	public static final String TRANSACTION_MANAGER_NAME = "DataSourceTransactionManager";
+	
 	/**
 	 * 多数据源bean注册
 	 *
@@ -62,10 +66,12 @@ public class MultipleDataSourceAutoConfiguration {
 			implements BeanFactoryAware, EnvironmentAware, ImportBeanDefinitionRegistrar {
 
 		private Map<String, SingleDataSourceProperties> dataSources;
-		private SqlLogInterceptor sqlLogInterceptor;
+		private MybatisSqlLogInterceptor mybatisSqlLogInterceptor;
 		private PageInterceptor pageInterceptor;
 		private Binder binder;
 		private ConfigurableBeanFactory beanFactory;
+		/** jdbc url默认参数 */
+		private String defaultJdbcUrlParams = "characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&serverTimezone=Asia/Shanghai";
 
 		@Override
 		public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
@@ -81,7 +87,7 @@ public class MultipleDataSourceAutoConfiguration {
 		@Override
 		public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata,
 				BeanDefinitionRegistry registry) {
-			sqlLogInterceptor = new SqlLogInterceptor();
+			mybatisSqlLogInterceptor = new MybatisSqlLogInterceptor();
 			pageInterceptor = buildPageInterceptor();
 
 			Map<String, Object> dataSourcesMap = binder.bind(CommonProperties.PropertiesName.DATA_SOURCES, Map.class).get();
@@ -89,8 +95,7 @@ public class MultipleDataSourceAutoConfiguration {
 
 			dataSources = new LinkedHashMap<>(dataSourcesMap.size());
 			for (Map.Entry<String, Object> entry : dataSourcesMap.entrySet()) {
-				dataSources.put(entry.getKey(),
-						JSON.parseObject(JSON.toJSONString(entry.getValue()), SingleDataSourceProperties.class));
+				dataSources.put(entry.getKey(), JSON.parseObject(JSON.toJSONString(entry.getValue()), SingleDataSourceProperties.class));
 			}
 
 			dynamicCreateMultipleDataSourceBeans();
@@ -100,39 +105,52 @@ public class MultipleDataSourceAutoConfiguration {
 		 * 动态创建多数据源的bean，并注册到容器中
 		 */
 		private void dynamicCreateMultipleDataSourceBeans() {
-			// 2、校验SingleDataSourceProperties的属性值
+			// 1、校验SingleDataSourceProperties的属性值
 			for (Map.Entry<String, SingleDataSourceProperties> entry : dataSources.entrySet()) {
 				SingleDataSourceProperties properties = entry.getValue();
 
+				// 所有属性都不能为空
 				boolean isAnyBlank = StringUtils.isAnyBlank(properties.getUrl(), properties.getUsername(),
 						properties.getPassword(), properties.getTypeAliasesPackage(),
 						properties.getMapperInterfaceLocation(), properties.getMapperXmlLocation());
 				Assert.state(!isAnyBlank, SingleDataSourceProperties.class.getCanonicalName() + " attriutes存在未配置的！");
 			}
 
-			// 3、创建所有需要的bean，并加入到容器中
+			// 2、创建所有需要的bean，并加入到容器中
 			dataSources.forEach((serviceName, dataSourceProperties) -> {
-				// 3.1、HikariDataSource
+				// 2.1、HikariDataSource
 				HikariDataSource dataSource = registerDataSource(serviceName, dataSourceProperties);
 
-				// 3.2、SqlSessionFactoryBean
-				String sqlSessionFactoryBeanName = generateBeanName(serviceName, "SqlSessionFactoryName");
+				// 2.2、SqlSessionFactoryBean
+				String sqlSessionFactoryBeanName = generateBeanName(serviceName, SqlSessionFactoryBean.class.getSimpleName());
 				registerSqlSessionFactoryBean(sqlSessionFactoryBeanName, dataSourceProperties, dataSource);
 
-				// 3.3、MapperScannerConfigurer
+				// 2.3、MapperScannerConfigurer
 				registerMapperScannerConfigurer(serviceName, sqlSessionFactoryBeanName, dataSourceProperties);
 
-				// 3.4、DataSourceTransactionManager
+				// 2.4、DataSourceTransactionManager
 				registerDataSourceTransactionManager(serviceName, dataSourceProperties, dataSource);
 			});
 		}
 
+		/**
+		 * 创建并注册<code>HikariDataSource</code>
+		 * 
+		 * @param serviceName
+		 * @param dataSourceProperties
+		 * @return
+		 */
 		private HikariDataSource registerDataSource(String serviceName,
 				SingleDataSourceProperties dataSourceProperties) {
-			String dataSourceBeanName = generateBeanName(serviceName, "DataSource");
+			String dataSourceBeanName = generateBeanName(serviceName, HikariDataSource.class.getSimpleName());
 			// 构建bean对象
 			HikariDataSource dataSource = new HikariDataSource();
-			dataSource.setJdbcUrl(dataSourceProperties.getUrl());
+			String jdbcUrl = dataSourceProperties.getUrl();
+			// 如果jdbcUrl没有设置参数，则用默认设置
+			if (StringUtils.containsNone(jdbcUrl, SymbolConstants.QUESTION_MARK)) {
+				jdbcUrl += SymbolConstants.QUESTION_MARK + defaultJdbcUrlParams;
+			}
+			dataSource.setJdbcUrl(jdbcUrl);
 			dataSource.setUsername(dataSourceProperties.getUsername());
 			dataSource.setPassword(dataSourceProperties.getPassword());
 			dataSource.setDriverClassName(dataSourceProperties.getDriverClassName());
@@ -142,6 +160,14 @@ public class MultipleDataSourceAutoConfiguration {
 			return dataSource;
 		}
 
+		/**
+		 * 创建并注册<code>SqlSessionFactoryBean</code>
+		 * 
+		 * @param beanName
+		 * @param dataSourceProperties
+		 * @param dataSource
+		 * @return
+		 */
 		private SqlSessionFactoryBean registerSqlSessionFactoryBean(String beanName,
 				SingleDataSourceProperties dataSourceProperties, DataSource dataSource) {
 			// 构建bean对象
@@ -154,16 +180,24 @@ public class MultipleDataSourceAutoConfiguration {
 			} catch (IOException e) {
 				LogUtil.error(e.getMessage(), e);
 			}
-			sqlSessionFactoryBean.setPlugins(new Interceptor[] { sqlLogInterceptor, pageInterceptor });
+			sqlSessionFactoryBean.setPlugins(new Interceptor[] { mybatisSqlLogInterceptor, pageInterceptor });
 			// 注册bean
 			registerBean(beanName, sqlSessionFactoryBean);
 
 			return sqlSessionFactoryBean;
 		}
 
+		/**
+		 * 创建并注册<code>DataSourceTransactionManager</code>
+		 * 
+		 * @param serviceName
+		 * @param dataSourceProperties
+		 * @param dataSource
+		 * @return
+		 */
 		private DataSourceTransactionManager registerDataSourceTransactionManager(String serviceName,
 				SingleDataSourceProperties dataSourceProperties, DataSource dataSource) {
-			String dataSourceTransactionManagerBeanName = generateBeanName(serviceName, "DataSourceTransactionManager");
+			String dataSourceTransactionManagerBeanName = generateBeanName(serviceName, TRANSACTION_MANAGER_NAME);
 			// 构建bean对象
 			DataSourceTransactionManager dataSourceTransactionManager = new DataSourceTransactionManager(dataSource);
 			// 注册bean
@@ -172,9 +206,17 @@ public class MultipleDataSourceAutoConfiguration {
 			return dataSourceTransactionManager;
 		}
 
+		/**
+		 * 创建并注册<code>MapperScannerConfigurer</code>
+		 * 
+		 * @param serviceName
+		 * @param sqlSessionFactoryBeanName
+		 * @param dataSourceProperties
+		 * @return
+		 */
 		private MapperScannerConfigurer registerMapperScannerConfigurer(String serviceName,
 				String sqlSessionFactoryBeanName, SingleDataSourceProperties dataSourceProperties) {
-			String mapperScannerConfigurerBeanName = generateBeanName(serviceName, "MapperScannerConfigurer");
+			String mapperScannerConfigurerBeanName = generateBeanName(serviceName, MapperScannerConfigurer.class.getSimpleName());
 			// 构建bean对象
 			MapperScannerConfigurer mapperScannerConfigurer = new MapperScannerConfigurer();
 
@@ -205,13 +247,18 @@ public class MultipleDataSourceAutoConfiguration {
 		 * 生成bean名称
 		 * 
 		 * @param serviceName   服务名
-		 * @param beanClassName bean的类名
+		 * @param beanClassName bean类名
 		 * @return
 		 */
 		private String generateBeanName(String serviceName, String beanClassName) {
 			return serviceName + beanClassName;
 		}
 
+		/**
+		 * 构建分页拦截器
+		 * 
+		 * @return
+		 */
 		private PageInterceptor buildPageInterceptor() {
 			PageInterceptor pageHelper = new PageInterceptor();
 			Properties p = new Properties();

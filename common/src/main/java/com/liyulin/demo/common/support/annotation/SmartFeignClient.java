@@ -11,12 +11,12 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.core.annotation.AliasFor;
 
-import com.liyulin.demo.common.support.condition.FeignClientCondition;
+import com.liyulin.demo.common.support.condition.SmartFeignClientCondition;
 
 import springfox.documentation.annotations.ApiIgnore;
 
 /**
- * {@link FeignClient}自定义条件封装
+ * <code>FeignClient</code>自定义条件封装
  *
  * @author liyulin
  * @date 2019年3月22日下午2:42:14
@@ -26,9 +26,9 @@ import springfox.documentation.annotations.ApiIgnore;
 @Documented
 @Inherited
 @FeignClient
-@Conditional(FeignClientCondition.class)
+@Conditional(SmartFeignClientCondition.class)
 @ApiIgnore
-public @interface ConditionalFeignClient {
+public @interface SmartFeignClient {
 
 	@AliasFor(annotation = FeignClient.class, attribute = "name")
 	public String name() default "";

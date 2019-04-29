@@ -3,8 +3,6 @@ package com.liyulin.demo.common.support.condition;
 import java.lang.annotation.Annotation;
 import java.util.Set;
 
-import org.apache.commons.lang3.StringUtils;
-import org.reflections.Reflections;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.context.annotation.Condition;
 import org.springframework.context.annotation.ConditionContext;
@@ -16,11 +14,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.liyulin.demo.common.util.ArrayUtil;
 import com.liyulin.demo.common.util.CollectionUtil;
 import com.liyulin.demo.common.util.ObjectUtil;
+import com.liyulin.demo.common.util.ReflectionUtil;
 
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * {@code FeignClient}生效条件判断
+ * <code>FeignClient</code>生效条件判断
  * 
  * <h3>判断逻辑</h3>
  * <ul>
@@ -34,11 +33,8 @@ import lombok.extern.slf4j.Slf4j;
  * @date 2019年3月22日下午2:30:00
  */
 @Slf4j
-public class FeignClientCondition implements Condition {
-
-	/** 扫描类所在的包 */
-	private static final String SCAN_PACKAGE = getScanPackage(FeignClientCondition.class.getTypeName());
-
+public class SmartFeignClientCondition implements Condition {
+	
 	@Override
 	public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {
 		// 1、获取使用@FeignClient的interface的Class
@@ -52,8 +48,7 @@ public class FeignClientCondition implements Condition {
 		}
 
 		// 2、获取interface对应的所有实现类
-		Reflections reflections = new Reflections(SCAN_PACKAGE);
-		Set<?> subTypes = reflections.getSubTypesOf(interfaceClass);
+		Set<?> subTypes = ReflectionUtil.getSubTypesOf(interfaceClass);
 
 		// 3、判断是否存在RPC interface的实现类，且实现类上有Controller、RestController注解
 		if (CollectionUtil.isEmpty(subTypes)) {
@@ -96,23 +91,6 @@ public class FeignClientCondition implements Condition {
 
 	private boolean isRpcImplementClass(Annotation annotation) {
 		return annotation instanceof RestController || annotation instanceof Controller;
-	}
-
-	/**
-	 * 获取扫描类的包名（两个"."）
-	 * 
-	 * @param typeName
-	 * @return
-	 */
-	private static String getScanPackage(String typeName) {
-		int dotCount = 0;
-		for (int i = 0; i < typeName.length(); i++) {
-			if (typeName.charAt(i) == '.' && (++dotCount) == 3) {
-				return typeName.substring(0, i);
-			}
-		}
-
-		return StringUtils.EMPTY;
 	}
 
 }

@@ -2,7 +2,7 @@ com:
   liyulin:
     data-sources:
       order:
-        url: jdbc:mysql://127.0.0.1:3306/demo_order?characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+        url: jdbc:mysql://127.0.0.1:3306/demo_order
         username: root
         password: 123456
         type-aliases-package: com.liyulin.demo.mall.order.entity

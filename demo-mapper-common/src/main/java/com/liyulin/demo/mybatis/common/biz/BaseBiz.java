@@ -4,10 +4,10 @@ import java.util.Date;
 
 import org.springframework.beans.BeanUtils;
 
-import com.liyulin.demo.common.util.ClassUtil;
 import com.liyulin.demo.common.util.SnowFlakeIdUtil;
 import com.liyulin.demo.mybatis.common.mapper.entity.BaseEntity;
 import com.liyulin.demo.mybatis.common.mapper.enums.DelStateEnum;
+import com.liyulin.demo.mybatis.util.ClassUtil;
 
 public class BaseBiz<T extends BaseEntity> {
 

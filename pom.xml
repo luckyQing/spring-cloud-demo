@@ -105,7 +105,7 @@
 				<artifactId>podam</artifactId>
 				<version>${podam}</version>
 			</dependency>
-			
+
 			<dependency>
 				<groupId>com.google.guava</groupId>
 				<artifactId>guava</artifactId>
@@ -161,7 +161,6 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
 			<exclusions>
 				<exclusion>
 					<groupId>org.springframework.boot</groupId>
@@ -178,7 +177,8 @@
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
-			<scope>provided</scope>
+			<scope>compile</scope>
+			<optional>true</optional>
 		</dependency>
 	</dependencies>
 
@@ -225,5 +225,6 @@
 		<module>demo-mall-module</module>
 		<module>demo-merge-module</module>
 		<module>demo-code-auto-generate</module>
+		<module>demo-smoking-test-module</module>
 	</modules>
 </project>

@@ -8,7 +8,7 @@ import org.hibernate.validator.internal.engine.valueextraction.ValueExtractorDes
 import com.liyulin.demo.common.business.dto.Req;
 
 /**
- * {@link Req}泛型参数T校验生效
+ * <code>Req<code>泛型参数T校验生效
  *
  * @author liyulin
  * @date 2019年3月29日下午11:13:23

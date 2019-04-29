@@ -19,7 +19,7 @@ import com.liyulin.demo.common.util.UnitTestUtil;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * 单元测试基类
+ * SpringBoot单元测试基类
  *
  * @author liyulin
  * @date 2019年4月22日上午12:25:45
@@ -27,7 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
 @Slf4j
-public class BaseTest {
+public abstract class AbstractSpringBootTest {
 	
 	static {
 		UnitTestUtil.setTest(true);
@@ -38,7 +38,7 @@ public class BaseTest {
 	@Autowired
 	protected WebApplicationContext applicationContext;
 
-	public <T> T postXml(String url, Object req, Class<T> beanClass) throws Exception {
+	protected <T> T postXml(String url, Object req, Class<T> beanClass) throws Exception {
 		MockMvc mvc = MockMvcBuilders.webAppContextSetup(applicationContext).build();
 		String xml = JAXBUtil.beanToXml(req);
 		log.info("requestBody={}", xml);
@@ -52,7 +52,7 @@ public class BaseTest {
 		return JAXBUtil.xmlToBean(content, beanClass);
 	}
 
-	public <T> T postJson(String url, Object req, TypeReference<T> typeReference) throws Exception {
+	protected <T> T postJson(String url, Object req, TypeReference<T> typeReference) throws Exception {
 		MockMvc mvc = MockMvcBuilders.webAppContextSetup(applicationContext).build();
 		String requestBody = JSON.toJSONString(req);
 		log.info("requestBody={}", requestBody);

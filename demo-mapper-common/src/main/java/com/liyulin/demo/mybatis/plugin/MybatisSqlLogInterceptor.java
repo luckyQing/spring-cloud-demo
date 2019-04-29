@@ -36,7 +36,7 @@ import com.liyulin.demo.common.util.LogUtil;
 		@Signature(type = Executor.class, method = "query", args = { MappedStatement.class, Object.class, RowBounds.class, ResultHandler.class }),
 		@Signature(type = Executor.class, method = "query", args = { MappedStatement.class, Object.class, RowBounds.class, ResultHandler.class, CacheKey.class, BoundSql.class }),
 		@Signature(type = Executor.class, method = "queryCursor", args = { MappedStatement.class, Object.class, RowBounds.class }) })
-public class SqlLogInterceptor implements Interceptor {
+public class MybatisSqlLogInterceptor implements Interceptor {
 
 	private static final String QUOTE = "\\?";
 
