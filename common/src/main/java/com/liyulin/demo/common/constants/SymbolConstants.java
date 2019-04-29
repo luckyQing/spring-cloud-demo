@@ -1,14 +1,11 @@
 package com.liyulin.demo.common.constants;
 
-import lombok.experimental.UtilityClass;
-
 /**
  * 符号常量
  *
  * @author liyulin
  * @date 2019年4月27日上午2:03:48
  */
-@UtilityClass
 public class SymbolConstants {
 
 	/** 点 */
