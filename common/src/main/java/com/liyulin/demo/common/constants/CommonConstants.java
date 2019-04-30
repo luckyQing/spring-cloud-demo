@@ -13,7 +13,7 @@ public class CommonConstants {
 	
 	/** 基础包 */
 	public static final String BASE_PACAKGE = "com.liyulin";
-
+	
 	/** rpc基础包 */
 	public static final String BASE_RPC_PACAKGE = "com.liyulin.demo.rpc";
 	
@@ -22,8 +22,5 @@ public class CommonConstants {
 
 	/** 接口日志切面 */
 	public static final String LOG_AOP_EXECUTION = "execution( * com.liyulin.demo..controller..*.*(..))";
-
-	/** feign切面 */
-	public static final String FEIGN_MOCK_AOP_EXECUTION = "execution( * com.liyulin.demo.rpc..*Rpc.*(..))";
 
 }

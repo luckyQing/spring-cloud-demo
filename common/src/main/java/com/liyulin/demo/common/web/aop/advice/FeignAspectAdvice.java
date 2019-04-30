@@ -1,21 +1,19 @@
-package com.liyulin.demo.common.web.aop;
+package com.liyulin.demo.common.web.aop.advice;
 
+import java.lang.reflect.Method;
 import java.util.Date;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.Signature;
-import org.aspectj.lang.annotation.Around;
-import org.aspectj.lang.annotation.Aspect;
-import org.springframework.stereotype.Component;
+import org.aopalliance.intercept.MethodInterceptor;
+import org.aopalliance.intercept.MethodInvocation;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.liyulin.demo.common.business.dto.Req;
 import com.liyulin.demo.common.business.util.ReqHeadUtil;
-import com.liyulin.demo.common.constants.CommonConstants;
+import com.liyulin.demo.common.constants.SymbolConstants;
 import com.liyulin.demo.common.util.LogUtil;
 import com.liyulin.demo.common.util.ObjectUtil;
 import com.liyulin.demo.common.util.UnitTestUtil;
@@ -29,9 +27,7 @@ import com.liyulin.demo.common.web.aop.util.AspectUtil;
  * @author liyulin
  * @date 2019年4月21日下午3:32:33
  */
-@Aspect
-@Component
-public class FeignAspect {
+public class FeignAspectAdvice implements MethodInterceptor {
 
 	private static ConcurrentLinkedQueue<Object> mockData = new ConcurrentLinkedQueue<>();
 
@@ -39,45 +35,43 @@ public class FeignAspect {
 		mockData.add(object);
 	}
 
-	@Around(CommonConstants.FEIGN_MOCK_AOP_EXECUTION)
-	public Object around(ProceedingJoinPoint joinPoint) throws Throwable {
+	@Override
+	public Object invoke(MethodInvocation invocation) throws Throwable {
 		// 如果为单元测试环境，则直接返回mock数据
 		if (UnitTestUtil.isTest()) {
 			return mockData.poll();
 		}
-		
+
 		FeignAspectDto logDto = new FeignAspectDto();
 		logDto.setReqStartTime(new Date());
-		
+
 		ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
 		HttpServletRequest request = attributes.getRequest();
-		String apiDesc = AspectUtil.getFeignMethodDesc(joinPoint, request.getServletPath());
+
+		Method method = invocation.getMethod();
+		String apiDesc = AspectUtil.getFeignMethodDesc(method, request.getServletPath());
 		logDto.setApiDesc(apiDesc);
-		
-		Signature signature = joinPoint.getSignature();
-		String classMethod = signature.getDeclaringTypeName() + "." + signature.getName();
+
+		String classMethod = method.getDeclaringClass().getTypeName() + SymbolConstants.DOT + method.getName();
 		logDto.setClassMethod(classMethod);
 
 		// 1、填充head
-		Object[] args = joinPoint.getArgs();
-		if (ObjectUtil.isNotNull(args) 
-				&& args.length == 1 
-				&& ObjectUtil.isNotNull(args[0]) 
-				&& args[0] instanceof Req) {
+		Object[] args = invocation.getArguments();
+		if (ObjectUtil.isNotNull(args) && args.length == 1 && ObjectUtil.isNotNull(args[0]) && args[0] instanceof Req) {
 			Req<?> req = (Req<?>) args[0];
 			req.setHead(ReqHeadUtil.of());
 			// TODO:填充token、sign
 		}
-		
+
 		logDto.setRequestParams(WebUtil.getRequestArgs(args));
 
 		// 2、rpc
-		Object result = joinPoint.proceed();
-		
+		Object result = invocation.proceed();
+
 		logDto.setReqEndTime(new Date());
 		logDto.setReqDealTime((int) (logDto.getReqEndTime().getTime() - logDto.getReqStartTime().getTime()));
 		logDto.setResponseData(result);
-		
+
 		// 3、打印日志
 		LogUtil.info("rpc.logDto=>{}", logDto);
 

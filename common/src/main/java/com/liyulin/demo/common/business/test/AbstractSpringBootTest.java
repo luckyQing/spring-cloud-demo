@@ -41,13 +41,13 @@ public abstract class AbstractSpringBootTest {
 	protected <T> T postXml(String url, Object req, Class<T> beanClass) throws Exception {
 		MockMvc mvc = MockMvcBuilders.webAppContextSetup(applicationContext).build();
 		String xml = JAXBUtil.beanToXml(req);
-		log.info("requestBody={}", xml);
+		log.info("test.requestBody={}", xml);
 
 		MvcResult result = mvc.perform(MockMvcRequestBuilders.post(url).contentType(MediaType.APPLICATION_XML)
 				.content(xml).accept(MediaType.APPLICATION_XML)).andReturn();
 
 		String content = result.getResponse().getContentAsString();
-		log.info("content={}", content);
+		log.info("test.result={}", content);
 
 		return JAXBUtil.xmlToBean(content, beanClass);
 	}
@@ -55,13 +55,13 @@ public abstract class AbstractSpringBootTest {
 	protected <T> T postJson(String url, Object req, TypeReference<T> typeReference) throws Exception {
 		MockMvc mvc = MockMvcBuilders.webAppContextSetup(applicationContext).build();
 		String requestBody = JSON.toJSONString(req);
-		log.info("requestBody={}", requestBody);
+		log.info("test.requestBody={}", requestBody);
 
 		MvcResult result = mvc.perform(MockMvcRequestBuilders.post(url).contentType(MediaType.APPLICATION_JSON_UTF8)
 				.content(requestBody).accept(MediaType.APPLICATION_JSON_UTF8)).andReturn();
 
 		String content = result.getResponse().getContentAsString();
-		log.info("content={}", content);
+		log.info("test.result={}", content);
 
 		return JSON.parseObject(content, typeReference);
 	}

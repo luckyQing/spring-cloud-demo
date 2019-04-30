@@ -19,7 +19,7 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @SuperBuilder
 @ApiModel(description="根据id查询商品信息请求参数")
-public class QryProductByIdReqBody extends BaseDto{
+public class QryProductByIdReqBody extends BaseDto {
 
 	private static final long serialVersionUID = 1L;
 	

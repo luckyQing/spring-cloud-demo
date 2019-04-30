@@ -1,21 +1,17 @@
-package com.liyulin.demo.common.web.aop;
+package com.liyulin.demo.common.web.aop.advice;
 
+import java.lang.reflect.Method;
 import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.Signature;
-import org.aspectj.lang.annotation.AfterReturning;
-import org.aspectj.lang.annotation.AfterThrowing;
-import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
-import org.aspectj.lang.annotation.Pointcut;
-import org.springframework.stereotype.Component;
+import org.springframework.aop.AfterReturningAdvice;
+import org.springframework.aop.MethodBeforeAdvice;
+import org.springframework.aop.ThrowsAdvice;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import com.liyulin.demo.common.constants.CommonConstants;
+import com.liyulin.demo.common.constants.SymbolConstants;
 import com.liyulin.demo.common.util.ExceptionUtil;
 import com.liyulin.demo.common.util.LogUtil;
 import com.liyulin.demo.common.util.ObjectUtil;
@@ -29,21 +25,13 @@ import com.liyulin.demo.common.web.aop.util.AspectUtil;
  * @author liyulin
  * @date 2019年4月8日下午8:49:29
  */
-@Aspect
-@Component
-public class LogAspect {
+public class LogAspectAdvice implements MethodBeforeAdvice, AfterReturningAdvice, ThrowsAdvice {
 
-	/** 切面方法名 */
-	private static final String AOP_METHOD_NAME = "aopLog()";
 	private ThreadLocal<LogAspectDto> logDtoThreadLocal = new ThreadLocal<>();
 
-	@Pointcut(CommonConstants.LOG_AOP_EXECUTION)
-	public void aopLog() {
-	}
-
-	@Before(value = AOP_METHOD_NAME)
-	public void doBefore(JoinPoint joinPoint) {
-		if (null == RequestContextHolder.getRequestAttributes()) {
+	@Override
+	public void before(Method method, Object[] args, Object target) throws Throwable {
+		if (ObjectUtil.isNull(RequestContextHolder.getRequestAttributes())) {
 			return;
 		}
 		LogAspectDto logDto = new LogAspectDto();
@@ -52,26 +40,24 @@ public class LogAspect {
 		ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
 		HttpServletRequest request = attributes.getRequest();
 
-		String apiDesc = AspectUtil.getControllerMethodDesc(joinPoint, request.getServletPath());
+		String apiDesc = AspectUtil.getControllerMethodDesc(method, request.getServletPath());
 		logDto.setApiDesc(apiDesc);
 
-		Object[] args = joinPoint.getArgs();
 		logDto.setRequestParams(WebUtil.getRequestArgs(args));
 
 		logDto.setUrl(request.getRequestURL().toString());
 		logDto.setIp(WebUtil.getRealIP(request));
 		logDto.setOs(request.getHeader("User-Agent"));
 		logDto.setHttpMethod(request.getMethod());
-
-		Signature signature = joinPoint.getSignature();
-		String classMethod = signature.getDeclaringTypeName() + "." + signature.getName();
+		
+		String classMethod = method.getDeclaringClass().getTypeName() + SymbolConstants.DOT + method.getName();
 		logDto.setClassMethod(classMethod);
 
 		logDtoThreadLocal.set(logDto);
 	}
 
-	@AfterReturning(returning = "object", pointcut = AOP_METHOD_NAME)
-	public void doAfterReturning(Object object) throws Throwable {
+	@Override
+	public void afterReturning(Object returnValue, Method method, Object[] args, Object target) throws Throwable {
 		LogAspectDto logDto = logDtoThreadLocal.get();
 		if (ObjectUtil.isNull(logDto)) {
 			return;
@@ -79,15 +65,23 @@ public class LogAspect {
 
 		logDto.setReqEndTime(new Date());
 		logDto.setReqDealTime((int) (logDto.getReqEndTime().getTime() - logDto.getReqStartTime().getTime()));
-		logDto.setResponseData(object);
+		logDto.setResponseData(returnValue);
 
 		LogUtil.info("api.logDto.info=>{}", logDto);
 		// 使用完释放掉，防止内存泄露
-		clearThreadLocal();
+		logDtoThreadLocal.remove();
 	}
 
-	@AfterThrowing(throwing = "e", pointcut = AOP_METHOD_NAME)
-	public void doAfterThrowing(Throwable e) {
+	/**
+	 * 异常切面
+	 * 
+	 * @param method
+	 * @param args
+	 * @param target
+	 * @param e
+	 * @since {@link ThrowsAdvice}
+	 */
+	public void afterThrowing(Method method, Object[] args, Object target, Exception e) {
 		LogAspectDto logDto = logDtoThreadLocal.get();
 		if (ObjectUtil.isNull(logDto)) {
 			return;
@@ -99,10 +93,6 @@ public class LogAspect {
 
 		LogUtil.error("api.logDto.error=>{}", logDto);
 		// 使用完释放掉，防止内存泄露
-		clearThreadLocal();
-	}
-
-	private void clearThreadLocal() {
 		logDtoThreadLocal.remove();
 	}
 

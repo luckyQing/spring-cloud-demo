@@ -9,7 +9,7 @@ server:
   
 spring:
   application:
-    name: demo-mall-order-service
+    name: demoMallOrderService
   profiles:
     include: 
       - common
