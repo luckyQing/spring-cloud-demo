@@ -26,7 +26,7 @@ public class RespHead extends BaseDto {
 	private String code;
 
 	@ApiModelProperty(value = "提示信息", example = "服务器异常")
-	private String msg;
+	private String message;
 
 	@ApiModelProperty(value = "错误详情", example = "错误详细信息")
 	private String error;
@@ -38,14 +38,25 @@ public class RespHead extends BaseDto {
 		setReturnCode(returnCode);
 	}
 
-	public RespHead(String code, String msg) {
+	public RespHead(String code, String message) {
 		this.code = code;
-		this.msg = msg;
+		this.message = message;
+	}
+
+	public RespHead(IBaseReturnCode returnCode, String message) {
+		if (returnCode != null && returnCode.getInfo() != null) {
+			this.code = returnCode.getInfo().getCode();
+		}
+		this.message = message;
 	}
 
 	public void setReturnCode(IBaseReturnCode returnCode) {
-		this.code = returnCode.getCode();
-		this.msg = returnCode.getMsg();
+		if (returnCode == null || returnCode.getInfo() == null) {
+			return;
+		}
+
+		this.code = returnCode.getInfo().getCode();
+		this.message = returnCode.getInfo().getMessage();
 	}
 
 }
