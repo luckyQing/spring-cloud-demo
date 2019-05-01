@@ -91,6 +91,61 @@ public class AspectUtil {
 
 		return apiDesc;
 	}
+	
+	public String getFeignMethodDesc(Method method, String path) {
+		// 先从缓存取
+		String apiDesc = apiDescMap.get(path);
+		if (ObjectUtil.isNotNull(apiDesc)) {
+			return apiDesc;
+		}
+
+		// 缓存没有，则通过反射获取
+		ApiOperation operation = method.getAnnotation(ApiOperation.class);
+		apiDesc = ObjectUtil.isNotNull(operation) ? operation.value() : StringUtils.EMPTY;
+		
+		apiDescMap.putIfAbsent(path, apiDesc);
+
+		return apiDesc;
+	}
+	
+	/**
+	 * 获取controller method的描述
+	 * 
+	 * @param method
+	 * @param path
+	 * @return
+	 */
+	public String getControllerMethodDesc(Method method, String path) {
+		// 先从缓存取
+		String apiDesc = apiDescMap.get(path);
+		if (ObjectUtil.isNotNull(apiDesc)) {
+			return apiDesc;
+		}
+
+		// 缓存没有，则通过反射获取
+		ApiOperation operation = method.getAnnotation(ApiOperation.class);
+		apiDesc = ObjectUtil.isNotNull(operation) ? operation.value() : StringUtils.EMPTY;
+		if (StringUtils.isBlank(apiDesc)) {
+			// 如果为空，则从接口类rpc取
+			Class<?> controllerClass = method.getDeclaringClass();
+			Class<?>[] interfaces = controllerClass.getInterfaces();
+			if (ArrayUtil.isNotEmpty(interfaces)) {
+				Class<?> rpcClass = interfaces[0];
+				Method[] methods = rpcClass.getMethods();
+				for (Method rpcMethod : methods) {
+					if (isSameMethod(rpcMethod, method)) {
+						operation = rpcMethod.getAnnotation(ApiOperation.class);
+						apiDesc = ObjectUtil.isNotNull(operation) ? operation.value() : StringUtils.EMPTY;
+						break;
+					}
+				}
+			}
+		}
+
+		apiDescMap.putIfAbsent(path, apiDesc);
+
+		return apiDesc;
+	}
 
 	/**
 	 * 是否是同一个method
