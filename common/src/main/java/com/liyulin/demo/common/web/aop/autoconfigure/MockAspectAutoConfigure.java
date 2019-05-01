@@ -13,7 +13,7 @@ import com.liyulin.demo.common.properties.CommonProperties;
 import com.liyulin.demo.common.web.aop.advice.MockAspectAdvice;
 
 @Configuration
-//@ConditionalOnProperty(prefix = CommonConstants.COMMON_PROPERTIES_PREFIX, name = CommonProperties.PropertiesName.MOCK, havingValue = "true", matchIfMissing = false)
+@ConditionalOnProperty(prefix = CommonConstants.COMMON_PROPERTIES_PREFIX, name = CommonProperties.PropertiesName.MOCK, havingValue = "true", matchIfMissing = false)
 public class MockAspectAutoConfigure {
 
 	@Bean

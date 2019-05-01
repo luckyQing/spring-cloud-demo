@@ -1,4 +1,4 @@
-com:  liyulin:    data-machine-id: 1    swagger: true    validator: trueserver:  port: 20021  spring:
+com:  liyulin:    data-machine-id: 1    swagger: true    validator: true    enable-async: trueserver:  port: 20021  spring:
   application:
     name: demoMallProductService
   profiles:

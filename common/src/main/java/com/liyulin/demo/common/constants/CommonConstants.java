@@ -22,5 +22,8 @@ public class CommonConstants {
 
 	/** 接口日志切面 */
 	public static final String LOG_AOP_EXECUTION = "execution( * com.liyulin.demo..controller..*.*(..))";
+	
+	/** feign切面 */
+	public static final String FEIGN_AOP_EXECUTION = "execution( * com.liyulin.demo.rpc..*Rpc.*(..))";
 
 }

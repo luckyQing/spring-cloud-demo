@@ -3,6 +3,7 @@ com:
     data-machine-id: 1
     swagger: true
     validator: true
+    enable-async: true
 
 server:
   port: 20011
