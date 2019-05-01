@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Configuration;
 import com.liyulin.demo.common.constants.CommonConstants;
 import com.liyulin.demo.common.properties.CommonProperties;
 import com.liyulin.demo.common.web.aop.advice.MockAspectAdvice;
+import com.liyulin.demo.common.web.aop.util.AspectUtil;
 
 @Configuration
 @ConditionalOnProperty(prefix = CommonConstants.COMMON_PROPERTIES_PREFIX, name = CommonProperties.PropertiesName.MOCK, havingValue = "true", matchIfMissing = false)
@@ -24,7 +25,8 @@ public class MockAspectAutoConfigure {
 	@Bean
 	public Advisor mockAdvisor(@Autowired MockAspectAdvice mockAspectAdvice) {
 		AspectJExpressionPointcut mockPointcut = new AspectJExpressionPointcut();
-		mockPointcut.setExpression(CommonConstants.LOG_AOP_EXECUTION);
+		String logExpression = AspectUtil.getApiExpression(CommonConstants.BASE_PACAKGE);
+		mockPointcut.setExpression(logExpression);
 
 		DefaultBeanFactoryPointcutAdvisor mockAdvisor = new DefaultBeanFactoryPointcutAdvisor();
 		mockAdvisor.setAdvice(mockAspectAdvice);

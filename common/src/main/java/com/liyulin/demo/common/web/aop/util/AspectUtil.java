@@ -2,11 +2,14 @@ package com.liyulin.demo.common.web.aop.util;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.liyulin.demo.common.util.ArrayUtil;
 import com.liyulin.demo.common.util.ObjectUtil;
@@ -102,6 +105,17 @@ public class AspectUtil {
 			}
 		}
 		return expression.toString();
+	}
+	
+	/**
+	 * 获取接口切面表达式
+	 * 
+	 * @param basePackage
+	 * @return
+	 */
+	public static String getApiExpression(String basePackage) {
+		String controllerExpression = getWithinExpression(Arrays.asList(Controller.class, RestController.class));
+		return "execution( * " + basePackage + "..*.*(..)) && (" + controllerExpression + ")";
 	}
 
 	/**

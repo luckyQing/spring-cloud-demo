@@ -21,9 +21,9 @@ public class CommonConstants {
 	public static final String COMMON_PROPERTIES_PREFIX = BASE_PACAKGE;
 
 	/** 接口日志切面 */
-	public static final String LOG_AOP_EXECUTION = "execution( * com.liyulin.demo..controller..*.*(..))";
+	//public static final String LOG_AOP_EXECUTION = "execution( * com.liyulin.demo..controller..*.*(..))";
 	
 	/** feign切面 */
-	public static final String FEIGN_AOP_EXECUTION = "execution( * com.liyulin.demo.rpc..*Rpc.*(..))";
+	//public static final String FEIGN_AOP_EXECUTION = "execution( * com.liyulin.demo.rpc..*Rpc.*(..))";
 
 }
