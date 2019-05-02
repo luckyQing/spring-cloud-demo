@@ -21,7 +21,7 @@ public class SmartSpringCloudApplicationCondition implements Condition {
 	public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {
 		ClassMetadata classMetadata = (ClassMetadata) metadata;
 		String currentClassName = classMetadata.getClassName();
-		// 只有第一个被{@code MainService}标记的类会生效
+		// 只有第一个被{@code SmartSpringCloudApplication}标记的类会生效
 		if (bootstrapClassName == null) {
 			bootstrapClassName = currentClassName;
 			return true;

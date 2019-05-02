@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.context.request.async.DeferredResult;
 
 import com.liyulin.demo.common.constants.CommonConstants;
-import com.liyulin.demo.common.properties.CommonProperties;
+import com.liyulin.demo.common.properties.SmartProperties;
 
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
@@ -27,25 +27,25 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  */
 @Configuration
 @EnableSwagger2
-@ConditionalOnProperty(prefix = CommonConstants.COMMON_PROPERTIES_PREFIX, name = CommonProperties.PropertiesName.SWAGGER, havingValue = "true", matchIfMissing = false)
+@ConditionalOnProperty(prefix = CommonConstants.SMART_PROPERTIES_PREFIX, name = SmartProperties.PropertiesName.SWAGGER, havingValue = "true", matchIfMissing = false)
 public class Swagger2AutoConfigure {
 
 	@Value("${spring.application.name}")
 	private String groupName;
 	@Autowired
-	private CommonProperties commonProperties;
+	private SmartProperties smartProperties;
 
 	@Bean
 	public Docket createRestApi() {
 		return new Docket(DocumentationType.SWAGGER_2).groupName(groupName)
 				.genericModelSubstitutes(DeferredResult.class).useDefaultResponseMessages(false)
 				.forCodeGeneration(false).apiInfo(apiInfo()).select()
-				.apis(RequestHandlerSelectors.basePackage("com.liyulin.demo")).paths(PathSelectors.any()).build();
+				.apis(RequestHandlerSelectors.basePackage(CommonConstants.BASE_PACAKGE)).paths(PathSelectors.any()).build();
 	}
 
 	private ApiInfo apiInfo() {
 		Contact contact = new Contact("cc", "https://swagger.io", "1634753825@qq.com");
-		return new ApiInfoBuilder().title("API接口文档").description("swagger2").contact(contact).version(commonProperties.getApiVersion()).build();
+		return new ApiInfoBuilder().title("API接口文档").description("swagger2").contact(contact).version(smartProperties.getApiVersion()).build();
 	}
 
 }

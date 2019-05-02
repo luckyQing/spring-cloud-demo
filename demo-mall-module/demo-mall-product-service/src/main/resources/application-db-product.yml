@@ -1,0 +1,9 @@
+smart:
+  data-sources:
+    product:
+      url: jdbc:mysql://127.0.0.1:3306/demo_product
+      username: root
+      password: 123456
+      type-aliases-package: com.liyulin.demo.mall.product.entity
+      mapper-interface-location: com.liyulin.demo.mall.product.mapper
+      mapper-xml-location: classpath*:com/liyulin/demo/mall/product/mybatis/**.xml

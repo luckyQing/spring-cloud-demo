@@ -20,8 +20,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @Configuration
-@ConfigurationProperties(prefix = CommonConstants.COMMON_PROPERTIES_PREFIX)
-public class CommonProperties extends BaseDto {
+@ConfigurationProperties(prefix = CommonConstants.SMART_PROPERTIES_PREFIX)
+public class SmartProperties extends BaseDto {
 
 	private static final long serialVersionUID = 1L;
 
@@ -53,7 +53,7 @@ public class CommonProperties extends BaseDto {
 		public static final String API_VERSION = "apiVersion";
 		public static final String MOCK = "mock";
 		public static final String ENABLE_ASYNC = "enableAsync";
-		public static final String DATA_SOURCES = CommonConstants.COMMON_PROPERTIES_PREFIX +".data-sources";
+		public static final String DATA_SOURCES = CommonConstants.SMART_PROPERTIES_PREFIX +".data-sources";
 	}
 
 }

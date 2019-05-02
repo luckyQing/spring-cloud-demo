@@ -18,7 +18,7 @@ public class CommonConstants {
 	public static final String BASE_RPC_PACAKGE = "com.liyulin.demo.rpc";
 	
 	/** 公共配置属性前缀 */
-	public static final String COMMON_PROPERTIES_PREFIX = BASE_PACAKGE;
+	public static final String SMART_PROPERTIES_PREFIX = "smart";
 
 	/** 接口日志切面 */
 	//public static final String LOG_AOP_EXECUTION = "execution( * com.liyulin.demo..controller..*.*(..))";

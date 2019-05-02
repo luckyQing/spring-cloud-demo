@@ -11,11 +11,11 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import com.alibaba.fastjson.JSON;
 import com.liyulin.demo.common.constants.CommonConstants;
-import com.liyulin.demo.common.properties.CommonProperties;
+import com.liyulin.demo.common.properties.SmartProperties;
 import com.liyulin.demo.common.util.LogUtil;
 
 @Configuration
-@ConditionalOnProperty(prefix = CommonConstants.COMMON_PROPERTIES_PREFIX, name = CommonProperties.PropertiesName.ENABLE_ASYNC, havingValue = "true", matchIfMissing = false)
+@ConditionalOnProperty(prefix = CommonConstants.SMART_PROPERTIES_PREFIX, name = SmartProperties.PropertiesName.ENABLE_ASYNC, havingValue = "true", matchIfMissing = false)
 public class AsyncAutoConfigure extends AsyncConfigurerSupport {
 
 	@Override
