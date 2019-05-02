@@ -37,9 +37,9 @@ import com.liyulin.demo.common.support.condition.SmartSpringCloudApplicationCond
 @Inherited
 @SpringBootConfiguration
 @EnableAutoConfiguration(exclude = DataSourceAutoConfiguration.class)
-@ComponentScan(basePackages = CommonConstants.BASE_PACAKGE, nameGenerator = UniqueBeanNameGenerator.class, excludeFilters = {
-		@Filter(type = FilterType.CUSTOM, classes = TypeExcludeFilter.class),
-		@Filter(type = FilterType.CUSTOM, classes = AutoConfigurationExcludeFilter.class) })
+@ComponentScan(basePackages = "com.liyulin", nameGenerator = UniqueBeanNameGenerator.class, excludeFilters = {
+				@Filter(type = FilterType.CUSTOM, classes = TypeExcludeFilter.class),
+				@Filter(type = FilterType.CUSTOM, classes = AutoConfigurationExcludeFilter.class) })
 @EnableFeignClients(basePackages = { CommonConstants.BASE_RPC_PACAKGE })
 @EnableDiscoveryClient
 @EnableCircuitBreaker

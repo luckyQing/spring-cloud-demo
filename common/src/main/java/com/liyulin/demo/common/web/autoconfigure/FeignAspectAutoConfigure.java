@@ -1,4 +1,4 @@
-package com.liyulin.demo.common.web.aop.autoconfigure;
+package com.liyulin.demo.common.web.autoconfigure;
 
 import java.util.Arrays;
 

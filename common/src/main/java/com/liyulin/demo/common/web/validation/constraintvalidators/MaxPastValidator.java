@@ -12,6 +12,7 @@ import com.liyulin.demo.common.web.validation.constraints.MaxPast;
  * @date 2019年4月15日上午11:10:04
  */
 public class MaxPastValidator implements ConstraintValidator<MaxPast, Long> {
+	
 	private long maxValue;
 
 	@Override

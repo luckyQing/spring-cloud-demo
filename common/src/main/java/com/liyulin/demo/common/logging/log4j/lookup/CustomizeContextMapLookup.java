@@ -22,7 +22,7 @@ import org.yaml.snakeyaml.Yaml;
 public class CustomizeContextMapLookup implements StrLookup {
 	
 	/** yaml文件名 */
-	private static final String YAML_FILE_NAME = "application.yml";
+	private static final String YAML_FILE_NAME = "application.yaml";
 	/** spring yaml文件中key的分隔符 */
 	private static final String SPRING_YAML_KEY_SEPARATOR = "\\.";
 	/** yaml文件中的应用名key */
