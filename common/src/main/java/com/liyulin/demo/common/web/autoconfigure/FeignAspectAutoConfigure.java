@@ -11,8 +11,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.liyulin.demo.common.support.annotation.SmartFeignClient;
-import com.liyulin.demo.common.web.aop.advice.FeignAspectAdvice;
-import com.liyulin.demo.common.web.aop.util.AspectUtil;
+import com.liyulin.demo.common.web.aspect.advice.FeignAspectAdvice;
+import com.liyulin.demo.common.web.aspect.util.AspectUtil;
 
 @Configuration
 public class FeignAspectAutoConfigure {

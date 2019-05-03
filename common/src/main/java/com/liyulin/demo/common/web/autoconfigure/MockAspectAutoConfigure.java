@@ -10,8 +10,8 @@ import org.springframework.context.annotation.Configuration;
 
 import com.liyulin.demo.common.constants.CommonConstants;
 import com.liyulin.demo.common.properties.SmartProperties;
-import com.liyulin.demo.common.web.aop.advice.MockAspectAdvice;
-import com.liyulin.demo.common.web.aop.util.AspectUtil;
+import com.liyulin.demo.common.web.aspect.advice.MockAspectAdvice;
+import com.liyulin.demo.common.web.aspect.util.AspectUtil;
 
 @Configuration
 @ConditionalOnProperty(prefix = CommonConstants.SMART_PROPERTIES_PREFIX, name = SmartProperties.PropertiesName.MOCK, havingValue = "true", matchIfMissing = false)

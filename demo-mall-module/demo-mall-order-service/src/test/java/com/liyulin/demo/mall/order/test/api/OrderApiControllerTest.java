@@ -14,7 +14,7 @@ import com.liyulin.demo.common.business.exception.enums.ReturnCodeEnum;
 import com.liyulin.demo.common.business.test.AbstractSpringBootTest;
 import com.liyulin.demo.common.business.util.ReqUtil;
 import com.liyulin.demo.common.util.MockUtil;
-import com.liyulin.demo.common.web.aop.advice.FeignAspectAdvice;
+import com.liyulin.demo.common.web.aspect.advice.FeignAspectAdvice;
 import com.liyulin.demo.rpc.order.request.api.CreateOrderProductInfoReqBody;
 import com.liyulin.demo.rpc.order.request.api.CreateOrderReqBody;
 import com.liyulin.demo.rpc.order.response.api.CreateOrderRespBody;

@@ -8,8 +8,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.liyulin.demo.common.constants.CommonConstants;
-import com.liyulin.demo.common.web.aop.advice.LogAspectAdvice;
-import com.liyulin.demo.common.web.aop.util.AspectUtil;
+import com.liyulin.demo.common.web.aspect.advice.LogAspectAdvice;
+import com.liyulin.demo.common.web.aspect.util.AspectUtil;
 
 @Configuration
 public class LogAspectAutoConfigure {
