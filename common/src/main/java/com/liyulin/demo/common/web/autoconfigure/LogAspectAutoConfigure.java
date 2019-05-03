@@ -1,4 +1,4 @@
-package com.liyulin.demo.common.web.aop.autoconfigure;
+package com.liyulin.demo.common.web.autoconfigure;
 
 import org.springframework.aop.Advisor;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;
@@ -8,7 +8,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.liyulin.demo.common.constants.CommonConstants;
-import com.liyulin.demo.common.web.aop.advice.LogAspectAdvice;
+import com.liyulin.demo.common.web.aspect.advice.LogAspectAdvice;
+import com.liyulin.demo.common.web.aspect.util.AspectUtil;
 
 @Configuration
 public class LogAspectAutoConfigure {
@@ -21,7 +22,8 @@ public class LogAspectAutoConfigure {
 	@Bean
 	public Advisor logAdvisor(@Autowired LogAspectAdvice logAspectAdvice) {
 		AspectJExpressionPointcut logPointcut = new AspectJExpressionPointcut();
-		logPointcut.setExpression(CommonConstants.LOG_AOP_EXECUTION);
+		String logExpression = AspectUtil.getApiExpression(CommonConstants.BASE_PACAKGE);
+		logPointcut.setExpression(logExpression);
 
 		DefaultBeanFactoryPointcutAdvisor logAdvisor = new DefaultBeanFactoryPointcutAdvisor();
 		logAdvisor.setAdvice(logAspectAdvice);

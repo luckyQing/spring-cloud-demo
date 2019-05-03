@@ -62,7 +62,7 @@ public class OrderApiService {
 
 		QryProductByIdsReqBody qryProductByIdsReqBody = QryProductByIdsReqBody.builder().ids(productIds).build();
 		Resp<QryProductByIdsRespBody> qryProductByIdsResp = productInfoRpc
-				.qryProductByIds(ReqUtil.build(qryProductByIdsReqBody));
+				.qryProductByIds(ReqUtil.buildWithHead(qryProductByIdsReqBody));
 		if (!RespUtil.isSuccess(qryProductByIdsResp)) {
 			return RespUtil.error(qryProductByIdsResp);
 		}

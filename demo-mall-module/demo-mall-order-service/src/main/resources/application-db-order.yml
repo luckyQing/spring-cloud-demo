@@ -1,10 +1,9 @@
-com:
-  liyulin:
-    data-sources:
-      order:
-        url: jdbc:mysql://127.0.0.1:3306/demo_order
-        username: root
-        password: 123456
-        type-aliases-package: com.liyulin.demo.mall.order.entity
-        mapper-interface-location: com.liyulin.demo.mall.order.mapper
-        mapper-xml-location: classpath*:com/liyulin/demo/mall/order/mybatis/**.xml
+smart:
+  data-sources:
+    order:
+      url: jdbc:mysql://127.0.0.1:3306/demo_order
+      username: root
+      password: 123456
+      type-aliases-package: com.liyulin.demo.mall.order.entity
+      mapper-interface-location: com.liyulin.demo.mall.order.mapper
+      mapper-xml-location: classpath*:com/liyulin/demo/mall/order/mybatis/**.xml

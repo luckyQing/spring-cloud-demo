@@ -27,7 +27,7 @@ public class ProductInfoApiControllerTest extends AbstractSpringBootTest {
 
 		Assertions.assertThat(result).isNotNull();
 		Assertions.assertThat(result.getHead()).isNotNull();
-		Assertions.assertThat(result.getHead().getCode()).isEqualTo(ReturnCodeEnum.SUCCESS.getCode());
+		Assertions.assertThat(result.getHead().getCode()).isEqualTo(ReturnCodeEnum.SUCCESS.getInfo().getCode());
 	}
 
 }

@@ -30,13 +30,13 @@ import springfox.documentation.annotations.ApiIgnore;
 @ApiIgnore
 public @interface SmartFeignClient {
 
-	@AliasFor(annotation = FeignClient.class, attribute = "name")
+	@AliasFor(annotation = FeignClient.class)
 	public String name() default "";
 
-	@AliasFor(annotation = FeignClient.class, attribute = "url")
+	@AliasFor(annotation = FeignClient.class)
 	String url() default "";
 
-	@AliasFor(annotation = FeignClient.class, attribute = "fallback")
+	@AliasFor(annotation = FeignClient.class)
 	Class<?> fallback() default void.class;
 
 }

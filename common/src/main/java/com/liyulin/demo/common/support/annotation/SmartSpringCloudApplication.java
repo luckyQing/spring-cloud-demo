@@ -19,9 +19,9 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ComponentScan.Filter;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.FilterType;
+import org.springframework.core.annotation.AliasFor;
 import org.springframework.scheduling.annotation.EnableAsync;
 
-import com.liyulin.demo.common.constants.CommonConstants;
 import com.liyulin.demo.common.support.UniqueBeanNameGenerator;
 import com.liyulin.demo.common.support.condition.SmartSpringCloudApplicationCondition;
 
@@ -36,15 +36,24 @@ import com.liyulin.demo.common.support.condition.SmartSpringCloudApplicationCond
 @Documented
 @Inherited
 @SpringBootConfiguration
-@EnableAutoConfiguration(exclude = DataSourceAutoConfiguration.class)
-@ComponentScan(basePackages = CommonConstants.BASE_PACAKGE, nameGenerator = UniqueBeanNameGenerator.class, excludeFilters = {
+@EnableAutoConfiguration
+@ComponentScan(nameGenerator = UniqueBeanNameGenerator.class, excludeFilters = {
 		@Filter(type = FilterType.CUSTOM, classes = TypeExcludeFilter.class),
 		@Filter(type = FilterType.CUSTOM, classes = AutoConfigurationExcludeFilter.class) })
-@EnableFeignClients(basePackages = { CommonConstants.BASE_RPC_PACAKGE })
+@EnableFeignClients
 @EnableDiscoveryClient
 @EnableCircuitBreaker
 @EnableAsync
 @Conditional(SmartSpringCloudApplicationCondition.class)
 public @interface SmartSpringCloudApplication {
 
+	@AliasFor(annotation = ComponentScan.class, attribute = "basePackages")
+	String[] componentBasePackages() default { "${smart.component.basePackages:}" };
+
+	@AliasFor(annotation = EnableFeignClients.class, attribute = "basePackages")
+	String[] feignClientBasePackages() default { "${smart.feign.basePackages:}" };
+
+	@AliasFor(annotation = EnableAutoConfiguration.class)
+	Class<?>[] exclude() default { DataSourceAutoConfiguration.class };
+	
 }

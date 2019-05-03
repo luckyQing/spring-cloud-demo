@@ -1,4 +1,4 @@
-package com.liyulin.demo.common.web.aop.dto;
+package com.liyulin.demo.common.web.aspect.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

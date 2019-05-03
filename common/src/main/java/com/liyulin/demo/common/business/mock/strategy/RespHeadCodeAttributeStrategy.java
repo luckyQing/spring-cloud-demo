@@ -11,7 +11,7 @@ public class RespHeadCodeAttributeStrategy implements AttributeStrategy<String> 
 
 	@Override
 	public String getValue(Class<?> attrType, List<Annotation> attrAnnotations) {
-		return ReturnCodeEnum.SUCCESS.getCode();
+		return ReturnCodeEnum.SUCCESS.getInfo().getCode();
 	}
 
 }

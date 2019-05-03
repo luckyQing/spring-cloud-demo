@@ -31,7 +31,7 @@ import org.springframework.util.Assert;
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInterceptor;
 import com.liyulin.demo.common.constants.SymbolConstants;
-import com.liyulin.demo.common.properties.CommonProperties;
+import com.liyulin.demo.common.properties.SmartProperties;
 import com.liyulin.demo.common.properties.SingleDataSourceProperties;
 import com.liyulin.demo.common.support.UniqueBeanNameGenerator;
 import com.liyulin.demo.common.util.CollectionUtil;
@@ -90,7 +90,7 @@ public class MultipleDataSourceAutoConfiguration {
 			mybatisSqlLogInterceptor = new MybatisSqlLogInterceptor();
 			pageInterceptor = buildPageInterceptor();
 
-			Map<String, Object> dataSourcesMap = binder.bind(CommonProperties.PropertiesName.DATA_SOURCES, Map.class).get();
+			Map<String, Object> dataSourcesMap = binder.bind(SmartProperties.PropertiesName.DATA_SOURCES, Map.class).get();
 			Assert.state(CollectionUtil.isNotEmpty(dataSourcesMap), "不能找到数据源配置！");
 
 			dataSources = new LinkedHashMap<>(dataSourcesMap.size());

@@ -1,4 +1,4 @@
-package com.liyulin.demo.common.web.aop.advice;
+package com.liyulin.demo.common.web.aspect.advice;
 
 import java.lang.reflect.Method;
 import java.util.Date;
@@ -18,8 +18,9 @@ import com.liyulin.demo.common.util.LogUtil;
 import com.liyulin.demo.common.util.ObjectUtil;
 import com.liyulin.demo.common.util.UnitTestUtil;
 import com.liyulin.demo.common.util.WebUtil;
-import com.liyulin.demo.common.web.aop.dto.FeignAspectDto;
-import com.liyulin.demo.common.web.aop.util.AspectUtil;
+import com.liyulin.demo.common.web.aspect.dto.FeignAspectDto;
+import com.liyulin.demo.common.web.aspect.util.AspectUtil;
+import com.liyulin.demo.common.web.validation.util.ValidationUtil;
 
 /**
  * feign切面
@@ -37,6 +38,19 @@ public class FeignAspectAdvice implements MethodInterceptor {
 
 	@Override
 	public Object invoke(MethodInvocation invocation) throws Throwable {
+		Object[] args = invocation.getArguments();
+		// 1、填充head
+		if (isReq(args)) {
+			Req<?> req = (Req<?>) args[0];
+			req.setHead(ReqHeadUtil.of());
+			// TODO:填充token、sign
+			
+			if (UnitTestUtil.isTest()) {
+				// 参数校验
+				ValidationUtil.validate(req);
+			}
+		}
+
 		// 如果为单元测试环境，则直接返回mock数据
 		if (UnitTestUtil.isTest()) {
 			return mockData.poll();
@@ -55,14 +69,6 @@ public class FeignAspectAdvice implements MethodInterceptor {
 		String classMethod = method.getDeclaringClass().getTypeName() + SymbolConstants.DOT + method.getName();
 		logDto.setClassMethod(classMethod);
 
-		// 1、填充head
-		Object[] args = invocation.getArguments();
-		if (ObjectUtil.isNotNull(args) && args.length == 1 && ObjectUtil.isNotNull(args[0]) && args[0] instanceof Req) {
-			Req<?> req = (Req<?>) args[0];
-			req.setHead(ReqHeadUtil.of());
-			// TODO:填充token、sign
-		}
-
 		logDto.setRequestParams(WebUtil.getRequestArgs(args));
 
 		// 2、rpc
@@ -76,6 +82,11 @@ public class FeignAspectAdvice implements MethodInterceptor {
 		LogUtil.info("rpc.logDto=>{}", logDto);
 
 		return result;
+	}
+
+	private boolean isReq(Object[] args) {
+		return ObjectUtil.isNotNull(args) && args.length == 1 && ObjectUtil.isNotNull(args[0])
+				&& args[0] instanceof Req;
 	}
 
 }
