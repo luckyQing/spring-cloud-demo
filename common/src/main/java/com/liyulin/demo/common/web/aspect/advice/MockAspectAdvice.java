@@ -7,7 +7,7 @@ import java.lang.reflect.Type;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 
-import com.liyulin.demo.common.util.MockUtil;
+import com.liyulin.demo.common.business.mock.MockUtil;
 
 /**
  * mock切面
@@ -20,10 +20,16 @@ public class MockAspectAdvice implements MethodInterceptor {
 	@Override
 	public Object invoke(MethodInvocation invocation) throws Throwable {
 		Method m = invocation.getMethod();
-		ParameterizedType parameterizedType = (ParameterizedType) m.getGenericReturnType();
-		Type actualTypeArgument = parameterizedType.getActualTypeArguments()[0];
-		
-		return MockUtil.mock(m.getReturnType(), parameterizedType.getActualTypeArguments()[0]);
+		Type returnType = m.getGenericReturnType();
+
+		// 泛型
+		if (returnType instanceof ParameterizedType) {
+			ParameterizedType parameterizedType = (ParameterizedType) returnType;
+			Type[] actualTypeArguments = parameterizedType.getActualTypeArguments();
+			return MockUtil.mock(m.getReturnType(), actualTypeArguments);
+		} else {
+			return MockUtil.mock(m.getReturnType());
+		}
 	}
 
 }
