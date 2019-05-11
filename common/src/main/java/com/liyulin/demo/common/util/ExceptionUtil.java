@@ -142,7 +142,17 @@ public class ExceptionUtil {
 			return RespHeadUtil.of(ex.getCode(), ex.getMessage());
 		}
 		if (e != null) {
-			return RespHeadUtil.of(ReturnCodeEnum.SERVER_ERROR, e.getMessage());
+			String message = e.getMessage();
+			if (StringUtils.isBlank(message)) {
+				message = e.toString();
+				// 只取异常类名
+				int index = message.lastIndexOf(SymbolConstants.DOT);
+				if (index != -1) {
+					message = message.substring(index + 1);
+				}
+			}
+
+			return RespHeadUtil.of(ReturnCodeEnum.SERVER_ERROR, message);
 		}
 
 		return RespHeadUtil.of(ReturnCodeEnum.SERVER_ERROR, null);

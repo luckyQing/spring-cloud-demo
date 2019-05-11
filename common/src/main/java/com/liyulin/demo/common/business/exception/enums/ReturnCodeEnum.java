@@ -22,7 +22,7 @@ public enum ReturnCodeEnum implements IBaseReturnCode {
 	DATE_NOT_EXIST(new ReturnCodeDto("100102", "数据不存在")),
 	/** 数据已存在 */
 	DATE_EXISTED(new ReturnCodeDto("100103", "数据已存在")),
-	/** 成功 */
+	/** 服务器异常 */
 	SERVER_ERROR(new ReturnCodeDto("100500", "服务器异常")),
 	/** 无权限访问 */
 	NO_ACCESS(new ReturnCodeDto("100401", "无权限访问")),

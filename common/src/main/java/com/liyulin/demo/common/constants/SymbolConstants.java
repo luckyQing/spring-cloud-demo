@@ -8,23 +8,23 @@ package com.liyulin.demo.common.constants;
  */
 public class SymbolConstants {
 
-	/** 点 */
+	/** 点（.） */
 	public static final String DOT = ".";
-	/** 问号 */
+	/** 问号（?） */
 	public static final String QUESTION_MARK = "?";
-	/** 冒号 */
+	/** 冒号（:） */
 	public static final String COLON = ":";
-	/** 分号 */
+	/** 分号（;） */
 	public static final String SEMICOLON = ";";
-	/** 竖线 */
+	/** 竖线（|） */
 	public static final String VERTICAL_BAR = "|";
-	/** 双线号 */
+	/** 双线号（||） */
 	public static final String PARALLEL = "||";
-	/** 连字号 */
+	/** 连字号（-） */
 	public static final String HYPHEN = "-";
-	/** 破折号 */
+	/** 破折号（——） */
 	public static final String DASH = "——";
-	/** 省略号 */
+	/** 省略号（...） */
 	public static final String ELLIPSIS = "...";
 
 }
