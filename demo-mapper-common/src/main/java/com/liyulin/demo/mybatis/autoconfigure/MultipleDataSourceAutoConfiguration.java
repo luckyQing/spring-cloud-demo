@@ -31,8 +31,8 @@ import org.springframework.util.Assert;
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInterceptor;
 import com.liyulin.demo.common.constants.SymbolConstants;
-import com.liyulin.demo.common.properties.SmartProperties;
 import com.liyulin.demo.common.properties.SingleDataSourceProperties;
+import com.liyulin.demo.common.properties.SmartProperties;
 import com.liyulin.demo.common.support.UniqueBeanNameGenerator;
 import com.liyulin.demo.common.util.CollectionUtil;
 import com.liyulin.demo.common.util.LogUtil;
@@ -68,11 +68,16 @@ public class MultipleDataSourceAutoConfiguration {
 		private Map<String, SingleDataSourceProperties> dataSources;
 		private MybatisSqlLogInterceptor mybatisSqlLogInterceptor;
 		private PageInterceptor pageInterceptor;
-		private Binder binder;
+		private Environment environment;
 		private ConfigurableBeanFactory beanFactory;
 		/** jdbc url默认参数 */
 		private String defaultJdbcUrlParams = "characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&serverTimezone=Asia/Shanghai";
 
+		public MultipleDataSourceRegistrar() {
+			this.mybatisSqlLogInterceptor = new MybatisSqlLogInterceptor();
+			this.pageInterceptor = buildPageInterceptor();
+		}
+		
 		@Override
 		public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
 			this.beanFactory = (ConfigurableBeanFactory) beanFactory;
@@ -80,16 +85,15 @@ public class MultipleDataSourceAutoConfiguration {
 
 		@Override
 		public void setEnvironment(Environment environment) {
-			binder = Binder.get(environment);
+			this.environment = environment;
 		}
 
 		@SuppressWarnings("unchecked")
 		@Override
 		public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata,
 				BeanDefinitionRegistry registry) {
-			mybatisSqlLogInterceptor = new MybatisSqlLogInterceptor();
-			pageInterceptor = buildPageInterceptor();
-
+			// 获取数据源配置
+			Binder binder = Binder.get(environment);
 			Map<String, Object> dataSourcesMap = binder.bind(SmartProperties.PropertiesName.DATA_SOURCES, Map.class).get();
 			Assert.state(CollectionUtil.isNotEmpty(dataSourcesMap), "不能找到数据源配置！");
 
@@ -97,7 +101,7 @@ public class MultipleDataSourceAutoConfiguration {
 			for (Map.Entry<String, Object> entry : dataSourcesMap.entrySet()) {
 				dataSources.put(entry.getKey(), JSON.parseObject(JSON.toJSONString(entry.getValue()), SingleDataSourceProperties.class));
 			}
-
+			
 			dynamicCreateMultipleDataSourceBeans();
 		}
 

@@ -10,8 +10,3 @@ server:
 spring:
   application:
     name: demoMallOrderService
-  profiles:
-    include: 
-      - common
-      - db-order
-      - eureka

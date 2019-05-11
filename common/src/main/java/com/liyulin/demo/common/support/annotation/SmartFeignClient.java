@@ -31,7 +31,7 @@ import springfox.documentation.annotations.ApiIgnore;
 public @interface SmartFeignClient {
 
 	@AliasFor(annotation = FeignClient.class)
-	public String name() default "";
+	String name() default "";
 
 	@AliasFor(annotation = FeignClient.class)
 	String url() default "";

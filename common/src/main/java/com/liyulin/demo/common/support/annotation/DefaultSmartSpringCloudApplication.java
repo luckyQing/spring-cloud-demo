@@ -14,6 +14,7 @@ import com.liyulin.demo.common.constants.CommonConstants;
 @Documented
 @Inherited
 @SmartSpringCloudApplication(componentBasePackages = CommonConstants.BASE_PACAKGE, feignClientBasePackages = CommonConstants.BASE_RPC_PACAKGE)
+@YamlScan(locationPatterns = "classpath*:/application-*.yml")
 public @interface DefaultSmartSpringCloudApplication {
 
 }
