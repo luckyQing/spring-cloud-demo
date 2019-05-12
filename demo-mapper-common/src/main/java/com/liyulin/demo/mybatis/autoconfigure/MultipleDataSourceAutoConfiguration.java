@@ -10,6 +10,8 @@ import javax.sql.DataSource;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.plugin.Interceptor;
 import org.mybatis.spring.SqlSessionFactoryBean;
+import org.springframework.aop.aspectj.AspectJExpressionPointcut;
+import org.springframework.aop.support.DefaultBeanFactoryPointcutAdvisor;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
@@ -25,7 +27,11 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.type.AnnotationMetadata;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.AnnotationTransactionAttributeSource;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.transaction.interceptor.BeanFactoryTransactionAttributeSourceAdvisor;
+import org.springframework.transaction.interceptor.TransactionInterceptor;
 import org.springframework.util.Assert;
 
 import com.alibaba.fastjson.JSON;
@@ -133,8 +139,38 @@ public class MultipleDataSourceAutoConfiguration {
 				registerMapperScannerConfigurer(serviceName, sqlSessionFactoryBeanName, dataSourceProperties);
 
 				// 2.4、DataSourceTransactionManager
-				registerDataSourceTransactionManager(serviceName, dataSourceProperties, dataSource);
+				String transactionManagerBeanName = generateBeanName(serviceName, TRANSACTION_MANAGER_NAME);
+				DataSourceTransactionManager transactionManager = registerDataSourceTransactionManager(transactionManagerBeanName, dataSourceProperties, dataSource);
+				
+				registerTransactionAdvisor(dataSourceProperties.getTransactionAopExpression(), serviceName,
+						transactionManagerBeanName, transactionManager);
 			});
+		}
+
+		public void registerTransactionAdvisor(String transactionAopExpression, String serviceName,
+				String transactionManagerBeanName, PlatformTransactionManager transactionManager) {
+//			AspectJExpressionPointcut transactionPointcut = new AspectJExpressionPointcut();
+//			transactionPointcut.setExpression(transactionAopExpression);
+
+			AnnotationTransactionAttributeSource transactionAttributeSource = new AnnotationTransactionAttributeSource();
+			
+			TransactionInterceptor transactionInterceptor = new TransactionInterceptor();
+			transactionInterceptor.setTransactionManager(transactionManager);
+			transactionInterceptor.setTransactionManagerBeanName(transactionManagerBeanName);
+			transactionInterceptor.setBeanFactory(beanFactory);
+			transactionInterceptor.setTransactionAttributeSource(transactionAttributeSource);
+
+			BeanFactoryTransactionAttributeSourceAdvisor advisor = new BeanFactoryTransactionAttributeSourceAdvisor();
+			advisor.setTransactionAttributeSource(transactionAttributeSource);
+			advisor.setAdvice(transactionInterceptor);
+			advisor.setBeanFactory(beanFactory);
+			
+//			DefaultBeanFactoryPointcutAdvisor transactionAdvisor = new DefaultBeanFactoryPointcutAdvisor();
+//			transactionAdvisor.setAdvice(transactionInterceptor);
+//			transactionAdvisor.setPointcut(transactionPointcut);
+
+			String transactionAdvisorBeanName = generateBeanName(serviceName, BeanFactoryTransactionAttributeSourceAdvisor.class.getSimpleName());
+			registerBean(transactionAdvisorBeanName, advisor);
 		}
 
 		/**
@@ -194,18 +230,17 @@ public class MultipleDataSourceAutoConfiguration {
 		/**
 		 * 创建并注册<code>DataSourceTransactionManager</code>
 		 * 
-		 * @param serviceName
+		 * @param transactionManagerBeanName
 		 * @param dataSourceProperties
 		 * @param dataSource
 		 * @return
 		 */
-		private DataSourceTransactionManager registerDataSourceTransactionManager(String serviceName,
+		private DataSourceTransactionManager registerDataSourceTransactionManager(String transactionManagerBeanName,
 				SingleDataSourceProperties dataSourceProperties, DataSource dataSource) {
-			String dataSourceTransactionManagerBeanName = generateBeanName(serviceName, TRANSACTION_MANAGER_NAME);
 			// 构建bean对象
 			DataSourceTransactionManager dataSourceTransactionManager = new DataSourceTransactionManager(dataSource);
 			// 注册bean
-			registerBean(dataSourceTransactionManagerBeanName, dataSourceTransactionManager);
+			registerBean(transactionManagerBeanName, dataSourceTransactionManager);
 
 			return dataSourceTransactionManager;
 		}

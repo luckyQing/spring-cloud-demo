@@ -34,6 +34,9 @@ public class SingleDataSourceProperties extends BaseDto {
 
 	/** entity别名的包名 */
 	private String typeAliasesPackage;
+	
+	/** 事务拦截切面表达式 */
+	private String transactionAopExpression;
 
 	/** jdbc驱动类名 */
 	private String driverClassName = "com.mysql.cj.jdbc.Driver";

@@ -2,6 +2,7 @@ package com.liyulin.demo.mall.product.service.api;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.liyulin.demo.common.business.dto.BasePageReq;
 import com.liyulin.demo.common.business.dto.BasePageResp;
@@ -27,6 +28,7 @@ public class ProductInfoApiService {
 	 * @param req
 	 * @return
 	 */
+	@Transactional
 	public BasePageResp<PageProductRespBody> pageProduct(BasePageReq<PageProductReqBody> req) {
 		return productOmsBiz.pageProduct(req);
 	}

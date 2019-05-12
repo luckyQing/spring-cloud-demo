@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Import;
 import com.liyulin.demo.common.business.autoconfigure.YamlImportBeanDefinitionRegistrar;
 
 /**
- * yaml文件匹配
+ * 自动加载匹配的yaml文件
  *
  * @author liyulin
  * @date 2019年5月11日下午5:08:26
