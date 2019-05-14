@@ -147,6 +147,8 @@ public class MultipleDataSourceAutoConfiguration {
 			});
 		}
 
+		//https://github.com/wcong/learn-java/blob/master/src/main/java/org/wcong/test/spring/CustomizeTransactionTest.java
+		//https://www.jianshu.com/p/5347a462b3a5
 		public void registerTransactionAdvisor(String transactionAopExpression, String serviceName,
 				String transactionManagerBeanName, PlatformTransactionManager transactionManager) {
 //			AspectJExpressionPointcut transactionPointcut = new AspectJExpressionPointcut();
