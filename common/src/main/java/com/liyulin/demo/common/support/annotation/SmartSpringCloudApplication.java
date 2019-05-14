@@ -39,8 +39,7 @@ import com.liyulin.demo.common.support.condition.SmartSpringCloudApplicationCond
 @EnableAutoConfiguration
 @ComponentScan(nameGenerator = UniqueBeanNameGenerator.class, excludeFilters = {
 		@Filter(type = FilterType.CUSTOM, classes = TypeExcludeFilter.class),
-		@Filter(type = FilterType.CUSTOM, classes = AutoConfigurationExcludeFilter.class),
-		@Filter(type = FilterType.REGEX, pattern = "org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration") })
+		@Filter(type = FilterType.CUSTOM, classes = AutoConfigurationExcludeFilter.class) })
 @EnableFeignClients
 @EnableDiscoveryClient
 @EnableCircuitBreaker
@@ -56,5 +55,5 @@ public @interface SmartSpringCloudApplication {
 
 	@AliasFor(annotation = EnableAutoConfiguration.class)
 	Class<?>[] exclude() default { DataSourceAutoConfiguration.class };
-	
+
 }
