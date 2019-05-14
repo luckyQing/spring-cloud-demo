@@ -13,7 +13,7 @@ import com.liyulin.demo.common.business.dto.BaseDto;
 import com.liyulin.demo.common.business.dto.Req;
 import com.liyulin.demo.common.business.dto.ReqObjectBody;
 import com.liyulin.demo.common.business.dto.Resp;
-import com.liyulin.demo.common.support.annotation.ConditionalFeignClient;
+import com.liyulin.demo.common.support.annotation.SmartFeignClient;
 import com.liyulin.demo.rpc.constants.RpcConstants;
 import com.liyulin.demo.rpc.product.request.rpc.QryProductByIdReqBody;
 import com.liyulin.demo.rpc.product.request.rpc.QryProductByIdsReqBody;
@@ -24,7 +24,7 @@ import com.liyulin.demo.rpc.product.response.rpc.QryProductByIdsRespBody;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
-@ConditionalFeignClient(name = RpcConstants.Product.FEIGN_CLIENT_NAME)
+@SmartFeignClient(name = RpcConstants.Product.FEIGN_CLIENT_NAME)
 @Api(tags = "商品信息rpc相关接口")
 public interface ProductInfoRpc {
 

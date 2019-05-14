@@ -8,6 +8,12 @@ import com.alibaba.fastjson.serializer.SerializerFeature;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
+/**
+ * 所有实体对象的基类
+ *
+ * @author liyulin
+ * @date 2019年4月22日上午12:22:22
+ */
 @NoArgsConstructor
 @SuperBuilder
 public class BaseDto implements Serializable, Cloneable {

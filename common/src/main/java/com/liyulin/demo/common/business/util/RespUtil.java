@@ -12,7 +12,7 @@ import com.liyulin.demo.common.util.ObjectUtil;
 import lombok.experimental.UtilityClass;
 
 /**
- * 响应对象工具类
+ * {@link Resp}工具类
  *
  * @author liyulin
  * @date 2019年4月6日下午5:36:34
@@ -66,7 +66,7 @@ public class RespUtil {
 	 * @return
 	 */
 	public static <R extends BaseDto> Resp<R> error(String msg) {
-		return new Resp<>(new RespHead(ReturnCodeEnum.SERVER_ERROR.getCode(), msg));
+		return new Resp<>(new RespHead(ReturnCodeEnum.SERVER_ERROR.getInfo().getCode(), msg));
 	}
 
 	/**
@@ -77,7 +77,7 @@ public class RespUtil {
 	 */
 	public static <R extends BaseDto> boolean isSuccess(Resp<R> resp) {
 		return ObjectUtil.isNotNull(resp) && ObjectUtil.isNotNull(resp.getHead())
-				&& ObjectUtil.equals(ReturnCodeEnum.SUCCESS.getCode(), resp.getHead().getCode());
+				&& ObjectUtil.equals(ReturnCodeEnum.SUCCESS.getInfo().getCode(), resp.getHead().getCode());
 	}
 
 	/**
@@ -95,7 +95,7 @@ public class RespUtil {
 			return "返回结果异常";
 		}
 
-		return StringUtils.isNotBlank(resp.getHead().getError()) ? resp.getHead().getError() : resp.getHead().getMsg();
+		return StringUtils.isNotBlank(resp.getHead().getError()) ? resp.getHead().getError() : resp.getHead().getMessage();
 	}
 
 }

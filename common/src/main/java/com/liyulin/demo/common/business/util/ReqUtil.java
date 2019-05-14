@@ -7,6 +7,12 @@ import com.liyulin.demo.common.business.dto.ReqObjectBody;
 
 import lombok.experimental.UtilityClass;
 
+/**
+ * {@link Req}工具类
+ *
+ * @author liyulin
+ * @date 2019年4月22日上午12:26:38
+ */
 @UtilityClass
 public class ReqUtil {
 

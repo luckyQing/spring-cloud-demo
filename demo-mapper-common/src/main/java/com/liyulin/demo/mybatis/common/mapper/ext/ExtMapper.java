@@ -9,7 +9,6 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.liyulin.demo.common.business.dto.BaseEntityRespBody;
 import com.liyulin.demo.common.business.dto.BasePageResp;
-import com.liyulin.demo.common.util.ClassUtil;
 import com.liyulin.demo.common.util.CollectionUtil;
 import com.liyulin.demo.mybatis.common.mapper.entity.BaseEntity;
 import com.liyulin.demo.mybatis.common.mapper.ext.mapper.InsertListSelectiveMapper;
@@ -18,6 +17,7 @@ import com.liyulin.demo.mybatis.common.mapper.ext.mapper.UpdateListByExamplesMap
 import com.liyulin.demo.mybatis.common.mapper.ext.mapper.UpdateListByExamplesSelectiveMapper;
 import com.liyulin.demo.mybatis.common.mapper.ext.mapper.UpdateListByPrimaryKeyMapper;
 import com.liyulin.demo.mybatis.common.mapper.ext.mapper.UpdateListByPrimaryKeySelectiveMapper;
+import com.liyulin.demo.mybatis.util.ClassUtil;
 
 import tk.mybatis.mapper.additional.idlist.IdListMapper;
 import tk.mybatis.mapper.additional.insert.InsertListMapper;

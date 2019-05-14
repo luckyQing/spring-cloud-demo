@@ -1,22 +1,17 @@
-com:
-  liyulin:
-    data-machine-id: 1
-    swagger: true
-    validator: true
+smart:
+  data-machine-id: 1
+  swagger: true
+  validator: true
+  enable-async: true
 
 server:
   port: 20011
   
 spring:
   application:
-    name: demo-mall-order-service
+    name: demoMallOrderService
   profiles:
     include: 
       - common
-      - common-db
+      - db-order
       - eureka
-      
-  datasource:
-    url: jdbc:mysql://127.0.0.1:3306/demo_order?${spring.datasource.url-common-paramters}
-    username: root
-    password: 123456

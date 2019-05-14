@@ -1,7 +1,7 @@
 package com.liyulin.demo.common.util;
 
 import com.liyulin.demo.common.constants.CommonConstants;
-import com.liyulin.demo.common.properties.CommonProperties;
+import com.liyulin.demo.common.properties.SmartProperties;
 
 /**
  * Twitter_Snowflake
@@ -68,10 +68,10 @@ public final class SnowFlakeIdUtil {
 	}
 	
 	private SnowFlakeIdUtil() {
-		Long dataMachineIdL = SpringUtil.getBean(CommonProperties.class).getDataMachineId();
+		Long dataMachineIdL = SpringUtil.getBean(SmartProperties.class).getDataMachineId();
 		if (ObjectUtil.isNull(dataMachineIdL)) {
-			throw new IllegalArgumentException(CommonConstants.COMMON_PROPERTIES_PREFIX + "."
-					+ CommonProperties.PropertiesName.DATA_MACHINE_ID + "未配置！");
+			throw new IllegalArgumentException(CommonConstants.SMART_PROPERTIES_PREFIX + "."
+					+ SmartProperties.PropertiesName.DATA_MACHINE_ID + "未配置！");
 		}
 		dataMachineId = dataMachineIdL;
 		if (dataMachineId > MAX_DATE_MACHINE_NUM || dataMachineId < 0) {

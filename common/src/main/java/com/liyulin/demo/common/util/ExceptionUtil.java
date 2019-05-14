@@ -18,6 +18,8 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 import com.liyulin.demo.common.business.dto.RespHead;
 import com.liyulin.demo.common.business.exception.BaseException;
 import com.liyulin.demo.common.business.exception.enums.ReturnCodeEnum;
+import com.liyulin.demo.common.business.util.RespHeadUtil;
+import com.liyulin.demo.common.constants.SymbolConstants;
 
 import lombok.experimental.UtilityClass;
 
@@ -29,6 +31,7 @@ import lombok.experimental.UtilityClass;
  */
 @UtilityClass
 public class ExceptionUtil {
+	
 	/** 错误分隔符 */
 	private String ERROR_SEPARATOR = " | ";
 
@@ -43,6 +46,53 @@ public class ExceptionUtil {
 		return t.getClass().getTypeName() + ERROR_SEPARATOR + StringUtils.join(stackTraceElements, ERROR_SEPARATOR);
 	}
 
+	public String getErrorMsg(Set<ConstraintViolation<?>> constraintViolationSet) {
+		StringBuilder errorMsg = new StringBuilder();
+		int size = constraintViolationSet.size();
+		int i = 0;
+		for (ConstraintViolation<?> constraintViolation : constraintViolationSet) {
+			if (size > 1) {
+				errorMsg.append((++i) + SymbolConstants.DOT);
+			}
+			if (constraintViolation.getPropertyPath() == null) {
+				errorMsg.append(constraintViolation.getMessage());
+			} else {
+				errorMsg.append(constraintViolation.getPropertyPath().toString())
+						.append(SymbolConstants.HYPHEN)
+						.append(constraintViolation.getMessage());
+			}
+			if (size > 1 && i < size) {
+				errorMsg.append("; ");
+			}
+		}
+
+		return errorMsg.toString();
+	}
+
+	public String getErrorMsg(List<ObjectError> objectErrors) {
+		StringBuilder errorMsg = new StringBuilder();
+		for (int i = 0, size = objectErrors.size(); i < size; i++) {
+			if (size > 1) {
+				errorMsg.append((i + 1) + SymbolConstants.DOT);
+			}
+			String validateField = ArrayUtil.isNotEmpty(objectErrors.get(i).getCodes())
+					? objectErrors.get(i).getCodes()[0]
+					: StringUtils.EMPTY;
+			errorMsg.append(validateField + SymbolConstants.HYPHEN + objectErrors.get(i).getDefaultMessage());
+			if (size > 1 && i < size - 1) {
+				errorMsg.append("; ");
+			}
+		}
+
+		return errorMsg.toString();
+	}
+
+	/**
+	 * 将{@link Throwable}解析构造{@link RespHead}
+	 * 
+	 * @param e
+	 * @return
+	 */
 	public RespHead parse(Throwable e) {
 		if (e instanceof BindException) {
 			// 参数校验
@@ -50,7 +100,7 @@ public class ExceptionUtil {
 			List<ObjectError> errorList = bindException.getAllErrors();
 			if (CollectionUtil.isNotEmpty(errorList)) {
 				ObjectError objectError = errorList.get(0);
-				return new RespHead(ReturnCodeEnum.VALIDATE_FAIL.getCode(), objectError.getDefaultMessage());
+				return RespHeadUtil.of(ReturnCodeEnum.VALIDATE_FAIL, objectError.getDefaultMessage());
 			}
 		}
 		if (e instanceof ConstraintViolationException) {
@@ -58,56 +108,44 @@ public class ExceptionUtil {
 			ConstraintViolationException constraintViolationException = (ConstraintViolationException) e;
 			Set<ConstraintViolation<?>> constraintViolationSet = constraintViolationException.getConstraintViolations();
 			if (CollectionUtil.isNotEmpty(constraintViolationSet)) {
-				for (ConstraintViolation<?> constraintViolation : constraintViolationSet) {
-					return new RespHead(ReturnCodeEnum.VALIDATE_FAIL.getCode(), constraintViolation.getMessage());
-				}
+				String errorMsg = getErrorMsg(constraintViolationSet);
+				return RespHeadUtil.of(ReturnCodeEnum.VALIDATE_FAIL, errorMsg);
 			}
-			return new RespHead(ReturnCodeEnum.VALIDATE_FAIL.getCode(), e.getMessage());
+			return RespHeadUtil.of(ReturnCodeEnum.VALIDATE_FAIL, e.getMessage());
 		}
 		if (e instanceof MethodArgumentNotValidException) {
 			// 参数校验
 			List<ObjectError> objectErrors = ((MethodArgumentNotValidException) e).getBindingResult().getAllErrors();
-			StringBuilder sb = new StringBuilder();
 			if (CollectionUtil.isNotEmpty(objectErrors)) {
-				for (int i = 0, size = objectErrors.size(); i < size; i++) {
-					if (size > 1) {
-						sb.append((i + 1) + ".");
-					}
-					String validateField = ArrayUtil.isNotEmpty(objectErrors.get(i).getCodes())
-							? objectErrors.get(i).getCodes()[0]
-							: StringUtils.EMPTY;
-					sb.append(validateField + "-" + objectErrors.get(i).getDefaultMessage());
-					if (i < size - 1) {
-						sb.append("; ");
-					}
-				}
+				String errorMsg = getErrorMsg(objectErrors);
+				return RespHeadUtil.of(ReturnCodeEnum.VALIDATE_FAIL, errorMsg);
 			}
-			return new RespHead(ReturnCodeEnum.VALIDATE_FAIL.getCode(), sb.toString());
+			return RespHeadUtil.of(ReturnCodeEnum.VALIDATE_FAIL, e.getMessage());
 		}
 		if (e instanceof IllegalArgumentException) {
-			return new RespHead(ReturnCodeEnum.VALIDATE_FAIL.getCode(), e.getMessage());
+			return RespHeadUtil.of(ReturnCodeEnum.VALIDATE_FAIL, e.getMessage());
 		}
 		if (e instanceof HttpRequestMethodNotSupportedException) {
-			return new RespHead(ReturnCodeEnum.REQUEST_METHOD_NOT_SUPPORTED.getCode(), e.getMessage());
+			return RespHeadUtil.of(ReturnCodeEnum.REQUEST_METHOD_NOT_SUPPORTED, e.getMessage());
 		}
 		if (e instanceof HttpMediaTypeNotSupportedException) {
-			return new RespHead(ReturnCodeEnum.UNSUPPORTED_MEDIA_TYPE.getCode(), e.getMessage());
+			return RespHeadUtil.of(ReturnCodeEnum.UNSUPPORTED_MEDIA_TYPE, e.getMessage());
 		}
 		if (e instanceof MaxUploadSizeExceededException) {
-			return new RespHead(ReturnCodeEnum.UPLOAD_FILE_SIZE_EXCEEDED.getCode(), e.getMessage());
+			return RespHeadUtil.of(ReturnCodeEnum.UPLOAD_FILE_SIZE_EXCEEDED, e.getMessage());
 		}
 		if (e instanceof NoHandlerFoundException) {
-			return new RespHead(ReturnCodeEnum.REQUEST_URL_ERROR.getCode(), e.getMessage());
+			return RespHeadUtil.of(ReturnCodeEnum.REQUEST_URL_ERROR, e.getMessage());
 		}
 		if (e instanceof BaseException) {
 			BaseException ex = (BaseException) e;
-			return new RespHead(ex.getReturnCode());
+			return RespHeadUtil.of(ex.getCode(), ex.getMessage());
 		}
 		if (e != null) {
-			return new RespHead(ReturnCodeEnum.SERVER_ERROR.getCode(), e.getMessage());
+			return RespHeadUtil.of(ReturnCodeEnum.SERVER_ERROR, e.getMessage());
 		}
 
-		return new RespHead(ReturnCodeEnum.SERVER_ERROR);
+		return RespHeadUtil.of(ReturnCodeEnum.SERVER_ERROR, null);
 	}
 
 }
