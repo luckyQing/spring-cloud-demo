@@ -6,5 +6,5 @@ smart:
       password: 123456
       type-aliases-package: com.liyulin.demo.mall.product.entity
       mapper-interface-location: com.liyulin.demo.mall.product.mapper
-      transaction-aop-expression: execution( * com.liyulin.demo.mall.product.service..*.*(..))
+      transaction-aop-expression: com.liyulin.demo.mall.product.service
       mapper-xml-location: classpath*:com/liyulin/demo/mall/product/mybatis/**.xml

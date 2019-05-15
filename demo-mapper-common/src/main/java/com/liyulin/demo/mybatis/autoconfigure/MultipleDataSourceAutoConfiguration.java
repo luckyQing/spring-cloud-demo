@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Properties;
+import java.util.concurrent.ConcurrentMap;
 
 import javax.sql.DataSource;
 
@@ -17,7 +18,9 @@ import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
+import org.springframework.boot.context.event.ApplicationStartedEvent;
 import org.springframework.boot.context.properties.bind.Binder;
+import org.springframework.context.ApplicationListener;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -30,7 +33,7 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.AnnotationTransactionAttributeSource;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import org.springframework.transaction.interceptor.BeanFactoryTransactionAttributeSourceAdvisor;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.transaction.interceptor.TransactionInterceptor;
 import org.springframework.util.Assert;
 
@@ -69,7 +72,7 @@ public class MultipleDataSourceAutoConfiguration {
 	 * @date 2019年4月24日下午8:06:47
 	 */
 	public static class MultipleDataSourceRegistrar
-			implements BeanFactoryAware, EnvironmentAware, ImportBeanDefinitionRegistrar {
+			implements BeanFactoryAware, EnvironmentAware, ImportBeanDefinitionRegistrar, ApplicationListener<ApplicationStartedEvent> {
 
 		private Map<String, SingleDataSourceProperties> dataSources;
 		private MybatisSqlLogInterceptor mybatisSqlLogInterceptor;
@@ -142,8 +145,29 @@ public class MultipleDataSourceAutoConfiguration {
 				String transactionManagerBeanName = generateBeanName(serviceName, TRANSACTION_MANAGER_NAME);
 				DataSourceTransactionManager transactionManager = registerDataSourceTransactionManager(transactionManagerBeanName, dataSourceProperties, dataSource);
 				
-				registerTransactionAdvisor(dataSourceProperties.getTransactionAopExpression(), serviceName,
-						transactionManagerBeanName, transactionManager);
+//				registerTransactionAdvisor(dataSourceProperties.getTransactionAopExpression(), serviceName,
+//						transactionManagerBeanName, transactionManager);
+			});
+		}
+
+		@Override
+		public void onApplicationEvent(ApplicationStartedEvent event) {
+			loadTransactionManagerCache();
+		}
+		
+		// ProxyTransactionManagementConfiguration
+		// TransactionInterceptor在IOC中创建后，修改
+		public void loadTransactionManagerCache() {
+			TransactionInterceptor transactionInterceptor = beanFactory.getBean(TransactionInterceptor.class);
+			if(transactionInterceptor==null) {
+				return;
+			}
+			// 反射获取
+			ConcurrentMap<Object, PlatformTransactionManager> transactionManagerCache = null;
+			dataSources.forEach((serviceName, dataSourceProperties) -> {
+				String transactionManagerBeanName = generateBeanName(serviceName, TRANSACTION_MANAGER_NAME);
+				PlatformTransactionManager transactionManager = beanFactory.getBean(transactionManagerBeanName, PlatformTransactionManager.class);
+				transactionManagerCache.put(dataSourceProperties.getTransactionAopExpression(), transactionManager);
 			});
 		}
 
@@ -151,8 +175,8 @@ public class MultipleDataSourceAutoConfiguration {
 		//https://www.jianshu.com/p/5347a462b3a5
 		public void registerTransactionAdvisor(String transactionAopExpression, String serviceName,
 				String transactionManagerBeanName, PlatformTransactionManager transactionManager) {
-//			AspectJExpressionPointcut transactionPointcut = new AspectJExpressionPointcut();
-//			transactionPointcut.setExpression(transactionAopExpression);
+			AspectJExpressionPointcut transactionPointcut = new AspectJExpressionPointcut();
+			transactionPointcut.setExpression(transactionAopExpression);
 
 			AnnotationTransactionAttributeSource transactionAttributeSource = new AnnotationTransactionAttributeSource();
 			
@@ -162,16 +186,16 @@ public class MultipleDataSourceAutoConfiguration {
 			transactionInterceptor.setBeanFactory(beanFactory);
 			transactionInterceptor.setTransactionAttributeSource(transactionAttributeSource);
 
-			BeanFactoryTransactionAttributeSourceAdvisor advisor = new BeanFactoryTransactionAttributeSourceAdvisor();
-			advisor.setTransactionAttributeSource(transactionAttributeSource);
-			advisor.setAdvice(transactionInterceptor);
-			advisor.setBeanFactory(beanFactory);
+//			BeanFactoryTransactionAttributeSourceAdvisor advisor = new BeanFactoryTransactionAttributeSourceAdvisor();
+//			advisor.setTransactionAttributeSource(transactionAttributeSource);
+//			advisor.setAdvice(transactionInterceptor);
+//			advisor.setBeanFactory(beanFactory);
 			
-//			DefaultBeanFactoryPointcutAdvisor transactionAdvisor = new DefaultBeanFactoryPointcutAdvisor();
-//			transactionAdvisor.setAdvice(transactionInterceptor);
-//			transactionAdvisor.setPointcut(transactionPointcut);
+			DefaultBeanFactoryPointcutAdvisor advisor = new DefaultBeanFactoryPointcutAdvisor();
+			advisor.setAdvice(transactionInterceptor);
+			advisor.setPointcut(transactionPointcut);
 
-			String transactionAdvisorBeanName = generateBeanName(serviceName, BeanFactoryTransactionAttributeSourceAdvisor.class.getSimpleName());
+			String transactionAdvisorBeanName = generateBeanName(serviceName, DefaultBeanFactoryPointcutAdvisor.class.getSimpleName());
 			registerBean(transactionAdvisorBeanName, advisor);
 		}
 
