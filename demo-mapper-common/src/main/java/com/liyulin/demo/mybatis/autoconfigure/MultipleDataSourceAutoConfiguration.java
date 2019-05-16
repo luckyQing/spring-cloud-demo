@@ -90,8 +90,9 @@ public class MultipleDataSourceAutoConfiguration {
 		src.append("ConcurrentMap multipleTransactionManagerCache = MultipleDataSourceAutoConfiguration.getMultipleTransactionManagerCache();").append(lineSeparator);
 		src.append("Iterator iterator = multipleTransactionManagerCache.keySet().iterator();").append(lineSeparator);
 		src.append("while (iterator.hasNext()) {").append(lineSeparator);
-		src.append("	if (descriptor.startsWith(String.valueOf(iterator.next()))) {").append(lineSeparator);
-		src.append("		return (PlatformTransactionManager)multipleTransactionManagerCache.get(iterator.next());").append(lineSeparator);
+		src.append("	String key = String.valueOf(iterator.next());").append(lineSeparator);
+		src.append("	if (descriptor.startsWith(key)) {").append(lineSeparator);
+		src.append("		return (PlatformTransactionManager)multipleTransactionManagerCache.get(key);").append(lineSeparator);
 		src.append("	}").append(lineSeparator);
 		src.append("}").append(lineSeparator);
 		
@@ -101,7 +102,8 @@ public class MultipleDataSourceAutoConfiguration {
 			
 			LogUtil.info("在类[{}]的方法[{}]中动态插入以下代码：{}", TransactionAspectSupport.class.getName(), ctMethod.getMethodInfo().getName(), src);
 			ctMethod.insertBefore(src.toString());
-		} catch (NotFoundException | CannotCompileException e) {
+			ctClass.writeFile("target/classes");
+		} catch (NotFoundException | CannotCompileException | IOException  e) {
 			LogUtil.error(e.getMessage(), e);
 		}
 	}
