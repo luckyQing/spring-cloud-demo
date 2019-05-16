@@ -10,6 +10,8 @@ public class SymbolConstants {
 
 	/** 点（.） */
 	public static final String DOT = ".";
+	/** 逗号（,） */
+	public static final String COMMA = ",";
 	/** 问号（?） */
 	public static final String QUESTION_MARK = "?";
 	/** 冒号（:） */
