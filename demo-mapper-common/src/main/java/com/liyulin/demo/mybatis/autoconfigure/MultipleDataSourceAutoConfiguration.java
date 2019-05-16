@@ -27,6 +27,7 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.type.AnnotationMetadata;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.util.Assert;
 import org.springframework.util.ConcurrentReferenceHashMap;
@@ -57,13 +58,13 @@ import tk.mybatis.spring.mapper.MapperScannerConfigurer;
  * @date 2019年4月25日上午10:38:05
  */
 @Configuration
-//@EnableTransactionManagement
+@EnableTransactionManagement
 @Import({ MultipleDataSourceRegistrar.class })
 public class MultipleDataSourceAutoConfiguration {
 	
 	/** <code>DataSourceTransactionManager</code> bean名称组成部分（后缀） */
 	public static final String TRANSACTION_MANAGER_NAME = "DataSourceTransactionManager";
-	private static final ConcurrentMap<String, PlatformTransactionManager> MULTIPLE_TRANSACTION_MANAGER_CACHE =
+	public static final ConcurrentMap<String, PlatformTransactionManager> MULTIPLE_TRANSACTION_MANAGER_CACHE =
 			new ConcurrentReferenceHashMap<>(4);
 	
 	public static ConcurrentMap<String, PlatformTransactionManager> getMultipleTransactionManagerCache(){
@@ -71,22 +72,34 @@ public class MultipleDataSourceAutoConfiguration {
 	}
 	
 	static {
-		// 修改determineTransactionManager方法，在方法开头开入获取PlatformTransactionManager的代码
+		// 修改determineTransactionManager方法，在方法开头插入获取PlatformTransactionManager的代码
 		ClassPool classPool = ClassPool.getDefault();
-		classPool.importPackage("org.springframework.transaction.interceptor");
-		classPool.importPackage("com.liyulin.demo.mybatis.autoconfigure");
+		// 导入需要的类
+		classPool.importPackage("org.springframework.transaction.interceptor.DefaultTransactionAttribute");
+		classPool.importPackage("java.util.concurrent.ConcurrentMap");
+		classPool.importPackage("java.util.Iterator");
+		classPool.importPackage("org.springframework.transaction.PlatformTransactionManager");
+		classPool.importPackage("com.liyulin.demo.mybatis.autoconfigure.MultipleDataSourceAutoConfiguration");
+		
+		String lineSeparator = System.getProperty("line.separator");
+		
+		// 注意：javassist不支持泛型
+		StringBuilder src = new StringBuilder();
+		src.append("DefaultTransactionAttribute defaultTransactionAttribute = (DefaultTransactionAttribute) txAttr;").append(lineSeparator);
+		src.append("String descriptor = defaultTransactionAttribute.getDescriptor();").append(lineSeparator);
+		src.append("ConcurrentMap multipleTransactionManagerCache = MultipleDataSourceAutoConfiguration.getMultipleTransactionManagerCache();").append(lineSeparator);
+		src.append("Iterator iterator = multipleTransactionManagerCache.keySet().iterator();").append(lineSeparator);
+		src.append("while (iterator.hasNext()) {").append(lineSeparator);
+		src.append("	if (descriptor.startsWith(String.valueOf(iterator.next()))) {").append(lineSeparator);
+		src.append("		return (PlatformTransactionManager)multipleTransactionManagerCache.get(iterator.next());").append(lineSeparator);
+		src.append("	}").append(lineSeparator);
+		src.append("}").append(lineSeparator);
+		
 		try {
 			CtClass ctClass = classPool.getCtClass(TransactionAspectSupport.class.getName());
 			CtMethod ctMethod = ctClass.getDeclaredMethod("determineTransactionManager");
-			StringBuilder src = new StringBuilder();
-			src.append("DefaultTransactionAttribute defaultTransactionAttribute = (DefaultTransactionAttribute) txAttr;");
-			src.append("String descriptor = defaultTransactionAttribute.getDescriptor();");
-			src.append("ConcurrentMap<String, PlatformTransactionManager> multipleTransactionManagerCache = MultipleDataSourceAutoConfiguration.getMultipleTransactionManagerCache();");
-			src.append("for (java.util.Map.Entry<String, PlatformTransactionManager> entry : multipleTransactionManagerCache.entrySet()) {");
-			src.append("	if (descriptor.startsWith(entry.getKey())) {");
-			src.append("		return entry.getValue();");
-			src.append("	}");
-			src.append("}");
+			
+			LogUtil.info("在类[{}]的方法[{}]中动态插入以下代码：{}", TransactionAspectSupport.class.getName(), ctMethod.getMethodInfo().getName(), src);
 			ctMethod.insertBefore(src.toString());
 		} catch (NotFoundException | CannotCompileException e) {
 			LogUtil.error(e.getMessage(), e);
@@ -184,7 +197,7 @@ public class MultipleDataSourceAutoConfiguration {
 			}
 			String[] transactionBasePackageArray = transactionBasePackages.split(SymbolConstants.COMMA);
 			for (String transactionBasePackage : transactionBasePackageArray) {
-				MultipleDataSourceAutoConfiguration.getMultipleTransactionManagerCache().put(transactionBasePackage,
+				MultipleDataSourceAutoConfiguration.getMultipleTransactionManagerCache().putIfAbsent(transactionBasePackage,
 						transactionManager);
 			}
 		}
