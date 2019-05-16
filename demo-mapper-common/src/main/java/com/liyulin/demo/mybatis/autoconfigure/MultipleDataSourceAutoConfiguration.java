@@ -1,6 +1,7 @@
 package com.liyulin.demo.mybatis.autoconfigure;
 
 import java.io.IOException;
+import java.lang.reflect.AnnotatedElement;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -22,6 +23,9 @@ import org.springframework.context.EnvironmentAware;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
+import org.springframework.core.annotation.AnnotatedElementUtils;
+import org.springframework.core.annotation.AnnotationAttributes;
+import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
@@ -29,8 +33,9 @@ import org.springframework.core.type.AnnotationMetadata;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.AnnotationTransactionAttributeSource;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
-import org.springframework.transaction.interceptor.BeanFactoryTransactionAttributeSourceAdvisor;
+import org.springframework.transaction.annotation.SpringTransactionAnnotationParser;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAttribute;
 import org.springframework.transaction.interceptor.TransactionInterceptor;
 import org.springframework.util.Assert;
 
@@ -55,7 +60,7 @@ import tk.mybatis.spring.mapper.MapperScannerConfigurer;
  * @date 2019年4月25日上午10:38:05
  */
 @Configuration
-@EnableTransactionManagement
+//@EnableTransactionManagement
 @Import({ MultipleDataSourceRegistrar.class })
 public class MultipleDataSourceAutoConfiguration {
 	
@@ -149,32 +154,114 @@ public class MultipleDataSourceAutoConfiguration {
 
 		//https://github.com/wcong/learn-java/blob/master/src/main/java/org/wcong/test/spring/CustomizeTransactionTest.java
 		//https://www.jianshu.com/p/5347a462b3a5
-		public void registerTransactionAdvisor(String transactionAopExpression, String serviceName,
-				String transactionManagerBeanName, PlatformTransactionManager transactionManager) {
+//		public void registerTransactionAdvisor(String transactionAopExpression, String serviceName,
+//				String transactionManagerBeanName, PlatformTransactionManager transactionManager) {
 //			AspectJExpressionPointcut transactionPointcut = new AspectJExpressionPointcut();
 //			transactionPointcut.setExpression(transactionAopExpression);
+//
+//			AnnotationTransactionAttributeSource transactionAttributeSource = new AnnotationTransactionAttributeSource();
+//			
+//			TransactionInterceptor transactionInterceptor = new TransactionInterceptor();
+//			transactionInterceptor.setTransactionManager(transactionManager);
+//			transactionInterceptor.setTransactionManagerBeanName(transactionManagerBeanName);
+//			transactionInterceptor.setBeanFactory(beanFactory);
+//			transactionInterceptor.setTransactionAttributeSource(transactionAttributeSource);
+//
+//			BeanFactoryTransactionAttributeSourceAdvisor advisor = new BeanFactoryTransactionAttributeSourceAdvisor();
+//			advisor.setTransactionAttributeSource(transactionAttributeSource);
+//			advisor.setAdvice(transactionInterceptor);
+//			advisor.setOrder(1);
+//			advisor.setBeanFactory(beanFactory);
+//			
+////			DefaultBeanFactoryPointcutAdvisor transactionAdvisor = new DefaultBeanFactoryPointcutAdvisor();
+////			transactionAdvisor.setAdvice(transactionInterceptor);
+////			transactionAdvisor.setPointcut(transactionPointcut);
+////			org.springframework.transaction.aspectj.AspectJTransactionManagementConfiguration
+//			
+//			String transactionAdvisorBeanName = generateBeanName(serviceName, BeanFactoryTransactionAttributeSourceAdvisor.class.getSimpleName());
+//			registerBean(transactionAdvisorBeanName, advisor);
+//		}
+		
+		public void registerTransactionAdvisor(String transactionAopExpression, String serviceName,
+				String transactionManagerBeanName, PlatformTransactionManager transactionManager) {
+			AspectJExpressionPointcut transactionPointcut = new AspectJExpressionPointcut();
+			transactionPointcut.setExpression(transactionAopExpression);
 
+			// TODO:优化（缩小范围）
 			AnnotationTransactionAttributeSource transactionAttributeSource = new AnnotationTransactionAttributeSource();
-			
+
 			TransactionInterceptor transactionInterceptor = new TransactionInterceptor();
 			transactionInterceptor.setTransactionManager(transactionManager);
 			transactionInterceptor.setTransactionManagerBeanName(transactionManagerBeanName);
 			transactionInterceptor.setBeanFactory(beanFactory);
 			transactionInterceptor.setTransactionAttributeSource(transactionAttributeSource);
 
-			BeanFactoryTransactionAttributeSourceAdvisor advisor = new BeanFactoryTransactionAttributeSourceAdvisor();
-			advisor.setTransactionAttributeSource(transactionAttributeSource);
+			DefaultBeanFactoryPointcutAdvisor advisor = new DefaultBeanFactoryPointcutAdvisor();
 			advisor.setAdvice(transactionInterceptor);
-			advisor.setBeanFactory(beanFactory);
-			
-//			DefaultBeanFactoryPointcutAdvisor transactionAdvisor = new DefaultBeanFactoryPointcutAdvisor();
-//			transactionAdvisor.setAdvice(transactionInterceptor);
-//			transactionAdvisor.setPointcut(transactionPointcut);
+			advisor.setPointcut(transactionPointcut);
+			advisor.setOrder(1);
 
-			String transactionAdvisorBeanName = generateBeanName(serviceName, BeanFactoryTransactionAttributeSourceAdvisor.class.getSimpleName());
+			String transactionAdvisorBeanName = generateBeanName(serviceName,
+					DefaultBeanFactoryPointcutAdvisor.class.getSimpleName());
 			registerBean(transactionAdvisorBeanName, advisor);
 		}
 
+		/*
+		 * public void registerTransactionAdvisor(String transactionAopExpression,
+		 * String serviceName, String transactionManagerBeanName,
+		 * PlatformTransactionManager transactionManager) { AspectJExpressionPointcut
+		 * transactionPointcut = new AspectJExpressionPointcut();
+		 * transactionPointcut.setExpression(transactionAopExpression);
+		 * 
+		 * AnnotationTransactionAttributeSource transactionAttributeSource = new
+		 * AnnotationTransactionAttributeSource(); new
+		 * AnnotationTransactionAttributeSource(new
+		 * SmartSpringTransactionAnnotationParser());
+		 * 
+		 * 
+		 * TransactionInterceptor transactionInterceptor = new TransactionInterceptor();
+		 * transactionInterceptor.setTransactionManager(transactionManager);
+		 * transactionInterceptor.setTransactionManagerBeanName(
+		 * transactionManagerBeanName);
+		 * transactionInterceptor.setBeanFactory(beanFactory);
+		 * transactionInterceptor.setTransactionAttributeSource(
+		 * transactionAttributeSource);
+		 * 
+		 * AnnotationTransactionAspect annotationTransactionAspect = new
+		 * AnnotationTransactionAspect();
+		 * annotationTransactionAspect.setBeanFactory(beanFactory);
+		 * annotationTransactionAspect.setTransactionAttributeSource(
+		 * transactionAttributeSource);
+		 * annotationTransactionAspect.setTransactionManager(transactionManager);
+		 * annotationTransactionAspect.setTransactionManagerBeanName(
+		 * transactionManagerBeanName);
+		 * 
+		 * String annotationTransactionAspectBeanName = generateBeanName(serviceName,
+		 * AnnotationTransactionAspect.class.getSimpleName());
+		 * registerBean(annotationTransactionAspectBeanName,
+		 * annotationTransactionAspect); }
+		 */
+		
+		public static class SmartSpringTransactionAnnotationParser extends SpringTransactionAnnotationParser {
+
+			@Override
+			public TransactionAttribute parseTransactionAnnotation(AnnotatedElement ae) {
+				AnnotationAttributes attributes = AnnotatedElementUtils
+						.getMergedAnnotationAttributes(ae, Transactional.class);
+				if (attributes != null) {
+					return parseTransactionAnnotation(attributes);
+				} else {
+					return null;
+				}
+			}
+
+			@Override
+			public TransactionAttribute parseTransactionAnnotation(Transactional ann) {
+				return parseTransactionAnnotation(AnnotationUtils.getAnnotationAttributes(ann, false, false));
+			}
+
+		}
+		
 		/**
 		 * 创建并注册<code>HikariDataSource</code>
 		 * 
