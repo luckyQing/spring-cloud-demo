@@ -12,7 +12,6 @@ import com.liyulin.demo.common.business.dto.ReqObjectBody;
 import com.liyulin.demo.common.business.dto.Resp;
 import com.liyulin.demo.common.business.util.RespUtil;
 import com.liyulin.demo.mall.product.biz.rpc.ProductInfoRpcBiz;
-import com.liyulin.demo.mall.product.constants.ProductConstants;
 import com.liyulin.demo.mall.product.enums.ProductReturnCodeEnum;
 import com.liyulin.demo.rpc.product.request.rpc.QryProductByIdReqBody;
 import com.liyulin.demo.rpc.product.request.rpc.QryProductByIdsReqBody;
@@ -58,7 +57,7 @@ public class ProductInfoRpcService {
 	 * @param req
 	 * @return
 	 */
-	@Transactional(value = ProductConstants.TRANSACTION_NAME)
+	@Transactional
 	public Resp<BaseDto> updateStock(Req<ReqObjectBody<List<UpdateStockReqBody>>> req) {
 		boolean success = productRpcBiz.updateStock(req.getBody().getObject());
 		return success ? RespUtil.success() : RespUtil.error(ProductReturnCodeEnum.STOCK_NOT_ENOUGH);
