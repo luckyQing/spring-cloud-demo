@@ -23,7 +23,7 @@ public class ParamValidateError extends BaseException {
 	}
 
 	public ParamValidateError(String msg) {
-		ReturnCodeDto returnCodeDto = new ReturnCodeDto(ReturnCodeEnum.PARAMETERS_MISSING.getInfo().getCode(), msg);
+		ReturnCodeDto returnCodeDto = new ReturnCodeDto(getReturnCode().getInfo().getCode(), msg);
 		super.setReturnCodeDto(returnCodeDto);
 	}
 
