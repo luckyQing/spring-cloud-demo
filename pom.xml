@@ -25,7 +25,7 @@
 		<pagehelper>5.1.8</pagehelper>
 		<mysql>8.0.15</mysql>
 		<fastjson>1.2.47</fastjson>
-		<springfox-swagger2>2.7.0</springfox-swagger2>
+		<springfox-swagger2>2.9.2</springfox-swagger2>
 		<podam>7.2.3.RELEASE</podam>
 		<guava>23.0</guava>
 	</properties>
@@ -187,6 +187,26 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>8</source>
+					<target>8</target>
+					<compilerArgs>
+						<arg>-XDcompilePolicy=simple</arg>
+						<arg>-Xplugin:ErrorProne</arg>
+					</compilerArgs>
+					<annotationProcessorPaths>
+						<path>
+							<groupId>com.google.errorprone</groupId>
+							<artifactId>error_prone_core</artifactId>
+							<version>2.3.3</version>
+						</path>
+					</annotationProcessorPaths>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
