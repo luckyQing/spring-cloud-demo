@@ -18,11 +18,15 @@ import com.liyulin.demo.common.util.LogUtil;
 @ConditionalOnProperty(prefix = CommonConstants.SMART_PROPERTIES_PREFIX, name = SmartProperties.PropertiesName.ENABLE_ASYNC, havingValue = "true", matchIfMissing = false)
 public class AsyncAutoConfigure extends AsyncConfigurerSupport {
 
+	private final int CORE_POOL_SIZE = Runtime.getRuntime().availableProcessors();
+	/** 池大小 = ((核心数 * 2) + 有效磁盘数) */
+	private final int MAX_POOL_SIZE = (CORE_POOL_SIZE << 1) + 1;
+
 	@Override
 	public Executor getAsyncExecutor() {
 		ThreadPoolTaskExecutor threadPoolTaskExecutor = new ThreadPoolTaskExecutor();
-		threadPoolTaskExecutor.setMaxPoolSize(100);
-		threadPoolTaskExecutor.setCorePoolSize(5);
+		threadPoolTaskExecutor.setMaxPoolSize(MAX_POOL_SIZE);
+		threadPoolTaskExecutor.setCorePoolSize(CORE_POOL_SIZE);
 		threadPoolTaskExecutor.setKeepAliveSeconds(120);
 		threadPoolTaskExecutor.setWaitForTasksToCompleteOnShutdown(true);
 		threadPoolTaskExecutor.setAwaitTerminationSeconds(60);
