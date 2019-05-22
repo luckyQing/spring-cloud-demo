@@ -73,12 +73,11 @@
 			<artifactId>reflections</artifactId>
 			<version>0.9.11</version>
 		</dependency>
-<!-- 
+
 		<dependency>
-			<groupId>io.swagger</groupId>
-			<artifactId>swagger-compat-spec-parser</artifactId>
-			<version>1.0.44</version>
-		</dependency> -->
+			<groupId>com.github.ulisesbocchio</groupId>
+			<artifactId>jasypt-spring-boot-starter</artifactId>
+		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

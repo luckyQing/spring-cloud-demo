@@ -1,6 +1,5 @@
 package com.liyulin.demo.mybatis.autoconfigure;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Map;
@@ -12,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationStartedEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.core.MethodClassKey;
+import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.AbstractFallbackTransactionAttributeSource;
@@ -59,17 +59,11 @@ public class InitTransactionalValue implements ApplicationListener<ApplicationSt
 				continue;
 			}
 
-			Annotation[] annotations = method.getDeclaredAnnotations();
-			if (annotations == null || annotations.length == 0) {
-				continue;
-			}
-
-			for (Annotation annotation : annotations) {
-				if (annotation instanceof Transactional) {
-					String packageName = method.getDeclaringClass().getPackage().getName();
-					String transactionManagerName = getTransactionManagerName(packageName);
-					transactionAttribute.setQualifier(transactionManagerName);
-				}
+			boolean isTransactionalMethod = (AnnotationUtils.findAnnotation(method, Transactional.class) != null);
+			if (isTransactionalMethod) {
+				String packageName = method.getDeclaringClass().getPackage().getName();
+				String transactionManagerName = getTransactionManagerName(packageName);
+				transactionAttribute.setQualifier(transactionManagerName);
 			}
 		}
 	}

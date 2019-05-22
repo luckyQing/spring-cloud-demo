@@ -139,6 +139,7 @@
 [Hibernator-Validator](http://hibernate.org/validator/) | 参数校验 
 [swagger](https://swagger.io/)、[gitbook](https://www.gitbook.com/) | 接口文档 
 [xjar](https://github.com/core-lib/xjar) | 代码安全 
+[jasypt-spring-boot](https://github.com/ulisesbocchio/jasypt-spring-boot) | 配置文件中敏感数据加解密
 [Lombok](https://www.projectlombok.org/) | 简化代码 
 ## （二）前端
 技术 | 说明
