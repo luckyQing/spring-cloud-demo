@@ -2,6 +2,7 @@ package com.liyulin.demo.mall.product;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -26,8 +27,8 @@ import springfox.documentation.swagger2.web.Swagger2Controller;
 @RestController
 public class Application {
 	
-//	@Autowired
-//	private DocumentationCache documentationCache;
+	@Autowired
+	private DocumentationCache documentationCache;
 	@Value("${spring.application.name}")
 	private String appName;
 	
@@ -47,7 +48,7 @@ public class Application {
 		Swagger swagger = JSONObject.parseObject(json.value(), Swagger.class);
 		return responseEntity;
 	}
-
+	
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);
 	}

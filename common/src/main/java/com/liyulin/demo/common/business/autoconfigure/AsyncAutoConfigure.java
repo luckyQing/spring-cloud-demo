@@ -18,9 +18,9 @@ import com.liyulin.demo.common.util.LogUtil;
 @ConditionalOnProperty(prefix = CommonConstants.SMART_PROPERTIES_PREFIX, name = SmartProperties.PropertiesName.ENABLE_ASYNC, havingValue = "true", matchIfMissing = false)
 public class AsyncAutoConfigure extends AsyncConfigurerSupport {
 
-	private final int CORE_POOL_SIZE = Runtime.getRuntime().availableProcessors();
+	private static final int CORE_POOL_SIZE = Runtime.getRuntime().availableProcessors();
 	/** 池大小 = ((核心数 * 2) + 有效磁盘数) */
-	private final int MAX_POOL_SIZE = (CORE_POOL_SIZE << 1) + 1;
+	private static final int MAX_POOL_SIZE = (CORE_POOL_SIZE << 1) + 1;
 
 	@Override
 	public Executor getAsyncExecutor() {
@@ -37,9 +37,7 @@ public class AsyncAutoConfigure extends AsyncConfigurerSupport {
 	@Override
 	@Nullable
 	public AsyncUncaughtExceptionHandler getAsyncUncaughtExceptionHandler() {
-		return (throwable, method, obj) -> {
-			LogUtil.error("asyncException@method=" + method.getName() + "; param=" + JSON.toJSONString(obj), throwable);
-		};
+		return (throwable, method, obj) -> LogUtil.error("asyncException@method=" + method.getName() + "; param=" + JSON.toJSONString(obj), throwable);
 	}
 
 }

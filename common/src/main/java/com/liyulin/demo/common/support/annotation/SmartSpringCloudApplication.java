@@ -24,6 +24,8 @@ import org.springframework.scheduling.annotation.EnableAsync;
 
 import com.liyulin.demo.common.support.UniqueBeanNameGenerator;
 import com.liyulin.demo.common.support.condition.SmartSpringCloudApplicationCondition;
+import com.ulisesbocchio.jasyptspringboot.annotation.EncryptablePropertySource;
+import com.ulisesbocchio.jasyptspringboot.annotation.EncryptablePropertySources;
 
 /**
  * 服务启动类注解
@@ -45,6 +47,7 @@ import com.liyulin.demo.common.support.condition.SmartSpringCloudApplicationCond
 @EnableCircuitBreaker
 @EnableAsync
 @Conditional(SmartSpringCloudApplicationCondition.class)
+@EncryptablePropertySources({ @EncryptablePropertySource("classpath*:application-db-product.yml")})
 public @interface SmartSpringCloudApplication {
 
 	@AliasFor(annotation = ComponentScan.class, attribute = "basePackages")

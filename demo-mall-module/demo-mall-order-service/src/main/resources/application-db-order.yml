@@ -2,9 +2,13 @@ smart:
   data-sources:
     order:
       url: jdbc:mysql://127.0.0.1:3306/demo_order
-      username: root
-      password: 123456
+      username: ENC(Rt1hj/yqbCuHqECIr66k3A==)
+      password: ENC(lbCX1SfPsYLsDlhnuJ3opA==)
       type-aliases-package: com.liyulin.demo.mall.order.entity
       mapper-interface-location: com.liyulin.demo.mall.order.mapper
       transaction-base-packages: com.liyulin.demo.mall.order.service
       mapper-xml-location: classpath*:com/liyulin/demo/mall/order/mybatis/**.xml
+      
+jasypt:
+  encryptor:
+    password: 9CRjFqUi5Xw15rP0ecrV8A==

@@ -73,7 +73,6 @@ public class YamlImportBeanDefinitionRegistrar implements EnvironmentAware, Impo
 				List<PropertySource<?>> propertySources = yamlPropertySourceLoader.load(resource.getFilename(),
 						resource);
 				for (PropertySource<?> propertySource : propertySources) {
-					// FIXME:判断是否已存在
 					environment.getPropertySources().addLast(propertySource);
 				}
 			}
