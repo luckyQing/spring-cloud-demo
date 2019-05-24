@@ -118,7 +118,7 @@ public class MultipleDataSourceRegistrar implements BeanFactoryAware, Environmen
 
 			// 2.4、DataSourceTransactionManager
 			String transactionManagerBeanName = generateBeanName(serviceName, TRANSACTION_MANAGER_NAME);
-			registerDataSourceTransactionManager(transactionManagerBeanName, dataSourceProperties, dataSource);
+			registerDataSourceTransactionManager(transactionManagerBeanName, dataSource);
 
 			// 2.5、cache transaction info
 			cacheTransactionManagerInfo(dataSourceProperties.getTransactionBasePackages(), transactionManagerBeanName);
@@ -194,12 +194,10 @@ public class MultipleDataSourceRegistrar implements BeanFactoryAware, Environmen
 	 * 创建并注册<code>DataSourceTransactionManager</code>
 	 * 
 	 * @param transactionManagerBeanName
-	 * @param dataSourceProperties
 	 * @param dataSource
 	 * @return
 	 */
-	private void registerDataSourceTransactionManager(String transactionManagerBeanName,
-			SingleDataSourceProperties dataSourceProperties, DataSource dataSource) {
+	private void registerDataSourceTransactionManager(String transactionManagerBeanName, DataSource dataSource) {
 		// 构建bean对象
 		DataSourceTransactionManager dataSourceTransactionManager = new DataSourceTransactionManager(dataSource);
 		// 注册bean
