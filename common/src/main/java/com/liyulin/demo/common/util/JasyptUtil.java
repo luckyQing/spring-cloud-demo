@@ -41,5 +41,5 @@ public class JasyptUtil {
 		environment.getSystemProperties().put("jasypt.encryptor.password", salt);
 		return encryptor.decrypt(message);
 	}
-
+	
 }

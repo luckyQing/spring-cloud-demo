@@ -1,7 +1,5 @@
 package com.liyulin.demo.common.properties;
 
-import java.util.Map;
-
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
@@ -10,6 +8,7 @@ import com.liyulin.demo.common.constants.CommonConstants;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.UtilityClass;
 
 /**
  * yml文件公共属性配置定义
@@ -42,10 +41,8 @@ public class SmartProperties extends BaseDto {
 
 	/** @Async配置开关 */
 	private boolean enableAsync = true;
-	
-	/** 多数据源配置信息 */
-	private Map<String, SingleDataSourceProperties> dataSources;
 
+	@UtilityClass
 	public static final class PropertiesName {
 		public static final String DATA_MACHINE_ID = "dataMachineId";
 		public static final String SWAGGER = "swagger";
@@ -53,7 +50,6 @@ public class SmartProperties extends BaseDto {
 		public static final String API_VERSION = "apiVersion";
 		public static final String MOCK = "mock";
 		public static final String ENABLE_ASYNC = "enableAsync";
-		public static final String DATA_SOURCES = CommonConstants.SMART_PROPERTIES_PREFIX +".data-sources";
 	}
 
 }

@@ -29,7 +29,7 @@
 		<podam>7.2.3.RELEASE</podam>
 		<guava>23.0</guava>
 		<reflections>0.9.11</reflections>
-		<jasypt-spring-boot>2.1.1</jasypt-spring-boot>
+		<jasypt>2.1.1</jasypt>
 	</properties>
 
 	<dependencyManagement>
@@ -122,8 +122,8 @@
 
 			<dependency>
 				<groupId>com.github.ulisesbocchio</groupId>
-				<artifactId>jasypt-spring-boot</artifactId>
-				<version>${jasypt-spring-boot}</version>
+				<artifactId>jasypt-spring-boot-starter</artifactId>
+				<version>${jasypt}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

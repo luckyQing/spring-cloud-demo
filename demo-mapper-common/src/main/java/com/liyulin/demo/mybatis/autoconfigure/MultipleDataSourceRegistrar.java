@@ -19,6 +19,7 @@ import org.springframework.boot.context.properties.bind.Binder;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
 import org.springframework.core.env.Environment;
+import org.springframework.core.env.MutablePropertySources;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.type.AnnotationMetadata;
@@ -27,13 +28,15 @@ import org.springframework.util.Assert;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInterceptor;
+import com.liyulin.demo.common.constants.CommonConstants;
 import com.liyulin.demo.common.constants.SymbolConstants;
-import com.liyulin.demo.common.properties.SingleDataSourceProperties;
 import com.liyulin.demo.common.properties.SmartProperties;
 import com.liyulin.demo.common.support.UniqueBeanNameGenerator;
 import com.liyulin.demo.common.util.CollectionUtil;
 import com.liyulin.demo.common.util.LogUtil;
 import com.liyulin.demo.mybatis.plugin.MybatisSqlLogInterceptor;
+import com.liyulin.demo.mybatis.properties.MultipleDatasourceProperties;
+import com.liyulin.demo.mybatis.properties.MultipleDatasourceProperties.SingleDatasourceProperties;
 import com.zaxxer.hikari.HikariDataSource;
 
 import tk.mybatis.spring.mapper.MapperScannerConfigurer;
@@ -48,13 +51,14 @@ public class MultipleDataSourceRegistrar implements BeanFactoryAware, Environmen
 
 	/** bean名称组成部分（后缀） */
 	public static final String TRANSACTION_MANAGER_NAME = "DataSourceTransactionManager";
-	private Map<String, SingleDataSourceProperties> dataSources;
+	private Map<String, SingleDatasourceProperties> dataSources;
 	private MybatisSqlLogInterceptor mybatisSqlLogInterceptor;
 	private PageInterceptor pageInterceptor;
 	private Environment environment;
 	private ConfigurableBeanFactory beanFactory;
 	/** jdbc url默认参数 */
 	private String defaultJdbcUrlParams = "characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&serverTimezone=Asia/Shanghai";
+	public static final String DATASOURCES = CommonConstants.SMART_PROPERTIES_PREFIX +".datasources";
 
 	public MultipleDataSourceRegistrar() {
 		this.mybatisSqlLogInterceptor = new MybatisSqlLogInterceptor();
@@ -74,15 +78,17 @@ public class MultipleDataSourceRegistrar implements BeanFactoryAware, Environmen
 	@SuppressWarnings("unchecked")
 	@Override
 	public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry) {
+		MultipleDatasourceProperties multipleDataSourceProperties = beanFactory.getBean(MultipleDatasourceProperties.class);
 		// 获取数据源配置
 		Binder binder = Binder.get(environment);
-		Map<String, Object> dataSourcesMap = binder.bind(SmartProperties.PropertiesName.DATA_SOURCES, Map.class).get();
+		Map<String, Object> dataSourcesMap = binder.bind(DATASOURCES, Map.class).get();
 		Assert.state(CollectionUtil.isNotEmpty(dataSourcesMap), "不能找到数据源配置！");
 
+		
 		dataSources = new LinkedHashMap<>(dataSourcesMap.size());
 		for (Map.Entry<String, Object> entry : dataSourcesMap.entrySet()) {
 			dataSources.put(entry.getKey(),
-					JSON.parseObject(JSON.toJSONString(entry.getValue()), SingleDataSourceProperties.class));
+					JSON.parseObject(JSON.toJSONString(entry.getValue()), SingleDatasourceProperties.class));
 		}
 
 		dynamicCreateMultipleDataSourceBeans();
@@ -93,14 +99,14 @@ public class MultipleDataSourceRegistrar implements BeanFactoryAware, Environmen
 	 */
 	private void dynamicCreateMultipleDataSourceBeans() {
 		// 1、校验SingleDataSourceProperties的属性值
-		for (Map.Entry<String, SingleDataSourceProperties> entry : dataSources.entrySet()) {
-			SingleDataSourceProperties properties = entry.getValue();
+		for (Map.Entry<String, SingleDatasourceProperties> entry : dataSources.entrySet()) {
+			SingleDatasourceProperties properties = entry.getValue();
 
 			// 所有属性都不能为空
 			boolean isAnyBlank = StringUtils.isAnyBlank(properties.getUrl(), properties.getUsername(),
 					properties.getPassword(), properties.getTypeAliasesPackage(),
 					properties.getMapperInterfaceLocation(), properties.getMapperXmlLocation());
-			Assert.state(!isAnyBlank, SingleDataSourceProperties.class.getCanonicalName() + " attriutes存在未配置的！");
+			Assert.state(!isAnyBlank, SingleDatasourceProperties.class.getCanonicalName() + " attriutes存在未配置的！");
 		}
 
 		// 2、创建所有需要的bean，并加入到容器中
@@ -144,7 +150,7 @@ public class MultipleDataSourceRegistrar implements BeanFactoryAware, Environmen
 	 * @param dataSourceProperties
 	 * @return
 	 */
-	private HikariDataSource registerDataSource(String serviceName, SingleDataSourceProperties dataSourceProperties) {
+	private HikariDataSource registerDataSource(String serviceName, SingleDatasourceProperties dataSourceProperties) {
 		String dataSourceBeanName = generateBeanName(serviceName, HikariDataSource.class.getSimpleName());
 		// 构建bean对象
 		HikariDataSource dataSource = new HikariDataSource();
@@ -172,7 +178,7 @@ public class MultipleDataSourceRegistrar implements BeanFactoryAware, Environmen
 	 * @return
 	 */
 	private SqlSessionFactoryBean registerSqlSessionFactoryBean(String beanName,
-			SingleDataSourceProperties dataSourceProperties, DataSource dataSource) {
+			SingleDatasourceProperties dataSourceProperties, DataSource dataSource) {
 		// 构建bean对象
 		SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
 		sqlSessionFactoryBean.setDataSource(dataSource);
@@ -213,7 +219,7 @@ public class MultipleDataSourceRegistrar implements BeanFactoryAware, Environmen
 	 * @return
 	 */
 	private MapperScannerConfigurer registerMapperScannerConfigurer(String serviceName,
-			String sqlSessionFactoryBeanName, SingleDataSourceProperties dataSourceProperties) {
+			String sqlSessionFactoryBeanName, SingleDatasourceProperties dataSourceProperties) {
 		String mapperScannerConfigurerBeanName = generateBeanName(serviceName,
 				MapperScannerConfigurer.class.getSimpleName());
 		// 构建bean对象

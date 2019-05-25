@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.alibaba.fastjson.JSONObject;
 import com.liyulin.demo.common.support.annotation.DefaultSmartSpringCloudApplication;
 import com.liyulin.demo.common.util.SpringUtil;
+import com.ulisesbocchio.jasyptspringboot.annotation.EncryptablePropertySource;
 
 import io.swagger.models.Swagger;
 import springfox.documentation.spring.web.DocumentationCache;
@@ -24,6 +25,7 @@ import springfox.documentation.swagger2.mappers.ServiceModelToSwagger2Mapper;
 import springfox.documentation.swagger2.web.Swagger2Controller;
 
 @DefaultSmartSpringCloudApplication
+@EncryptablePropertySource(name = "productEncryptedProperties", value = "classpath:application-db-product.yml")
 @RestController
 public class Application {
 	

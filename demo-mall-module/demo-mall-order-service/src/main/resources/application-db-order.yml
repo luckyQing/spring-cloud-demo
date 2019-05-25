@@ -1,9 +1,9 @@
 smart:
-  data-sources:
+  datasources:
     order:
       url: jdbc:mysql://127.0.0.1:3306/demo_order
-      username: ENC(Rt1hj/yqbCuHqECIr66k3A==)
-      password: ENC(lbCX1SfPsYLsDlhnuJ3opA==)
+      username: ENC(SunrLNI7Betj34EBf2K++w==)
+      password: ENC(pq4lrpcDa4xcumTaw5Y/2A==)
       type-aliases-package: com.liyulin.demo.mall.order.entity
       mapper-interface-location: com.liyulin.demo.mall.order.mapper
       transaction-base-packages: com.liyulin.demo.mall.order.service
