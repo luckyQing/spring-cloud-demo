@@ -49,7 +49,7 @@ public class ProductInfoApiBiz extends BaseBiz<ProductInfoEntity> {
 		if (!Objects.isNull(reqBody) && StringUtils.isNotBlank(reqBody.getName())) {
 			criteria.andLike(ProductInfoEntity.Columns.NAME.getProperty(), "%" + reqBody.getName() + "%");
 		}
-		criteria.andEqualTo(BaseEntity.Columns.DEL_STATE.getProperty(), DelStateEnum.DELETED.getDelState());
+		criteria.andEqualTo(BaseEntity.Columns.DEL_STATE.getProperty(), DelStateEnum.NORMAL.getDelState());
 		example.orderBy(BaseEntity.Columns.ADD_TIME.getProperty()).desc();
 
 		Page<ProductInfoEntity> page = PageHelper.startPage(req.getPageNum(), req.getPageSize(), true);

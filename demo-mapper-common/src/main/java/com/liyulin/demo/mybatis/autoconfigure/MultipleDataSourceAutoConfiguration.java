@@ -12,6 +12,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import com.liyulin.demo.mybatis.properties.MultipleDatasourceProperties;
 
+import lombok.Getter;
+
 /**
  * 多数据源配置
  * 
@@ -27,11 +29,15 @@ public class MultipleDataSourceAutoConfiguration {
 	static class Registrar implements ImportBeanDefinitionRegistrar {
 
 		private static final String BEAN_NAME = MultipleDataSourceInitializerPostProcessor.class.getSimpleName();
+		@Getter
+		private static BeanDefinitionRegistry registry;
 
 		@Override
 		public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata,
 				BeanDefinitionRegistry registry) {
 			if (!registry.containsBeanDefinition(BEAN_NAME)) {
+				MultipleDataSourceAutoConfiguration.Registrar.registry = registry;
+				
 				GenericBeanDefinition beanDefinition = new GenericBeanDefinition();
 				beanDefinition.setBeanClass(MultipleDataSourceInitializerPostProcessor.class);
 				beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);

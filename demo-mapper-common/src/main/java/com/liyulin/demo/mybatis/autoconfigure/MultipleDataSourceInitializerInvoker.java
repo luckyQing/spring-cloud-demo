@@ -44,7 +44,7 @@ public class MultipleDataSourceInitializerInvoker implements InitializingBean {
 	/** jdbc url默认参数 */
 	private String defaultJdbcUrlParams = "characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&serverTimezone=Asia/Shanghai";
 
-	MultipleDataSourceInitializerInvoker(MultipleDatasourceProperties multipleDatasourceProperties,
+	public MultipleDataSourceInitializerInvoker(MultipleDatasourceProperties multipleDatasourceProperties,
 			ConfigurableBeanFactory beanFactory) {
 		this.multipleDatasourceProperties = multipleDatasourceProperties;
 		this.beanFactory = beanFactory;
@@ -97,8 +97,6 @@ public class MultipleDataSourceInitializerInvoker implements InitializingBean {
 			// 2.5、cache transaction info
 			cacheTransactionManagerInfo(dataSourceProperties.getTransactionBasePackages(), transactionManagerBeanName);
 		});
-
-		// 事务注解value初始化
 	}
 
 	private void cacheTransactionManagerInfo(String transactionBasePackages, String transactionManagerBeanName) {
@@ -204,6 +202,8 @@ public class MultipleDataSourceInitializerInvoker implements InitializingBean {
 		mapperScannerConfigurer.setNameGenerator(new UniqueBeanNameGenerator());
 		// 注册bean
 		registerBean(mapperScannerConfigurerBeanName, mapperScannerConfigurer);
+		// 注入mapper接口
+		mapperScannerConfigurer.postProcessBeanDefinitionRegistry(MultipleDataSourceAutoConfiguration.Registrar.getRegistry());
 
 		return mapperScannerConfigurer;
 	}
