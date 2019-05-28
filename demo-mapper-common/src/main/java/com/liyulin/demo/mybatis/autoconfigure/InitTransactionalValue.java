@@ -33,9 +33,9 @@ public class InitTransactionalValue implements ApplicationListener<ApplicationSt
 	@Autowired
 	private BeanFactory beanFactory;
 	/** AbstractFallbackTransactionAttributeSource的属性attributeCache */
-	private final String ABSTRACTFALLBACKTRANSACTIONATTRIBUTE_ATTRIBUTECACHE = "attributeCache";
+	private static final String ABSTRACTFALLBACKTRANSACTIONATTRIBUTE_ATTRIBUTECACHE = "attributeCache";
 	/** MethodClassKey的属性method */
-	private final String METHODCLASSKEY_METHOD = "method";
+	private static final String METHODCLASSKEY_METHOD = "method";
 
 	/** <带有事务注解类的包名, 事务名> */
 	private static ConcurrentMap<String, String> multipleTransactionManagerInfoCache = new ConcurrentReferenceHashMap<>(
