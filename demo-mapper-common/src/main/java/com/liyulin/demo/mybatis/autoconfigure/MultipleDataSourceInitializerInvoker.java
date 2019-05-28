@@ -27,6 +27,12 @@ import com.zaxxer.hikari.HikariDataSource;
 
 import tk.mybatis.spring.mapper.MapperScannerConfigurer;
 
+/**
+ * 多数据源bean初始化
+ * 
+ * @author liyulin
+ * @date 2019年5月28日 下午7:58:56
+ */
 public class MultipleDataSourceInitializerInvoker implements InitializingBean {
 
 	private final MultipleDatasourceProperties multipleDatasourceProperties;

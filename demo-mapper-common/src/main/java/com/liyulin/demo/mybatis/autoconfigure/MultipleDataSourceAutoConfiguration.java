@@ -14,9 +14,9 @@ import com.liyulin.demo.mybatis.properties.MultipleDatasourceProperties;
 
 /**
  * 多数据源配置
- *
+ * 
  * @author liyulin
- * @date 2019年4月25日上午10:38:05
+ * @date 2019年5月28日 下午7:58:14
  */
 @Configuration
 @EnableConfigurationProperties(MultipleDatasourceProperties.class)
@@ -26,7 +26,7 @@ public class MultipleDataSourceAutoConfiguration {
 
 	static class Registrar implements ImportBeanDefinitionRegistrar {
 
-		private static final String BEAN_NAME = "multipleDataSourceInitializerPostProcessor";
+		private static final String BEAN_NAME = MultipleDataSourceInitializerPostProcessor.class.getSimpleName();
 
 		@Override
 		public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata,
