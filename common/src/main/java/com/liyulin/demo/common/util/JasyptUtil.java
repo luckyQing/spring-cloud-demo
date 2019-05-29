@@ -42,4 +42,8 @@ public class JasyptUtil {
 		return encryptor.decrypt(message);
 	}
 	
+	public static void main(String[] agrs) {
+		System.err.println(encryptor("12345678", "123456"));
+	}
+	
 }
