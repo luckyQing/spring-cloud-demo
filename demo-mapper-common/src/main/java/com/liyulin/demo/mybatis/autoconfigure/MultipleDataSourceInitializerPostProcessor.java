@@ -27,7 +27,7 @@ public class MultipleDataSourceInitializerPostProcessor implements BeanPostProce
 	public Object postProcessAfterInitialization(Object bean, String beanName)
 			throws BeansException {
 		if (bean instanceof ProxyTransactionManagementConfiguration) {
-			// force initialization of this bean as soon as we see a MultipleDatasourceProperties
+			// force initialization of this bean as soon as we see a ProxyTransactionManagementConfiguration
 			this.beanFactory.getBean(MultipleDataSourceInitializerInvoker.class);
 		}
 		return bean;
