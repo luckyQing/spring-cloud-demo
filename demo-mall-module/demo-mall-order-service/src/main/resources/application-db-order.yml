@@ -2,8 +2,8 @@ smart:
   datasources:
     order:
       url: jdbc:mysql://127.0.0.1:3306/demo_order
-      username: ENC(SunrLNI7Betj34EBf2K++w==)
-      password: ENC(pq4lrpcDa4xcumTaw5Y/2A==)
+      username: ENC(Ell/BrCjyLFI0+iZgPqo6w==)
+      password: ENC(Aq90bjkofJr0svNO4mtFfw==)
       type-aliases-package: com.liyulin.demo.mall.order.entity
       mapper-interface-location: com.liyulin.demo.mall.order.mapper
       transaction-base-packages: com.liyulin.demo.mall.order.service
@@ -11,4 +11,4 @@ smart:
       
 jasypt:
   encryptor:
-    password: 9CRjFqUi5Xw15rP0ecrV8A==
+    password: 123456

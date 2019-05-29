@@ -2,8 +2,8 @@ smart:
   datasources:
     product:
       url: jdbc:mysql://127.0.0.1:3306/demo_product
-      username: ENC(RxD4OZi8VHMecNk4erd0BA==)
-      password: ENC(ltZEpa57NAI3tHqHzFKSFA==)
+      username: ENC(PbMw+RtvRPYAo4Acbuxe4Q==)
+      password: ENC(IwbzHJPe93Wevq8LVx0AwQ==)
       type-aliases-package: com.liyulin.demo.mall.product.entity
       mapper-interface-location: com.liyulin.demo.mall.product.mapper
       transaction-base-packages: com.liyulin.demo.mall.product.service
@@ -11,4 +11,4 @@ smart:
       
 jasypt:
   encryptor:
-    password: 3AKjZyB0vcWRNNIOsRfTVg==
+    password: 123456
