@@ -5,7 +5,6 @@ import java.util.Arrays;
 import org.springframework.aop.Advisor;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.aop.support.DefaultBeanFactoryPointcutAdvisor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -37,8 +36,8 @@ public class FeignAspectAutoConfigure {
 	}
 
 	@Bean
-	public Advisor feignAdvisor(@Autowired FeignAspectAdvice feignAspectAdvice,
-			@Autowired AspectJExpressionPointcut feignClientPointcut) {
+	public Advisor feignAdvisor(final FeignAspectAdvice feignAspectAdvice,
+			final AspectJExpressionPointcut feignClientPointcut) {
 		DefaultBeanFactoryPointcutAdvisor feignAdvisor = new DefaultBeanFactoryPointcutAdvisor();
 		feignAdvisor.setAdvice(feignAspectAdvice);
 		feignAdvisor.setPointcut(feignClientPointcut);

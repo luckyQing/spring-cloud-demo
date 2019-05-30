@@ -9,7 +9,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.DependsOn;
 import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
 
 import com.liyulin.demo.common.constants.CommonConstants;
@@ -30,15 +29,14 @@ public class HibernateValidatorAutoConfigure {
 
 	@Bean
 	@ConditionalOnMissingBean
-	@DependsOn("validator")
-	public MethodValidationPostProcessor methodValidationPostProcessor(Validator validator) {
+	public MethodValidationPostProcessor methodValidationPostProcessor(final Validator validator) {
 		MethodValidationPostProcessor postProcessor = new MethodValidationPostProcessor();
 		/** 设置validator模式为快速失败返回 */
 		postProcessor.setValidator(validator);
 		return postProcessor;
 	}
 
-	@Bean("validator")
+	@Bean
 	@ConditionalOnMissingBean
 	public Validator validator() {
 		ValidatorFactory validatorFactory = Validation.byProvider(HibernateValidator.class).configure()
@@ -47,8 +45,7 @@ public class HibernateValidatorAutoConfigure {
 				.addValueExtractor(ReqObjectBodyExtractor.DESCRIPTOR.getValueExtractor())
 				.addProperty("hibernate.validator.fail_fast", "true").buildValidatorFactory();
 
-		Validator validator = validatorFactory.getValidator();
-		return validator;
+		return validatorFactory.getValidator();
 	}
 
 }

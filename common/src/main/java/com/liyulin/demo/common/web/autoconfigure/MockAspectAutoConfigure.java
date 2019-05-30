@@ -3,7 +3,6 @@ package com.liyulin.demo.common.web.autoconfigure;
 import org.springframework.aop.Advisor;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.aop.support.DefaultBeanFactoryPointcutAdvisor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,7 +22,7 @@ public class MockAspectAutoConfigure {
 	}
 
 	@Bean
-	public Advisor mockAdvisor(@Autowired MockAspectAdvice mockAspectAdvice) {
+	public Advisor mockAdvisor(final MockAspectAdvice mockAspectAdvice) {
 		AspectJExpressionPointcut mockPointcut = new AspectJExpressionPointcut();
 		String logExpression = AspectUtil.getApiExpression(CommonConstants.BASE_PACAKGE);
 		mockPointcut.setExpression(logExpression);

@@ -44,8 +44,8 @@ public class MultipleDataSourceInitializerInvoker implements InitializingBean {
 	/** jdbc url默认参数 */
 	private String defaultJdbcUrlParams = "characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&serverTimezone=Asia/Shanghai";
 
-	public MultipleDataSourceInitializerInvoker(MultipleDatasourceProperties multipleDatasourceProperties,
-			ConfigurableBeanFactory beanFactory) {
+	public MultipleDataSourceInitializerInvoker(final MultipleDatasourceProperties multipleDatasourceProperties,
+			final ConfigurableBeanFactory beanFactory) {
 		this.multipleDatasourceProperties = multipleDatasourceProperties;
 		this.beanFactory = beanFactory;
 		this.mybatisSqlLogInterceptor = new MybatisSqlLogInterceptor();
