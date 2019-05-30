@@ -25,3 +25,5 @@ management:
 spring: 
   jmx:
     enabled: true
+  sleuth: 
+    enabled: true
