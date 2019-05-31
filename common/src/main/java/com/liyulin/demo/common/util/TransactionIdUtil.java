@@ -21,28 +21,28 @@ public final class TransactionIdUtil {
 	/**
 	 * 起始的时间戳
 	 */
-	private final static long START_STMP = 1480166465631L;
+	private static final long START_STMP = 1480166465631L;
 
 	/**
 	 * 每一部分占用的位数
 	 */
-	private final static long SEQUENCE_BIT = 12; // 序列号占用的位数
-	private final static long IP_BIT = 16; // 机器标识占用的位数
-	private final static long PID_BIT = 18;// 数据中心占用的位数
+	private static final long SEQUENCE_BIT = 12; // 序列号占用的位数
+	private static final long IP_BIT = 16; // 机器标识占用的位数
+	private static final long PID_BIT = 18;// 数据中心占用的位数
 
 	/**
 	 * 每一部分的最大值
 	 */
-	private final static long MAX_PID_NUM = -1L ^ (-1L << PID_BIT);
-	private final static long MAX_IP_NUM = -1L ^ (-1L << IP_BIT);
-	private final static long MAX_SEQUENCE = -1L ^ (-1L << SEQUENCE_BIT);
+	private static final long MAX_PID_NUM = -1L ^ (-1L << PID_BIT);
+	private static final long MAX_IP_NUM = -1L ^ (-1L << IP_BIT);
+	private static final long MAX_SEQUENCE = -1L ^ (-1L << SEQUENCE_BIT);
 
 	/**
 	 * 每一部分向左的位移
 	 */
-	private final static long IP_LEFT = SEQUENCE_BIT;
-	private final static long PID_LEFT = SEQUENCE_BIT + IP_BIT;
-	private final static long TIMESTMP_LEFT = PID_LEFT + PID_BIT;
+	private static final long IP_LEFT = SEQUENCE_BIT;
+	private static final long PID_LEFT = SEQUENCE_BIT + IP_BIT;
+	private static final long TIMESTMP_LEFT = PID_LEFT + PID_BIT;
 
 	private long ip; // 数据中心
 	private long pid; // 机器标识

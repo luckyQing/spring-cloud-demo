@@ -11,6 +11,7 @@ import org.junit.Test;
 import org.junit.runners.Suite;
 import org.junit.runners.model.InitializationError;
 import org.junit.runners.model.RunnerBuilder;
+import org.springframework.core.annotation.AnnotationUtils;
 
 import com.liyulin.demo.common.business.test.AbstractSpringBootTest;
 import com.liyulin.demo.common.util.ArrayUtil;
@@ -41,7 +42,7 @@ public class AllTestsRunner extends Suite {
 		List<Class<?>> suiteClasses = set.stream().filter(item -> {
 			// 过滤掉不符合条件的类
 			// 1.过滤掉抽象类
-			if (item.getClass().getModifiers() == Modifier.ABSTRACT) {
+			if (Modifier.isAbstract(item.getClass().getModifiers())) {
 				return false;
 			}
 
@@ -53,13 +54,8 @@ public class AllTestsRunner extends Suite {
 
 			// 3.所有的method中，至少有一个被@Test修饰的类
 			for (Method method : methods) {
-				Annotation[] annotations = method.getDeclaredAnnotations();
-				if (ArrayUtil.isNotEmpty(annotations)) {
-					for (Annotation annotation : annotations) {
-						if (annotation instanceof Test) {
-							return true;
-						}
-					}
+				if (AnnotationUtils.findAnnotation(method, Test.class) != null) {
+					return true;
 				}
 			}
 

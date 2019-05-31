@@ -38,6 +38,7 @@ public abstract class BaseException extends RuntimeException {
 		return returnCodeDto.getMessage();
 	}
 
+	@Override
 	public String toString() {
 		return "[" + getCode() + "]:" + this.getMessage();
 	}

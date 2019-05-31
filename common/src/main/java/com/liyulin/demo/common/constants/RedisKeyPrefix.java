@@ -1,11 +1,14 @@
 package com.liyulin.demo.common.constants;
 
+import lombok.experimental.UtilityClass;
+
 /**
  * redis key前缀
  *
  * @author liyulin
  * @date 2019年4月6日上午2:00:34
  */
+@UtilityClass
 public class RedisKeyPrefix {
 	
 	/** redis key分隔符 */

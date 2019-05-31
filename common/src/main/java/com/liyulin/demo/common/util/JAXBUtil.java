@@ -15,6 +15,8 @@ import com.google.common.base.Charsets;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 
+import lombok.experimental.UtilityClass;
+
 /**
  * JAXB相关工具类
  * 
@@ -28,10 +30,11 @@ import com.google.common.cache.CacheBuilder;
  * @author liyulin
  * @date 2019年4月17日下午5:12:12
  */
+@UtilityClass
 public final class JAXBUtil {
 
 	/** cache JAXBContext */
-	private static volatile Cache<Class<?>, JAXBContext> jaxbContextCache = CacheBuilder.newBuilder()
+	private static Cache<Class<?>, JAXBContext> jaxbContextCache = CacheBuilder.newBuilder()
 			// 设置并发级别
 			.concurrencyLevel(Runtime.getRuntime().availableProcessors() << 1)
 			// 设置写缓存30天后过期
@@ -95,12 +98,8 @@ public final class JAXBUtil {
 	private static JAXBContext getJAXBContext(Class<?> beanClass) throws JAXBException {
 		JAXBContext context = jaxbContextCache.getIfPresent(beanClass);
 		if (Objects.isNull(context)) {
-			synchronized (beanClass) {
-				if (Objects.isNull(context)) {
-					context = JAXBContext.newInstance(beanClass);
-					jaxbContextCache.put(beanClass, context);
-				}
-			}
+			context = JAXBContext.newInstance(beanClass);
+			jaxbContextCache.put(beanClass, context);
 		}
 
 		return context;

@@ -34,14 +34,10 @@ public class BasePageResp<T extends BaseDto> extends BaseDto {
 
 	public List<T> getDatas() {
 		if (Objects.isNull(datas)) {
-			datas = new ArrayList<T>();
+			datas = new ArrayList<>();
 		}
 
 		return datas;
 	}
 	
-	public <R> void transResp() {
-		
-	}
-
 }

@@ -108,7 +108,7 @@ public class MybatisSqlLogInterceptor implements Interceptor {
 	private static String getParameterValue(Object obj) {
 		String params = "";
 		if (obj instanceof String) {
-			params = "'" + String.valueOf(obj) + "'";
+			params = "'" + obj + "'";
 		} else if (obj instanceof Date) {
 			Date date = (Date) obj;
 			params = "'" + DateUtil.formatDateTime(date) + "'";

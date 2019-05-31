@@ -36,10 +36,8 @@ public class ValidationUtil {
 		Set<ConstraintViolation<T>> constraintViolationSet = validator.validate(object);
 		// 抛出检验异常
 		if (CollectionUtil.isNotEmpty(constraintViolationSet)) {
-			Set<ConstraintViolation<?>> constraintViolationSetTmp = constraintViolationSet.stream().map(item -> {
-				ConstraintViolation<?> temp = (ConstraintViolation<?>) (item);
-				return temp;
-			}).collect(Collectors.toSet());
+			Set<ConstraintViolation<?>> constraintViolationSetTmp = constraintViolationSet.stream()
+					.map(item -> (ConstraintViolation<?>) (item)).collect(Collectors.toSet());
 
 			String errorMsg = ExceptionUtil.getErrorMsg(constraintViolationSetTmp);
 			throw new ParamValidateError(errorMsg);

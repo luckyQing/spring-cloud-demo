@@ -1,6 +1,7 @@
 package com.liyulin.demo.common.util;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -10,8 +11,6 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
-
-import com.google.common.base.Charsets;
 
 import lombok.experimental.UtilityClass;
 
@@ -25,7 +24,7 @@ import lombok.experimental.UtilityClass;
 public class HttpUtil {
 	
 	/** 默认编码 */
-	private static final String DEFAULT_CHARSET = Charsets.UTF_8.name();
+	private static final String DEFAULT_CHARSET = StandardCharsets.UTF_8.name();
 	/** 默认从服务器获取响应数据的超时时间（单位毫秒，默认10秒） */
 	private static final int DEFAULT_SOCKET_TIMEOUT = 10000;
 	/** 默认socket的连接超时时间（单位毫秒，默认10秒） */

@@ -61,7 +61,7 @@ public class WebUtil {
 
 		// 如果是多级代理，那么取第一个ip为客户ip
 		if (ip != null && ip.contains(",")) {
-			ip = ip.substring(ip.lastIndexOf(",") + 1, ip.length()).trim();
+			ip = ip.substring(ip.lastIndexOf(',') + 1, ip.length()).trim();
 		}
 		return ip;
 	}
@@ -94,7 +94,7 @@ public class WebUtil {
 	 * @param timeout 超时，单位毫秒
 	 * @return true | false
 	 */
-	public static boolean AddrCanConnect(String url, int timeout) {
+	public static boolean addrCanConnect(String url, int timeout) {
 		if (StringUtils.isEmpty(url)) {
 			return false;
 		}
@@ -138,9 +138,7 @@ public class WebUtil {
 			return args.length == 1 ? args[0] : args;
 		}
 
-		Object[] tempArgs = Stream.of(args).filter(arg -> {
-			return !needFilter(arg);
-		}).toArray();
+		Object[] tempArgs = Stream.of(args).filter(arg -> !needFilter(arg)).toArray();
 
 		return getValidArgs(tempArgs);
 	}

@@ -56,9 +56,7 @@ public class OrderApiService {
 	public Resp<CreateOrderRespBody> create(Req<CreateOrderReqBody> req) throws UpdateStockException {
 		List<CreateOrderProductInfoReqBody> products = req.getBody().getProducts();
 		// 1、查询商品信息
-		List<Long> productIds = products.stream().map(product -> {
-			return product.getProductId();
-		}).collect(Collectors.toList());
+		List<Long> productIds = products.stream().map(CreateOrderProductInfoReqBody::getProductId).collect(Collectors.toList());
 
 		QryProductByIdsReqBody qryProductByIdsReqBody = QryProductByIdsReqBody.builder().ids(productIds).build();
 		Resp<QryProductByIdsRespBody> qryProductByIdsResp = productInfoRpc
@@ -122,9 +120,7 @@ public class OrderApiService {
 		OrderBillEntity orderBillEntity = new OrderBillEntity();
 		orderBillEntity.setId(orderBillId);
 
-		Long amount = entities.stream().mapToLong(item -> {
-			return item.getBuyCount() * item.getPrice();
-		}).sum();
+		Long amount = entities.stream().mapToLong(item -> item.getBuyCount() * item.getPrice()).sum();
 		orderBillEntity.setAmount(amount);
 		orderBillEntity.setPayState(PayStateEnum.PENDING_PAY.getState());
 		orderBillEntity.setBuyer(1L);

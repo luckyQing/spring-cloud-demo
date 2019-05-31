@@ -75,13 +75,10 @@ public class LogAspectAdvice implements MethodBeforeAdvice, AfterReturningAdvice
 	/**
 	 * 异常切面
 	 * 
-	 * @param method
-	 * @param args
-	 * @param target
 	 * @param e
 	 * @since {@link ThrowsAdvice}
 	 */
-	public void afterThrowing(Method method, Object[] args, Object target, Exception e) {
+	public void afterThrowing(Exception e) {
 		LogAspectDto logDto = logDtoThreadLocal.get();
 		if (ObjectUtil.isNull(logDto)) {
 			return;

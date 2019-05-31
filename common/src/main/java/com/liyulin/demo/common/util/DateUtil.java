@@ -37,7 +37,7 @@ public class DateUtil {
 	/** 格式：yyyy-MM-dd HH:mm */
 	public static final String FOROMAT_DATETIME_HH_MM = "yyyy-MM-dd HH:mm";
 	/** 所有的日期格式 */
-	public static final Map<Integer, DateTimeFormatter> DATETIME_FORMATTER_ROUTE = new HashMap<>();
+	private static final Map<Integer, DateTimeFormatter> DATETIME_FORMATTER_ROUTE = new HashMap<>();
 
 	static {
 		// 所有公有
