@@ -1,6 +1,8 @@
 package com.liyulin.demo.common.business.test;
 
+import org.junit.Before;
 import org.junit.runner.RunWith;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
@@ -37,14 +39,24 @@ public abstract class AbstractSpringBootTest {
 
 	@Autowired
 	protected WebApplicationContext applicationContext;
-
+	protected MockMvc mockMvc;
+	
+	@Before
+	public void initMock() {
+		MockitoAnnotations.initMocks(this);
+		mockMvc = MockMvcBuilders.webAppContextSetup(applicationContext).build();
+	}
+	
 	protected <T> T postXml(String url, Object req, Class<T> beanClass) throws Exception {
-		MockMvc mvc = MockMvcBuilders.webAppContextSetup(applicationContext).build();
 		String xml = JAXBUtil.beanToXml(req);
 		log.info("test.requestBody={}", xml);
 
-		MvcResult result = mvc.perform(MockMvcRequestBuilders.post(url).contentType(MediaType.APPLICATION_XML)
-				.content(xml).accept(MediaType.APPLICATION_XML)).andReturn();
+		MvcResult result = mockMvc.perform(
+					MockMvcRequestBuilders.post(url)
+					.contentType(MediaType.APPLICATION_XML)
+					.content(xml)
+					.accept(MediaType.APPLICATION_XML)
+				).andReturn();
 
 		String content = result.getResponse().getContentAsString();
 		log.info("test.result={}", content);
@@ -53,12 +65,15 @@ public abstract class AbstractSpringBootTest {
 	}
 
 	protected <T> T postJson(String url, Object req, TypeReference<T> typeReference) throws Exception {
-		MockMvc mvc = MockMvcBuilders.webAppContextSetup(applicationContext).build();
 		String requestBody = JSON.toJSONString(req);
 		log.info("test.requestBody={}", requestBody);
 
-		MvcResult result = mvc.perform(MockMvcRequestBuilders.post(url).contentType(MediaType.APPLICATION_JSON_UTF8)
-				.content(requestBody).accept(MediaType.APPLICATION_JSON_UTF8)).andReturn();
+		MvcResult result = mockMvc.perform(
+				MockMvcRequestBuilders.post(url)
+					.contentType(MediaType.APPLICATION_JSON_UTF8)
+					.content(requestBody)
+					.accept(MediaType.APPLICATION_JSON_UTF8)
+				).andReturn();
 
 		String content = result.getResponse().getContentAsString();
 		log.info("test.result={}", content);
