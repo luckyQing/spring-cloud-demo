@@ -7,6 +7,13 @@ import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.core.Ordered;
 import org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration;
 
+/**
+ * BeanPostProcessor used to ensure that MultipleDataSourceInitializerInvoker is initialized as soon as a ProxyTransactionManagementConfiguration is.
+ * 
+ * @author liyulin
+ * @date 2019年6月1日 上午10:11:12
+ * @since DataSourceInitializerPostProcessor
+ */
 public class MultipleDataSourceInitializerPostProcessor implements BeanPostProcessor, Ordered {
 	
 	@Override
