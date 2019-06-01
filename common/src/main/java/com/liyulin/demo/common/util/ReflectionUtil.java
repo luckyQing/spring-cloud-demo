@@ -4,6 +4,7 @@ import java.util.Set;
 
 import org.reflections.ReflectionUtils;
 import org.reflections.Reflections;
+import org.reflections.scanners.SubTypesScanner;
 import org.springframework.context.annotation.Condition;
 
 import com.liyulin.demo.common.constants.CommonConstants;
@@ -21,7 +22,7 @@ public class ReflectionUtil extends ReflectionUtils {
 
 	private static Reflections reflections = null;
 	static {
-		reflections = new Reflections(CommonConstants.BASE_PACAKGE);
+		reflections = new Reflections(CommonConstants.BASE_PACAKGE, new SubTypesScanner());
 	}
 
 	/**

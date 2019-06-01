@@ -30,26 +30,29 @@ import lombok.extern.slf4j.Slf4j;
 @SpringBootTest
 @Slf4j
 public abstract class AbstractUnitTest {
+
+	@Autowired
+	protected WebApplicationContext applicationContext;
+	protected static MockMvc mockMvc = null;
 	
 	static {
 		UnitTestUtil.setTest(true);
 		// 单元测试环境下，关闭eureka
 		System.setProperty("eureka.client.enabled", "false");
 	}
-
-	@Autowired
-	protected WebApplicationContext applicationContext;
 	
 	@Before
 	public void initMock() {
 		MockitoAnnotations.initMocks(this);
+		if (mockMvc == null) {
+			mockMvc = MockMvcBuilders.webAppContextSetup(applicationContext).build();
+		}
 	}
 	
 	protected <T> T postXml(String url, Object req, Class<T> beanClass) throws Exception {
 		String xml = JAXBUtil.beanToXml(req);
 		log.info("test.requestBody={}", xml);
 
-		MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(applicationContext).build();
 		MvcResult result = mockMvc.perform(
 					MockMvcRequestBuilders.post(url)
 					.contentType(MediaType.APPLICATION_XML)
@@ -67,7 +70,6 @@ public abstract class AbstractUnitTest {
 		String requestBody = JSON.toJSONString(req);
 		log.info("test.requestBody={}", requestBody);
 
-		MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(applicationContext).build();
 		MvcResult result = mockMvc.perform(
 				MockMvcRequestBuilders.post(url)
 					.contentType(MediaType.APPLICATION_JSON_UTF8)

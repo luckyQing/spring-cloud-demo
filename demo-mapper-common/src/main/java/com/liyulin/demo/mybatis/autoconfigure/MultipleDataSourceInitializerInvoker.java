@@ -43,7 +43,7 @@ public class MultipleDataSourceInitializerInvoker implements InitializingBean {
 	private MybatisSqlLogInterceptor mybatisSqlLogInterceptor;
 	private PageInterceptor pageInterceptor;
 	/** jdbc url默认参数 */
-	private String defaultJdbcUrlParams = "characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&serverTimezone=Asia/Shanghai";
+	private static final String DEFAULT_JDBCURL_PARAMS = "characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&serverTimezone=Asia/Shanghai";
 
 	public MultipleDataSourceInitializerInvoker(final MultipleDatasourceProperties multipleDatasourceProperties,
 			final ConfigurableBeanFactory beanFactory) {
@@ -126,7 +126,7 @@ public class MultipleDataSourceInitializerInvoker implements InitializingBean {
 		String jdbcUrl = dataSourceProperties.getUrl();
 		// 如果jdbcUrl没有设置参数，则用默认设置
 		if (StringUtils.containsNone(jdbcUrl, SymbolConstants.QUESTION_MARK)) {
-			jdbcUrl += SymbolConstants.QUESTION_MARK + defaultJdbcUrlParams;
+			jdbcUrl += SymbolConstants.QUESTION_MARK + DEFAULT_JDBCURL_PARAMS;
 		}
 		dataSource.setJdbcUrl(jdbcUrl);
 		dataSource.setUsername(dataSourceProperties.getUsername());

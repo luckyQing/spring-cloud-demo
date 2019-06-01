@@ -12,9 +12,9 @@ import tk.mybatis.mapper.mapperhelper.SqlHelper;
  * @author liyulin
  * @date 2019年3月24日下午8:38:02
  */
-public class LogicDeleteProvider extends MapperTemplate {
+public class DeleteProvider extends MapperTemplate {
 
-	public LogicDeleteProvider(Class<?> mapperClass, MapperHelper mapperHelper) {
+	public DeleteProvider(Class<?> mapperClass, MapperHelper mapperHelper) {
 		super(mapperClass, mapperHelper);
 	}
 
@@ -54,6 +54,35 @@ public class LogicDeleteProvider extends MapperTemplate {
 		sql.append("</foreach>");
 		sql.append("AND f_sys_del_state=1");
 		return sql.toString();
+	}
+	
+	/**
+	 * 逻辑删除全表
+	 *
+	 * @param ms
+	 * @return
+	 */
+	public String logicDeleteAll(MappedStatement ms) {
+		Class<?> entityClass = getEntityClass(ms);
+		StringBuilder sql = new StringBuilder();
+		sql.append(SqlHelper.updateTable(entityClass, tableName(entityClass)));
+		sql.append("SET f_sys_del_state = 2 ");
+		sql.append("<if test=\"delTime != null\">,f_sys_del_time = #{delTime}</if>");
+		sql.append("<if test=\"delUser != null\">,f_sys_del_user = #{delUser}</if>");
+		sql.append("WHERE f_sys_del_state=1");
+		return sql.toString();
+	}
+	
+	/**
+	 * 物理删除全表
+	 * <p>
+	 * NOTE：谨慎操作！！！
+	 * 
+	 * @return
+	 */
+	public String deleteAll(MappedStatement ms) {
+		final Class<?> entityClass = getEntityClass(ms);
+		return SqlHelper.deleteFromTable(entityClass, tableName(entityClass));
 	}
 
 }
