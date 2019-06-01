@@ -5,12 +5,14 @@ import com.liyulin.demo.common.business.exception.enums.IBaseReturnCode;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import uk.co.jemos.podam.common.PodamStringValue;
 
 @Getter
 @Setter
+@NoArgsConstructor
 @SuperBuilder
 @ApiModel(description = "响应头部")
 public class RespHead extends BaseDto {
@@ -32,7 +34,7 @@ public class RespHead extends BaseDto {
 
 	@ApiModelProperty(value = "响应时间戳", example = "1554551377629")
 	private long timestamp;
-
+	
 	public RespHead(IBaseReturnCode returnCode) {
 		setReturnCode(returnCode);
 	}

@@ -74,7 +74,6 @@ public class OrderApiControllerTest extends AbstractUnitTest {
 		Assertions.assertThat(resp).isNotNull();
 		Assertions.assertThat(resp.getHead()).isNotNull();
 		Assertions.assertThat(resp.getHead().getCode()).isEqualTo(ReturnCodeEnum.SUCCESS.getInfo().getCode());
-
 	}
 	
 	private void mockStubbing(List<CreateOrderProductInfoReqBody> buyProducts) {
