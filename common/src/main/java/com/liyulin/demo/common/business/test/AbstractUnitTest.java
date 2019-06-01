@@ -29,7 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
 @Slf4j
-public abstract class AbstractSpringBootTest {
+public abstract class AbstractUnitTest {
 	
 	static {
 		UnitTestUtil.setTest(true);

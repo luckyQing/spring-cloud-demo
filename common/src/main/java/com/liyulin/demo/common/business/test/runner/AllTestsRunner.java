@@ -1,6 +1,5 @@
 package com.liyulin.demo.common.business.test.runner;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.List;
@@ -13,7 +12,7 @@ import org.junit.runners.model.InitializationError;
 import org.junit.runners.model.RunnerBuilder;
 import org.springframework.core.annotation.AnnotationUtils;
 
-import com.liyulin.demo.common.business.test.AbstractSpringBootTest;
+import com.liyulin.demo.common.business.test.AbstractUnitTest;
 import com.liyulin.demo.common.util.ArrayUtil;
 import com.liyulin.demo.common.util.CollectionUtil;
 import com.liyulin.demo.common.util.ReflectionUtil;
@@ -34,7 +33,7 @@ public class AllTestsRunner extends Suite {
 	}
 
 	private static Class<?>[] getSuiteClasses() {
-		Set<Class<? extends AbstractSpringBootTest>> set = ReflectionUtil.getSubTypesOf(AbstractSpringBootTest.class);
+		Set<Class<? extends AbstractUnitTest>> set = ReflectionUtil.getSubTypesOf(AbstractUnitTest.class);
 		if (CollectionUtil.isEmpty(set)) {
 			return new Class<?>[0];
 		}

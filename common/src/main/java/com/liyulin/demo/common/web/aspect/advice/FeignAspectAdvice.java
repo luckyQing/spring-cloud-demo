@@ -2,7 +2,6 @@ package com.liyulin.demo.common.web.aspect.advice;
 
 import java.lang.reflect.Method;
 import java.util.Date;
-import java.util.concurrent.ConcurrentLinkedQueue;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -16,11 +15,9 @@ import com.liyulin.demo.common.business.util.ReqHeadUtil;
 import com.liyulin.demo.common.constants.SymbolConstants;
 import com.liyulin.demo.common.util.LogUtil;
 import com.liyulin.demo.common.util.ObjectUtil;
-import com.liyulin.demo.common.util.UnitTestUtil;
 import com.liyulin.demo.common.util.WebUtil;
 import com.liyulin.demo.common.web.aspect.dto.FeignAspectDto;
 import com.liyulin.demo.common.web.aspect.util.AspectUtil;
-import com.liyulin.demo.common.web.validation.util.ValidationUtil;
 
 /**
  * feign切面
@@ -30,12 +27,6 @@ import com.liyulin.demo.common.web.validation.util.ValidationUtil;
  */
 public class FeignAspectAdvice implements MethodInterceptor {
 
-	private static ConcurrentLinkedQueue<Object> mockData = new ConcurrentLinkedQueue<>();
-
-	public static void push(Object object) {
-		mockData.add(object);
-	}
-
 	@Override
 	public Object invoke(MethodInvocation invocation) throws Throwable {
 		Object[] args = invocation.getArguments();
@@ -44,16 +35,6 @@ public class FeignAspectAdvice implements MethodInterceptor {
 			Req<?> req = (Req<?>) args[0];
 			req.setHead(ReqHeadUtil.of());
 			// TODO:填充token、sign
-			
-			if (UnitTestUtil.isTest()) {
-				// 参数校验
-				ValidationUtil.validate(req);
-			}
-		}
-
-		// 如果为单元测试环境，则直接返回mock数据
-		if (UnitTestUtil.isTest()) {
-			return mockData.poll();
 		}
 
 		FeignAspectDto logDto = new FeignAspectDto();

@@ -14,7 +14,7 @@ import com.alibaba.fastjson.TypeReference;
 import com.liyulin.demo.common.business.dto.Req;
 import com.liyulin.demo.common.business.dto.Resp;
 import com.liyulin.demo.common.business.exception.enums.ReturnCodeEnum;
-import com.liyulin.demo.common.business.test.AbstractSpringBootTest;
+import com.liyulin.demo.common.business.test.AbstractUnitTest;
 import com.liyulin.demo.common.business.util.ReqUtil;
 import com.liyulin.demo.common.business.util.RespUtil;
 import com.liyulin.demo.mall.order.service.api.OrderApiService;
@@ -25,7 +25,7 @@ import com.liyulin.demo.rpc.product.ProductInfoRpc;
 import com.liyulin.demo.rpc.product.response.rpc.QryProductByIdRespBody;
 import com.liyulin.demo.rpc.product.response.rpc.QryProductByIdsRespBody;
 
-public class OrderApiControllerTest extends AbstractSpringBootTest {
+public class OrderApiControllerTest extends AbstractUnitTest {
 
 	@Mock
 	private ProductInfoRpc productInfoRpc;

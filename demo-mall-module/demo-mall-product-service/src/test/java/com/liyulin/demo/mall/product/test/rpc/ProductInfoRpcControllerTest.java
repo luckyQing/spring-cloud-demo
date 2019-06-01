@@ -7,12 +7,12 @@ import com.alibaba.fastjson.TypeReference;
 import com.liyulin.demo.common.business.dto.Req;
 import com.liyulin.demo.common.business.dto.Resp;
 import com.liyulin.demo.common.business.exception.enums.ReturnCodeEnum;
-import com.liyulin.demo.common.business.test.AbstractSpringBootTest;
+import com.liyulin.demo.common.business.test.AbstractUnitTest;
 import com.liyulin.demo.common.business.util.ReqUtil;
 import com.liyulin.demo.rpc.product.request.rpc.QryProductByIdReqBody;
 import com.liyulin.demo.rpc.product.response.rpc.QryProductByIdRespBody;
 
-public class ProductInfoRpcControllerTest extends AbstractSpringBootTest {
+public class ProductInfoRpcControllerTest extends AbstractUnitTest {
 
 	@Test
 	public void testQryProductById() throws Exception {
