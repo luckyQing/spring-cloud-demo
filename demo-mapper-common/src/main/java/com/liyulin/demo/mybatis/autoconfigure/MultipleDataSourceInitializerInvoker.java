@@ -193,7 +193,6 @@ public class MultipleDataSourceInitializerInvoker implements InitializingBean {
 				MapperScannerConfigurer.class.getSimpleName());
 		// 构建bean对象
 		MapperScannerConfigurer mapperScannerConfigurer = new MapperScannerConfigurer();
-
 		Properties properties = new Properties();
 		properties.setProperty("IDENTITY", "MYSQL");
 		properties.setProperty("notEmpty", "true");
