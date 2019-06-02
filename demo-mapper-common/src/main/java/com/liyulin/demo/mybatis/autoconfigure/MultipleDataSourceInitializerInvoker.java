@@ -9,7 +9,6 @@ import javax.sql.DataSource;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.plugin.Interceptor;
 import org.mybatis.spring.SqlSessionFactoryBean;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
@@ -34,7 +33,7 @@ import tk.mybatis.spring.mapper.MapperScannerConfigurer;
  * @date 2019年5月28日 下午7:58:56
  * @since DataSourceInitializerInvoker
  */
-public class MultipleDataSourceInitializerInvoker implements InitializingBean {
+public class MultipleDataSourceInitializerInvoker {
 
 	private final MultipleDatasourceProperties multipleDatasourceProperties;
 	private final ConfigurableBeanFactory beanFactory;
@@ -49,12 +48,10 @@ public class MultipleDataSourceInitializerInvoker implements InitializingBean {
 			final ConfigurableBeanFactory beanFactory) {
 		this.multipleDatasourceProperties = multipleDatasourceProperties;
 		this.beanFactory = beanFactory;
+		
 		this.mybatisSqlLogInterceptor = new MybatisSqlLogInterceptor();
 		this.pageInterceptor = buildPageInterceptor();
-	}
-
-	@Override
-	public void afterPropertiesSet() throws Exception {
+		
 		dynamicCreateMultipleDataSourceBeans();
 	}
 
