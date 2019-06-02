@@ -7,4 +7,4 @@ smart:
       type-aliases-package: com.liyulin.demo.mall.order.entity
       mapper-interface-location: com.liyulin.demo.mall.order.mapper
       transaction-base-packages: com.liyulin.demo.mall.order.service
-      mapper-xml-location: classpath*:com/liyulin/demo/mall/order/mybatis/**.xml
+      mapper-xml-location: classpath*:com/liyulin/demo/mall/order/mybatis/**/*.xml

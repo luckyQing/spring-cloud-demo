@@ -1,4 +1,4 @@
-package com.liyulin.demo.mall.order.test.api;
+package com.liyulin.demo.mall.order.test.cases.api;
 
 import java.util.ArrayList;
 import java.util.List;

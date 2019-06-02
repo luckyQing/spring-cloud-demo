@@ -33,7 +33,7 @@ public class ReqUtil {
 	 * @return
 	 */
 	public static <T> Req<ReqObjectBody<T>> build(T object) {
-		return new Req<>(new ReqObjectBody<>(object));
+		return build(new ReqObjectBody<>(object));
 	}
 
 	/**
@@ -46,6 +46,16 @@ public class ReqUtil {
 		Req<T> req = new Req<>(ReqHeadUtil.of());
 		req.setBody(body);
 		return req;
+	}
+
+	/**
+	 * 构建{@code Req<ReqObjectBody<T>>}对象（带{@code ReqHead}）
+	 * 
+	 * @param object
+	 * @return
+	 */
+	public static <T> Req<ReqObjectBody<T>> buildWithHead(T object) {
+		return buildWithHead(new ReqObjectBody<>(object));
 	}
 
 	/**
