@@ -2,6 +2,7 @@ package com.liyulin.demo.common.business.test.runner;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -16,6 +17,8 @@ import com.liyulin.demo.common.business.test.AbstractUnitTest;
 import com.liyulin.demo.common.util.ArrayUtil;
 import com.liyulin.demo.common.util.CollectionUtil;
 import com.liyulin.demo.common.util.ReflectionUtil;
+
+import junit.framework.TestCase;
 
 /**
  * 套件测试Runner
@@ -33,12 +36,18 @@ public class AllTestsRunner extends Suite {
 	}
 
 	private static Class<?>[] getSuiteClasses() {
-		Set<Class<? extends AbstractUnitTest>> set = ReflectionUtil.getSubTypesOf(AbstractUnitTest.class);
-		if (CollectionUtil.isEmpty(set)) {
+		Set<Class<? extends AbstractUnitTest>> abstractUnitTestSet = ReflectionUtil.getSubTypesOf(AbstractUnitTest.class);
+		Set<Class<? extends TestCase>> testCaseSet = ReflectionUtil.getSubTypesOf(TestCase.class);
+
+		Set<Class<?>> caseSet = new HashSet<>();
+		caseSet.addAll(abstractUnitTestSet);
+		caseSet.addAll(testCaseSet);
+
+		if (CollectionUtil.isEmpty(caseSet)) {
 			return new Class<?>[0];
 		}
 
-		List<Class<?>> suiteClasses = set.stream().filter(item -> {
+		List<Class<?>> suiteClasses = caseSet.stream().filter(item -> {
 			// 过滤掉不符合条件的类
 			// 1.过滤掉抽象类
 			if (Modifier.isAbstract(item.getClass().getModifiers())) {
