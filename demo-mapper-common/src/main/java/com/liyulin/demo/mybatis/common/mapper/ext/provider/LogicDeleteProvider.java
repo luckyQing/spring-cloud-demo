@@ -7,14 +7,14 @@ import tk.mybatis.mapper.mapperhelper.MapperTemplate;
 import tk.mybatis.mapper.mapperhelper.SqlHelper;
 
 /**
- * 根据主键逻辑删除
+ * 逻辑删除
  *
  * @author liyulin
  * @date 2019年3月24日下午8:38:02
  */
-public class DeleteProvider extends MapperTemplate {
+public class LogicDeleteProvider extends MapperTemplate {
 
-	public DeleteProvider(Class<?> mapperClass, MapperHelper mapperHelper) {
+	public LogicDeleteProvider(Class<?> mapperClass, MapperHelper mapperHelper) {
 		super(mapperClass, mapperHelper);
 	}
 
@@ -71,18 +71,6 @@ public class DeleteProvider extends MapperTemplate {
 		sql.append("<if test=\"delUser != null\">,f_sys_del_user = #{delUser}</if>");
 		sql.append("WHERE f_sys_del_state=1");
 		return sql.toString();
-	}
-	
-	/**
-	 * 物理删除全表
-	 * <p>
-	 * NOTE：谨慎操作！！！
-	 * 
-	 * @return
-	 */
-	public String deleteAll(MappedStatement ms) {
-		final Class<?> entityClass = getEntityClass(ms);
-		return SqlHelper.deleteFromTable(entityClass, tableName(entityClass));
 	}
 
 }

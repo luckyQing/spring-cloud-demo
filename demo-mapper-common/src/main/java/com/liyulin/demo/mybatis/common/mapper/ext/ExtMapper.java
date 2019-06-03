@@ -12,7 +12,7 @@ import com.liyulin.demo.common.business.dto.BasePageResp;
 import com.liyulin.demo.common.util.CollectionUtil;
 import com.liyulin.demo.mybatis.common.mapper.entity.BaseEntity;
 import com.liyulin.demo.mybatis.common.mapper.ext.mapper.InsertListSelectiveMapper;
-import com.liyulin.demo.mybatis.common.mapper.ext.mapper.DeleteMapper;
+import com.liyulin.demo.mybatis.common.mapper.ext.mapper.LogicDeleteMapper;
 import com.liyulin.demo.mybatis.common.mapper.ext.mapper.UpdateListByExamplesMapper;
 import com.liyulin.demo.mybatis.common.mapper.ext.mapper.UpdateListByExamplesSelectiveMapper;
 import com.liyulin.demo.mybatis.common.mapper.ext.mapper.UpdateListByPrimaryKeyMapper;
@@ -40,7 +40,7 @@ import tk.mybatis.mapper.entity.Example;
 public interface ExtMapper<T extends BaseEntity, R extends BaseEntityRespBody, PK> extends Mapper<T>,
 		IdListMapper<T, PK>, InsertListMapper<T>, InsertListSelectiveMapper<T>, UpdateListByPrimaryKeyMapper<T>,
 		UpdateListByPrimaryKeySelectiveMapper<T>, UpdateByPrimaryKeySelectiveForceMapper<T>,
-		UpdateListByExamplesMapper<T>, UpdateListByExamplesSelectiveMapper<T>, DeleteMapper<T>, Marker {
+		UpdateListByExamplesMapper<T>, UpdateListByExamplesSelectiveMapper<T>, LogicDeleteMapper<T>, Marker {
 
 	/**
 	 * 根据example条件分页查询，返回entity对象

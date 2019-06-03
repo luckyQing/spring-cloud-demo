@@ -42,8 +42,8 @@ public class OrderApiControllerTest extends AbstractUnitTest {
 	
 	@Before
 	public void setBefore() {
-		orderBillBaseMapper.deleteAll();
-		orderDeliveryInfoBaseMapper.deleteAll();
+		orderBillBaseMapper.deleteByExample(null);
+		orderDeliveryInfoBaseMapper.deleteByExample(null);
 	}
 	
 	@Test

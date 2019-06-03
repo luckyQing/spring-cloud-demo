@@ -21,7 +21,7 @@ public class ProductInfoData {
 	 * 清空数据
 	 */
 	public void clean() {
-		productInfoBaseMapper.deleteAll();
+		productInfoBaseMapper.deleteByExample(null);
 	}
 
 	/**
