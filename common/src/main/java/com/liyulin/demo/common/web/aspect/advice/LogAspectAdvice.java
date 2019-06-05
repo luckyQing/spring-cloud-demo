@@ -43,7 +43,7 @@ public class LogAspectAdvice implements MethodBeforeAdvice, AfterReturningAdvice
 		String apiDesc = AspectUtil.getControllerMethodDesc(method, request.getServletPath());
 		logDto.setApiDesc(apiDesc);
 
-		logDto.setRequestParams(WebUtil.getRequestArgs(args));
+		logDto.setReqParams(WebUtil.getRequestArgs(args));
 
 		logDto.setUrl(request.getRequestURL().toString());
 		logDto.setIp(WebUtil.getRealIP(request));
@@ -65,7 +65,7 @@ public class LogAspectAdvice implements MethodBeforeAdvice, AfterReturningAdvice
 
 		logDto.setReqEndTime(new Date());
 		logDto.setReqDealTime((int) (logDto.getReqEndTime().getTime() - logDto.getReqStartTime().getTime()));
-		logDto.setResponseData(returnValue);
+		logDto.setRespData(returnValue);
 
 		LogUtil.info("api.logDto.info=>{}", logDto);
 		// 使用完释放掉，防止内存泄露

@@ -50,14 +50,14 @@ public class FeignAspectAdvice implements MethodInterceptor {
 		String classMethod = method.getDeclaringClass().getTypeName() + SymbolConstants.DOT + method.getName();
 		logDto.setClassMethod(classMethod);
 
-		logDto.setRequestParams(WebUtil.getRequestArgs(args));
+		logDto.setReqParams(WebUtil.getRequestArgs(args));
 
 		// 2、rpc
 		Object result = invocation.proceed();
 
 		logDto.setReqEndTime(new Date());
 		logDto.setReqDealTime((int) (logDto.getReqEndTime().getTime() - logDto.getReqStartTime().getTime()));
-		logDto.setResponseData(result);
+		logDto.setRespData(result);
 
 		// 3、打印日志
 		LogUtil.info("rpc.logDto=>{}", logDto);

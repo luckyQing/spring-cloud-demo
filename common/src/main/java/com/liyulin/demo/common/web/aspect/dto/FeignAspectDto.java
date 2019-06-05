@@ -45,9 +45,9 @@ public class FeignAspectDto extends BaseDto {
 	private Integer reqDealTime;
 
 	/** 请求的参数信息 */
-	private Object requestParams;
+	private Object reqParams;
 
 	/** 响应数据 */
-	private Object responseData;
+	private Object respData;
 
 }
