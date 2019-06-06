@@ -22,7 +22,7 @@ import org.springframework.context.annotation.FilterType;
 import org.springframework.core.annotation.AliasFor;
 import org.springframework.scheduling.annotation.EnableAsync;
 
-import com.liyulin.demo.common.support.UniqueBeanNameGenerator;
+import com.liyulin.demo.common.support.bean.UniqueBeanNameGenerator;
 import com.liyulin.demo.common.support.condition.SmartSpringCloudApplicationCondition;
 
 /**

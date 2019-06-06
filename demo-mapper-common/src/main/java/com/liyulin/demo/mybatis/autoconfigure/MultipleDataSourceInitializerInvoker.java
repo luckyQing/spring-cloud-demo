@@ -17,7 +17,7 @@ import org.springframework.util.Assert;
 
 import com.github.pagehelper.PageInterceptor;
 import com.liyulin.demo.common.constants.SymbolConstants;
-import com.liyulin.demo.common.support.UniqueBeanNameGenerator;
+import com.liyulin.demo.common.support.bean.UniqueBeanNameGenerator;
 import com.liyulin.demo.common.util.LogUtil;
 import com.liyulin.demo.mybatis.plugin.MybatisSqlLogInterceptor;
 import com.liyulin.demo.mybatis.properties.MultipleDatasourceProperties;

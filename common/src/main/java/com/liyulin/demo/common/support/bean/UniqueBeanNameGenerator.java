@@ -1,4 +1,4 @@
-package com.liyulin.demo.common.support;
+package com.liyulin.demo.common.support.bean;
 
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.AnnotatedBeanDefinition;
