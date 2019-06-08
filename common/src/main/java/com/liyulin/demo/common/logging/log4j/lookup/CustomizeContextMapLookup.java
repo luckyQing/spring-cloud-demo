@@ -14,6 +14,8 @@ import org.yaml.snakeyaml.Yaml;
 
 /**
  * 自定义lo4j2插件，用于设置变量
+ * 
+ * <p>NOTE：需要在log4j2的配置文件中设置“packages”的属性值（即当前类的包名）
  *
  * @author liyulin
  * @date 2019年3月19日上午12:13:57
