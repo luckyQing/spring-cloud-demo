@@ -58,24 +58,23 @@ public class BaseEntity extends BaseDto {
 	@AllArgsConstructor(access = AccessLevel.PRIVATE)
 	public enum Columns {
 		/** 主键 */
-		ID("id", "f_id"),
+		ID("id"),
 		/** 创建时间 */
-		ADD_TIME("addTime", "f_sys_add_time"),
+		ADD_TIME("addTime"),
 		/** 更新时间 */
-		UPD_TIME("updTime", "f_sys_upd_time"),
+		UPD_TIME("updTime"),
 		/** 删除时间 */
-		DEL_TIME("delTime", "f_sys_del_time"),
+		DEL_TIME("delTime"),
 		/** 新增者 */
-		ADD_USER("addUser", "f_sys_add_user"),
+		ADD_USER("addUser"),
 		/** 更新者 */
-		UPD_USER("updUser", "f_sys_upd_user"),
+		UPD_USER("updUser"),
 		/** 删除者 */
-		DEL_USER("delUser", "f_sys_del_user"),
+		DEL_USER("delUser"),
 		/** 删除状态 */
-		DEL_STATE("delState", "f_sys_del_state");
+		DEL_STATE("delState");
 
 		private String property;
-		private String column;
 	}
 
 }

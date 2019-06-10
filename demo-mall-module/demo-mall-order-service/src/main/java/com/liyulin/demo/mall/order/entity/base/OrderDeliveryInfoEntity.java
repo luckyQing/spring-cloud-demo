@@ -51,18 +51,17 @@ public class OrderDeliveryInfoEntity extends BaseEntity {
 	@AllArgsConstructor(access = AccessLevel.PRIVATE)
 	public enum Columns {
 		/** 所属订单 */
-		ORDER_BILL_ID("orderBillId", "t_order_bill_id"),
+		ORDER_BILL_ID("orderBillId"),
 		/** 购买的商品id */
-		PRODUCTINFO_ID("productInfoId", "t_product_info_id"),
+		PRODUCTINFO_ID("productInfoId"),
 		/** 商品名称 */
-		PRODUCT_NAME("productName", "f_product_name"),
+		PRODUCT_NAME("productName"),
 		/** 商品购买价格 */
-		PRICE("price", "f_price"),
+		PRICE("price"),
 		/** 购买数量 */
-		BUY_COUNT("buyCount", "f_buy_count");
+		BUY_COUNT("buyCount");
 
 		private String property;
-		private String column;
 	}
 
 }

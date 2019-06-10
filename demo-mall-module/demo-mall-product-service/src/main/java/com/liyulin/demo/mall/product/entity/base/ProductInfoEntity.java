@@ -37,14 +37,13 @@ public class ProductInfoEntity extends BaseEntity {
 	@AllArgsConstructor(access = AccessLevel.PRIVATE)
 	public enum Columns {
 		/** 商品名称 */
-		NAME("name", "f_name"),
+		NAME("name"),
 		/** 销售价格 */
-		SELL_PRICE("sellPrice", "f_sell_price"),
+		SELL_PRICE("sellPrice"),
 		/** 库存 */
-		STOCK("stock", "f_stock");
+		STOCK("stock");
 
 		private String property;
-		private String column;
 	}
 
 }

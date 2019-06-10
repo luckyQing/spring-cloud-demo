@@ -47,16 +47,15 @@ public class OrderBillEntity extends BaseEntity {
 	@AllArgsConstructor(access = AccessLevel.PRIVATE)
 	public enum Columns {
 		/** 订单金额总金额 */
-		AMOUNT("amount", "f_amount"),
+		AMOUNT("amount"),
 		/** 支付状态 */
-		PAY_STATE("payState", "f_pay_state"),
+		PAY_STATE("payState"),
 		/** 库存 */
-		REFUND_STATE("refundState", "f_refund_state"),
+		REFUND_STATE("refundState"),
 		/** 购买人id */
-		BUYER("buyer", "f_buyer");
+		BUYER("buyer");
 
 		private String property;
-		private String column;
 	}
 
 }
