@@ -1,8 +1,10 @@
 smart:
   data-machine-id: 1
   swagger: true
-  validator: true
+  enable-validator: true
   enable-async: true
+  enable-feign-aop: true
+  enable-log-aop: true
 
 server:
   port: 20011

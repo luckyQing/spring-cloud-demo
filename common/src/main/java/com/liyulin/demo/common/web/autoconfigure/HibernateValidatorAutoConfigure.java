@@ -6,13 +6,12 @@ import javax.validation.ValidatorFactory;
 
 import org.hibernate.validator.HibernateValidator;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
 
-import com.liyulin.demo.common.constants.CommonConstants;
 import com.liyulin.demo.common.properties.SmartProperties;
+import com.liyulin.demo.common.support.annotation.SmartConditionalOnProperty;
 import com.liyulin.demo.common.web.validation.valueextraction.BasePageReqExtractor;
 import com.liyulin.demo.common.web.validation.valueextraction.ReqExtractor;
 import com.liyulin.demo.common.web.validation.valueextraction.ReqObjectBodyExtractor;
@@ -24,7 +23,7 @@ import com.liyulin.demo.common.web.validation.valueextraction.ReqObjectBodyExtra
  * @date 2019年3月29日下午11:14:39
  */
 @Configuration
-@ConditionalOnProperty(prefix = CommonConstants.SMART_PROPERTIES_PREFIX, name = SmartProperties.PropertiesName.VALIDATOR, havingValue = "true", matchIfMissing = false)
+@SmartConditionalOnProperty(name = SmartProperties.PropertiesName.ENABLE_VALIDATOR)
 public class HibernateValidatorAutoConfigure {
 
 	@Bean

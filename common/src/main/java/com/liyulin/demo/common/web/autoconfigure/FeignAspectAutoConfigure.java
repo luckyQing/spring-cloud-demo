@@ -9,11 +9,14 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.liyulin.demo.common.properties.SmartProperties;
+import com.liyulin.demo.common.support.annotation.SmartConditionalOnProperty;
 import com.liyulin.demo.common.support.annotation.SmartFeignClient;
 import com.liyulin.demo.common.web.aspect.advice.FeignAspectAdvice;
 import com.liyulin.demo.common.web.aspect.util.AspectUtil;
 
 @Configuration
+@SmartConditionalOnProperty(name = SmartProperties.PropertiesName.ENABLE_FEIGN_AOP)
 public class FeignAspectAutoConfigure {
 
 	@Bean
