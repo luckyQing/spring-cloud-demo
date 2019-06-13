@@ -7,31 +7,24 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.core.annotation.AliasFor;
+import org.springframework.context.annotation.Conditional;
 
 import com.liyulin.demo.common.constants.CommonConstants;
+import com.liyulin.demo.common.support.condition.SmartConditionalOnPropertyCondition;
 
 @Target({ ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-//@Inherited
-@ConditionalOnProperty
+@Inherited
+@Conditional(SmartConditionalOnPropertyCondition.class)
 public @interface SmartConditionalOnProperty {
 
-	@AliasFor(annotation = ConditionalOnProperty.class)
 	String prefix() default CommonConstants.SMART_PROPERTIES_PREFIX;
-
-	@AliasFor(annotation = ConditionalOnProperty.class, value="name")
-	String[] name() default {};
 	
-	@AliasFor(annotation = ConditionalOnProperty.class)
-	String[] value() default {};
+	String[] name() default {};
 
-	@AliasFor(annotation = ConditionalOnProperty.class)
 	String havingValue() default "true";
 
-	@AliasFor(annotation = ConditionalOnProperty.class)
 	boolean matchIfMissing() default false;
 
 }
