@@ -1,10 +1,10 @@
 smart:
-  data-machine-id: 1
+  dataMachineId: 1
   swagger: true
-  enable-validator: true
-  enable-async: true
-  enable-feign-aop: true
-  enable-log-aop: true
+  validator: true
+  async: true
+  rpcLogAop: true
+  apiLogAop: true
 
 server:
   port: 20011

@@ -23,7 +23,7 @@ import com.liyulin.demo.common.web.validation.valueextraction.ReqObjectBodyExtra
  * @date 2019年3月29日下午11:14:39
  */
 @Configuration
-@ConditionalOnPropertyBoolean(name = SmartProperties.PropertiesName.ENABLE_VALIDATOR)
+@ConditionalOnPropertyBoolean(name = SmartProperties.PropertiesName.VALIDATOR)
 public class HibernateValidatorAutoConfigure {
 
 	@Bean

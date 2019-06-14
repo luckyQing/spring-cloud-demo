@@ -52,7 +52,7 @@ public class SmartProperties extends BaseDto {
 	public static final class PropertiesName {
 		public static final String DATA_MACHINE_ID = "dataMachineId";
 		public static final String SWAGGER = "swagger";
-		public static final String ENABLE_VALIDATOR = "validator";
+		public static final String VALIDATOR = "validator";
 		public static final String API_VERSION = "apiVersion";
 		public static final String RPC_LOG_AOP = "rpcLogAop";
 		public static final String API_LOG_AOP = "apiLogAop";
