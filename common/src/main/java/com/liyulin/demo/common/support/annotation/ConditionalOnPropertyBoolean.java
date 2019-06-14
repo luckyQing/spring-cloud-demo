@@ -10,14 +10,21 @@ import java.lang.annotation.Target;
 import org.springframework.context.annotation.Conditional;
 
 import com.liyulin.demo.common.constants.CommonConstants;
-import com.liyulin.demo.common.support.condition.SmartConditionalOnPropertyCondition;
+import com.liyulin.demo.common.support.condition.ConditionalOnPropertyBooleanCondition;
 
+/**
+ * Boolean值属性条件判断注解
+ * 
+ * @author liyulin
+ * @date 2019年6月14日 下午7:44:13
+ * @since ConditionalOnProperty
+ */
 @Target({ ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
-@Conditional(SmartConditionalOnPropertyCondition.class)
-public @interface SmartConditionalOnProperty {
+@Conditional(ConditionalOnPropertyBooleanCondition.class)
+public @interface ConditionalOnPropertyBoolean {
 
 	String prefix() default CommonConstants.SMART_PROPERTIES_PREFIX;
 	

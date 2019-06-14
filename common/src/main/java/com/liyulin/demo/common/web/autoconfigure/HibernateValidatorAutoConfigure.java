@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
 
 import com.liyulin.demo.common.properties.SmartProperties;
-import com.liyulin.demo.common.support.annotation.SmartConditionalOnProperty;
+import com.liyulin.demo.common.support.annotation.ConditionalOnPropertyBoolean;
 import com.liyulin.demo.common.web.validation.valueextraction.BasePageReqExtractor;
 import com.liyulin.demo.common.web.validation.valueextraction.ReqExtractor;
 import com.liyulin.demo.common.web.validation.valueextraction.ReqObjectBodyExtractor;
@@ -23,7 +23,7 @@ import com.liyulin.demo.common.web.validation.valueextraction.ReqObjectBodyExtra
  * @date 2019年3月29日下午11:14:39
  */
 @Configuration
-@SmartConditionalOnProperty(name = SmartProperties.PropertiesName.ENABLE_VALIDATOR)
+@ConditionalOnPropertyBoolean(name = SmartProperties.PropertiesName.ENABLE_VALIDATOR)
 public class HibernateValidatorAutoConfigure {
 
 	@Bean

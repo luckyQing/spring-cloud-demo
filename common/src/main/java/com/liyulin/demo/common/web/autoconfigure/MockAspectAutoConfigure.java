@@ -8,12 +8,12 @@ import org.springframework.context.annotation.Configuration;
 
 import com.liyulin.demo.common.constants.CommonConstants;
 import com.liyulin.demo.common.properties.SmartProperties;
-import com.liyulin.demo.common.support.annotation.SmartConditionalOnProperty;
+import com.liyulin.demo.common.support.annotation.ConditionalOnPropertyBoolean;
 import com.liyulin.demo.common.web.aspect.advice.MockAspectAdvice;
 import com.liyulin.demo.common.web.aspect.util.AspectUtil;
 
 @Configuration
-@SmartConditionalOnProperty(name = SmartProperties.PropertiesName.MOCK)
+@ConditionalOnPropertyBoolean(name = SmartProperties.PropertiesName.MOCK)
 public class MockAspectAutoConfigure {
 
 	@Bean

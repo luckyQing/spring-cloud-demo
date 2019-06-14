@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import com.liyulin.demo.common.properties.SmartProperties;
-import com.liyulin.demo.common.support.annotation.SmartConditionalOnProperty;
+import com.liyulin.demo.common.support.annotation.ConditionalOnPropertyBoolean;
 
 /**
  * 重复提交校验拦截器
@@ -16,7 +16,7 @@ import com.liyulin.demo.common.support.annotation.SmartConditionalOnProperty;
  * @date 2019年6月13日 上午9:24:18
  */
 @Configuration
-@SmartConditionalOnProperty(name = SmartProperties.PropertiesName.REPEAT_SUBMIT_CHECK)
+@ConditionalOnPropertyBoolean(name = SmartProperties.PropertiesName.REPEAT_SUBMIT_CHECK)
 public class RepeatSubmitCheckInterceptor implements HandlerInterceptor {
 
 	@Override

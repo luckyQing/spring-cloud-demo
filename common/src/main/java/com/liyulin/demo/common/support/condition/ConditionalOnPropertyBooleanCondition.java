@@ -9,7 +9,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionMessage;
 import org.springframework.boot.autoconfigure.condition.ConditionMessage.Style;
 import org.springframework.boot.autoconfigure.condition.ConditionOutcome;
 import org.springframework.boot.autoconfigure.condition.SpringBootCondition;
-import org.springframework.context.annotation.Condition;
 import org.springframework.context.annotation.ConditionContext;
 import org.springframework.core.annotation.AnnotationAttributes;
 import org.springframework.core.env.PropertyResolver;
@@ -18,21 +17,25 @@ import org.springframework.util.Assert;
 import org.springframework.util.MultiValueMap;
 import org.springframework.util.StringUtils;
 
-import com.liyulin.demo.common.support.annotation.SmartConditionalOnProperty;
+import com.liyulin.demo.common.support.annotation.ConditionalOnPropertyBoolean;
 
-public class SmartConditionalOnPropertyCondition extends SpringBootCondition implements Condition{
+/**
+ * {@link ConditionalOnPropertyBoolean}对应的 Condition
+ * 
+ * @author liyulin
+ * @date 2019年6月14日 下午7:43:52
+ * @since OnPropertyCondition
+ */
+public class ConditionalOnPropertyBooleanCondition extends SpringBootCondition {
 
 	@Override
-	public ConditionOutcome getMatchOutcome(ConditionContext context,
-			AnnotatedTypeMetadata metadata) {
+	public ConditionOutcome getMatchOutcome(ConditionContext context, AnnotatedTypeMetadata metadata) {
 		List<AnnotationAttributes> allAnnotationAttributes = annotationAttributesFromMultiValueMap(
-				metadata.getAllAnnotationAttributes(
-						SmartConditionalOnProperty.class.getName()));
+				metadata.getAllAnnotationAttributes(ConditionalOnPropertyBoolean.class.getName()));
 		List<ConditionMessage> noMatch = new ArrayList<>();
 		List<ConditionMessage> match = new ArrayList<>();
 		for (AnnotationAttributes annotationAttributes : allAnnotationAttributes) {
-			ConditionOutcome outcome = determineOutcome(annotationAttributes,
-					context.getEnvironment());
+			ConditionOutcome outcome = determineOutcome(annotationAttributes, context.getEnvironment());
 			(outcome.isMatch() ? match : noMatch).add(outcome.getConditionMessage());
 		}
 		if (!noMatch.isEmpty()) {
@@ -49,8 +52,7 @@ public class SmartConditionalOnPropertyCondition extends SpringBootCondition imp
 				Map<String, Object> map;
 				if (i < maps.size()) {
 					map = maps.get(i);
-				}
-				else {
+				} else {
 					map = new HashMap<>();
 					maps.add(map);
 				}
@@ -64,27 +66,22 @@ public class SmartConditionalOnPropertyCondition extends SpringBootCondition imp
 		return annotationAttributes;
 	}
 
-	private ConditionOutcome determineOutcome(AnnotationAttributes annotationAttributes,
-			PropertyResolver resolver) {
+	private ConditionOutcome determineOutcome(AnnotationAttributes annotationAttributes, PropertyResolver resolver) {
 		Spec spec = new Spec(annotationAttributes);
 		List<String> missingProperties = new ArrayList<>();
 		List<String> nonMatchingProperties = new ArrayList<>();
 		spec.collectProperties(resolver, missingProperties, nonMatchingProperties);
 		if (!missingProperties.isEmpty()) {
-			return ConditionOutcome.noMatch(
-					ConditionMessage.forCondition(SmartConditionalOnProperty.class, spec)
-							.didNotFind("property", "properties")
-							.items(Style.QUOTE, missingProperties));
+			return ConditionOutcome.noMatch(ConditionMessage.forCondition(ConditionalOnPropertyBoolean.class, spec)
+					.didNotFind("property", "properties").items(Style.QUOTE, missingProperties));
 		}
 		if (!nonMatchingProperties.isEmpty()) {
-			return ConditionOutcome.noMatch(
-					ConditionMessage.forCondition(SmartConditionalOnProperty.class, spec)
-							.found("different value in property",
-									"different value in properties")
-							.items(Style.QUOTE, nonMatchingProperties));
+			return ConditionOutcome.noMatch(ConditionMessage.forCondition(ConditionalOnPropertyBoolean.class, spec)
+					.found("different value in property", "different value in properties")
+					.items(Style.QUOTE, nonMatchingProperties));
 		}
-		return ConditionOutcome.match(ConditionMessage
-				.forCondition(SmartConditionalOnProperty.class, spec).because("matched"));
+		return ConditionOutcome
+				.match(ConditionMessage.forCondition(ConditionalOnPropertyBoolean.class, spec).because("matched"));
 	}
 
 	private static class Spec {
@@ -110,21 +107,18 @@ public class SmartConditionalOnPropertyCondition extends SpringBootCondition imp
 
 		private String[] getNames(Map<String, Object> annotationAttributes) {
 			String[] name = (String[]) annotationAttributes.get("name");
-			Assert.state(name.length > 0,
-					"The name or value attribute of @ConditionalOnProperty must be specified");
+			Assert.state(name.length > 0, "The name or value attribute of @ConditionalOnProperty must be specified");
 			return name;
 		}
 
-		private void collectProperties(PropertyResolver resolver, List<String> missing,
-				List<String> nonMatching) {
+		private void collectProperties(PropertyResolver resolver, List<String> missing, List<String> nonMatching) {
 			for (String name : this.names) {
 				String key = this.prefix + name;
 				if (resolver.containsProperty(key)) {
 					if (!isMatch(resolver.getProperty(key), this.havingValue)) {
 						nonMatching.add(name);
 					}
-				}
-				else {
+				} else {
 					if (!this.matchIfMissing) {
 						missing.add(name);
 					}
@@ -146,8 +140,7 @@ public class SmartConditionalOnPropertyCondition extends SpringBootCondition imp
 			result.append(this.prefix);
 			if (this.names.length == 1) {
 				result.append(this.names[0]);
-			}
-			else {
+			} else {
 				result.append("[");
 				result.append(StringUtils.arrayToCommaDelimitedString(this.names));
 				result.append("]");
