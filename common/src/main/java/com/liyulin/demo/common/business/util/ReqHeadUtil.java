@@ -1,7 +1,10 @@
 package com.liyulin.demo.common.business.util;
 
+import org.springframework.beans.BeansException;
+
 import com.liyulin.demo.common.business.dto.ReqHead;
 import com.liyulin.demo.common.properties.SmartProperties;
+import com.liyulin.demo.common.util.LogUtil;
 import com.liyulin.demo.common.util.SpringUtil;
 import com.liyulin.demo.common.util.TransactionIdUtil;
 
@@ -17,7 +20,19 @@ import lombok.experimental.UtilityClass;
 public class ReqHeadUtil {
 
 	public static ReqHead of() {
-		String apiVersion = SpringUtil.getBean(SmartProperties.class).getApiVersion();
+		SmartProperties smartProperties = null;
+		try {
+			smartProperties = SpringUtil.getBean(SmartProperties.class);
+		} catch (BeansException e) {
+			LogUtil.warn("获取bean[SmartProperties]失败", e);
+		}
+		String apiVersion = null;
+		if (smartProperties == null) {
+			apiVersion = System.getProperty(SmartProperties.PropertiesName.API_VERSION);
+		} else {
+			apiVersion = smartProperties.getApiVersion();
+		}
+
 		return of(null, apiVersion);
 	}
 

@@ -34,6 +34,9 @@ public class SpringUtil implements ApplicationListener<ContextRefreshedEvent> {
 	 * @return bean
 	 */
 	public static <T> T getBean(Class<T> requiredType) {
+		if (applicationContext == null) {
+			return null;
+		}
 		return applicationContext.getBean(requiredType);
 	}
 

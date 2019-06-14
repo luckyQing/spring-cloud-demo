@@ -11,8 +11,13 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
+import org.springframework.http.MediaType;
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 
 import lombok.experimental.UtilityClass;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * http工具类
@@ -21,6 +26,7 @@ import lombok.experimental.UtilityClass;
  * @date 2019年5月3日下午5:56:28
  */
 @UtilityClass
+@Slf4j
 public class HttpUtil {
 	
 	/** 默认编码 */
@@ -31,7 +37,21 @@ public class HttpUtil {
 	private static final int DEFAULT_CONNECT_TIMEOUT = 10000;
 	/** 从连接池中获取连接的超时时间（单位毫秒，默认2秒） */
 	private static final int CONNECTION_REQUEST_TIMEOUT = 2000;
-
+	
+	/**
+	 * post方式请求（编码为UTF-8，超时时间10秒）
+	 * 
+	 * @param url 
+	 * @param req 请求参数对象
+	 * @param typeReference 返回对象
+	 * @return
+	 * @throws IOException
+	 */
+	public static <T> T postWithRaw(String url, Object req, TypeReference<T> typeReference) throws IOException {
+		String content = postWithRaw(url, JSON.toJSONString(req));
+		return JSON.parseObject(content, typeReference);
+	}
+	
 	/**
 	 * post方式请求（编码为UTF-8，超时时间10秒）
 	 * 
@@ -72,21 +92,25 @@ public class HttpUtil {
 	 */
 	public static String postWithRaw(String url, String stringEntity, String charset, int socketTimeout,
 			int connectTimeout) throws IOException {
+		log.info("stringEntity=>{}", stringEntity);
+		
 		RequestConfig requestConfig = createRequestConfig(socketTimeout, connectTimeout);
 
 		HttpPost post = new HttpPost(url);
 		post.setConfig(requestConfig);
-		post.setHeader("Content-Type", "application/json");
+		post.setHeader("Content-Type", MediaType.APPLICATION_JSON_UTF8_VALUE);
 		post.setEntity(new StringEntity(stringEntity, charset));
+		String result = null;
 		try (CloseableHttpClient client = HttpClientBuilder.create().build();) {
 			HttpResponse response = client.execute(post);
 			HttpEntity entity = response.getEntity();
 			if (entity != null) {
-				return EntityUtils.toString(entity, charset);
+				result = EntityUtils.toString(entity, charset);
 			}
 		}
 
-		return null;
+		log.info("result=>{}", result);
+		return result;
 	}
 
 	/**

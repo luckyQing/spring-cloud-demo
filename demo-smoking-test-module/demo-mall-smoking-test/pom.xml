@@ -11,4 +11,11 @@
 	</parent>
 	<artifactId>demo-mall-smoking-test</artifactId>
 	<packaging>jar</packaging>
+	
+	<dependencies>
+		<dependency>
+			<groupId>com.liyulin</groupId>
+			<artifactId>demo-mall-rpc</artifactId>
+		</dependency>
+	</dependencies>
 </project>

@@ -13,6 +13,7 @@ import org.junit.runners.model.InitializationError;
 import org.junit.runners.model.RunnerBuilder;
 import org.springframework.core.annotation.AnnotationUtils;
 
+import com.liyulin.demo.common.business.test.AbstractSmokingTest;
 import com.liyulin.demo.common.business.test.AbstractUnitTest;
 import com.liyulin.demo.common.util.ArrayUtil;
 import com.liyulin.demo.common.util.CollectionUtil;
@@ -37,10 +38,12 @@ public class AllTestsRunner extends Suite {
 
 	private static Class<?>[] getSuiteClasses() {
 		Set<Class<? extends AbstractUnitTest>> abstractUnitTestSet = ReflectionUtil.getSubTypesOf(AbstractUnitTest.class);
+		Set<Class<? extends AbstractSmokingTest>> abstractSmokingTestSet = ReflectionUtil.getSubTypesOf(AbstractSmokingTest.class);
 		Set<Class<? extends TestCase>> testCaseSet = ReflectionUtil.getSubTypesOf(TestCase.class);
 
 		Set<Class<?>> caseSet = new HashSet<>();
 		caseSet.addAll(abstractUnitTestSet);
+		caseSet.addAll(abstractSmokingTestSet);
 		caseSet.addAll(testCaseSet);
 
 		if (CollectionUtil.isEmpty(caseSet)) {
