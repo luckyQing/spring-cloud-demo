@@ -13,7 +13,7 @@ import com.liyulin.demo.common.web.aspect.advice.LogAspectAdvice;
 import com.liyulin.demo.common.web.aspect.util.AspectUtil;
 
 @Configuration
-@SmartConditionalOnProperty(name = SmartProperties.PropertiesName.ENABLE_LOG_AOP)
+@SmartConditionalOnProperty(name = SmartProperties.PropertiesName.API_LOG_AOP)
 public class LogAspectAutoConfigure {
 
 	@Bean

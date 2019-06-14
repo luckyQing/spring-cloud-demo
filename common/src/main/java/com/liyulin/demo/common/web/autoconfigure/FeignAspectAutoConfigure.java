@@ -16,7 +16,7 @@ import com.liyulin.demo.common.web.aspect.advice.FeignAspectAdvice;
 import com.liyulin.demo.common.web.aspect.util.AspectUtil;
 
 @Configuration
-@SmartConditionalOnProperty(name = SmartProperties.PropertiesName.ENABLE_FEIGN_AOP)
+@SmartConditionalOnProperty(name = SmartProperties.PropertiesName.RPC_LOG_AOP)
 public class FeignAspectAutoConfigure {
 
 	@Bean

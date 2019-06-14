@@ -16,7 +16,7 @@ import com.liyulin.demo.common.support.annotation.SmartConditionalOnProperty;
  * @date 2019年6月13日 上午9:24:18
  */
 @Configuration
-@SmartConditionalOnProperty(name = SmartProperties.PropertiesName.ENABLE_REPEAT_SUBMIT_CHECK)
+@SmartConditionalOnProperty(name = SmartProperties.PropertiesName.REPEAT_SUBMIT_CHECK)
 public class RepeatSubmitCheckInterceptor implements HandlerInterceptor {
 
 	@Override

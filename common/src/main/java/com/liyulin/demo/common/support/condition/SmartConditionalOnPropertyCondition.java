@@ -9,6 +9,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionMessage;
 import org.springframework.boot.autoconfigure.condition.ConditionMessage.Style;
 import org.springframework.boot.autoconfigure.condition.ConditionOutcome;
 import org.springframework.boot.autoconfigure.condition.SpringBootCondition;
+import org.springframework.context.annotation.Condition;
 import org.springframework.context.annotation.ConditionContext;
 import org.springframework.core.annotation.AnnotationAttributes;
 import org.springframework.core.env.PropertyResolver;
@@ -19,7 +20,7 @@ import org.springframework.util.StringUtils;
 
 import com.liyulin.demo.common.support.annotation.SmartConditionalOnProperty;
 
-public class SmartConditionalOnPropertyCondition extends SpringBootCondition {
+public class SmartConditionalOnPropertyCondition extends SpringBootCondition implements Condition{
 
 	@Override
 	public ConditionOutcome getMatchOutcome(ConditionContext context,
