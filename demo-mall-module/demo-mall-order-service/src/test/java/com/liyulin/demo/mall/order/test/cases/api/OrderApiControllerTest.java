@@ -6,8 +6,6 @@ import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -30,11 +28,6 @@ import com.liyulin.demo.rpc.product.response.rpc.QryProductByIdsRespBody;
 
 public class OrderApiControllerTest extends AbstractUnitTest {
 
-	@Mock
-	private ProductInfoRpc productInfoRpc;
-	@InjectMocks 
-	@Autowired
-	private OrderApiService orderApiService;
 	@Autowired
 	private OrderBillBaseMapper orderBillBaseMapper;
 	@Autowired
@@ -65,7 +58,10 @@ public class OrderApiControllerTest extends AbstractUnitTest {
 		req.setSign("test");
 				
 		// 2、mock 行为
-		mockStubbing(buyProducts);
+		ProductInfoRpc productInfoRpc = Mockito.mock(ProductInfoRpc.class);
+		OrderApiService orderApiService = applicationContext.getBean(OrderApiService.class);
+		setMockAttribute(orderApiService, productInfoRpc);
+		mockStubbing(productInfoRpc, buyProducts);
 		
 		Resp<CreateOrderRespBody> resp = postJson("/api/auth/order/order/create", req, new TypeReference<Resp<CreateOrderRespBody>>() {
 		});
@@ -76,7 +72,7 @@ public class OrderApiControllerTest extends AbstractUnitTest {
 		Assertions.assertThat(resp.getHead().getCode()).isEqualTo(ReturnCodeEnum.SUCCESS.getInfo().getCode());
 	}
 	
-	private void mockStubbing(List<CreateOrderProductInfoReqBody> buyProducts) {
+	private void mockStubbing(ProductInfoRpc productInfoRpc, List<CreateOrderProductInfoReqBody> buyProducts) {
 		// 2.1qryProductByIds
 		// response
 		List<QryProductByIdRespBody> productInfos = new ArrayList<>();

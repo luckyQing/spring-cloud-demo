@@ -1,8 +1,8 @@
 package com.liyulin.demo.common.business.test;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.runner.RunWith;
-import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
@@ -16,6 +16,7 @@ import org.springframework.web.context.WebApplicationContext;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.liyulin.demo.common.util.JAXBUtil;
+import com.liyulin.demo.common.util.MockitoUtil;
 import com.liyulin.demo.common.util.UnitTestUtil;
 
 import lombok.extern.slf4j.Slf4j;
@@ -43,10 +44,34 @@ public abstract class AbstractUnitTest {
 	
 	@Before
 	public void initMock() {
-		MockitoAnnotations.initMocks(this);
 		if (mockMvc == null) {
 			mockMvc = MockMvcBuilders.webAppContextSetup(applicationContext).build();
 		}
+	}
+	
+	@After
+	public void after() {
+		MockitoUtil.bacKMockAttribute(applicationContext);
+	}
+
+	/**
+	 * 设置对象属性为mock对象
+	 * 
+	 * @param targetObject
+	 * @param mockObject
+	 */
+	protected static void setMockAttribute(Object targetObject, Object mockObject) {
+		MockitoUtil.setMockAttribute(targetObject, mockObject, MockitoUtil.MockTypeEnum.MOCK_BEFORE);
+	}
+
+	/**
+	 * 归还mock对象为真实对象
+	 * 
+	 * @param targetObject
+	 * @param realObject
+	 */
+	protected static void bacKMockAttribute(Object targetObject, Object realObject) {
+		MockitoUtil.setMockAttribute(targetObject, realObject, MockitoUtil.MockTypeEnum.MOCK_AFTER);
 	}
 	
 	protected <T> T postXml(String url, Object req, Class<T> beanClass) throws Exception {
