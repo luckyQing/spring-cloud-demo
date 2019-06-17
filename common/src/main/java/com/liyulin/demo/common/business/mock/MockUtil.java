@@ -37,7 +37,7 @@ public class MockUtil {
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	public static <T> T manufacturePojo(TypeReference<T> typeReference) {
+	public static <T> T mock(TypeReference<T> typeReference) {
 		Type type = typeReference.getType();
 		if (type instanceof ParameterizedType) {
 			ParameterizedType parameterizedType = (ParameterizedType) type;

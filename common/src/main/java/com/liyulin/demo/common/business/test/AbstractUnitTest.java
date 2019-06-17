@@ -15,9 +15,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
-import com.liyulin.demo.common.util.JAXBUtil;
 import com.liyulin.demo.common.util.MockitoUtil;
-import com.liyulin.demo.common.util.UnitTestUtil;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -37,7 +35,6 @@ public abstract class AbstractUnitTest {
 	protected static MockMvc mockMvc = null;
 	
 	static {
-		UnitTestUtil.setTest(true);
 		// 单元测试环境下，关闭eureka
 		System.setProperty("eureka.client.enabled", "false");
 	}
@@ -51,7 +48,7 @@ public abstract class AbstractUnitTest {
 	
 	@After
 	public void after() {
-		MockitoUtil.bacKMockAttribute(applicationContext);
+		MockitoUtil.revertMockAttribute(applicationContext);
 	}
 
 	/**
@@ -61,7 +58,7 @@ public abstract class AbstractUnitTest {
 	 * @param mockObject
 	 */
 	protected static void setMockAttribute(Object targetObject, Object mockObject) {
-		MockitoUtil.setMockAttribute(targetObject, mockObject, MockitoUtil.MockTypeEnum.MOCK_BEFORE);
+		MockitoUtil.setMockAttribute(targetObject, mockObject, MockitoUtil.MockTypeEnum.MOCK_BORROW);
 	}
 
 	/**
@@ -70,27 +67,10 @@ public abstract class AbstractUnitTest {
 	 * @param targetObject
 	 * @param realObject
 	 */
-	protected static void bacKMockAttribute(Object targetObject, Object realObject) {
-		MockitoUtil.setMockAttribute(targetObject, realObject, MockitoUtil.MockTypeEnum.MOCK_AFTER);
+	protected static void revertMockAttribute(Object targetObject, Object realObject) {
+		MockitoUtil.setMockAttribute(targetObject, realObject, MockitoUtil.MockTypeEnum.MOCK_REVERT);
 	}
 	
-	protected <T> T postXml(String url, Object req, Class<T> beanClass) throws Exception {
-		String xml = JAXBUtil.beanToXml(req);
-		log.info("test.requestBody={}", xml);
-
-		MvcResult result = mockMvc.perform(
-					MockMvcRequestBuilders.post(url)
-					.contentType(MediaType.APPLICATION_XML)
-					.content(xml)
-					.accept(MediaType.APPLICATION_XML)
-				).andReturn();
-
-		String content = result.getResponse().getContentAsString();
-		log.info("test.result={}", content);
-
-		return JAXBUtil.xmlToBean(content, beanClass);
-	}
-
 	protected <T> T postJson(String url, Object req, TypeReference<T> typeReference) throws Exception {
 		String requestBody = JSON.toJSONString(req);
 		log.info("test.requestBody={}", requestBody);
