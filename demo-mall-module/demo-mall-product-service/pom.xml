@@ -11,4 +11,12 @@
 	</parent>
 	<artifactId>demo-mall-product-service</artifactId>
 	<packaging>jar</packaging>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.apache.shardingsphere</groupId>
+			<artifactId>sharding-jdbc-spring-boot-starter</artifactId>
+		</dependency>
+	</dependencies>
+
 </project>

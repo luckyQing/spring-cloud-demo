@@ -10,7 +10,6 @@ import java.lang.annotation.Target;
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigurationExcludeFilter;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.context.TypeExcludeFilter;
 import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
@@ -54,6 +53,10 @@ public @interface SmartSpringCloudApplication {
 	String[] feignClientBasePackages() default { "${smart.feign.basePackages:}" };
 
 	@AliasFor(annotation = EnableAutoConfiguration.class)
-	Class<?>[] exclude() default { DataSourceAutoConfiguration.class };
+	Class<?>[] exclude() default {};
+	
+	@AliasFor(annotation = EnableAutoConfiguration.class)
+	String[] excludeName() default { "org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration",
+			"org.apache.shardingsphere.shardingjdbc.spring.boot.SpringBootConfiguration" };
 
 }

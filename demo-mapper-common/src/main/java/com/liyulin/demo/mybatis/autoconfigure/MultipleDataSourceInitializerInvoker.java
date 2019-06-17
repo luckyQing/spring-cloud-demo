@@ -1,6 +1,8 @@
 package com.liyulin.demo.mybatis.autoconfigure;
 
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Properties;
 
@@ -8,6 +10,8 @@ import javax.sql.DataSource;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.plugin.Interceptor;
+import org.apache.shardingsphere.core.yaml.swapper.impl.ShardingRuleConfigurationYamlSwapper;
+import org.apache.shardingsphere.shardingjdbc.api.ShardingDataSourceFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.core.io.Resource;
@@ -21,7 +25,8 @@ import com.liyulin.demo.common.support.bean.UniqueBeanNameGenerator;
 import com.liyulin.demo.common.util.LogUtil;
 import com.liyulin.demo.mybatis.plugin.MybatisSqlLogInterceptor;
 import com.liyulin.demo.mybatis.properties.MultipleDatasourceProperties;
-import com.liyulin.demo.mybatis.properties.MultipleDatasourceProperties.SingleDatasourceProperties;
+import com.liyulin.demo.mybatis.properties.ShardingJdbcDatasourceProperties;
+import com.liyulin.demo.mybatis.properties.SingleDatasourceProperties;
 import com.zaxxer.hikari.HikariDataSource;
 
 import tk.mybatis.spring.mapper.MapperScannerConfigurer;
@@ -59,41 +64,76 @@ public class MultipleDataSourceInitializerInvoker {
 	 * 动态创建多数据源的bean，并注册到容器中
 	 */
 	private void dynamicCreateMultipleDataSourceBeans() {
-		Assert.state(multipleDatasourceProperties != null && multipleDatasourceProperties.getDatasources() != null
-				&& multipleDatasourceProperties.getDatasources().size() > 0, "不能找到数据源配置！");
-
-		Map<String, SingleDatasourceProperties> dataSources = multipleDatasourceProperties.getDatasources();
-
+		initDatasources(multipleDatasourceProperties.getDatasources());
+		initShardingJdbcDatasources();
+	}
+	
+	private void initDatasources(Map<String, SingleDatasourceProperties> dataSources) {
+		if(dataSources==null||dataSources.isEmpty()) {
+			return;
+		}
+		
 		// 1、校验SingleDataSourceProperties的属性值
 		for (Map.Entry<String, SingleDatasourceProperties> entry : dataSources.entrySet()) {
 			SingleDatasourceProperties properties = entry.getValue();
 
 			// 所有属性都不能为空
 			boolean isAnyBlank = StringUtils.isAnyBlank(properties.getUrl(), properties.getUsername(),
-					properties.getPassword(), properties.getTypeAliasesPackage(),
-					properties.getMapperInterfaceLocation(), properties.getMapperXmlLocation());
+					properties.getPassword(), properties.getMapperInterfaceLocation(),
+					properties.getMapperXmlLocation());
 			Assert.state(!isAnyBlank, SingleDatasourceProperties.class.getCanonicalName() + " attriutes存在未配置的！");
 		}
 
 		// 2、创建所有需要的bean，并加入到容器中
 		dataSources.forEach((serviceName, dataSourceProperties) -> {
-			// 2.1、HikariDataSource
-			HikariDataSource dataSource = registerDataSource(serviceName, dataSourceProperties);
+			initDatasource(serviceName, dataSourceProperties);
+		});
+	}
+	
+	private HikariDataSource initDatasource(String serviceName, SingleDatasourceProperties properties) {
+		// 2.1、HikariDataSource
+		HikariDataSource dataSource = registerDataSource(serviceName, properties);
 
-			// 2.2、SqlSessionFactoryBean
-			String sqlSessionFactoryBeanName = generateBeanName(serviceName,
-					SqlSessionFactoryBean.class.getSimpleName());
-			registerSqlSessionFactoryBean(sqlSessionFactoryBeanName, dataSourceProperties, dataSource);
+		// 2.2、SqlSessionFactoryBean
+		String sqlSessionFactoryBeanName = generateBeanName(serviceName,
+				SqlSessionFactoryBean.class.getSimpleName());
+		registerSqlSessionFactoryBean(sqlSessionFactoryBeanName, properties, dataSource);
 
-			// 2.3、MapperScannerConfigurer
-			registerMapperScannerConfigurer(serviceName, sqlSessionFactoryBeanName, dataSourceProperties);
+		// 2.3、MapperScannerConfigurer
+		registerMapperScannerConfigurer(serviceName, sqlSessionFactoryBeanName, properties);
 
-			// 2.4、DataSourceTransactionManager
-			String transactionManagerBeanName = generateBeanName(serviceName, TRANSACTION_MANAGER_NAME);
-			registerDataSourceTransactionManager(transactionManagerBeanName, dataSource);
+		// 2.4、DataSourceTransactionManager
+		String transactionManagerBeanName = generateBeanName(serviceName, TRANSACTION_MANAGER_NAME);
+		registerDataSourceTransactionManager(transactionManagerBeanName, dataSource);
 
-			// 2.5、cache transaction info
-			cacheTransactionManagerInfo(dataSourceProperties.getTransactionBasePackages(), transactionManagerBeanName);
+		// 2.5、cache transaction info
+		cacheTransactionManagerInfo(properties.getTransactionBasePackages(), transactionManagerBeanName);
+		
+		return dataSource;
+	}
+	
+	private void initShardingJdbcDatasources() {
+		Map<String, ShardingJdbcDatasourceProperties> shardingDatasources = multipleDatasourceProperties.getShardingDatasources();
+		if(shardingDatasources==null||shardingDatasources.isEmpty()) {
+			return;
+		}
+		
+		shardingDatasources.forEach((serviceName, config)->{
+			Map<String, SingleDatasourceProperties> shardingJdbcDatasourcesMap = config.getDataSources();
+			Map<String, DataSource> dataSourceMap = new LinkedHashMap<>(shardingJdbcDatasourcesMap.size());
+			shardingJdbcDatasourcesMap.forEach((name, properties)->{
+				HikariDataSource dataSource = initDatasource(name, properties);
+				dataSourceMap.put(name, dataSource);
+			});
+			
+			try {
+				DataSource dataSource = ShardingDataSourceFactory.createDataSource(dataSourceMap,
+						new ShardingRuleConfigurationYamlSwapper().swap(config.getShardingRule()), config.getProps());
+				String dataSourceBeanName = generateBeanName(serviceName, DataSource.class.getSimpleName());
+				registerBean(dataSourceBeanName, dataSource);
+			} catch (SQLException e) {
+				LogUtil.error(e.getMessage(), e);
+			}
 		});
 	}
 

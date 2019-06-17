@@ -4,7 +4,6 @@ smart:
       url: jdbc:mysql://127.0.0.1:3306/demo_order
       username: ENC(Ell/BrCjyLFI0+iZgPqo6w==)
       password: ENC(Aq90bjkofJr0svNO4mtFfw==)
-      type-aliases-package: com.liyulin.demo.mall.order.entity
       mapper-interface-location: com.liyulin.demo.mall.order.mapper
       transaction-base-packages: com.liyulin.demo.mall.order.service
       mapper-xml-location: classpath*:com/liyulin/demo/mall/order/mybatis/**/*.xml
