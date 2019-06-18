@@ -12,6 +12,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.plugin.Interceptor;
 import org.apache.shardingsphere.core.yaml.swapper.impl.ShardingRuleConfigurationYamlSwapper;
 import org.apache.shardingsphere.shardingjdbc.api.ShardingDataSourceFactory;
+import org.apache.shardingsphere.shardingjdbc.jdbc.core.datasource.ShardingDataSource;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.core.io.Resource;
@@ -65,11 +66,11 @@ public class MultipleDataSourceInitializerInvoker {
 	 */
 	private void dynamicCreateMultipleDataSourceBeans() {
 		initDatasources(multipleDatasourceProperties.getDatasources());
-		initShardingJdbcDatasources();
+		initShardingJdbcDatasources(multipleDatasourceProperties.getShardingDatasources());
 	}
 	
 	private void initDatasources(Map<String, SingleDatasourceProperties> dataSources) {
-		if(dataSources==null||dataSources.isEmpty()) {
+		if (dataSources == null || dataSources.isEmpty()) {
 			return;
 		}
 		
@@ -85,9 +86,7 @@ public class MultipleDataSourceInitializerInvoker {
 		}
 
 		// 2、创建所有需要的bean，并加入到容器中
-		dataSources.forEach((serviceName, dataSourceProperties) -> {
-			initDatasource(serviceName, dataSourceProperties);
-		});
+		dataSources.forEach(this::initDatasource);
 	}
 	
 	private HikariDataSource initDatasource(String serviceName, SingleDatasourceProperties properties) {
@@ -112,9 +111,8 @@ public class MultipleDataSourceInitializerInvoker {
 		return dataSource;
 	}
 	
-	private void initShardingJdbcDatasources() {
-		Map<String, ShardingJdbcDatasourceProperties> shardingDatasources = multipleDatasourceProperties.getShardingDatasources();
-		if(shardingDatasources==null||shardingDatasources.isEmpty()) {
+	private void initShardingJdbcDatasources(Map<String, ShardingJdbcDatasourceProperties> shardingDatasources) {
+		if (shardingDatasources == null || shardingDatasources.isEmpty()) {
 			return;
 		}
 		
@@ -129,7 +127,8 @@ public class MultipleDataSourceInitializerInvoker {
 			try {
 				DataSource dataSource = ShardingDataSourceFactory.createDataSource(dataSourceMap,
 						new ShardingRuleConfigurationYamlSwapper().swap(config.getShardingRule()), config.getProps());
-				String dataSourceBeanName = generateBeanName(serviceName, DataSource.class.getSimpleName());
+				
+				String dataSourceBeanName = generateBeanName(serviceName, ShardingDataSource.class.getSimpleName());
 				registerBean(dataSourceBeanName, dataSource);
 			} catch (SQLException e) {
 				LogUtil.error(e.getMessage(), e);

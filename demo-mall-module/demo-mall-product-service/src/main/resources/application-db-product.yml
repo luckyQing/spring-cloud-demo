@@ -12,9 +12,9 @@ smart:
       props:
         sql.show: true
       shardingRule:
-        default-data-source-name: ${sharding.jdbc.datasource.names}
+        default-data-source-name: product
         tables:
-          t_api_log:
+          t_product_info:
             table-strategy:
               standard:
                 sharding-column: f_sys_add_time
