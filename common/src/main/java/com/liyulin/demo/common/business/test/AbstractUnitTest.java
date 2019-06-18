@@ -6,11 +6,13 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.alibaba.fastjson.JSON;
@@ -27,6 +29,9 @@ import lombok.extern.slf4j.Slf4j;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
+// 通过事务回滚，对修改数据的还原
+@Rollback
+@Transactional
 @Slf4j
 public abstract class AbstractUnitTest {
 

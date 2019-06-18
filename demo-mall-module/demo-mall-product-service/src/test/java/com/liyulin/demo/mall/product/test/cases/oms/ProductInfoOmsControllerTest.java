@@ -1,7 +1,6 @@
 package com.liyulin.demo.mall.product.test.cases.oms;
 
 import org.assertj.core.api.Assertions;
-import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -25,11 +24,6 @@ public class ProductInfoOmsControllerTest extends AbstractUnitTest {
 
 	@Autowired
 	private ProductInfoData productInfoData;
-
-	@Before
-	public void setBefore() {
-		productInfoData.clean();
-	}
 
 	@Test
 	public void testCreate() throws Exception {

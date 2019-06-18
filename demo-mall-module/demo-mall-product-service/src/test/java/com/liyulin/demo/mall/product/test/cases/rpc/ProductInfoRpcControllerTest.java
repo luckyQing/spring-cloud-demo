@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.assertj.core.api.Assertions;
-import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -27,11 +26,6 @@ public class ProductInfoRpcControllerTest extends AbstractUnitTest {
 
 	@Autowired
 	private ProductInfoData productInfoData;
-
-	@Before
-	public void setBefore() {
-		productInfoData.clean();
-	}
 
 	@Test
 	public void testQryProductById() throws Exception {

@@ -4,10 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.assertj.core.api.Assertions;
-import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import com.alibaba.fastjson.TypeReference;
 import com.liyulin.demo.common.business.dto.Req;
@@ -16,8 +14,6 @@ import com.liyulin.demo.common.business.exception.enums.ReturnCodeEnum;
 import com.liyulin.demo.common.business.test.AbstractUnitTest;
 import com.liyulin.demo.common.business.util.ReqUtil;
 import com.liyulin.demo.common.business.util.RespUtil;
-import com.liyulin.demo.mall.order.mapper.base.OrderBillBaseMapper;
-import com.liyulin.demo.mall.order.mapper.base.OrderDeliveryInfoBaseMapper;
 import com.liyulin.demo.mall.order.service.api.OrderApiService;
 import com.liyulin.demo.rpc.order.request.api.CreateOrderProductInfoReqBody;
 import com.liyulin.demo.rpc.order.request.api.CreateOrderReqBody;
@@ -28,17 +24,6 @@ import com.liyulin.demo.rpc.product.response.rpc.QryProductByIdsRespBody;
 
 public class OrderApiControllerTest extends AbstractUnitTest {
 
-	@Autowired
-	private OrderBillBaseMapper orderBillBaseMapper;
-	@Autowired
-	private OrderDeliveryInfoBaseMapper orderDeliveryInfoBaseMapper;
-	
-	@Before
-	public void setBefore() {
-		orderBillBaseMapper.deleteByExample(null);
-		orderDeliveryInfoBaseMapper.deleteByExample(null);
-	}
-	
 	@Test
 	public void testCreate() throws Exception {
 		// 1、构建请求

@@ -18,13 +18,6 @@ public class ProductInfoData {
 	private ProductInfoBaseMapper productInfoBaseMapper;
 
 	/**
-	 * 清空数据
-	 */
-	public void clean() {
-		productInfoBaseMapper.deleteByExample(null);
-	}
-
-	/**
 	 * 插入指定id的数据
 	 * 
 	 * @param id

@@ -1,7 +1,6 @@
 package com.liyulin.demo.mall.product.test.cases.api;
 
 import org.assertj.core.api.Assertions;
-import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -21,11 +20,6 @@ public class ProductInfoApiControllerTest extends AbstractUnitTest {
 	
 	@Autowired
 	private ProductInfoData productInfoData;
-
-	@Before
-	public void setBefore() {
-		productInfoData.clean();
-	}
 
 	@Test
 	public void testPageProduct() throws Exception {
