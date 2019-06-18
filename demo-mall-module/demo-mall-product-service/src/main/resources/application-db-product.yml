@@ -14,7 +14,7 @@ smart:
       shardingRule:
         default-data-source-name: product
         tables:
-          t_product_info:
+          t_api_log:
             table-strategy:
               standard:
                 sharding-column: f_sys_add_time

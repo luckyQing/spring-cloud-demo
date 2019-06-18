@@ -69,6 +69,10 @@ public class MultipleDataSourceInitializerInvoker {
 		initShardingJdbcDatasources(multipleDatasourceProperties.getShardingDatasources());
 	}
 	
+	/**
+	 * 初始化普通（非sharding jdbc）数据源
+	 * @param dataSources
+	 */
 	private void initDatasources(Map<String, SingleDatasourceProperties> dataSources) {
 		if (dataSources == null || dataSources.isEmpty()) {
 			return;
@@ -86,31 +90,39 @@ public class MultipleDataSourceInitializerInvoker {
 		}
 
 		// 2、创建所有需要的bean，并加入到容器中
-		dataSources.forEach(this::initDatasource);
+		dataSources.forEach((serviceName, properties)->{
+			HikariDataSource dataSource = createDataSource(serviceName, properties, true);
+			initOtherBeanOfDatasource(serviceName, dataSource, properties);
+		});
 	}
 	
-	private HikariDataSource initDatasource(String serviceName, SingleDatasourceProperties properties) {
-		// 2.1、HikariDataSource
-		HikariDataSource dataSource = registerDataSource(serviceName, properties);
-
-		// 2.2、SqlSessionFactoryBean
+	/**
+	 * 初始化数据源的其他bean
+	 * @param serviceName
+	 * @param dataSource
+	 * @param properties
+	 */
+	private void initOtherBeanOfDatasource(String serviceName, DataSource dataSource, SingleDatasourceProperties properties) {
+		// 2.1、SqlSessionFactoryBean
 		String sqlSessionFactoryBeanName = generateBeanName(serviceName,
 				SqlSessionFactoryBean.class.getSimpleName());
 		registerSqlSessionFactoryBean(sqlSessionFactoryBeanName, properties, dataSource);
 
-		// 2.3、MapperScannerConfigurer
+		// 2.2、MapperScannerConfigurer
 		registerMapperScannerConfigurer(serviceName, sqlSessionFactoryBeanName, properties);
 
-		// 2.4、DataSourceTransactionManager
+		// 2.3、DataSourceTransactionManager
 		String transactionManagerBeanName = generateBeanName(serviceName, TRANSACTION_MANAGER_NAME);
 		registerDataSourceTransactionManager(transactionManagerBeanName, dataSource);
 
-		// 2.5、cache transaction info
+		// 2.4、cache transaction info
 		cacheTransactionManagerInfo(properties.getTransactionBasePackages(), transactionManagerBeanName);
-		
-		return dataSource;
 	}
 	
+	/**
+	 * 初始化sharding jdbc数据源配置
+	 * @param shardingDatasources
+	 */
 	private void initShardingJdbcDatasources(Map<String, ShardingJdbcDatasourceProperties> shardingDatasources) {
 		if (shardingDatasources == null || shardingDatasources.isEmpty()) {
 			return;
@@ -120,7 +132,7 @@ public class MultipleDataSourceInitializerInvoker {
 			Map<String, SingleDatasourceProperties> shardingJdbcDatasourcesMap = config.getDataSources();
 			Map<String, DataSource> dataSourceMap = new LinkedHashMap<>(shardingJdbcDatasourcesMap.size());
 			shardingJdbcDatasourcesMap.forEach((name, properties)->{
-				HikariDataSource dataSource = initDatasource(name, properties);
+				HikariDataSource dataSource = createDataSource(name, properties, false);
 				dataSourceMap.put(name, dataSource);
 			});
 			
@@ -130,12 +142,20 @@ public class MultipleDataSourceInitializerInvoker {
 				
 				String dataSourceBeanName = generateBeanName(serviceName, ShardingDataSource.class.getSimpleName());
 				registerBean(dataSourceBeanName, dataSource);
+				
+				shardingJdbcDatasourcesMap
+						.forEach((name, properties) -> initOtherBeanOfDatasource(serviceName, dataSource, properties));
 			} catch (SQLException e) {
 				LogUtil.error(e.getMessage(), e);
 			}
 		});
 	}
 
+	/**
+	 * 缓存事务信息
+	 * @param transactionBasePackages
+	 * @param transactionManagerBeanName
+	 */
 	private void cacheTransactionManagerInfo(String transactionBasePackages, String transactionManagerBeanName) {
 		if (StringUtils.isBlank(transactionBasePackages)) {
 			return;
@@ -153,9 +173,10 @@ public class MultipleDataSourceInitializerInvoker {
 	 * 
 	 * @param serviceName
 	 * @param dataSourceProperties
+	 * @param registerBean 是否注册bean
 	 * @return
 	 */
-	private HikariDataSource registerDataSource(String serviceName, SingleDatasourceProperties dataSourceProperties) {
+	private HikariDataSource createDataSource(String serviceName, SingleDatasourceProperties dataSourceProperties, boolean registerBean) {
 		String dataSourceBeanName = generateBeanName(serviceName, HikariDataSource.class.getSimpleName());
 		// 构建bean对象
 		HikariDataSource dataSource = new HikariDataSource();
@@ -168,8 +189,10 @@ public class MultipleDataSourceInitializerInvoker {
 		dataSource.setUsername(dataSourceProperties.getUsername());
 		dataSource.setPassword(dataSourceProperties.getPassword());
 		dataSource.setDriverClassName(dataSourceProperties.getDriverClassName());
-		// 注册bean
-		registerBean(dataSourceBeanName, dataSource);
+		if(registerBean) {
+			// 注册bean
+			registerBean(dataSourceBeanName, dataSource);
+		}
 
 		return dataSource;
 	}
