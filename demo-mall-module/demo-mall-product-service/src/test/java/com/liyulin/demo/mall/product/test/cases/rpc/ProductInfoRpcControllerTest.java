@@ -13,7 +13,7 @@ import com.liyulin.demo.common.business.dto.Req;
 import com.liyulin.demo.common.business.dto.ReqObjectBody;
 import com.liyulin.demo.common.business.dto.Resp;
 import com.liyulin.demo.common.business.exception.enums.ReturnCodeEnum;
-import com.liyulin.demo.common.business.test.AbstractUnitTest;
+import com.liyulin.demo.common.business.test.AbstractIntegrationTest;
 import com.liyulin.demo.common.business.util.ReqUtil;
 import com.liyulin.demo.mall.product.test.data.ProductInfoData;
 import com.liyulin.demo.rpc.product.request.rpc.QryProductByIdReqBody;
@@ -22,7 +22,7 @@ import com.liyulin.demo.rpc.product.request.rpc.UpdateStockReqBody;
 import com.liyulin.demo.rpc.product.response.rpc.QryProductByIdRespBody;
 import com.liyulin.demo.rpc.product.response.rpc.QryProductByIdsRespBody;
 
-public class ProductInfoRpcControllerTest extends AbstractUnitTest {
+public class ProductInfoRpcControllerTest extends AbstractIntegrationTest {
 
 	@Autowired
 	private ProductInfoData productInfoData;

@@ -10,13 +10,13 @@ import com.liyulin.demo.common.business.dto.BasePageResp;
 import com.liyulin.demo.common.business.dto.Req;
 import com.liyulin.demo.common.business.dto.Resp;
 import com.liyulin.demo.common.business.exception.enums.ReturnCodeEnum;
-import com.liyulin.demo.common.business.test.AbstractUnitTest;
+import com.liyulin.demo.common.business.test.AbstractIntegrationTest;
 import com.liyulin.demo.common.business.util.ReqUtil;
 import com.liyulin.demo.mall.product.test.data.ProductInfoData;
 import com.liyulin.demo.rpc.product.request.api.PageProductReqBody;
 import com.liyulin.demo.rpc.product.response.api.PageProductRespBody;
 
-public class ProductInfoApiControllerTest extends AbstractUnitTest {
+public class ProductInfoApiControllerTest extends AbstractIntegrationTest {
 	
 	@Autowired
 	private ProductInfoData productInfoData;

@@ -1,4 +1,13 @@
 smart:
+  swagger:
+    enable: true
+    group-name: mall
+    title: 商品服务
+    description: 
+    name: luckyQing
+    url: https://github.com/luckyQing
+    email: 1634653825@qq.com
+    version: 1.0.0
   sharding-datasources:
     test:
       datasources:

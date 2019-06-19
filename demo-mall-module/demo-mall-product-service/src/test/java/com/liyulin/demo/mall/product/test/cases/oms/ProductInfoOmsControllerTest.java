@@ -11,7 +11,7 @@ import com.liyulin.demo.common.business.dto.BasePageResp;
 import com.liyulin.demo.common.business.dto.Req;
 import com.liyulin.demo.common.business.dto.Resp;
 import com.liyulin.demo.common.business.exception.enums.ReturnCodeEnum;
-import com.liyulin.demo.common.business.test.AbstractUnitTest;
+import com.liyulin.demo.common.business.test.AbstractIntegrationTest;
 import com.liyulin.demo.common.business.util.ReqUtil;
 import com.liyulin.demo.mall.product.test.data.ProductInfoData;
 import com.liyulin.demo.rpc.product.request.api.PageProductReqBody;
@@ -20,7 +20,7 @@ import com.liyulin.demo.rpc.product.request.oms.ProductInsertReqBody;
 import com.liyulin.demo.rpc.product.request.oms.ProductUpdateReqBody;
 import com.liyulin.demo.rpc.product.response.oms.ProductInfoRespBody;
 
-public class ProductInfoOmsControllerTest extends AbstractUnitTest {
+public class ProductInfoOmsControllerTest extends AbstractIntegrationTest {
 
 	@Autowired
 	private ProductInfoData productInfoData;

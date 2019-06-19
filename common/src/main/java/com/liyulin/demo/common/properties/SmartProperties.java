@@ -26,23 +26,16 @@ public class SmartProperties extends BaseDto {
 
 	/** id生成器数据机器标识配置 */
 	private Long dataMachineId;
-
-	/** swagger开关 （默认false） */
-	private boolean swagger = false;
-
 	/** hibernate validator开关 （默认false） */
 	private boolean validator = false;
-
 	/** api版本 */
 	private String apiVersion;
-
 	/** feign切面开关 （默认false） */
 	private boolean rpcLogAop = true;
 	/** 接口日志切面开关 （默认false） */
 	private boolean apiLogAop = true;
 	/** mock开关 （默认false） */
 	private boolean mock = false;
-
 	/** @Async配置开关 */
 	private boolean async = true;
 	/** 重复提交校验开关 */
@@ -51,7 +44,6 @@ public class SmartProperties extends BaseDto {
 	@UtilityClass
 	public static final class PropertiesName {
 		public static final String DATA_MACHINE_ID = "dataMachineId";
-		public static final String SWAGGER = "swagger";
 		public static final String VALIDATOR = "validator";
 		public static final String API_VERSION = "apiVersion";
 		public static final String RPC_LOG_AOP = "rpcLogAop";
