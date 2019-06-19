@@ -38,23 +38,30 @@ public class AllTestsRunner extends Suite {
 	}
 
 	private static Class<?>[] getSuiteClasses() {
-		Set<Class<? extends AbstractUnitTest>> abstractUnitTestSet = ReflectionUtil.getSubTypesOf(AbstractUnitTest.class);
-		Set<Class<? extends AbstractIntegrationTest>> abstractIntegrationTestSet = ReflectionUtil.getSubTypesOf(AbstractIntegrationTest.class);
-		Set<Class<? extends AbstractSmokingTest>> abstractSmokingTestSet = ReflectionUtil.getSubTypesOf(AbstractSmokingTest.class);
-		Set<Class<? extends TestCase>> testCaseSet = ReflectionUtil.getSubTypesOf(TestCase.class);
-
-		Set<Class<?>> testClassSet = new HashSet<>();
-		testClassSet.addAll(abstractUnitTestSet);
-		testClassSet.addAll(abstractIntegrationTestSet);
-		testClassSet.addAll(abstractSmokingTestSet);
-		testClassSet.addAll(testCaseSet);
-
+		Class<?>[] allSuperClass = { AbstractUnitTest.class, AbstractIntegrationTest.class, AbstractSmokingTest.class,
+				TestCase.class };
+		Set<Class<?>> testClassSet = getTestClassSet(allSuperClass);
 		Set<Class<?>> suiteClasses = testClassSet.stream().filter(clazz -> {
 			// 过滤掉不符合条件的类
 			return !isAbstractClass(clazz) && isContainTestCase(clazz);
 		}).collect(Collectors.toSet());
 
 		return suiteClasses.toArray(new Class<?>[suiteClasses.size()]);
+	}
+
+	/**
+	 * 根据父类获取所有的Test子类
+	 * 
+	 * @param allSuperClass
+	 * @return
+	 */
+	private static Set<Class<?>> getTestClassSet(Class<?>[] allSuperClass) {
+		Set<Class<?>> testClassSet = new HashSet<>();
+		for (Class<?> superClass : allSuperClass) {
+			testClassSet.addAll(ReflectionUtil.getSubTypesOf(superClass));
+		}
+
+		return testClassSet;
 	}
 
 	/**
@@ -95,5 +102,5 @@ public class AllTestsRunner extends Suite {
 
 		return false;
 	}
-	
+
 }
