@@ -68,10 +68,10 @@
 				<artifactId>pagehelper</artifactId>
 				<version>${pagehelper}</version>
 			</dependency>
-			
+
 			<dependency>
-			    <groupId>org.apache.shardingsphere</groupId>
-			    <artifactId>sharding-jdbc-core</artifactId>
+				<groupId>org.apache.shardingsphere</groupId>
+				<artifactId>sharding-jdbc-core</artifactId>
 				<version>${sharding-jdbc}</version>
 			</dependency>
 
@@ -233,6 +233,15 @@
 			</plugin>
 		</plugins>
 	</build>
+
+	<!-- 使用aliyun镜像 -->
+	<repositories>
+		<repository>
+			<id>aliyun</id>
+			<name>aliyun</name>
+			<url>http://maven.aliyun.com/nexus/content/groups/public</url>
+		</repository>
+	</repositories>
 
 	<modules>
 		<module>spring-boot-admin</module>

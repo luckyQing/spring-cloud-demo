@@ -23,7 +23,7 @@ import com.liyulin.demo.common.util.LogUtil;
 public class ExceptionControllerAdvice {
 
 	@ExceptionHandler(Exception.class)
-	@ResponseStatus(value = HttpStatus.OK)
+	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	public Resp<BaseDto> handleException(Exception e, HttpServletRequest request) {
 		LogUtil.error(e.getMessage(), e);
 
