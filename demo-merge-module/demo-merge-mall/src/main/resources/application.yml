@@ -1,3 +1,3 @@
-smart:  dataMachineId: 2  swagger: true  validator: true  async: true  rpcLogAop: true  apiLogAop: true  server:  port: 30001  spring:
+smart:  dataMachineId: 2  async: true  api:    validator: true    repeatSubmitCheck: trueserver:  port: 30001  spring:
   application:
     name: demo-merge-mall

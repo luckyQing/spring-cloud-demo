@@ -3,17 +3,16 @@ package com.liyulin.demo.common.web.autoconfigure;
 import org.springframework.aop.Advisor;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.aop.support.DefaultBeanFactoryPointcutAdvisor;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.liyulin.demo.common.constants.CommonConstants;
-import com.liyulin.demo.common.properties.SmartProperties;
-import com.liyulin.demo.common.support.annotation.ConditionalOnPropertyBoolean;
 import com.liyulin.demo.common.web.aspect.advice.MockAspectAdvice;
 import com.liyulin.demo.common.web.aspect.util.AspectUtil;
 
 @Configuration
-@ConditionalOnPropertyBoolean(name = SmartProperties.PropertiesName.MOCK)
+@ConditionalOnProperty(prefix = "smart.aspect", name = "mock", havingValue = "true")
 public class MockAspectAutoConfigure {
 
 	@Bean

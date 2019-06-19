@@ -1,12 +1,14 @@
 package com.liyulin.demo.common.web.swagger;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.context.request.async.DeferredResult;
 
 import com.liyulin.demo.common.constants.CommonConstants;
+import com.liyulin.demo.common.properties.SmartProperties;
 import com.liyulin.demo.common.properties.SwaggerProperties;
 
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -26,28 +28,30 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  */
 @Configuration
 @EnableSwagger2
+@AutoConfigureAfter(SmartProperties.class)
 @ConditionalOnProperty(prefix = "smart.swagger", name = "enable", havingValue = "true")
 public class Swagger2AutoConfigure {
 
 	@Autowired
-	private SwaggerProperties swaggerProperties;
+	private SmartProperties smartProperties;
 
 	@Bean
 	public Docket createRestApi() {
-		return new Docket(DocumentationType.SWAGGER_2).groupName(swaggerProperties.getGroupName())
+		return new Docket(DocumentationType.SWAGGER_2).groupName(smartProperties.getSwagger().getGroupName())
 				.genericModelSubstitutes(DeferredResult.class).useDefaultResponseMessages(false)
 				.forCodeGeneration(false).apiInfo(apiInfo()).select()
 				.apis(RequestHandlerSelectors.basePackage(CommonConstants.BASE_PACAKGE)).paths(PathSelectors.any()).build();
 	}
 
 	private ApiInfo apiInfo() {
-		Contact contact = new Contact(swaggerProperties.getName(), swaggerProperties.getUrl(),
-				swaggerProperties.getEmail());
+		SwaggerProperties swagger = smartProperties.getSwagger();
+		Contact contact = new Contact(swagger.getName(), swagger.getUrl(),
+				swagger.getEmail());
 		return new ApiInfoBuilder()
-				.title(swaggerProperties.getTitle())
-				.description(swaggerProperties.getDescription())
+				.title(swagger.getTitle())
+				.description(swagger.getDescription())
 				.contact(contact)
-				.version(swaggerProperties.getVersion())
+				.version(smartProperties.getApi().getApiVersion())
 				.build();
 	}
 

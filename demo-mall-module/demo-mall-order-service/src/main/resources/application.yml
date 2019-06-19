@@ -1,11 +1,10 @@
 smart:
   dataMachineId: 1
-  swagger: true
-  validator: true
   async: true
-  rpcLogAop: true
-  apiLogAop: true
-
+  api:
+    validator: true
+    repeatSubmitCheck: true
+    
 server:
   port: 20011
   

@@ -10,12 +10,10 @@ import org.springframework.scheduling.annotation.AsyncConfigurerSupport;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import com.alibaba.fastjson.JSON;
-import com.liyulin.demo.common.constants.CommonConstants;
-import com.liyulin.demo.common.properties.SmartProperties;
 import com.liyulin.demo.common.util.LogUtil;
 
 @Configuration
-@ConditionalOnProperty(prefix = CommonConstants.SMART_PROPERTIES_PREFIX, name = SmartProperties.PropertiesName.ASYNC, havingValue = "true", matchIfMissing = false)
+@ConditionalOnProperty(prefix = "smart", name = "async", havingValue = "true")
 public class AsyncAutoConfigure extends AsyncConfigurerSupport {
 
 	private static final int CORE_POOL_SIZE = Runtime.getRuntime().availableProcessors();

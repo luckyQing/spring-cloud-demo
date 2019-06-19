@@ -30,7 +30,7 @@ public class ReqHeadUtil {
 		if (smartProperties == null) {
 			apiVersion = System.getProperty(SmartProperties.PropertiesName.API_VERSION);
 		} else {
-			apiVersion = smartProperties.getApiVersion();
+			apiVersion = smartProperties.getApi().getApiVersion();
 		}
 
 		return of(null, apiVersion);

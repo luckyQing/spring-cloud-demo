@@ -2,7 +2,8 @@ logging:
   config: classpath:log4j2.xml
 
 smart: 
-  apiVersion: 1.0.0
+  api: 
+    apiVersion: 1.0.0
     
 jasypt:
   encryptor:

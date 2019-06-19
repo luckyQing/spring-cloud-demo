@@ -1,8 +1,5 @@
 package com.liyulin.demo.common.properties;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
-
 import com.liyulin.demo.common.business.dto.BaseDto;
 
 import lombok.Getter;
@@ -16,8 +13,6 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-@Configuration
-@ConfigurationProperties(prefix = "smart.swagger")
 public class SwaggerProperties extends BaseDto {
 
 	private static final long serialVersionUID = 1L;
@@ -30,6 +25,5 @@ public class SwaggerProperties extends BaseDto {
 	private String name; 
 	private String url; 
 	private String email;
-	private String version;
 
 }

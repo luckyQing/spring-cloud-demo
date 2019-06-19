@@ -26,31 +26,19 @@ public class SmartProperties extends BaseDto {
 
 	/** id生成器数据机器标识配置 */
 	private Long dataMachineId;
-	/** hibernate validator开关 （默认false） */
-	private boolean validator = false;
-	/** api版本 */
-	private String apiVersion;
-	/** feign切面开关 （默认false） */
-	private boolean rpcLogAop = true;
-	/** 接口日志切面开关 （默认false） */
-	private boolean apiLogAop = true;
-	/** mock开关 （默认false） */
-	private boolean mock = false;
 	/** @Async配置开关 */
 	private boolean async = true;
-	/** 重复提交校验开关 */
-	private boolean repeatSubmitCheck = false;
+	/** api配置 */
+	private ApiProperties api = new ApiProperties();
+	/** 切面配置 */
+	private AspectProperties aspect = new AspectProperties();
+	/** swagger配置 */
+	private SwaggerProperties swagger = new SwaggerProperties();
 
 	@UtilityClass
 	public static final class PropertiesName {
 		public static final String DATA_MACHINE_ID = "dataMachineId";
-		public static final String VALIDATOR = "validator";
 		public static final String API_VERSION = "apiVersion";
-		public static final String RPC_LOG_AOP = "rpcLogAop";
-		public static final String API_LOG_AOP = "apiLogAop";
-		public static final String MOCK = "mock";
-		public static final String ASYNC = "async";
-		public static final String REPEAT_SUBMIT_CHECK = "repeatSubmitCheck";
 	}
 
 }

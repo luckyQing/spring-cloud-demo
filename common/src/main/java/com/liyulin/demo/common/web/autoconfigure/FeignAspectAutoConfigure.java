@@ -5,18 +5,17 @@ import java.util.Arrays;
 import org.springframework.aop.Advisor;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.aop.support.DefaultBeanFactoryPointcutAdvisor;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.liyulin.demo.common.properties.SmartProperties;
-import com.liyulin.demo.common.support.annotation.ConditionalOnPropertyBoolean;
 import com.liyulin.demo.common.support.annotation.SmartFeignClient;
 import com.liyulin.demo.common.web.aspect.advice.FeignAspectAdvice;
 import com.liyulin.demo.common.web.aspect.util.AspectUtil;
 
 @Configuration
-@ConditionalOnPropertyBoolean(name = SmartProperties.PropertiesName.RPC_LOG_AOP)
+@ConditionalOnProperty(prefix = "smart.aspect", name = "rpclog", havingValue = "true")
 public class FeignAspectAutoConfigure {
 
 	@Bean
