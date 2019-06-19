@@ -1,0 +1,10 @@
+smart:
+  dataMachineId: 1
+  async: true
+  api:
+    validator: true
+    repeatSubmitCheck: true
+    
+spring:
+  application:
+    name: common
