@@ -15,7 +15,7 @@ import com.liyulin.demo.common.web.aspect.advice.FeignAspectAdvice;
 import com.liyulin.demo.common.web.aspect.util.AspectUtil;
 
 @Configuration
-@ConditionalOnProperty(prefix = "smart.aspect", name = "rpclog", havingValue = "true")
+@ConditionalOnProperty(name = "smart.aspect.rpclog", havingValue = "true")
 public class FeignAspectAutoConfigure {
 
 	@Bean

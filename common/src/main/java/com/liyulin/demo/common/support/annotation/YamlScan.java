@@ -7,23 +7,25 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import org.springframework.context.annotation.Import;
-
-import com.liyulin.demo.common.business.autoconfigure.YamlImportBeanDefinitionRegistrar;
-
 /**
  * 自动加载匹配的yaml文件
  *
+ * <p>
+ * <b>NOTE</b>：该注解必须作用在启动类上才会生效!!!
+ * 
+ * <p>
+ * 此注解的解析不能通过<code>@Import</code>注解；否则，类似<code>@ConditionalOnProperty</code>这种条件注解将不会生效
+ *
  * @author liyulin
  * @date 2019年5月11日下午5:08:26
+ * @since YamlEnvironmentPostProcessor
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 @Documented
 @Inherited
-@Import(YamlImportBeanDefinitionRegistrar.class)
 public @interface YamlScan {
-	
+
 	/** 属性名locationPatterns */
 	public static final String ATTRIBUTE_LOCATION_PATTERNS = "locationPatterns";
 

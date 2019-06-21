@@ -1,7 +1,6 @@
 package com.liyulin.demo.common.properties;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
 
 import com.liyulin.demo.common.business.dto.BaseDto;
 import com.liyulin.demo.common.constants.CommonConstants;
@@ -18,7 +17,6 @@ import lombok.experimental.UtilityClass;
  */
 @Getter
 @Setter
-@Configuration
 @ConfigurationProperties(prefix = CommonConstants.SMART_PROPERTIES_PREFIX)
 public class SmartProperties extends BaseDto {
 

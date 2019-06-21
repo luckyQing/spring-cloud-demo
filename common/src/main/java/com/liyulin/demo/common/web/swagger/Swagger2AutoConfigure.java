@@ -1,8 +1,6 @@
 package com.liyulin.demo.common.web.swagger;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.AutoConfigureAfter;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.context.request.async.DeferredResult;
@@ -10,6 +8,7 @@ import org.springframework.web.context.request.async.DeferredResult;
 import com.liyulin.demo.common.constants.CommonConstants;
 import com.liyulin.demo.common.properties.SmartProperties;
 import com.liyulin.demo.common.properties.SwaggerProperties;
+import com.liyulin.demo.common.support.annotation.ConditionalOnPropertyBoolean;
 
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
@@ -28,8 +27,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  */
 @Configuration
 @EnableSwagger2
-@AutoConfigureAfter(SmartProperties.class)
-@ConditionalOnProperty(prefix = "smart.swagger", name = "enable", havingValue = "true")
+@ConditionalOnPropertyBoolean(name="smart.swagger.enable")
 public class Swagger2AutoConfigure {
 
 	@Autowired

@@ -1,6 +1,6 @@
 smart:
   swagger:
-    xxx: true
+    enable: true
     group-name: mall_product
     title: 商品服务
     description: 

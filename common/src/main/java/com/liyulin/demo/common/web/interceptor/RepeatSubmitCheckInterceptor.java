@@ -14,7 +14,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
  * @date 2019年6月13日 上午9:24:18
  */
 @Configuration
-@ConditionalOnProperty(prefix = "smart.api", name = "repeatSubmitCheck", havingValue = "true")
+@ConditionalOnProperty(name = "smart.api.repeatSubmitCheck", havingValue = "true")
 public class RepeatSubmitCheckInterceptor implements HandlerInterceptor {
 
 	@Override

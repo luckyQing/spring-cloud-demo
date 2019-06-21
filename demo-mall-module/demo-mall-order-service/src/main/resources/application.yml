@@ -4,6 +4,9 @@ smart:
   api:
     validator: true
     repeatSubmitCheck: true
+  aspect:
+    rpclog: true
+    apilog: true
     
 server:
   port: 20011

@@ -9,7 +9,6 @@ import java.lang.annotation.Target;
 
 import org.springframework.context.annotation.Conditional;
 
-import com.liyulin.demo.common.constants.CommonConstants;
 import com.liyulin.demo.common.support.condition.ConditionalOnPropertyBooleanCondition;
 
 /**
@@ -26,7 +25,7 @@ import com.liyulin.demo.common.support.condition.ConditionalOnPropertyBooleanCon
 @Conditional(ConditionalOnPropertyBooleanCondition.class)
 public @interface ConditionalOnPropertyBoolean {
 
-	String prefix() default CommonConstants.SMART_PROPERTIES_PREFIX;
+	String prefix() default "";
 	
 	String[] name() default {};
 

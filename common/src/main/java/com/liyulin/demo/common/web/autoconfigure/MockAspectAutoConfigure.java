@@ -12,7 +12,7 @@ import com.liyulin.demo.common.web.aspect.advice.MockAspectAdvice;
 import com.liyulin.demo.common.web.aspect.util.AspectUtil;
 
 @Configuration
-@ConditionalOnProperty(prefix = "smart.aspect", name = "mock", havingValue = "true")
+@ConditionalOnProperty(name = "smart.aspect.mock", havingValue = "true")
 public class MockAspectAutoConfigure {
 
 	@Bean

@@ -12,7 +12,7 @@ import com.liyulin.demo.common.web.aspect.advice.LogAspectAdvice;
 import com.liyulin.demo.common.web.aspect.util.AspectUtil;
 
 @Configuration
-@ConditionalOnProperty(prefix = "smart.aspect", name = "apilog", havingValue = "true")
+@ConditionalOnProperty(name = "smart.aspect.apilog", havingValue = "true")
 public class LogAspectAutoConfigure {
 
 	@Bean

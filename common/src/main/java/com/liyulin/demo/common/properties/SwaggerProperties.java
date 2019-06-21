@@ -16,7 +16,6 @@ import lombok.Setter;
 public class SwaggerProperties extends BaseDto {
 
 	private static final long serialVersionUID = 1L;
-	
 	/** swagger开关 （默认false） */
 	private boolean enable = false;
 	private String groupName;
