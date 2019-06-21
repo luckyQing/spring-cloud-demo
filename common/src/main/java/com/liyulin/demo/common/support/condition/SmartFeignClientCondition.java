@@ -22,7 +22,7 @@ import lombok.extern.slf4j.Slf4j;
  * <h3>判断逻辑</h3>
  * <ul>
  * <li>1、获取使用{@link FeignClient}的interface的Class；
- * <li>2、通过放射，获取interface对应的所有实现类；
+ * <li>2、通过反射，获取interface对应的所有实现类；
  * <li>3、遍历interface对应的所有实现类，判断是否存在一个Class被{@link Controller}或{@link RestController}注解修饰（排除interface对应的熔断bean）；
  * <li>4、如果存在，则{@link #matches(ConditionContext, AnnotatedTypeMetadata)}返回false，{@code FeignClient}不生效；否则，返回true，{@code FeignClient}生效。
  * </ul>
