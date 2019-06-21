@@ -18,7 +18,8 @@ import org.springframework.core.io.support.ResourcePatternResolver;
 import com.liyulin.demo.common.support.annotation.YamlScan;
 import com.liyulin.demo.common.util.ArrayUtil;
 
-import lombok.extern.slf4j.Slf4j;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * 解析{@link YamlScan}
@@ -26,15 +27,16 @@ import lombok.extern.slf4j.Slf4j;
  * @author liyulin
  * @date 2019年6月21日 下午12:58:22
  */
-@Slf4j
 public class YamlEnvironmentPostProcessor implements EnvironmentPostProcessor {
 
-	private boolean init = false;
+	@Getter
+	@Setter
+	private static boolean init = false;
 
 	@Override
 	public void postProcessEnvironment(ConfigurableEnvironment environment, SpringApplication application) {
-		if (!init) {
-			init = true;
+		if (!isInit()) {
+			setInit(true);
 			loadYaml(environment, application);
 		}
 	}
@@ -50,11 +52,14 @@ public class YamlEnvironmentPostProcessor implements EnvironmentPostProcessor {
 		if (ArrayUtil.isEmpty(locationPatterns)) {
 			return;
 		}
+		
 		loadYaml(locationPatterns, environment);
 	}
 
 	/**
 	 * 将匹配的yaml文件加到environment中
+	 * <p>
+	 * <b>NOTE</b>：此时日志配置还没有加载，还打不了日志
 	 * 
 	 * @param locationPatterns
 	 * @param environment
@@ -72,7 +77,7 @@ public class YamlEnvironmentPostProcessor implements EnvironmentPostProcessor {
 					}
 				}
 			} catch (IOException e) {
-				log.error(e.getMessage(), e);
+				e.printStackTrace();
 			}
 		}
 
@@ -84,6 +89,8 @@ public class YamlEnvironmentPostProcessor implements EnvironmentPostProcessor {
 		try {
 			for (Map.Entry<String, Resource> entry : resourceMap.entrySet()) {
 				Resource resource = entry.getValue();
+				System.out.println("load yaml ==> " + resource.getFilename());
+				
 				YamlPropertySourceLoader yamlPropertySourceLoader = new YamlPropertySourceLoader();
 				List<PropertySource<?>> propertySources = yamlPropertySourceLoader.load(resource.getFilename(),
 						resource);
@@ -92,7 +99,7 @@ public class YamlEnvironmentPostProcessor implements EnvironmentPostProcessor {
 				}
 			}
 		} catch (IOException e) {
-			log.error(e.getMessage(), e);
+			e.printStackTrace();
 		}
 	}
 
