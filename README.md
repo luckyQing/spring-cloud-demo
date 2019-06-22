@@ -205,22 +205,22 @@
 
 ## （二）服务合并遇到的问题
 单个服务以jar的形式，通过maven引入合并服务中。在单体服务中，feign接口通过http请求；服务合并后，feign接口通过内部进程的方式通信。
-###1、多数据源冲突
+### 1、多数据源冲突
 ```
 
 1. 定义单数据源properties对象SingleDataSourceProperties，多数据源配置数据以Map<String, SingleDataSourceProperties>的形式从yml文件中读取；
 2. 手动（通过new方式）构建所有需要的bean对象；
 3. 手动将bean注入到容器中。
 ```
-###2、rpc与rpc实现类冲突
+### 2、rpc与rpc实现类冲突
 ```
 自定义条件注解封装FeignClient。使其在单体服务时，rpc走feign；在合体服务时，rpc走内部进程通信。
 ```
-###3、yaml文件的自动加载
+### 3、yaml文件的自动加载
 ```
 自定义注解YamlScan，用来加载配置的yaml文件（支持正则匹配）。通过SPI机制，在spring.factories文件中添加EnvironmentPostProcessor的实现类，通过其方法参数SpringApplication获取启动类的信息，从而获取YamlScan注解配置的yaml文件信息。然后将yaml文件加到ConfigurableEnvironment中。
 ```
-###4、启动类注解冲突
+### 4、启动类注解冲突
 ```
 自定义条件注解SmartSpringCloudApplicationCondition，只会让启动类标记的启动注解生效。
 ```
