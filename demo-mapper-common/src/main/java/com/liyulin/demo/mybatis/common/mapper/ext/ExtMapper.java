@@ -30,6 +30,17 @@ import tk.mybatis.mapper.entity.Example;
 /**
  * 通用mapper超类
  *
+ * <p>
+ * <b>NOTE</b>：
+ * <ul>
+ * <li>updateByExample
+ * <li>UpdateByExampleSelectiveMapper
+ * <li>DeleteByExampleMapper
+ * </ul>
+ * 当调用以上方法时，如果条件传入的值为null，可能会产生误操作；对此可以用
+ * <code>Example example = new Example(ProductInfoEntity.class, true, true);</code>
+ * 类似这种方式创建<code>Example</code>
+ *
  * @param <T> entity
  * @param <R> entity对应的resp对象
  * @param <PK> 表主键类型

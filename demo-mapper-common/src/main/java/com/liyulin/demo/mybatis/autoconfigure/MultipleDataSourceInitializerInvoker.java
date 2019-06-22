@@ -255,6 +255,7 @@ public class MultipleDataSourceInitializerInvoker {
 		Properties properties = new Properties();
 		properties.setProperty("IDENTITY", "MYSQL");
 		properties.setProperty("notEmpty", "true");
+		properties.setProperty("safeUpdate", "true");
 		mapperScannerConfigurer.setProperties(properties);
 		mapperScannerConfigurer.setSqlSessionFactoryBeanName(sqlSessionFactoryBeanName);
 		mapperScannerConfigurer.setBasePackage(dataSourceProperties.getMapperInterfaceLocation());
