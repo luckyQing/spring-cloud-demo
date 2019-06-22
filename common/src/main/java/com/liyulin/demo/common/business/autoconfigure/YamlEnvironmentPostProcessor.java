@@ -1,13 +1,16 @@
 package com.liyulin.demo.common.business.autoconfigure;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.env.EnvironmentPostProcessor;
 import org.springframework.boot.env.YamlPropertySourceLoader;
+import org.springframework.boot.test.context.AnnotatedClassFinder;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.PropertySource;
@@ -18,9 +21,6 @@ import org.springframework.core.io.support.ResourcePatternResolver;
 import com.liyulin.demo.common.support.annotation.YamlScan;
 import com.liyulin.demo.common.util.ArrayUtil;
 
-import lombok.Getter;
-import lombok.Setter;
-
 /**
  * 解析{@link YamlScan}
  * 
@@ -29,16 +29,24 @@ import lombok.Setter;
  */
 public class YamlEnvironmentPostProcessor implements EnvironmentPostProcessor {
 
-	@Getter
-	@Setter
-	private static boolean init = false;
-
 	@Override
 	public void postProcessEnvironment(ConfigurableEnvironment environment, SpringApplication application) {
-		if (!isInit()) {
-			setInit(true);
+		if (isRegisterShutdownHook(application)) {
 			loadYaml(environment, application);
 		}
+	}
+
+	private boolean isRegisterShutdownHook(SpringApplication application) {
+		boolean registerShutdownHook = false;
+		try {
+			Field field = SpringApplication.class.getDeclaredField("registerShutdownHook");
+			field.setAccessible(true);
+			registerShutdownHook = field.getBoolean(application);
+		} catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
+			e.printStackTrace();
+		}
+		
+		return registerShutdownHook;
 	}
 
 	/**
@@ -52,7 +60,7 @@ public class YamlEnvironmentPostProcessor implements EnvironmentPostProcessor {
 		if (ArrayUtil.isEmpty(locationPatterns)) {
 			return;
 		}
-		
+
 		loadYaml(locationPatterns, environment);
 	}
 
@@ -81,7 +89,7 @@ public class YamlEnvironmentPostProcessor implements EnvironmentPostProcessor {
 			}
 		}
 
-		if (resourceMap.size() == 0) {
+		if (resourceMap.isEmpty()) {
 			return;
 		}
 
@@ -90,7 +98,7 @@ public class YamlEnvironmentPostProcessor implements EnvironmentPostProcessor {
 			for (Map.Entry<String, Resource> entry : resourceMap.entrySet()) {
 				Resource resource = entry.getValue();
 				System.out.println("load yaml ==> " + resource.getFilename());
-				
+
 				YamlPropertySourceLoader yamlPropertySourceLoader = new YamlPropertySourceLoader();
 				List<PropertySource<?>> propertySources = yamlPropertySourceLoader.load(resource.getFilename(),
 						resource);
@@ -110,10 +118,40 @@ public class YamlEnvironmentPostProcessor implements EnvironmentPostProcessor {
 	 * @return
 	 */
 	private String[] getLocationPatterns(Class<?> mainApplicationClass) {
-		YamlScan yamlScan = AnnotationUtils.findAnnotation(mainApplicationClass, YamlScan.class);
-		if (yamlScan == null) {
+		String[] locationPatterns = getLocationPatternsOnSpringBoot(mainApplicationClass);
+		if (ArrayUtil.isNotEmpty(locationPatterns)) {
+			return locationPatterns;
+		}
+
+		return getLocationPatternsOnSpringBootTest(mainApplicationClass);
+	}
+
+	/**
+	 * application作为test启动
+	 * 
+	 * @param mainApplicationClass
+	 * @return
+	 */
+	private String[] getLocationPatternsOnSpringBootTest(Class<?> mainApplicationClass) {
+		Class<?> found = new AnnotatedClassFinder(YamlScan.class).findFromClass(mainApplicationClass);
+		if (Objects.isNull(found)) {
 			return new String[0];
 		}
+		return getLocationPatternsOnSpringBoot(found);
+	}
+
+	/**
+	 * case：application正常启动
+	 * 
+	 * @param mainApplicationClass
+	 * @return
+	 */
+	private String[] getLocationPatternsOnSpringBoot(Class<?> mainApplicationClass) {
+		YamlScan yamlScan = AnnotationUtils.findAnnotation(mainApplicationClass, YamlScan.class);
+		if (Objects.isNull(yamlScan)) {
+			return new String[0];
+		}
+
 		return yamlScan.locationPatterns();
 	}
 
