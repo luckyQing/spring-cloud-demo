@@ -1,7 +1,5 @@
 package com.liyulin.demo.common.business.util;
 
-import org.apache.commons.lang3.StringUtils;
-
 import com.liyulin.demo.common.business.dto.BaseDto;
 import com.liyulin.demo.common.business.dto.Resp;
 import com.liyulin.demo.common.business.dto.RespHead;
@@ -95,7 +93,7 @@ public class RespUtil {
 			return "返回结果异常";
 		}
 
-		return StringUtils.isNotBlank(resp.getHead().getError()) ? resp.getHead().getError() : resp.getHead().getMessage();
+		return resp.getHead().getMessage();
 	}
 
 }

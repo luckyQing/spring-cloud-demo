@@ -29,9 +29,6 @@ public class RespHead extends BaseDto {
 	@ApiModelProperty(value = "提示信息", example = "服务器异常")
 	private String message;
 
-	@ApiModelProperty(value = "错误详情", example = "错误详细信息")
-	private String error;
-
 	@ApiModelProperty(value = "响应时间戳", example = "1554551377629")
 	private long timestamp;
 	
