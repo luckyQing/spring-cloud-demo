@@ -54,7 +54,7 @@ public class OrderApiControllerTest extends AbstractIntegrationTest {
 		// 3、断言结果
 		Assertions.assertThat(resp).isNotNull();
 		Assertions.assertThat(resp.getHead()).isNotNull();
-		Assertions.assertThat(resp.getHead().getCode()).isEqualTo(ReturnCodeEnum.SUCCESS.getInfo().getCode());
+		Assertions.assertThat(resp.getHead().getCode()).isEqualTo(ReturnCodeEnum.SUCCESS.getCode());
 	}
 	
 	private void mockStubbing(ProductInfoRpc productInfoRpc, List<CreateOrderProductInfoReqBody> buyProducts) {

@@ -64,7 +64,7 @@ public class RespUtil {
 	 * @return
 	 */
 	public static <R extends BaseDto> Resp<R> error(String msg) {
-		return new Resp<>(new RespHead(ReturnCodeEnum.SERVER_ERROR.getInfo().getCode(), msg));
+		return new Resp<>(new RespHead(ReturnCodeEnum.SERVER_ERROR.getCode(), msg));
 	}
 
 	/**
@@ -75,7 +75,7 @@ public class RespUtil {
 	 */
 	public static <R extends BaseDto> boolean isSuccess(Resp<R> resp) {
 		return ObjectUtil.isNotNull(resp) && ObjectUtil.isNotNull(resp.getHead())
-				&& ObjectUtil.equals(ReturnCodeEnum.SUCCESS.getInfo().getCode(), resp.getHead().getCode());
+				&& ObjectUtil.equals(ReturnCodeEnum.SUCCESS.getCode(), resp.getHead().getCode());
 	}
 
 	/**

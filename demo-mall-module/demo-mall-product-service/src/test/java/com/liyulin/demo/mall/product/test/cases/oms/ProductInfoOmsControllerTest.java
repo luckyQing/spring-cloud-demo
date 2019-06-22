@@ -40,7 +40,7 @@ public class ProductInfoOmsControllerTest extends AbstractIntegrationTest {
 
 		Assertions.assertThat(result).isNotNull();
 		Assertions.assertThat(result.getHead()).isNotNull();
-		Assertions.assertThat(result.getHead().getCode()).isEqualTo(ReturnCodeEnum.SUCCESS.getInfo().getCode());
+		Assertions.assertThat(result.getHead().getCode()).isEqualTo(ReturnCodeEnum.SUCCESS.getCode());
 	}
 
 	@Test
@@ -62,7 +62,7 @@ public class ProductInfoOmsControllerTest extends AbstractIntegrationTest {
 
 		Assertions.assertThat(result).isNotNull();
 		Assertions.assertThat(result.getHead()).isNotNull();
-		Assertions.assertThat(result.getHead().getCode()).isEqualTo(ReturnCodeEnum.SUCCESS.getInfo().getCode());
+		Assertions.assertThat(result.getHead().getCode()).isEqualTo(ReturnCodeEnum.SUCCESS.getCode());
 	}
 
 	@Test
@@ -81,7 +81,7 @@ public class ProductInfoOmsControllerTest extends AbstractIntegrationTest {
 
 		Assertions.assertThat(result).isNotNull();
 		Assertions.assertThat(result.getHead()).isNotNull();
-		Assertions.assertThat(result.getHead().getCode()).isEqualTo(ReturnCodeEnum.SUCCESS.getInfo().getCode());
+		Assertions.assertThat(result.getHead().getCode()).isEqualTo(ReturnCodeEnum.SUCCESS.getCode());
 	}
 
 	@Test
@@ -96,7 +96,7 @@ public class ProductInfoOmsControllerTest extends AbstractIntegrationTest {
 
 		Assertions.assertThat(result).isNotNull();
 		Assertions.assertThat(result.getHead()).isNotNull();
-		Assertions.assertThat(result.getHead().getCode()).isEqualTo(ReturnCodeEnum.SUCCESS.getInfo().getCode());
+		Assertions.assertThat(result.getHead().getCode()).isEqualTo(ReturnCodeEnum.SUCCESS.getCode());
 		Assertions.assertThat(result.getBody()).isNotNull();
 		Assertions.assertThat(result.getBody().getDatas()).isNotEmpty();
 	}

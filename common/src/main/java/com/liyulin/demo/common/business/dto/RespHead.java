@@ -42,19 +42,19 @@ public class RespHead extends BaseDto {
 	}
 
 	public RespHead(IBaseReturnCode returnCode, String message) {
-		if (returnCode != null && returnCode.getInfo() != null) {
-			this.code = returnCode.getInfo().getCode();
+		if (returnCode != null) {
+			this.code = returnCode.getCode();
 		}
 		this.message = message;
 	}
 
 	public void setReturnCode(IBaseReturnCode returnCode) {
-		if (returnCode == null || returnCode.getInfo() == null) {
+		if (returnCode == null) {
 			return;
 		}
 
-		this.code = returnCode.getInfo().getCode();
-		this.message = returnCode.getInfo().getMessage();
+		this.code = returnCode.getCode();
+		this.message = returnCode.getMessage();
 	}
 
 }

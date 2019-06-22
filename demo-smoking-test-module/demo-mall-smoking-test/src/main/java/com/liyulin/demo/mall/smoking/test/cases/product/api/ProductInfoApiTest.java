@@ -30,7 +30,7 @@ public class ProductInfoApiTest extends AbstractSmokingTest {
 				});
 		Assertions.assertThat(result).isNotNull();
 		Assertions.assertThat(result.getHead()).isNotNull();
-		Assertions.assertThat(result.getHead().getCode()).isEqualTo(ReturnCodeEnum.SUCCESS.getInfo().getCode());
+		Assertions.assertThat(result.getHead().getCode()).isEqualTo(ReturnCodeEnum.SUCCESS.getCode());
 	}
 
 }

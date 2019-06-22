@@ -1,7 +1,5 @@
 package com.liyulin.demo.common.business.exception.enums;
 
-import com.liyulin.demo.common.business.exception.dto.ReturnCodeDto;
-
 /**
  * 状态码格式接口类：XXXXXX（服务模块编码|类型）
  * 
@@ -19,10 +17,17 @@ import com.liyulin.demo.common.business.exception.dto.ReturnCodeDto;
 public interface IBaseReturnCode {
 
 	/**
-	 * 状态码、提示信息
+	 * 状态码
 	 * 
 	 * @return
 	 */
-	ReturnCodeDto getInfo();
+	public String getCode();
+
+	/**
+	 * 提示信息
+	 * 
+	 * @return
+	 */
+	public String getMessage();
 
 }
