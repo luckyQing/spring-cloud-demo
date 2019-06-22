@@ -72,7 +72,7 @@
 > 	<tr>
 > 		<td>ORM</td>
 > 		<td>demo-mapper-common</td>
-> 		<td>mybatis、mapper封装。业务无关mapper动态生成，多数据源自动配置，sql日志打印等</td>
+> 		<td>mybatis、mapper、sharding jdbc封装。业务无关mapper动态生成，多数据源自动配置，sql日志打印等</td>
 > 		<td>-</td>
 > 	</tr>
 > 	<tr>
@@ -131,6 +131,7 @@
 [openfeign](https://spring.io/projects/spring-cloud-openfeign) | 声明式服务调用 
 [sleuth](https://spring.io/projects/spring-cloud-sleuth)、[log4j2](https://logging.apache.org/log4j/2.x/) | 链路追踪、日志 
 [mybatis](http://www.mybatis.org/mybatis-3/zh/index.html) 、[mapper](https://github.com/abel533/Mapper)| ORM 
+[sharding jdbc](https://github.com/apache/incubator-shardingsphere) | 分库分表
 [redis](https://redis.io/) | 缓存 
 [rocketmq](https://github.com/apache/rocketmq) | 消息队列 
 [fastdfs](https://github.com/happyfish100/fastdfs) | 文件存储 
@@ -202,42 +203,59 @@
 }
 ```
 
-## （二）服务合并
+## （二）服务合并遇到的问题
 单个服务以jar的形式，通过maven引入合并服务中。在单体服务中，feign接口通过http请求；服务合并后，feign接口通过内部进程的方式通信。
+###1、多数据源冲突
+```
 
-## （三）多数据源的处理
 1. 定义单数据源properties对象SingleDataSourceProperties，多数据源配置数据以Map<String, SingleDataSourceProperties>的形式从yml文件中读取；
 2. 手动（通过new方式）构建所有需要的bean对象；
 3. 手动将bean注入到容器中。
+```
+###2、rpc与rpc实现类冲突
+```
+自定义条件注解封装FeignClient。使其在单体服务时，rpc走feign；在合体服务时，rpc走内部进程通信。
+```
+###3、yaml文件的自动加载
+```
+自定义注解YamlScan，用来加载配置的yaml文件（支持正则匹配）。通过SPI机制，在spring.factories文件中添加EnvironmentPostProcessor的实现类，通过其方法参数SpringApplication获取启动类的信息，从而获取YamlScan注解配置的yaml文件信息。然后将yaml文件加到ConfigurableEnvironment中。
+```
+###4、启动类注解冲突
+```
+自定义条件注解SmartSpringCloudApplicationCondition，只会让启动类标记的启动注解生效。
+```
 
 **多数据源配置示例：**
 ```
-com:
-  liyulin:
-    data-sources:
-      product:
-        url: jdbc:mysql://127.0.0.1:3306/demo_product?characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&serverTimezone=Asia/Shanghai
-        username: root
-        password: 123456
-        type-aliases-package: com.liyulin.demo.mall.product.entity
-        mapper-interface-location: com.liyulin.demo.mall.product.mapper
-        mapper-xml-location: classpath*:com/liyulin/demo/mall/product/mybatis/**.xml
-      order:
-        url: jdbc:mysql://127.0.0.1:3306/demo_order?characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&serverTimezone=Asia/Shanghai
-        username: root
-        password: 123456
-        type-aliases-package: com.liyulin.demo.mall.order.entity
-        mapper-interface-location: com.liyulin.demo.mall.order.mapper
-        mapper-xml-location: classpath*:com/liyulin/demo/mall/order/mybatis/**.xml
+smart:
+  data-sources:
+	product:
+	  url: jdbc:mysql://127.0.0.1:3306/demo_product?characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+	  username: root
+	  password: 123456
+	  mapper-interface-location: com.liyulin.demo.mall.product.mapper
+	  mapper-xml-location: classpath*:com/liyulin/demo/mall/product/mybatis/**.xml
+	order:
+	  url: jdbc:mysql://127.0.0.1:3306/demo_order?characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+	  username: root
+	  password: 123456
+	  mapper-interface-location: com.liyulin.demo.mall.order.mapper
+	  mapper-xml-location: classpath*:com/liyulin/demo/mall/order/mybatis/**.xml
 ```
 
 ## （四）接口mock数据
 接口通过切面拦截的方式，通过反射可以获取返回对象的所有信息，然后根据对象的属性类型，可以随机生成数据；对于特定要求的数据，可以制定mock规则，生成指定格式的数据。
 
-## （五）单元测试
-通过ServletContext的类型，可以知道当前环境是单元测试，还是非单元测试；从而动态控制rpc的调用方式。
-通过切面的方式，如果当前环境是单元测试，则直接拦截返回mock数据（mock数据在测试用例调用之前pop进队列，后面直接poll返回）；如果是非单元测试环境，则直接跳过，触发真实的http请求。
-在单元测试环境下，关闭eureka，减少依赖。
+## （五）测试
+###1、单元测试
+```
+利用单元测试，提高测试覆盖率。
+```
+###2、集成测试
+```
+在集成测试下，关闭eureka，减少依赖。依赖的服务rpc接口，通过mockito走挡板。
+```
+###3、功能测试
 
 ## （六）接口文档
 接口文档由三个步骤自动生成：

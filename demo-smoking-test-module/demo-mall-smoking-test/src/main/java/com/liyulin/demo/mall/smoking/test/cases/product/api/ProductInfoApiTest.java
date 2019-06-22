@@ -11,14 +11,14 @@ import com.liyulin.demo.common.business.dto.BasePageResp;
 import com.liyulin.demo.common.business.dto.Req;
 import com.liyulin.demo.common.business.dto.Resp;
 import com.liyulin.demo.common.business.exception.enums.ReturnCodeEnum;
-import com.liyulin.demo.common.business.test.AbstractSmokingTest;
+import com.liyulin.demo.common.business.test.AbstractSystemTest;
 import com.liyulin.demo.common.business.util.ReqUtil;
 import com.liyulin.demo.common.util.HttpUtil;
 import com.liyulin.demo.mall.smoking.test.config.SmokingTestConfig;
 import com.liyulin.demo.rpc.product.request.api.PageProductReqBody;
 import com.liyulin.demo.rpc.product.response.api.PageProductRespBody;
 
-public class ProductInfoApiTest extends AbstractSmokingTest {
+public class ProductInfoApiTest extends AbstractSystemTest {
 
 	@Test
 	public void testPageProduct() throws IOException {

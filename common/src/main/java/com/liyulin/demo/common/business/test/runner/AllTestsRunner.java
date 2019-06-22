@@ -13,7 +13,7 @@ import org.junit.runners.model.RunnerBuilder;
 import org.springframework.core.annotation.AnnotationUtils;
 
 import com.liyulin.demo.common.business.test.AbstractIntegrationTest;
-import com.liyulin.demo.common.business.test.AbstractSmokingTest;
+import com.liyulin.demo.common.business.test.AbstractSystemTest;
 import com.liyulin.demo.common.business.test.AbstractUnitTest;
 import com.liyulin.demo.common.util.ArrayUtil;
 import com.liyulin.demo.common.util.ReflectionUtil;
@@ -38,7 +38,7 @@ public class AllTestsRunner extends Suite {
 	}
 
 	private static Class<?>[] getSuiteClasses() {
-		Class<?>[] allSuperClass = { AbstractUnitTest.class, AbstractIntegrationTest.class, AbstractSmokingTest.class,
+		Class<?>[] allSuperClass = { AbstractUnitTest.class, AbstractIntegrationTest.class, AbstractSystemTest.class,
 				TestCase.class };
 		Set<Class<?>> testClassSet = getTestClassSet(allSuperClass);
 		Set<Class<?>> suiteClasses = testClassSet.stream().filter(clazz -> {
