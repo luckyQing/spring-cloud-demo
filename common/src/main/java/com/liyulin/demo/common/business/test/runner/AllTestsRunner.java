@@ -19,6 +19,7 @@ import com.liyulin.demo.common.util.ArrayUtil;
 import com.liyulin.demo.common.util.ReflectionUtil;
 
 import junit.framework.TestCase;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * 套件测试Runner
@@ -29,6 +30,7 @@ import junit.framework.TestCase;
  * @author liyulin
  * @date 2019年4月28日上午12:54:15
  */
+@Slf4j
 public class AllTestsRunner extends Suite {
 
 	private static final String TEST_CASE_PREFIX = "test";
@@ -45,7 +47,10 @@ public class AllTestsRunner extends Suite {
 			// 过滤掉不符合条件的类
 			return !isAbstractClass(clazz) && isContainTestCase(clazz);
 		}).collect(Collectors.toSet());
-
+		
+		if(suiteClasses.isEmpty()) {
+			log.warn("None suite test class is found!");
+		}
 		return suiteClasses.toArray(new Class<?>[suiteClasses.size()]);
 	}
 

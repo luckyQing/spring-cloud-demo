@@ -1,4 +1,4 @@
-package com.liyulin.demo.mall.test;
+package com.liyulin.demo.merge.mall.test;
 
 import org.junit.runner.RunWith;
 
