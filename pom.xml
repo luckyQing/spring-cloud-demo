@@ -253,6 +253,6 @@
 		<module>demo-mall-module</module>
 		<module>demo-merge-module</module>
 		<module>demo-code-auto-generate</module>
-		<module>demo-smoking-test-module</module>
+		<module>demo-system-test-module</module>
 	</modules>
 </project>

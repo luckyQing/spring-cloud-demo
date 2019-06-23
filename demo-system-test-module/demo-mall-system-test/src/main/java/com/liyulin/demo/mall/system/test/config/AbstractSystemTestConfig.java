@@ -1,6 +1,6 @@
-package com.liyulin.demo.mall.smoking.test.config;
+package com.liyulin.demo.mall.system.test.config;
 
-public abstract class AbstractSmokingTestConfig {
+public abstract class AbstractSystemTestConfig {
 
 	public abstract String getOrderBaseUrl();
 	

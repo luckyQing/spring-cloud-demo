@@ -1,4 +1,4 @@
-package com.liyulin.demo.mall.smoking.test;
+package com.liyulin.demo.mall.system.test;
 
 import org.junit.runner.RunWith;
 

@@ -1,4 +1,4 @@
-package com.liyulin.demo.mall.smoking.test.cases.product.api;
+package com.liyulin.demo.mall.system.test.cases.product.api;
 
 import java.io.IOException;
 
@@ -14,7 +14,7 @@ import com.liyulin.demo.common.business.exception.enums.ReturnCodeEnum;
 import com.liyulin.demo.common.business.test.AbstractSystemTest;
 import com.liyulin.demo.common.business.util.ReqUtil;
 import com.liyulin.demo.common.util.HttpUtil;
-import com.liyulin.demo.mall.smoking.test.config.SmokingTestConfig;
+import com.liyulin.demo.mall.system.test.config.SystemTestConfig;
 import com.liyulin.demo.rpc.product.request.api.PageProductReqBody;
 import com.liyulin.demo.rpc.product.response.api.PageProductRespBody;
 
@@ -25,7 +25,7 @@ public class ProductInfoApiTest extends AbstractSystemTest {
 		Req<BasePageReq<PageProductReqBody>> req = ReqUtil.buildWithHead(null, 1, 10);
 		req.setSign("test");
 		
-		Resp<BasePageResp<PageProductRespBody>> result = HttpUtil.postWithRaw(SmokingTestConfig.getProductBaseUrl()+"api/pass/product/productInfo/pageProduct", req,
+		Resp<BasePageResp<PageProductRespBody>> result = HttpUtil.postWithRaw(SystemTestConfig.getProductBaseUrl()+"api/pass/product/productInfo/pageProduct", req,
 				new TypeReference<Resp<BasePageResp<PageProductRespBody>>>() {
 				});
 		Assertions.assertThat(result).isNotNull();

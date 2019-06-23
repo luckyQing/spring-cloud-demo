@@ -6,10 +6,10 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.liyulin</groupId>
-		<artifactId>demo-smoking-test-module</artifactId>
+		<artifactId>demo-system-test-module</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	<artifactId>demo-mall-smoking-test</artifactId>
+	<artifactId>demo-mall-system-test</artifactId>
 	<packaging>jar</packaging>
 	
 	<dependencies>

@@ -1,12 +1,12 @@
-package com.liyulin.demo.mall.smoking.test.enums;
+package com.liyulin.demo.mall.system.test.enums;
 
 /**
- * 冒烟测试环境
+ * 系统测试环境
  *
  * @author liyulin
  * @date 2019年6月14日下午11:42:56
  */
-public enum SmokingTestEnv {
+public enum SytemTestEnv {
 
 	/** 本地环境 */
 	LOCAL,
