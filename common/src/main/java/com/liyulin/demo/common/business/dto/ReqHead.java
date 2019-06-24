@@ -3,8 +3,6 @@ package com.liyulin.demo.common.business.dto;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-import com.liyulin.demo.common.web.validation.constraints.MaxPast;
-
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -29,10 +27,6 @@ public class ReqHead extends BaseDto {
 
 	@ApiModelProperty(value = "请求令牌")
 	private String token;
-
-	@ApiModelProperty(value = "接口版本号", required = true, example = "1.0.0")
-	@NotBlank
-	private String apiVersion;
 
 	@ApiModelProperty(value = "请求时间戳（2分钟内有效）", required = true, example = "1554551377629")
 	@NotNull
