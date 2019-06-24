@@ -33,10 +33,44 @@
 		<guava>23.0</guava>
 		<reflections>0.9.11</reflections>
 		<jasypt>2.1.1</jasypt>
+		<commons-codec>1.12</commons-codec>
 	</properties>
 
 	<dependencyManagement>
 		<dependencies>
+			<!-- 私有jar start -->
+			<dependency>
+				<groupId>com.liyulin</groupId>
+				<artifactId>common</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.liyulin</groupId>
+				<artifactId>demo-mapper-common</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.liyulin</groupId>
+				<artifactId>demo-mall-rpc</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.liyulin</groupId>
+				<artifactId>demo-mall-order-service</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.liyulin</groupId>
+				<artifactId>demo-mall-product-service</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<!-- 私有jar end -->
+
+			<!-- 第三方jar start -->
 			<dependency>
 				<groupId>org.springframework.cloud</groupId>
 				<artifactId>spring-cloud-dependencies</artifactId>
@@ -81,36 +115,7 @@
 				<version>${mysql}</version>
 			</dependency>
 
-			<dependency>
-				<groupId>com.liyulin</groupId>
-				<artifactId>common</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>com.liyulin</groupId>
-				<artifactId>demo-mapper-common</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>com.liyulin</groupId>
-				<artifactId>demo-mall-rpc</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>com.liyulin</groupId>
-				<artifactId>demo-mall-order-service</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>com.liyulin</groupId>
-				<artifactId>demo-mall-product-service</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-
+			<!-- mock -->
 			<dependency>
 				<groupId>uk.co.jemos.podam</groupId>
 				<artifactId>podam</artifactId>
@@ -122,18 +127,45 @@
 				<artifactId>guava</artifactId>
 				<version>${guava}</version>
 			</dependency>
-
+			
+			<!-- 反射工具类 -->
 			<dependency>
 				<groupId>org.reflections</groupId>
 				<artifactId>reflections</artifactId>
 				<version>${reflections}</version>
 			</dependency>
 
+			<!-- 配置文件加解密 -->
 			<dependency>
 				<groupId>com.github.ulisesbocchio</groupId>
 				<artifactId>jasypt-spring-boot-starter</artifactId>
 				<version>${jasypt}</version>
 			</dependency>
+			
+			<dependency>
+				<groupId>commons-codec</groupId>
+				<artifactId>commons-codec</artifactId>
+				<version>${commons-codec}</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>com.alibaba</groupId>
+				<artifactId>fastjson</artifactId>
+				<version>${fastjson}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>io.springfox</groupId>
+				<artifactId>springfox-swagger2</artifactId>
+				<version>${springfox-swagger2}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>io.springfox</groupId>
+				<artifactId>springfox-swagger-ui</artifactId>
+				<version>${springfox-swagger2}</version>
+			</dependency>
+			<!-- 第三方jar end -->
 		</dependencies>
 	</dependencyManagement>
 
@@ -166,19 +198,16 @@
 		<dependency>
 			<groupId>com.alibaba</groupId>
 			<artifactId>fastjson</artifactId>
-			<version>${fastjson}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>io.springfox</groupId>
 			<artifactId>springfox-swagger2</artifactId>
-			<version>${springfox-swagger2}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>io.springfox</groupId>
 			<artifactId>springfox-swagger-ui</artifactId>
-			<version>${springfox-swagger2}</version>
 		</dependency>
 
 		<dependency>
