@@ -17,8 +17,7 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<maven.compiler.source>1.8</maven.compiler.source>
-		<maven.compiler.target>1.8</maven.compiler.target>
+		<java.version>1.8</java.version>
 		<!-- 2.1.5.RELEASE 升级后，IDE插件不兼容 -->
 		<maven-jar-plugin.version>3.1.1</maven-jar-plugin.version>
 		<spring-cloud>Greenwich.SR1</spring-cloud>
@@ -127,7 +126,7 @@
 				<artifactId>guava</artifactId>
 				<version>${guava}</version>
 			</dependency>
-			
+
 			<!-- 反射工具类 -->
 			<dependency>
 				<groupId>org.reflections</groupId>
@@ -141,13 +140,13 @@
 				<artifactId>jasypt-spring-boot-starter</artifactId>
 				<version>${jasypt}</version>
 			</dependency>
-			
+
 			<dependency>
 				<groupId>commons-codec</groupId>
 				<artifactId>commons-codec</artifactId>
 				<version>${commons-codec}</version>
 			</dependency>
-			
+
 			<dependency>
 				<groupId>com.alibaba</groupId>
 				<artifactId>fastjson</artifactId>
@@ -237,28 +236,45 @@
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
 			</plugin>
-
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
-					<source>8</source>
-					<target>8</target>
-					<compilerArgs>
-						<arg>-XDcompilePolicy=simple</arg>
-						<arg>-Xplugin:ErrorProne</arg>
-					</compilerArgs>
-					<annotationProcessorPaths>
-						<path>
-							<groupId>com.google.errorprone</groupId>
-							<artifactId>error_prone_core</artifactId>
-							<version>2.3.3</version>
-						</path>
-					</annotationProcessorPaths>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
+					<compilerVersion>${java.version}</compilerVersion>
+					<encoding>${project.build.sourceEncoding}</encoding>
+					<debug>true</debug>
+					<optimize>true</optimize>
+					<showWarnings>true</showWarnings>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>prepare-agent</goal>
+							<goal>report</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>

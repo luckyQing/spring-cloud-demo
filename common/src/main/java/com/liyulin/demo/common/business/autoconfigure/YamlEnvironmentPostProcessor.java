@@ -2,10 +2,10 @@ package com.liyulin.demo.common.business.autoconfigure;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
-import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.env.EnvironmentPostProcessor;
@@ -75,13 +75,13 @@ public class YamlEnvironmentPostProcessor implements EnvironmentPostProcessor {
 	private void loadYaml(String[] locationPatterns, ConfigurableEnvironment environment) {
 		// 1、获取每个文件对应的Resource对象
 		ResourcePatternResolver resourcePatternResolver = new PathMatchingResourcePatternResolver();
-		Map<String, Resource> resourceMap = new HashMap<>();
+		Set<Resource> resourceSet = new HashSet<>();
 		for (String locationPattern : locationPatterns) {
 			try {
 				Resource[] resources = resourcePatternResolver.getResources(locationPattern);
 				if (resources != null && resources.length > 0) {
 					for (Resource resource : resources) {
-						resourceMap.putIfAbsent(resource.getFile().getAbsolutePath(), resource);
+						resourceSet.add(resource);
 					}
 				}
 			} catch (IOException e) {
@@ -89,14 +89,13 @@ public class YamlEnvironmentPostProcessor implements EnvironmentPostProcessor {
 			}
 		}
 
-		if (resourceMap.isEmpty()) {
+		if (resourceSet.isEmpty()) {
 			return;
 		}
 
 		// 2、将所有Resource加入Environment中
 		try {
-			for (Map.Entry<String, Resource> entry : resourceMap.entrySet()) {
-				Resource resource = entry.getValue();
+			for (Resource resource : resourceSet) {
 				System.out.println("load yaml ==> " + resource.getFilename());
 
 				YamlPropertySourceLoader yamlPropertySourceLoader = new YamlPropertySourceLoader();

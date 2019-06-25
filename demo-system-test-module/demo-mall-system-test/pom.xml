@@ -11,11 +11,20 @@
 	</parent>
 	<artifactId>demo-mall-system-test</artifactId>
 	<packaging>jar</packaging>
-	
+
 	<dependencies>
 		<dependency>
 			<groupId>com.liyulin</groupId>
 			<artifactId>demo-mall-rpc</artifactId>
 		</dependency>
 	</dependencies>
+	
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
 </project>

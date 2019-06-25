@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.liyulin.demo.common.web.xss.XssHttpServletRequestWrapper;
+import com.liyulin.demo.gateway.xss.XssHttpServletRequestWrapper;
 
 /**
  * XSS 过滤

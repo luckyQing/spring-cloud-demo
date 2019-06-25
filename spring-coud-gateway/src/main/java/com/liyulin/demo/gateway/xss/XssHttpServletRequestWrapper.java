@@ -1,4 +1,4 @@
-package com.liyulin.demo.common.web.xss;
+package com.liyulin.demo.gateway.xss;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;

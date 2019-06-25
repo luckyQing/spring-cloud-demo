@@ -1,4 +1,4 @@
-package com.liyulin.demo.common.web.xss;
+package com.liyulin.demo.gateway.xss;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
