@@ -304,4 +304,11 @@ Spring Cloud Sleuth可以追踪10种类型的组件：async、Hystrix、messagin
   127.0.0.1       nodeA
   127.0.0.1       nodeB
 ```
+
 - 针对**jasypt**加密，所有的需要合并的单体服务的**jasypt.encryptor.password**的值必须相同，否则会报错。
+
+- 服务构建
+```
+单体服务构建：clean install
+合体服务构建：clean install -P merge
+```

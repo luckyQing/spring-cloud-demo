@@ -34,7 +34,7 @@
 	</modules>
 
 	<profiles>
-		<!--单体服务打包 -->
+		<!--单体服务构建 -->
 		<profile>
 			<id>single</id>
 			<build>
@@ -49,6 +49,7 @@
 				<activeByDefault>true</activeByDefault>
 			</activation>
 		</profile>
+		<!-- 合体服务构建 -->
 		<profile>
 			<id>merge</id>
 		</profile>
