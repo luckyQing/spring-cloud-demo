@@ -1,13 +1,9 @@
 package com.liyulin.demo.common.util.security;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
-import java.security.InvalidParameterException;
+import java.nio.charset.StandardCharsets;
+import java.security.InvalidKeyException;
 import java.security.KeyFactory;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
@@ -16,17 +12,20 @@ import java.security.PrivateKey;
 import java.security.Provider;
 import java.security.PublicKey;
 import java.security.SecureRandom;
+import java.security.Signature;
+import java.security.SignatureException;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 import java.security.spec.InvalidKeySpecException;
+import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.RSAPrivateKeySpec;
 import java.security.spec.RSAPublicKeySpec;
+import java.security.spec.X509EncodedKeySpec;
 
 import javax.crypto.Cipher;
 
 import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.binary.Hex;
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
@@ -40,106 +39,33 @@ import lombok.experimental.UtilityClass;
  */
 @UtilityClass
 public class RsaUtil {
-	
+
 	/** 算法名称 */
 	private static final String ALGORITHOM = "RSA";
-	/** 保存生成的密钥对的文件名称。 */
-	private static final String RSA_PAIR_FILENAME = "/rsa_pair.txt";
 	/** 密钥大小 */
-	private static final int KEY_SIZE = 1024;
+	private static final int DEFAULT_KEY_SIZE = 512;
+	private static final String CHARSET_NAME = StandardCharsets.UTF_8.name();
 	/** 默认的安全服务提供者 */
 	private static final Provider DEFAULT_PROVIDER = new BouncyCastleProvider();
 
-	private static KeyPairGenerator keyPairGen = null;
-	private static KeyFactory keyFactory = null;
-	/** 缓存的密钥对 */
-	private static KeyPair oneKeyPair = null;
+	private static KeyPairGenerator getKeyPairGenerator() throws NoSuchAlgorithmException {
+		return KeyPairGenerator.getInstance(ALGORITHOM, DEFAULT_PROVIDER);
+	}
 
-	private static File rsaPairFile = null;
-
-	static {
-		try {
-			keyPairGen = KeyPairGenerator.getInstance(ALGORITHOM, DEFAULT_PROVIDER);
-			keyFactory = KeyFactory.getInstance(ALGORITHOM, DEFAULT_PROVIDER);
-		} catch (NoSuchAlgorithmException e) {
-			throw new RuntimeException(e.getMessage());
-		}
-		rsaPairFile = new File(getRSAPairFilePath());
+	private static KeyFactory getKeyFactory() throws NoSuchAlgorithmException {
+		return KeyFactory.getInstance(ALGORITHOM, DEFAULT_PROVIDER);
 	}
 
 	/**
-	 * 生成并返回RSA密钥对。
+	 * 生成并返回RSA密钥对
+	 * 
+	 * @return
+	 * @throws NoSuchAlgorithmException
 	 */
-	private static synchronized KeyPair generateKeyPair() {
-		try {
-			keyPairGen.initialize(KEY_SIZE, new SecureRandom());
-			oneKeyPair = keyPairGen.generateKeyPair();
-			saveKeyPair(oneKeyPair);
-			return oneKeyPair;
-		} catch (InvalidParameterException | NullPointerException e) {
-			throw new RuntimeException(e.getMessage());
-		}
-	}
-
-	/**
-	 * 返回生成/读取的密钥对文件的路径。
-	 */
-	private static String getRSAPairFilePath() {
-		String urlPath = FileUtils.getTempDirectoryPath();
-		return (new File(urlPath).getParent() + RSA_PAIR_FILENAME);
-	}
-
-	/**
-	 * 若需要创建新的密钥对文件，则返回 {@code true}，否则 {@code false}。
-	 */
-	private static boolean isCreateKeyPairFile() {
-		// 是否创建新的密钥对文件
-		boolean createNewKeyPair = false;
-		if (!rsaPairFile.exists() || rsaPairFile.isDirectory()) {
-			createNewKeyPair = true;
-		}
-		return createNewKeyPair;
-	}
-
-	/**
-	 * 将指定的RSA密钥对以文件形式保存。
-	 *
-	 * @param keyPair 要保存的密钥对。
-	 */
-	private static void saveKeyPair(KeyPair keyPair) {
-		try (FileOutputStream fos = FileUtils.openOutputStream(rsaPairFile);
-				ObjectOutputStream oos = new ObjectOutputStream(fos);) {
-			oos.writeObject(keyPair);
-		} catch (Exception e) {
-			throw new RuntimeException(e.getMessage());
-		}
-	}
-
-	/**
-	 * 返回RSA密钥对。
-	 */
-	public static KeyPair getKeyPair() {
-		// 首先判断是否需要重新生成新的密钥对文件
-		if (isCreateKeyPairFile()) {
-			// 直接强制生成密钥对文件，并存入缓存。
-			return generateKeyPair();
-		}
-		if (oneKeyPair != null) {
-			return oneKeyPair;
-		}
-		return readKeyPair();
-	}
-
-	// 同步读出保存的密钥对
-	private static KeyPair readKeyPair() {
-		try (FileInputStream fis = FileUtils.openInputStream(rsaPairFile);
-				ObjectInputStream ois = new ObjectInputStream(fis);) {
-
-			oneKeyPair = (KeyPair) ois.readObject();
-			return oneKeyPair;
-		} catch (IOException | ClassNotFoundException e) {
-			throw new RuntimeException(e.getMessage());
-		}
+	public static KeyPair generateKeyPair() throws NoSuchAlgorithmException {
+		KeyPairGenerator keyPairGen = getKeyPairGenerator();
+		keyPairGen.initialize(DEFAULT_KEY_SIZE, new SecureRandom());
+		return keyPairGen.generateKeyPair();
 	}
 
 	/**
@@ -148,14 +74,14 @@ public class RsaUtil {
 	 * @param modulus        系数。
 	 * @param publicExponent 专用指数。
 	 * @return RSA专用公钥对象。
+	 * @throws NoSuchAlgorithmException
+	 * @throws InvalidKeySpecException
 	 */
-	public static RSAPublicKey generateRSAPublicKey(byte[] modulus, byte[] publicExponent) {
+	public static RSAPublicKey generateRSAPublicKey(byte[] modulus, byte[] publicExponent)
+			throws NoSuchAlgorithmException, InvalidKeySpecException {
 		RSAPublicKeySpec publicKeySpec = new RSAPublicKeySpec(new BigInteger(modulus), new BigInteger(publicExponent));
-		try {
-			return (RSAPublicKey) keyFactory.generatePublic(publicKeySpec);
-		} catch (InvalidKeySpecException e) {
-			throw new RuntimeException(e.getMessage());
-		}
+		KeyFactory keyFactory = getKeyFactory();
+		return (RSAPublicKey) keyFactory.generatePublic(publicKeySpec);
 	}
 
 	/**
@@ -164,15 +90,15 @@ public class RsaUtil {
 	 * @param modulus         系数。
 	 * @param privateExponent 专用指数。
 	 * @return RSA专用私钥对象。
+	 * @throws InvalidKeySpecException
+	 * @throws NoSuchAlgorithmException
 	 */
-	public static RSAPrivateKey generateRSAPrivateKey(byte[] modulus, byte[] privateExponent) {
+	public static RSAPrivateKey generateRSAPrivateKey(byte[] modulus, byte[] privateExponent)
+			throws InvalidKeySpecException, NoSuchAlgorithmException {
 		RSAPrivateKeySpec privateKeySpec = new RSAPrivateKeySpec(new BigInteger(modulus),
 				new BigInteger(privateExponent));
-		try {
-			return (RSAPrivateKey) keyFactory.generatePrivate(privateKeySpec);
-		} catch (InvalidKeySpecException e) {
-			throw new RuntimeException(e.getMessage());
-		}
+		KeyFactory keyFactory = getKeyFactory();
+		return (RSAPrivateKey) keyFactory.generatePrivate(privateKeySpec);
 	}
 
 	/**
@@ -181,19 +107,17 @@ public class RsaUtil {
 	 * @param hexModulus         系数。
 	 * @param hexPrivateExponent 专用指数。
 	 * @return RSA专用私钥对象。
+	 * @throws DecoderException
+	 * @throws NoSuchAlgorithmException
+	 * @throws InvalidKeySpecException
 	 */
-	public static RSAPrivateKey getRSAPrivateKey(String hexModulus, String hexPrivateExponent) {
+	public static RSAPrivateKey getRSAPrivateKey(String hexModulus, String hexPrivateExponent)
+			throws DecoderException, InvalidKeySpecException, NoSuchAlgorithmException {
 		if (StringUtils.isBlank(hexModulus) || StringUtils.isBlank(hexPrivateExponent)) {
 			return null;
 		}
-		byte[] modulus = null;
-		byte[] privateExponent = null;
-		try {
-			modulus = Hex.decodeHex(hexModulus.toCharArray());
-			privateExponent = Hex.decodeHex(hexPrivateExponent.toCharArray());
-		} catch (DecoderException e) {
-			throw new RuntimeException(e.getMessage());
-		}
+		byte[] modulus = Hex.decodeHex(hexModulus.toCharArray());
+		byte[] privateExponent = Hex.decodeHex(hexPrivateExponent.toCharArray());
 		if (modulus != null && privateExponent != null) {
 			return generateRSAPrivateKey(modulus, privateExponent);
 		}
@@ -206,19 +130,17 @@ public class RsaUtil {
 	 * @param hexModulus        系数。
 	 * @param hexPublicExponent 专用指数。
 	 * @return RSA专用公钥对象。
+	 * @throws DecoderException
+	 * @throws InvalidKeySpecException
+	 * @throws NoSuchAlgorithmException
 	 */
-	public static RSAPublicKey getRSAPublidKey(String hexModulus, String hexPublicExponent) {
+	public static RSAPublicKey getRSAPublidKey(String hexModulus, String hexPublicExponent)
+			throws DecoderException, NoSuchAlgorithmException, InvalidKeySpecException {
 		if (StringUtils.isBlank(hexModulus) || StringUtils.isBlank(hexPublicExponent)) {
 			return null;
 		}
-		byte[] modulus = null;
-		byte[] publicExponent = null;
-		try {
-			modulus = Hex.decodeHex(hexModulus.toCharArray());
-			publicExponent = Hex.decodeHex(hexPublicExponent.toCharArray());
-		} catch (DecoderException e) {
-			throw new RuntimeException(e.getMessage());
-		}
+		byte[] modulus = Hex.decodeHex(hexModulus.toCharArray());
+		byte[] publicExponent = Hex.decodeHex(hexPublicExponent.toCharArray());
 		if (modulus != null && publicExponent != null) {
 			return generateRSAPublicKey(modulus, publicExponent);
 		}
@@ -261,40 +183,15 @@ public class RsaUtil {
 	 * @param publicKey 给定的公钥。
 	 * @param plaintext 字符串。
 	 * @return 给定字符串的密文。
+	 * @throws Exception
 	 */
-	public static String encryptString(PublicKey publicKey, String plaintext) {
+	public static String encryptString(PublicKey publicKey, String plaintext) throws Exception {
 		if (publicKey == null || plaintext == null) {
 			return null;
 		}
 		byte[] data = plaintext.getBytes();
-		try {
-			byte[] encryptdata = encrypt(publicKey, data);
-			return new String(Hex.encodeHex(encryptdata));
-		} catch (Exception e) {
-			throw new RuntimeException(e.getMessage());
-		}
-	}
-
-	/**
-	 * 使用默认的公钥加密给定的字符串。
-	 * <p />
-	 * 若{@code plaintext} 为 {@code null} 则返回 {@code null}。
-	 *
-	 * @param plaintext 字符串。
-	 * @return 给定字符串的密文。
-	 */
-	public static String encryptString(String plaintext) {
-		if (plaintext == null) {
-			return null;
-		}
-		byte[] data = plaintext.getBytes();
-		KeyPair keyPair = getKeyPair();
-		try {
-			byte[] encryptdata = encrypt((RSAPublicKey) keyPair.getPublic(), data);
-			return new String(Hex.encodeHex(encryptdata));
-		} catch (Exception e) {
-			throw new RuntimeException(e.getMessage());
-		}
+		byte[] encryptdata = encrypt(publicKey, data);
+		return new String(Hex.encodeHex(encryptdata));
 	}
 
 	/**
@@ -303,54 +200,30 @@ public class RsaUtil {
 	 * 若私钥为 {@code null}，或者 {@code encrypttext} 为 {@code null}或空字符串则返回 {@code null}。
 	 * 私钥不匹配时，返回 {@code null}。
 	 *
-	 * @param privateKey  给定的私钥。
-	 * @param encrypttext 密文。
+	 * @param privateKey  给定的私钥
+	 * @param encrypttext 密文
 	 * @return 原文字符串。
+	 * @throws Exception
 	 */
-	public static String decryptString(PrivateKey privateKey, String encrypttext) {
+	public static String decryptString(PrivateKey privateKey, String encrypttext) throws Exception {
 		if (privateKey == null || StringUtils.isBlank(encrypttext)) {
 			return null;
 		}
-		try {
-			byte[] encryptdata = Hex.decodeHex(encrypttext.toCharArray());
-			byte[] data = decrypt(privateKey, encryptdata);
-			return new String(data);
-		} catch (Exception e) {
-			throw new RuntimeException(e.getMessage());
-		}
-	}
-
-	/**
-	 * 使用默认的私钥解密给定的字符串。
-	 * <p />
-	 * 若{@code encrypttext} 为 {@code null}或空字符串则返回 {@code null}。 私钥不匹配时，返回
-	 * {@code null}。
-	 *
-	 * @param encrypttext 密文。
-	 * @return 原文字符串。
-	 */
-	public static String decryptString(String encrypttext) {
-		if (StringUtils.isBlank(encrypttext)) {
-			return null;
-		}
-		KeyPair keyPair = getKeyPair();
-		try {
-			byte[] encryptdata = Hex.decodeHex(encrypttext.toCharArray());
-			byte[] data = decrypt((RSAPrivateKey) keyPair.getPrivate(), encryptdata);
-			return new String(data);
-		} catch (Exception e) {
-			throw new RuntimeException(e.getMessage());
-		}
+		byte[] encryptdata = Hex.decodeHex(encrypttext.toCharArray());
+		byte[] data = decrypt(privateKey, encryptdata);
+		return new String(data);
 	}
 
 	/**
 	 * 使用默认的私钥解密由JS加密（使用此类提供的公钥加密）的字符串。
 	 *
-	 * @param encrypttext 密文。
+	 * @param privateKey  给定的私钥
+	 * @param encrypttext 密文
 	 * @return {@code encrypttext} 的原文字符串。
+	 * @throws Exception
 	 */
-	public static String decryptStringByJs(String encrypttext) {
-		String text = decryptString(encrypttext);
+	public static String decryptStringByJs(PrivateKey privateKey, String encrypttext) throws Exception {
+		String text = decryptString(privateKey, encrypttext);
 		if (text == null) {
 			return null;
 		}
@@ -358,38 +231,54 @@ public class RsaUtil {
 	}
 
 	/**
-	 * 返回已初始化的默认的公钥。
+	 * 签名
+	 * 
+	 * @param content
+	 * @param privateKey
+	 * @return
+	 * @throws NoSuchAlgorithmException
+	 * @throws InvalidKeySpecException
+	 * @throws InvalidKeyException
+	 * @throws UnsupportedEncodingException
+	 * @throws SignatureException
 	 */
-	public static RSAPublicKey getDefaultPublicKey() {
-		KeyPair keyPair = getKeyPair();
-		if (keyPair != null) {
-			return (RSAPublicKey) keyPair.getPublic();
-		}
-		return null;
+	public static String sign(String content, RSAPrivateKey rsaPrivateKey) throws InvalidKeySpecException,
+			NoSuchAlgorithmException, InvalidKeyException, SignatureException, UnsupportedEncodingException {
+		KeyFactory keyFactory = getKeyFactory();
+		PrivateKey privateKey = keyFactory.generatePrivate(new PKCS8EncodedKeySpec(rsaPrivateKey.getEncoded()));
+		Signature signature = Signature.getInstance("SHA256WithRSA");
+		signature.initSign(privateKey);
+		signature.update(content.getBytes(CHARSET_NAME));
+
+		byte[] signed = signature.sign();
+		return Hex.encodeHexString(signed);
 	}
 
 	/**
-	 * 返回已初始化的默认的私钥。
+	 * 校验签名
+	 * 
+	 * @param content
+	 * @param sign
+	 * @param publicKey
+	 * @return
+	 * @throws NoSuchAlgorithmException
+	 * @throws InvalidKeySpecException
+	 * @throws InvalidKeyException
+	 * @throws UnsupportedEncodingException
+	 * @throws SignatureException
+	 * @throws DecoderException
 	 */
-	public static RSAPrivateKey getDefaultPrivateKey() {
-		KeyPair keyPair = getKeyPair();
-		if (keyPair != null) {
-			return (RSAPrivateKey) keyPair.getPrivate();
-		}
-		return null;
+	public static boolean checkSign(String content, String sign, RSAPublicKey rsaPublicKey)
+			throws InvalidKeySpecException, NoSuchAlgorithmException, InvalidKeyException, SignatureException,
+			UnsupportedEncodingException, DecoderException {
+		KeyFactory keyFactory = getKeyFactory();
+		PublicKey publicKey = keyFactory.generatePublic(new X509EncodedKeySpec(rsaPublicKey.getEncoded()));
+		Signature signature = Signature.getInstance("SHA256WithRSA");
+		signature.initVerify(publicKey);
+		signature.update(content.getBytes(CHARSET_NAME));
+
+		byte[] signatureByte = Hex.decodeHex(sign);
+		return signature.verify(signatureByte);
 	}
 
-	public static void main(String[] agrs) {
-		RSAPublicKey publicKey = RsaUtil.getDefaultPublicKey();
-		String modulus = new String(Hex.encodeHex(publicKey.getModulus().toByteArray()));
-		String public_exponent = new String(Hex.encodeHex(publicKey.getPublicExponent().toByteArray()));
-
-		RSAPrivateKey privateKey = RsaUtil.getDefaultPrivateKey();
-
-		String text = "hello world!";
-		String mi = RsaUtil.encryptString(text);
-		String ming = RsaUtil.decryptString(mi);
-		System.out.println("mi===>" + mi);
-		System.out.println("ming===>" + ming);
-	}
 }
