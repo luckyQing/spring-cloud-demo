@@ -162,7 +162,7 @@
 请求数据采用json格式，通过http body传输。
 
 1、请求对象Req由head、body、sign三部分组成。
-- head部分为app版本号，接口版本号，亲求时间戳（默认2分钟内有效），请求的token，交易流水号；
+- head部分为app版本号，接口版本号，请求时间戳（默认2分钟内有效），请求的token，交易流水号；
 - body部分为请求的实际参数；
 - sign为请求参数的签名。
 
@@ -192,7 +192,6 @@
 		"transactionId": null,
 		"code": "100200",
 		"msg": "成功",
-		"error": null,
 		"timestamp": 0
 	},
 	"body": {
@@ -207,7 +206,6 @@
 单个服务以jar的形式，通过maven引入合并服务中。在单体服务中，feign接口通过http请求；服务合并后，feign接口通过内部进程的方式通信。
 ### 1、多数据源冲突
 ```
-
 1. 定义单数据源properties对象SingleDataSourceProperties，多数据源配置数据以Map<String, SingleDataSourceProperties>的形式从yml文件中读取；
 2. 手动（通过new方式）构建所有需要的bean对象；
 3. 手动将bean注入到容器中。
@@ -223,6 +221,10 @@
 ### 4、启动类注解冲突
 ```
 自定义条件注解SmartSpringCloudApplicationCondition，只会让启动类标记的启动注解生效。
+```
+### 5、maven打包异常
+```
+合体服务打包时，单体服务依赖的包也打进单体服务jar。通过maven profiles解决
 ```
 
 **多数据源配置示例：**
