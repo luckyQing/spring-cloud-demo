@@ -9,6 +9,10 @@ import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 import java.security.spec.InvalidKeySpecException;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+
 import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.binary.Hex;
 import org.assertj.core.api.Assertions;
@@ -22,9 +26,18 @@ public class RsaUtilTest extends TestCase {
 	/**
 	 * 加密、解密
 	 * 
+	 * @throws NoSuchAlgorithmException
+	 * @throws BadPaddingException
+	 * @throws IllegalBlockSizeException
+	 * @throws NoSuchPaddingException
+	 * @throws InvalidKeyException
+	 * @throws DecoderException
+	 * @throws InvalidKeySpecException
+	 * 
 	 * @throws Exception
 	 */
-	public void testEncryptAndDecrypt() throws Exception {
+	public void testEncryptAndDecrypt() throws NoSuchAlgorithmException, InvalidKeyException, NoSuchPaddingException,
+			IllegalBlockSizeException, BadPaddingException, InvalidKeySpecException, DecoderException {
 		KeyPair keyPair = RsaUtil.generateKeyPair();
 		RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPublic();
 		RSAPrivateKey privateKey = (RSAPrivateKey) keyPair.getPrivate();

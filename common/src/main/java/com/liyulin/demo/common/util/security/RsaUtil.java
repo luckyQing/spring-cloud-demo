@@ -22,7 +22,10 @@ import java.security.spec.RSAPrivateKeySpec;
 import java.security.spec.RSAPublicKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 
+import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 
 import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.binary.Hex;
@@ -40,8 +43,10 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class RsaUtil {
 
-	/** 算法名称 */
+	/** 加密算法名称 */
 	private static final String ALGORITHOM = "RSA";
+	/** 签名算法名称 */
+	private static final String SIGNATURE_ALGORITHOM = "SHA256WithRSA";
 	/** 密钥大小 */
 	private static final int DEFAULT_KEY_SIZE = 512;
 	private static final String CHARSET_NAME = StandardCharsets.UTF_8.name();
@@ -69,7 +74,7 @@ public class RsaUtil {
 	}
 
 	/**
-	 * 根据给定的系数和专用指数构造一个RSA专用的公钥对象。
+	 * 根据给定的系数和专用指数构造一个RSA专用的公钥对象
 	 *
 	 * @param modulus        系数。
 	 * @param publicExponent 专用指数。
@@ -85,7 +90,7 @@ public class RsaUtil {
 	}
 
 	/**
-	 * 根据给定的系数和专用指数构造一个RSA专用的私钥对象。
+	 * 根据给定的系数和专用指数构造一个RSA专用的私钥对象
 	 *
 	 * @param modulus         系数。
 	 * @param privateExponent 专用指数。
@@ -102,7 +107,7 @@ public class RsaUtil {
 	}
 
 	/**
-	 * 根据给定的16进制系数和专用指数字符串构造一个RSA专用的私钥对象。
+	 * 根据给定的16进制系数和专用指数字符串构造一个RSA专用的私钥对象
 	 *
 	 * @param hexModulus         系数。
 	 * @param hexPrivateExponent 专用指数。
@@ -125,7 +130,7 @@ public class RsaUtil {
 	}
 
 	/**
-	 * 根据给定的16进制系数和专用指数字符串构造一个RSA专用的公钥对象。
+	 * 根据给定的16进制系数和专用指数字符串构造一个RSA专用的公钥对象
 	 *
 	 * @param hexModulus        系数。
 	 * @param hexPublicExponent 专用指数。
@@ -148,33 +153,45 @@ public class RsaUtil {
 	}
 
 	/**
-	 * 使用指定的公钥加密数据。
+	 * 使用指定的公钥加密数据
 	 *
 	 * @param publicKey 给定的公钥。
 	 * @param data      要加密的数据。
 	 * @return 加密后的数据。
+	 * @throws NoSuchPaddingException
+	 * @throws NoSuchAlgorithmException
+	 * @throws InvalidKeyException
+	 * @throws BadPaddingException
+	 * @throws IllegalBlockSizeException
 	 */
-	public static byte[] encrypt(PublicKey publicKey, byte[] data) throws Exception {
+	public static byte[] encrypt(PublicKey publicKey, byte[] data) throws NoSuchAlgorithmException,
+			NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
 		Cipher ci = Cipher.getInstance(ALGORITHOM, DEFAULT_PROVIDER);
 		ci.init(Cipher.ENCRYPT_MODE, publicKey);
 		return ci.doFinal(data);
 	}
 
 	/**
-	 * 使用指定的私钥解密数据。
+	 * 使用指定的私钥解密数据
 	 *
 	 * @param privateKey 给定的私钥。
 	 * @param data       要解密的数据。
 	 * @return 原数据。
+	 * @throws NoSuchPaddingException
+	 * @throws NoSuchAlgorithmException
+	 * @throws InvalidKeyException
+	 * @throws BadPaddingException
+	 * @throws IllegalBlockSizeException
 	 */
-	public static byte[] decrypt(PrivateKey privateKey, byte[] data) throws Exception {
+	public static byte[] decrypt(PrivateKey privateKey, byte[] data) throws NoSuchAlgorithmException,
+			NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
 		Cipher ci = Cipher.getInstance(ALGORITHOM, DEFAULT_PROVIDER);
 		ci.init(Cipher.DECRYPT_MODE, privateKey);
 		return ci.doFinal(data);
 	}
 
 	/**
-	 * 使用给定的公钥加密给定的字符串。
+	 * 使用给定的公钥加密给定的字符串
 	 * <p />
 	 * 若 {@code publicKey} 为 {@code null}，或者 {@code plaintext} 为 {@code null} 则返回
 	 * {@code
@@ -183,9 +200,15 @@ public class RsaUtil {
 	 * @param publicKey 给定的公钥。
 	 * @param plaintext 字符串。
 	 * @return 给定字符串的密文。
+	 * @throws BadPaddingException
+	 * @throws IllegalBlockSizeException
+	 * @throws NoSuchPaddingException
+	 * @throws NoSuchAlgorithmException
+	 * @throws InvalidKeyException
 	 * @throws Exception
 	 */
-	public static String encryptString(PublicKey publicKey, String plaintext) throws Exception {
+	public static String encryptString(PublicKey publicKey, String plaintext) throws InvalidKeyException,
+			NoSuchAlgorithmException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException {
 		if (publicKey == null || plaintext == null) {
 			return null;
 		}
@@ -195,7 +218,7 @@ public class RsaUtil {
 	}
 
 	/**
-	 * 使用给定的私钥解密给定的字符串。
+	 * 使用给定的私钥解密给定的字符串
 	 * <p />
 	 * 若私钥为 {@code null}，或者 {@code encrypttext} 为 {@code null}或空字符串则返回 {@code null}。
 	 * 私钥不匹配时，返回 {@code null}。
@@ -203,9 +226,17 @@ public class RsaUtil {
 	 * @param privateKey  给定的私钥
 	 * @param encrypttext 密文
 	 * @return 原文字符串。
+	 * @throws DecoderException
+	 * @throws BadPaddingException
+	 * @throws IllegalBlockSizeException
+	 * @throws NoSuchPaddingException
+	 * @throws NoSuchAlgorithmException
+	 * @throws InvalidKeyException
 	 * @throws Exception
 	 */
-	public static String decryptString(PrivateKey privateKey, String encrypttext) throws Exception {
+	public static String decryptString(PrivateKey privateKey, String encrypttext)
+			throws DecoderException, InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException,
+			IllegalBlockSizeException, BadPaddingException {
 		if (privateKey == null || StringUtils.isBlank(encrypttext)) {
 			return null;
 		}
@@ -215,14 +246,21 @@ public class RsaUtil {
 	}
 
 	/**
-	 * 使用默认的私钥解密由JS加密（使用此类提供的公钥加密）的字符串。
+	 * 使用默认的私钥解密由JS加密（使用此类提供的公钥加密）的字符串
 	 *
 	 * @param privateKey  给定的私钥
 	 * @param encrypttext 密文
 	 * @return {@code encrypttext} 的原文字符串。
-	 * @throws Exception
+	 * @throws DecoderException
+	 * @throws BadPaddingException
+	 * @throws IllegalBlockSizeException
+	 * @throws NoSuchPaddingException
+	 * @throws NoSuchAlgorithmException
+	 * @throws InvalidKeyException
 	 */
-	public static String decryptStringByJs(PrivateKey privateKey, String encrypttext) throws Exception {
+	public static String decryptStringByJs(PrivateKey privateKey, String encrypttext)
+			throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, IllegalBlockSizeException,
+			BadPaddingException, DecoderException {
 		String text = decryptString(privateKey, encrypttext);
 		if (text == null) {
 			return null;
@@ -246,7 +284,7 @@ public class RsaUtil {
 			NoSuchAlgorithmException, InvalidKeyException, SignatureException, UnsupportedEncodingException {
 		KeyFactory keyFactory = getKeyFactory();
 		PrivateKey privateKey = keyFactory.generatePrivate(new PKCS8EncodedKeySpec(rsaPrivateKey.getEncoded()));
-		Signature signature = Signature.getInstance("SHA256WithRSA");
+		Signature signature = Signature.getInstance(SIGNATURE_ALGORITHOM);
 		signature.initSign(privateKey);
 		signature.update(content.getBytes(CHARSET_NAME));
 
@@ -273,7 +311,7 @@ public class RsaUtil {
 			UnsupportedEncodingException, DecoderException {
 		KeyFactory keyFactory = getKeyFactory();
 		PublicKey publicKey = keyFactory.generatePublic(new X509EncodedKeySpec(rsaPublicKey.getEncoded()));
-		Signature signature = Signature.getInstance("SHA256WithRSA");
+		Signature signature = Signature.getInstance(SIGNATURE_ALGORITHOM);
 		signature.initVerify(publicKey);
 		signature.update(content.getBytes(CHARSET_NAME));
 

@@ -111,8 +111,8 @@
 > 	</tr>
 > 	<tr>
 > 		<td>相关文档</td>
-> 		<td>sql</td>
-> 		<td>服务相关sql</td>
+> 		<td>docs</td>
+> 		<td>服务相关sql、文档图片等</td>
 > 		<td>-</td>
 > 	</tr>
 > </table>

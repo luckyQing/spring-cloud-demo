@@ -20,7 +20,7 @@ public class ReqHeadUtil {
 
 	public static ReqHead of(String token) {
 		ReqHead reqHead = new ReqHead();
-		reqHead.setTransactionId(TransactionIdUtil.getInstance().nextId());
+		reqHead.setNonce(TransactionIdUtil.getInstance().nextId());
 		reqHead.setTimestamp(System.currentTimeMillis());
 		reqHead.setToken(token);
 		return reqHead;
