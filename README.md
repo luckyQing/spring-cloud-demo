@@ -210,23 +210,6 @@
 2. 手动（通过new方式）构建所有需要的bean对象；
 3. 手动将bean注入到容器中。
 ```
-### 2、rpc与rpc实现类冲突
-```
-自定义条件注解封装FeignClient。使其在单体服务时，rpc走feign；在合体服务时，rpc走内部进程通信。
-```
-### 3、yaml文件的自动加载
-```
-自定义注解YamlScan，用来加载配置的yaml文件（支持正则匹配）。通过SPI机制，在spring.factories文件中添加EnvironmentPostProcessor的实现类，通过其方法参数SpringApplication获取启动类的信息，从而获取YamlScan注解配置的yaml文件信息。然后将yaml文件加到ConfigurableEnvironment中。
-```
-### 4、启动类注解冲突
-```
-自定义条件注解SmartSpringCloudApplicationCondition，只会让启动类标记的启动注解生效。
-```
-### 5、maven打包异常
-```
-合体服务打包时，单体服务依赖的包也打进单体服务jar。通过maven profiles解决
-```
-
 **多数据源配置示例：**
 ```
 smart:
@@ -243,6 +226,22 @@ smart:
 	  password: 123456
 	  mapper-interface-location: com.liyulin.demo.mall.order.mapper
 	  mapper-xml-location: classpath*:com/liyulin/demo/mall/order/mybatis/**.xml
+```
+### 2、rpc与rpc实现类冲突
+```
+自定义条件注解封装FeignClient。使其在单体服务时，rpc走feign；在合体服务时，rpc走内部进程通信。
+```
+### 3、yaml文件的自动加载
+```
+自定义注解YamlScan，用来加载配置的yaml文件（支持正则匹配）。通过SPI机制，在spring.factories文件中添加EnvironmentPostProcessor的实现类，通过其方法参数SpringApplication获取启动类的信息，从而获取YamlScan注解配置的yaml文件信息。然后将yaml文件加到ConfigurableEnvironment中。
+```
+### 4、启动类注解冲突
+```
+自定义条件注解SmartSpringCloudApplicationCondition，只会让启动类标记的启动注解生效。
+```
+### 5、maven打包异常
+```
+合体服务打包时，单体服务依赖的包也打进单体服务jar。通过maven profiles解决
 ```
 
 ## （四）接口mock数据
