@@ -11,8 +11,17 @@
 	</parent>
 	<artifactId>demo-merge-module</artifactId>
 	<packaging>pom</packaging>
-	
+
 	<modules>
 		<module>demo-merge-mall</module>
 	</modules>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
 </project>
