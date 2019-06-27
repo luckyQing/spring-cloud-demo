@@ -12,11 +12,14 @@ import com.liyulin.demo.common.business.dto.Req;
 import com.liyulin.demo.common.business.dto.Resp;
 import com.liyulin.demo.common.business.util.ReqUtil;
 import com.liyulin.demo.common.business.util.RespUtil;
+import com.liyulin.demo.common.util.CollectionUtil;
+import com.liyulin.demo.common.util.ObjectUtil;
 import com.liyulin.demo.common.util.SnowFlakeIdUtil;
 import com.liyulin.demo.mall.order.biz.api.OrderBillApiBiz;
 import com.liyulin.demo.mall.order.biz.api.OrderDeliveryInfoApiBiz;
 import com.liyulin.demo.mall.order.entity.base.OrderBillEntity;
 import com.liyulin.demo.mall.order.entity.base.OrderDeliveryInfoEntity;
+import com.liyulin.demo.mall.order.enums.OrderReturnCodeEnum;
 import com.liyulin.demo.mall.order.exception.UpdateStockException;
 import com.liyulin.demo.mybatis.common.mapper.enums.DelStateEnum;
 import com.liyulin.demo.rpc.enums.order.PayStateEnum;
@@ -63,6 +66,11 @@ public class OrderApiService {
 				.qryProductByIds(ReqUtil.buildWithHead(qryProductByIdsReqBody));
 		if (!RespUtil.isSuccess(qryProductByIdsResp)) {
 			return RespUtil.error(qryProductByIdsResp);
+		}
+		if (ObjectUtil.isNull(qryProductByIdsResp.getBody())
+				|| CollectionUtil.isEmpty(qryProductByIdsResp.getBody().getProductInfos())
+				|| qryProductByIdsResp.getBody().getProductInfos().size()!=products.size()) {
+			return RespUtil.error(OrderReturnCodeEnum.PRODUCT_NOT_EXIST);
 		}
 		List<QryProductByIdRespBody> productInfos = qryProductByIdsResp.getBody().getProductInfos();
 

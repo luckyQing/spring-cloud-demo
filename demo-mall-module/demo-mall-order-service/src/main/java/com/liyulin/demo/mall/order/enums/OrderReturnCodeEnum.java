@@ -17,7 +17,9 @@ import lombok.Getter;
 public enum OrderReturnCodeEnum implements IBaseReturnCode {
 
 	/** 库存更新失败 */
-	UPDATE_STOCK_FAIL("200101", "库存更新失败");
+	UPDATE_STOCK_FAIL("200101", "库存更新失败"),
+	/** 商品不存在 */
+	PRODUCT_NOT_EXIST("200102", "商品不存在");
 
 	/** 状态码 */
 	private String code;
