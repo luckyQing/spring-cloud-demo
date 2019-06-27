@@ -4,6 +4,7 @@ import java.util.Date;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.liyulin.demo.common.business.dto.BaseDto;
+import com.liyulin.demo.common.business.signature.dto.ReqHttpHeadersDto;
 import com.liyulin.demo.common.util.DateUtil;
 
 import lombok.AllArgsConstructor;
@@ -46,6 +47,9 @@ public class FeignAspectDto extends BaseDto {
 
 	/** 请求的参数信息 */
 	private Object reqParams;
+	
+	/** 请求头 */
+	private ReqHttpHeadersDto reqHttpHeaders;
 
 	/** 响应数据 */
 	private Object respData;

@@ -11,6 +11,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.liyulin.demo.common.business.dto.Req;
+import com.liyulin.demo.common.business.signature.util.ReqHttpHeadersUtil;
 import com.liyulin.demo.common.business.util.ReqHeadUtil;
 import com.liyulin.demo.common.constants.SymbolConstants;
 import com.liyulin.demo.common.util.LogUtil;
@@ -51,6 +52,7 @@ public class FeignAspectAdvice implements MethodInterceptor {
 		logDto.setClassMethod(classMethod);
 
 		logDto.setReqParams(WebUtil.getRequestArgs(args));
+		logDto.setReqHttpHeaders(ReqHttpHeadersUtil.getReqHttpHeadersDto(request));
 
 		// 2、rpc
 		Object result = invocation.proceed();

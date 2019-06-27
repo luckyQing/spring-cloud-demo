@@ -23,7 +23,7 @@ public class MaxPastValidator implements ConstraintValidator<MaxPast, Long> {
 	@Override
 	public boolean isValid(Long value, ConstraintValidatorContext context) {
 		long currentTimeMillis = System.currentTimeMillis();
-		return currentTimeMillis - value > 0 && currentTimeMillis - value <= maxValue;
+		return currentTimeMillis - value >= 0 && currentTimeMillis - value <= maxValue;
 	}
 
 }

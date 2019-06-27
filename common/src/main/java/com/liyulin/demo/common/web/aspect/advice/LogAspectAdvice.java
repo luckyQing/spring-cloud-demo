@@ -11,6 +11,7 @@ import org.springframework.aop.ThrowsAdvice;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import com.liyulin.demo.common.business.signature.util.ReqHttpHeadersUtil;
 import com.liyulin.demo.common.constants.SymbolConstants;
 import com.liyulin.demo.common.util.ExceptionUtil;
 import com.liyulin.demo.common.util.LogUtil;
@@ -44,6 +45,7 @@ public class LogAspectAdvice implements MethodBeforeAdvice, AfterReturningAdvice
 		logDto.setApiDesc(apiDesc);
 
 		logDto.setReqParams(WebUtil.getRequestArgs(args));
+		logDto.setReqHttpHeaders(ReqHttpHeadersUtil.getReqHttpHeadersDto(request));
 
 		logDto.setUrl(request.getRequestURL().toString());
 		logDto.setIp(WebUtil.getRealIP(request));
