@@ -2,8 +2,8 @@ package com.liyulin.demo.common.business.signature.util;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.liyulin.demo.common.business.signature.ReqHttpHeadersEnum;
 import com.liyulin.demo.common.business.signature.dto.ReqHttpHeadersDto;
+import com.liyulin.demo.common.business.signature.enums.ReqHttpHeadersEnum;
 
 import lombok.experimental.UtilityClass;
 

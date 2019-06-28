@@ -18,13 +18,13 @@ import io.swagger.annotations.ApiOperation;
 import lombok.experimental.UtilityClass;
 
 /**
- * 切面工具类
+ * 切面拦截器工具类
  *
  * @author liyulin
  * @date 2019年4月21日上午12:55:33
  */
 @UtilityClass
-public class AspectUtil {
+public class AspectInterceptorUtil {
 
 	private ConcurrentMap<String, String> apiDescMap = new ConcurrentHashMap<>();
 

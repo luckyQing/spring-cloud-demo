@@ -1,4 +1,4 @@
-package com.liyulin.demo.common.web.aspect.advice;
+package com.liyulin.demo.common.web.aspect.interceptor;
 
 import java.lang.reflect.Method;
 import java.util.Date;
@@ -13,12 +13,12 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import com.liyulin.demo.common.business.dto.Req;
 import com.liyulin.demo.common.business.signature.util.ReqHttpHeadersUtil;
 import com.liyulin.demo.common.business.util.ReqHeadUtil;
-import com.liyulin.demo.common.constants.SymbolConstants;
+import com.liyulin.demo.common.constants.SymbolConstant;
 import com.liyulin.demo.common.util.LogUtil;
 import com.liyulin.demo.common.util.ObjectUtil;
 import com.liyulin.demo.common.util.WebUtil;
 import com.liyulin.demo.common.web.aspect.dto.FeignAspectDto;
-import com.liyulin.demo.common.web.aspect.util.AspectUtil;
+import com.liyulin.demo.common.web.aspect.util.AspectInterceptorUtil;
 
 /**
  * feign切面
@@ -26,7 +26,7 @@ import com.liyulin.demo.common.web.aspect.util.AspectUtil;
  * @author liyulin
  * @date 2019年4月21日下午3:32:33
  */
-public class FeignAspectAdvice implements MethodInterceptor {
+public class FeignInterceptor implements MethodInterceptor {
 
 	@Override
 	public Object invoke(MethodInvocation invocation) throws Throwable {
@@ -45,10 +45,10 @@ public class FeignAspectAdvice implements MethodInterceptor {
 		HttpServletRequest request = attributes.getRequest();
 
 		Method method = invocation.getMethod();
-		String apiDesc = AspectUtil.getFeignMethodDesc(method, request.getServletPath());
+		String apiDesc = AspectInterceptorUtil.getFeignMethodDesc(method, request.getServletPath());
 		logDto.setApiDesc(apiDesc);
 
-		String classMethod = method.getDeclaringClass().getTypeName() + SymbolConstants.DOT + method.getName();
+		String classMethod = method.getDeclaringClass().getTypeName() + SymbolConstant.DOT + method.getName();
 		logDto.setClassMethod(classMethod);
 
 		logDto.setReqParams(WebUtil.getRequestArgs(args));

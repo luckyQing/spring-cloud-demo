@@ -1,7 +1,5 @@
 package com.liyulin.demo.common.web.aspect;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -24,7 +22,7 @@ public class ExceptionControllerAdvice {
 
 	@ExceptionHandler(Exception.class)
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-	public Resp<BaseDto> handleException(Exception e, HttpServletRequest request) {
+	public Resp<BaseDto> handleException(Exception e) {
 		LogUtil.error(e.getMessage(), e);
 
 		RespHead head = ExceptionUtil.parse(e);

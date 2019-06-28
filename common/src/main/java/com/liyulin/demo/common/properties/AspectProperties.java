@@ -16,11 +16,13 @@ import lombok.Setter;
 public class AspectProperties extends BaseDto {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	/** feign切面开关 （默认false） */
-	private boolean rpclog = true;
+	private boolean rpclog = false;
 	/** 接口日志切面开关 （默认false） */
-	private boolean apilog = true;
+	private boolean apilog = false;
+	/** 加密、签名切面开关（默认false） */
+	private boolean apiSecurity = false;
 	/** mock开关 （默认false） */
 	private boolean mock = false;
 

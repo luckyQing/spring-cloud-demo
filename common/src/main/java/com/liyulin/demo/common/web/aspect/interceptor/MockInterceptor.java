@@ -1,4 +1,4 @@
-package com.liyulin.demo.common.web.aspect.advice;
+package com.liyulin.demo.common.web.aspect.interceptor;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
@@ -15,7 +15,7 @@ import com.liyulin.demo.common.business.mock.MockUtil;
  * @author liyulin
  * @date 2019年4月21日下午3:32:44
  */
-public class MockAspectAdvice implements MethodInterceptor {
+public class MockInterceptor implements MethodInterceptor {
 
 	@Override
 	public Object invoke(MethodInvocation invocation) throws Throwable {

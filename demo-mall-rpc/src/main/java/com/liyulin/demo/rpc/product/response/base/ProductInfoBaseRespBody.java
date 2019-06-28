@@ -1,4 +1,4 @@
-package com.liyulin.demo.rpc.product.response.oms;
+package com.liyulin.demo.rpc.product.response.base;
 
 import com.liyulin.demo.common.business.dto.BaseEntityRespBody;
 
@@ -14,7 +14,7 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @SuperBuilder
 @ApiModel(description = "商品信息响应信息")
-public class ProductInfoRespBody extends BaseEntityRespBody {
+public class ProductInfoBaseRespBody extends BaseEntityRespBody {
 
 	private static final long serialVersionUID = 1L;
 

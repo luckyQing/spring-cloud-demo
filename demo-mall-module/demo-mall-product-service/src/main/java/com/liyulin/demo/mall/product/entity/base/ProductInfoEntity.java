@@ -12,6 +12,12 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
+/**
+ * 商品信息
+ *
+ * @author liyulin
+ * @date 2019年6月28日下午3:54:39
+ */
 @Getter
 @Setter
 @NoArgsConstructor

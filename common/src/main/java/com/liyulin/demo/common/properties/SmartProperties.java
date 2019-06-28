@@ -3,7 +3,7 @@ package com.liyulin.demo.common.properties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import com.liyulin.demo.common.business.dto.BaseDto;
-import com.liyulin.demo.common.constants.CommonConstants;
+import com.liyulin.demo.common.constants.CommonConstant;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -17,7 +17,7 @@ import lombok.experimental.UtilityClass;
  */
 @Getter
 @Setter
-@ConfigurationProperties(prefix = CommonConstants.SMART_PROPERTIES_PREFIX)
+@ConfigurationProperties(prefix = CommonConstant.SMART_PROPERTIES_PREFIX)
 public class SmartProperties extends BaseDto {
 
 	private static final long serialVersionUID = 1L;

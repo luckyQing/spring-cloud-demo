@@ -12,9 +12,9 @@ import lombok.experimental.UtilityClass;
 public class RedisKeyPrefix {
 	
 	/** redis key分隔符 */
-	public static final String REDIS_KEY_SEPARATOR = SymbolConstants.COLON;
+	public static final String REDIS_KEY_SEPARATOR = SymbolConstant.COLON;
 	/** redis key前缀 */
-	public static final String REDIS_KEY_PREPIX = "demo" + REDIS_KEY_SEPARATOR;
+	public static final String REDIS_KEY_PREPIX = "smart" + REDIS_KEY_SEPARATOR;
 	/** 数据 */
 	public static final String DATA = REDIS_KEY_PREPIX + "data" + REDIS_KEY_SEPARATOR;
 	/** 缓存 */

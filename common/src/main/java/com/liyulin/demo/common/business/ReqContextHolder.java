@@ -11,6 +11,9 @@ import lombok.experimental.UtilityClass;
  * @date 2019年6月26日 下午5:07:13
  */
 @UtilityClass
-public class ReqContext extends BaseDto {
+public class ReqContextHolder extends BaseDto {
 
+	private String token;
+	private Long userId;
+	
 }

@@ -1,4 +1,4 @@
-package com.liyulin.demo.common.business.signature;
+package com.liyulin.demo.common.business.signature.enums;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

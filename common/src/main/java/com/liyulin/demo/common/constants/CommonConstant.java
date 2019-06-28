@@ -9,7 +9,7 @@ import lombok.experimental.UtilityClass;
  * @date 2019年4月22日上午12:27:46
  */
 @UtilityClass
-public class CommonConstants {
+public class CommonConstant {
 	
 	/** 基础包 */
 	public static final String BASE_PACAKGE = "com.liyulin";

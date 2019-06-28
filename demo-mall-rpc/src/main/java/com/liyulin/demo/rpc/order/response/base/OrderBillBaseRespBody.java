@@ -1,4 +1,4 @@
-package com.liyulin.demo.rpc.order.response.oms;
+package com.liyulin.demo.rpc.order.response.base;
 
 import java.math.BigInteger;
 
@@ -16,7 +16,7 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @SuperBuilder
 @ApiModel(description = "订单信息响应信息")
-public class OrderBillRespBody extends BaseEntityRespBody {
+public class OrderBillBaseRespBody extends BaseEntityRespBody {
 
 	private static final long serialVersionUID = 1L;
 

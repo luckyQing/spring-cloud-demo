@@ -9,7 +9,7 @@ import lombok.experimental.UtilityClass;
  * @date 2019年4月27日上午2:03:48
  */
 @UtilityClass
-public class SymbolConstants {
+public class SymbolConstant {
 
 	/** 点（.） */
 	public static final String DOT = ".";

@@ -13,7 +13,7 @@ import com.liyulin.demo.rpc.product.request.oms.PageProductReqBody;
 import com.liyulin.demo.rpc.product.request.oms.ProductDeleteReqBody;
 import com.liyulin.demo.rpc.product.request.oms.ProductInsertReqBody;
 import com.liyulin.demo.rpc.product.request.oms.ProductUpdateReqBody;
-import com.liyulin.demo.rpc.product.response.oms.ProductInfoRespBody;
+import com.liyulin.demo.rpc.product.response.base.ProductInfoBaseRespBody;
 
 /**
  * 商品信息 oms service
@@ -66,7 +66,7 @@ public class ProductInfoOmsService {
 	 * @param req
 	 * @return
 	 */
-	public BasePageResp<ProductInfoRespBody> pageProduct(BasePageReq<PageProductReqBody> req) {
+	public BasePageResp<ProductInfoBaseRespBody> pageProduct(BasePageReq<PageProductReqBody> req) {
 		return productOmsBiz.pageProduct(req);
 	}
 	

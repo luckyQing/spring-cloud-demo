@@ -21,7 +21,7 @@ import com.liyulin.demo.rpc.product.request.oms.PageProductReqBody;
 import com.liyulin.demo.rpc.product.request.oms.ProductDeleteReqBody;
 import com.liyulin.demo.rpc.product.request.oms.ProductInsertReqBody;
 import com.liyulin.demo.rpc.product.request.oms.ProductUpdateReqBody;
-import com.liyulin.demo.rpc.product.response.oms.ProductInfoRespBody;
+import com.liyulin.demo.rpc.product.response.base.ProductInfoBaseRespBody;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -55,7 +55,7 @@ public class ProductInfoOmsController {
 
 	@ApiOperation("分页查询商品信息")
 	@PostMapping("pageProduct")
-	public Resp<BasePageResp<ProductInfoRespBody>> pageProduct(
+	public Resp<BasePageResp<ProductInfoBaseRespBody>> pageProduct(
 			@RequestBody @Valid Req<@NotNull BasePageReq<PageProductReqBody>> req) {
 		return RespUtil.success(productOmsService.pageProduct(req.getBody()));
 	}

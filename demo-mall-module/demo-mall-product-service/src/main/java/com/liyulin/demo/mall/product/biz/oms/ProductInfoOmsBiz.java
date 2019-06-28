@@ -17,7 +17,7 @@ import com.liyulin.demo.mybatis.common.mapper.enums.DelStateEnum;
 import com.liyulin.demo.rpc.product.request.oms.PageProductReqBody;
 import com.liyulin.demo.rpc.product.request.oms.ProductInsertReqBody;
 import com.liyulin.demo.rpc.product.request.oms.ProductUpdateReqBody;
-import com.liyulin.demo.rpc.product.response.oms.ProductInfoRespBody;
+import com.liyulin.demo.rpc.product.response.base.ProductInfoBaseRespBody;
 
 import tk.mybatis.mapper.entity.Example;
 import tk.mybatis.mapper.entity.Example.Criteria;
@@ -82,7 +82,7 @@ public class ProductInfoOmsBiz extends BaseBiz<ProductInfoEntity> {
 	 * @param req
 	 * @return
 	 */
-	public BasePageResp<ProductInfoRespBody> pageProduct(BasePageReq<PageProductReqBody> req) {
+	public BasePageResp<ProductInfoBaseRespBody> pageProduct(BasePageReq<PageProductReqBody> req) {
 		Example example = new Example(ProductInfoEntity.class);
 		Criteria criteria = example.createCriteria();
 		PageProductReqBody reqBody = req.getQuery();

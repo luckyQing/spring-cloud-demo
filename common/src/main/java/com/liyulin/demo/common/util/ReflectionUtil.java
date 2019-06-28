@@ -7,7 +7,7 @@ import org.reflections.Reflections;
 import org.reflections.scanners.SubTypesScanner;
 import org.springframework.context.annotation.Condition;
 
-import com.liyulin.demo.common.constants.CommonConstants;
+import com.liyulin.demo.common.constants.CommonConstant;
 
 import lombok.experimental.UtilityClass;
 
@@ -22,7 +22,7 @@ public class ReflectionUtil extends ReflectionUtils {
 
 	private static Reflections reflections = null;
 	static {
-		reflections = new Reflections(CommonConstants.BASE_PACAKGE, new SubTypesScanner());
+		reflections = new Reflections(CommonConstant.BASE_PACAKGE, new SubTypesScanner());
 	}
 
 	/**

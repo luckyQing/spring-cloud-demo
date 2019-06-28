@@ -6,7 +6,7 @@ import java.util.Map;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import com.liyulin.demo.common.business.dto.BaseDto;
-import com.liyulin.demo.common.constants.CommonConstants;
+import com.liyulin.demo.common.constants.CommonConstant;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -20,7 +20,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-@ConfigurationProperties(prefix = CommonConstants.SMART_PROPERTIES_PREFIX)
+@ConfigurationProperties(prefix = CommonConstant.SMART_PROPERTIES_PREFIX)
 public class MultipleDatasourceProperties extends BaseDto {
 
 	private static final long serialVersionUID = 1L;

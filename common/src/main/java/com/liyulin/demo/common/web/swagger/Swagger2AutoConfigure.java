@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.context.request.async.DeferredResult;
 
-import com.liyulin.demo.common.constants.CommonConstants;
+import com.liyulin.demo.common.constants.CommonConstant;
 import com.liyulin.demo.common.properties.SmartProperties;
 import com.liyulin.demo.common.properties.SwaggerProperties;
 import com.liyulin.demo.common.support.annotation.ConditionalOnPropertyBoolean;
@@ -38,7 +38,7 @@ public class Swagger2AutoConfigure {
 		return new Docket(DocumentationType.SWAGGER_2).groupName(smartProperties.getSwagger().getGroupName())
 				.genericModelSubstitutes(DeferredResult.class).useDefaultResponseMessages(false)
 				.forCodeGeneration(false).apiInfo(apiInfo()).select()
-				.apis(RequestHandlerSelectors.basePackage(CommonConstants.BASE_PACAKGE)).paths(PathSelectors.any()).build();
+				.apis(RequestHandlerSelectors.basePackage(CommonConstant.BASE_PACAKGE)).paths(PathSelectors.any()).build();
 	}
 
 	private ApiInfo apiInfo() {

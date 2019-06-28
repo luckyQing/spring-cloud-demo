@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Conditional;
 import com.liyulin.demo.common.support.condition.ConditionalOnPropertyBooleanCondition;
 
 /**
- * Boolean值属性条件判断注解
+ * Boolean值属性（默认值：true）条件判断注解
  * 
  * @author liyulin
  * @date 2019年6月14日 下午7:44:13

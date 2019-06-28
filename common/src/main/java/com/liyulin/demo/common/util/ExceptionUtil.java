@@ -19,7 +19,7 @@ import com.liyulin.demo.common.business.dto.RespHead;
 import com.liyulin.demo.common.business.exception.BaseException;
 import com.liyulin.demo.common.business.exception.enums.ReturnCodeEnum;
 import com.liyulin.demo.common.business.util.RespHeadUtil;
-import com.liyulin.demo.common.constants.SymbolConstants;
+import com.liyulin.demo.common.constants.SymbolConstant;
 
 import lombok.experimental.UtilityClass;
 
@@ -52,13 +52,13 @@ public class ExceptionUtil {
 		int i = 0;
 		for (ConstraintViolation<?> constraintViolation : constraintViolationSet) {
 			if (size > 1) {
-				errorMsg.append((++i) + SymbolConstants.DOT);
+				errorMsg.append((++i) + SymbolConstant.DOT);
 			}
 			if (constraintViolation.getPropertyPath() == null) {
 				errorMsg.append(constraintViolation.getMessage());
 			} else {
 				errorMsg.append(constraintViolation.getPropertyPath().toString())
-						.append(SymbolConstants.HYPHEN)
+						.append(SymbolConstant.HYPHEN)
 						.append(constraintViolation.getMessage());
 			}
 			if (size > 1 && i < size) {
@@ -73,12 +73,12 @@ public class ExceptionUtil {
 		StringBuilder errorMsg = new StringBuilder();
 		for (int i = 0, size = objectErrors.size(); i < size; i++) {
 			if (size > 1) {
-				errorMsg.append((i + 1) + SymbolConstants.DOT);
+				errorMsg.append((i + 1) + SymbolConstant.DOT);
 			}
 			String validateField = ArrayUtil.isNotEmpty(objectErrors.get(i).getCodes())
 					? objectErrors.get(i).getCodes()[0]
 					: StringUtils.EMPTY;
-			errorMsg.append(validateField + SymbolConstants.HYPHEN + objectErrors.get(i).getDefaultMessage());
+			errorMsg.append(validateField + SymbolConstant.HYPHEN + objectErrors.get(i).getDefaultMessage());
 			if (size > 1 && i < size - 1) {
 				errorMsg.append("; ");
 			}
@@ -146,7 +146,7 @@ public class ExceptionUtil {
 			if (StringUtils.isBlank(message)) {
 				message = e.toString();
 				// 只取异常类名
-				int index = message.lastIndexOf(SymbolConstants.DOT);
+				int index = message.lastIndexOf(SymbolConstant.DOT);
 				if (index != -1) {
 					message = message.substring(index + 1);
 				}

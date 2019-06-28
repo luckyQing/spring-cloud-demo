@@ -21,7 +21,7 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.util.Assert;
 
 import com.github.pagehelper.PageInterceptor;
-import com.liyulin.demo.common.constants.SymbolConstants;
+import com.liyulin.demo.common.constants.SymbolConstant;
 import com.liyulin.demo.common.support.bean.UniqueBeanNameGenerator;
 import com.liyulin.demo.common.util.LogUtil;
 import com.liyulin.demo.mybatis.plugin.MybatisSqlLogInterceptor;
@@ -161,7 +161,7 @@ public class MultipleDataSourceInitializerInvoker {
 			return;
 		}
 
-		String[] transactionBasePackageArray = transactionBasePackages.split(SymbolConstants.COMMA);
+		String[] transactionBasePackageArray = transactionBasePackages.split(SymbolConstant.COMMA);
 		for (String transactionBasePackage : transactionBasePackageArray) {
 			InitTransactionalValue.getMultipleTransactionManagerInfoCache().putIfAbsent(transactionBasePackage,
 					transactionManagerBeanName);
@@ -182,8 +182,8 @@ public class MultipleDataSourceInitializerInvoker {
 		HikariDataSource dataSource = new HikariDataSource();
 		String jdbcUrl = dataSourceProperties.getUrl();
 		// 如果jdbcUrl没有设置参数，则用默认设置
-		if (StringUtils.containsNone(jdbcUrl, SymbolConstants.QUESTION_MARK)) {
-			jdbcUrl += SymbolConstants.QUESTION_MARK + DEFAULT_JDBCURL_PARAMS;
+		if (StringUtils.containsNone(jdbcUrl, SymbolConstant.QUESTION_MARK)) {
+			jdbcUrl += SymbolConstant.QUESTION_MARK + DEFAULT_JDBCURL_PARAMS;
 		}
 		dataSource.setJdbcUrl(jdbcUrl);
 		dataSource.setUsername(dataSourceProperties.getUsername());

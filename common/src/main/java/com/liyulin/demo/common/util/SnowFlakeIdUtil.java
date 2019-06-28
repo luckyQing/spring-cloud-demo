@@ -1,6 +1,6 @@
 package com.liyulin.demo.common.util;
 
-import com.liyulin.demo.common.constants.CommonConstants;
+import com.liyulin.demo.common.constants.CommonConstant;
 import com.liyulin.demo.common.properties.SmartProperties;
 
 /**
@@ -70,7 +70,7 @@ public final class SnowFlakeIdUtil {
 	private SnowFlakeIdUtil() {
 		Long dataMachineIdL = SpringUtil.getBean(SmartProperties.class).getDataMachineId();
 		if (ObjectUtil.isNull(dataMachineIdL)) {
-			throw new IllegalArgumentException(CommonConstants.SMART_PROPERTIES_PREFIX + "."
+			throw new IllegalArgumentException(CommonConstant.SMART_PROPERTIES_PREFIX + "."
 					+ SmartProperties.PropertiesName.DATA_MACHINE_ID + "未配置！");
 		}
 		dataMachineId = dataMachineIdL;

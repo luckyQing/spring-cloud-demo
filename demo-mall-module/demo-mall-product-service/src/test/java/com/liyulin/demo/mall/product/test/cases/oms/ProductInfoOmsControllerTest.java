@@ -18,7 +18,7 @@ import com.liyulin.demo.rpc.product.request.api.PageProductReqBody;
 import com.liyulin.demo.rpc.product.request.oms.ProductDeleteReqBody;
 import com.liyulin.demo.rpc.product.request.oms.ProductInsertReqBody;
 import com.liyulin.demo.rpc.product.request.oms.ProductUpdateReqBody;
-import com.liyulin.demo.rpc.product.response.oms.ProductInfoRespBody;
+import com.liyulin.demo.rpc.product.response.base.ProductInfoBaseRespBodyBody;
 
 public class ProductInfoOmsControllerTest extends AbstractIntegrationTest {
 
@@ -90,8 +90,8 @@ public class ProductInfoOmsControllerTest extends AbstractIntegrationTest {
 		Req<BasePageReq<PageProductReqBody>> req = ReqUtil.buildWithHead(null, 1, 10);
 		req.setSign("test");
 
-		Resp<BasePageResp<ProductInfoRespBody>> result = super.postJson("/oms/auth/product/productInfo/pageProduct",
-				req, new TypeReference<Resp<BasePageResp<ProductInfoRespBody>>>() {
+		Resp<BasePageResp<ProductInfoBaseRespBody>> result = super.postJson("/oms/auth/product/productInfo/pageProduct",
+				req, new TypeReference<Resp<BasePageResp<ProductInfoBaseRespBody>>>() {
 				});
 
 		Assertions.assertThat(result).isNotNull();
