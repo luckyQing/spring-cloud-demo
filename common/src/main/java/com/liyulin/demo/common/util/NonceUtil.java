@@ -17,7 +17,7 @@ import lombok.extern.slf4j.Slf4j;
  * @date 2019年4月6日下午5:53:51
  */
 @Slf4j
-public final class TransactionIdUtil {
+public final class NonceUtil {
 	/**
 	 * 起始的时间戳
 	 */
@@ -50,13 +50,13 @@ public final class TransactionIdUtil {
 	private long sequence = 0L; // 序列号
 	private volatile long lastStmp = -1L;// 上一次时间戳
 
-	private static TransactionIdUtil idWorker = new TransactionIdUtil();
+	private static NonceUtil idWorker = new NonceUtil();
 
-	public static TransactionIdUtil getInstance() {
+	public static NonceUtil getInstance() {
 		return idWorker;
 	}
 
-	private TransactionIdUtil() {
+	private NonceUtil() {
 		String[] ipArray = null;
 		try {
 			ipArray = WebUtil.getLocalIP().split("\\.");

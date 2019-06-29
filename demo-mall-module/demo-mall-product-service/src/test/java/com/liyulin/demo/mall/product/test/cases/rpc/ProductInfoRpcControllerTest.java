@@ -9,8 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.alibaba.fastjson.TypeReference;
 import com.liyulin.demo.common.business.dto.BaseDto;
-import com.liyulin.demo.common.business.dto.Req;
-import com.liyulin.demo.common.business.dto.ReqObjectBody;
 import com.liyulin.demo.common.business.dto.Resp;
 import com.liyulin.demo.common.business.exception.enums.ReturnCodeEnum;
 import com.liyulin.demo.common.business.test.AbstractIntegrationTest;
@@ -33,11 +31,9 @@ public class ProductInfoRpcControllerTest extends AbstractIntegrationTest {
 		productInfoData.insertTestData(productId);
 		QryProductByIdReqBody reqBody = new QryProductByIdReqBody();
 		reqBody.setId(productId);
-		Req<QryProductByIdReqBody> req = ReqUtil.buildWithHead(reqBody);
-		req.setSign("test");
 
-		Resp<QryProductByIdRespBody> result = super.postJson("/rpc/pass/product/productInfo/qryProductById", req,
-				new TypeReference<Resp<QryProductByIdRespBody>>() {
+		Resp<QryProductByIdRespBody> result = super.postJson("/rpc/pass/product/productInfo/qryProductById",
+				ReqUtil.build(reqBody), new TypeReference<Resp<QryProductByIdRespBody>>() {
 				});
 
 		Assertions.assertThat(result).isNotNull();
@@ -55,11 +51,9 @@ public class ProductInfoRpcControllerTest extends AbstractIntegrationTest {
 
 		QryProductByIdsReqBody qryProductByIdsReqBody = new QryProductByIdsReqBody();
 		qryProductByIdsReqBody.setIds(ids);
-		Req<QryProductByIdsReqBody> req = ReqUtil.buildWithHead(qryProductByIdsReqBody);
-		req.setSign("test");
 
-		Resp<QryProductByIdsRespBody> result = super.postJson("/rpc/pass/product/productInfo/qryProductByIds", req,
-				new TypeReference<Resp<QryProductByIdsRespBody>>() {
+		Resp<QryProductByIdsRespBody> result = super.postJson("/rpc/pass/product/productInfo/qryProductByIds",
+				ReqUtil.build(qryProductByIdsReqBody), new TypeReference<Resp<QryProductByIdsRespBody>>() {
 				});
 
 		Assertions.assertThat(result).isNotNull();
@@ -84,11 +78,8 @@ public class ProductInfoRpcControllerTest extends AbstractIntegrationTest {
 			updateStockReqBody.add(new UpdateStockReqBody(id, 3));
 		}
 
-		Req<ReqObjectBody<List<UpdateStockReqBody>>> req = ReqUtil.buildWithHead(updateStockReqBody);
-		req.setSign("test");
-
-		Resp<BaseDto> result = super.postJson("/rpc/pass/product/productInfo/updateStock", req,
-				new TypeReference<Resp<BaseDto>>() {
+		Resp<BaseDto> result = super.postJson("/rpc/pass/product/productInfo/updateStock",
+				ReqUtil.build(updateStockReqBody), new TypeReference<Resp<BaseDto>>() {
 				});
 
 		Assertions.assertThat(result).isNotNull();

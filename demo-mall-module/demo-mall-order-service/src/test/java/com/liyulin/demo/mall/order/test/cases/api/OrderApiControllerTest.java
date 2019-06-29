@@ -8,7 +8,6 @@ import org.junit.Test;
 import org.mockito.Mockito;
 
 import com.alibaba.fastjson.TypeReference;
-import com.liyulin.demo.common.business.dto.Req;
 import com.liyulin.demo.common.business.dto.Resp;
 import com.liyulin.demo.common.business.exception.enums.ReturnCodeEnum;
 import com.liyulin.demo.common.business.test.AbstractIntegrationTest;
@@ -39,8 +38,6 @@ public class OrderApiControllerTest extends AbstractIntegrationTest {
 		
 		CreateOrderReqBody reqBody = new CreateOrderReqBody();
 		reqBody.setProducts(buyProducts);
-		Req<CreateOrderReqBody> req = ReqUtil.buildWithHead(reqBody);
-		req.setSign("test");
 				
 		// 2、mock 行为
 		ProductInfoRpc productInfoRpc = Mockito.mock(ProductInfoRpc.class);
@@ -48,7 +45,7 @@ public class OrderApiControllerTest extends AbstractIntegrationTest {
 		setMockAttribute(orderApiService, productInfoRpc);
 		mockStubbing(productInfoRpc, buyProducts);
 		
-		Resp<CreateOrderRespBody> resp = postJson("/api/auth/order/order/create", req, new TypeReference<Resp<CreateOrderRespBody>>() {
+		Resp<CreateOrderRespBody> resp = postJson("/api/auth/order/order/create", ReqUtil.build(reqBody), new TypeReference<Resp<CreateOrderRespBody>>() {
 		});
 
 		// 3、断言结果

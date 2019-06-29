@@ -1,19 +1,14 @@
 package com.liyulin.demo.common.web.autoconfigure;
 
-import javax.validation.Validation;
 import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
 
-import org.hibernate.validator.HibernateValidator;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
 
 import com.liyulin.demo.common.support.annotation.ConditionalOnPropertyBoolean;
-import com.liyulin.demo.common.web.validation.valueextraction.BasePageReqExtractor;
-import com.liyulin.demo.common.web.validation.valueextraction.ReqExtractor;
-import com.liyulin.demo.common.web.validation.valueextraction.ReqObjectBodyExtractor;
+import com.liyulin.demo.common.web.validation.ValidatorSingleton;
 
 /**
  * Hibernate Validator校验配置
@@ -30,20 +25,8 @@ public class HibernateValidatorAutoConfigure {
 	public MethodValidationPostProcessor methodValidationPostProcessor(final Validator validator) {
 		MethodValidationPostProcessor postProcessor = new MethodValidationPostProcessor();
 		/** 设置validator模式为快速失败返回 */
-		postProcessor.setValidator(validator);
+		postProcessor.setValidator(ValidatorSingleton.getInstance());
 		return postProcessor;
-	}
-
-	@Bean
-	@ConditionalOnMissingBean
-	public Validator validator() {
-		ValidatorFactory validatorFactory = Validation.byProvider(HibernateValidator.class).configure()
-				.addValueExtractor(ReqExtractor.DESCRIPTOR.getValueExtractor())
-				.addValueExtractor(BasePageReqExtractor.DESCRIPTOR.getValueExtractor())
-				.addValueExtractor(ReqObjectBodyExtractor.DESCRIPTOR.getValueExtractor())
-				.addProperty("hibernate.validator.fail_fast", "true").buildValidatorFactory();
-
-		return validatorFactory.getValidator();
 	}
 
 }

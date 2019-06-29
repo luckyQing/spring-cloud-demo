@@ -12,7 +12,6 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.liyulin.demo.common.business.dto.Req;
 import com.liyulin.demo.common.business.signature.util.ReqHttpHeadersUtil;
-import com.liyulin.demo.common.business.util.ReqHeadUtil;
 import com.liyulin.demo.common.constants.SymbolConstant;
 import com.liyulin.demo.common.util.LogUtil;
 import com.liyulin.demo.common.util.ObjectUtil;
@@ -33,8 +32,6 @@ public class FeignInterceptor implements MethodInterceptor {
 		Object[] args = invocation.getArguments();
 		// 1、填充head
 		if (isReq(args)) {
-			Req<?> req = (Req<?>) args[0];
-			req.setHead(ReqHeadUtil.of());
 			// TODO:填充token、sign
 		}
 

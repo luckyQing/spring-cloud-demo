@@ -20,7 +20,7 @@ public class RespHead extends BaseDto {
 	private static final long serialVersionUID = 1L;
 
 	@ApiModelProperty(value = "全局唯一交易流水号", example = "eb9f81e7cee1c000")
-	private String transactionId;
+	private String nonce;
 
 	@ApiModelProperty(value = "响应状态码", example = "100500")
 	@PodamStringValue(strValue = "100200")

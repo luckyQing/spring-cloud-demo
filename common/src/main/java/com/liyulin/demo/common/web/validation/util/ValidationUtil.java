@@ -9,7 +9,7 @@ import javax.validation.Validator;
 import com.liyulin.demo.common.business.exception.ParamValidateError;
 import com.liyulin.demo.common.util.CollectionUtil;
 import com.liyulin.demo.common.util.ExceptionUtil;
-import com.liyulin.demo.common.util.SpringUtil;
+import com.liyulin.demo.common.web.validation.ValidatorSingleton;
 
 import lombok.experimental.UtilityClass;
 
@@ -32,7 +32,7 @@ public class ValidationUtil {
 			throw new ParamValidateError();
 		}
 
-		Validator validator = SpringUtil.getBean(Validator.class);
+		Validator validator = ValidatorSingleton.getInstance();
 		Set<ConstraintViolation<T>> constraintViolationSet = validator.validate(object);
 		// 抛出检验异常
 		if (CollectionUtil.isNotEmpty(constraintViolationSet)) {

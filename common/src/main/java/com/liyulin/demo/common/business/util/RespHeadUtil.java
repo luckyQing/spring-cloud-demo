@@ -5,7 +5,7 @@ import org.apache.commons.lang3.StringUtils;
 import com.liyulin.demo.common.business.dto.RespHead;
 import com.liyulin.demo.common.business.exception.enums.IBaseReturnCode;
 import com.liyulin.demo.common.business.exception.enums.ReturnCodeEnum;
-import com.liyulin.demo.common.util.TransactionIdUtil;
+import com.liyulin.demo.common.util.NonceUtil;
 
 import lombok.experimental.UtilityClass;
 
@@ -37,7 +37,7 @@ public class RespHeadUtil {
 	public static RespHead of(String code, String message) {
 		RespHead respHead = new RespHead(code, message);
 		respHead.setTimestamp(System.currentTimeMillis());
-		respHead.setTransactionId(TransactionIdUtil.getInstance().nextId());
+		respHead.setNonce(NonceUtil.getInstance().nextId());
 
 		return respHead;
 	}
@@ -52,7 +52,7 @@ public class RespHeadUtil {
 	public static RespHead of(IBaseReturnCode returnCode, String message) {
 		RespHead respHead = new RespHead(returnCode);
 		respHead.setTimestamp(System.currentTimeMillis());
-		respHead.setTransactionId(TransactionIdUtil.getInstance().nextId());
+		respHead.setNonce(NonceUtil.getInstance().nextId());
 		if (StringUtils.isNotBlank(message)) {
 			respHead.setMessage(message);
 		}
