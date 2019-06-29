@@ -19,6 +19,7 @@ public class CreateOrderProductInfoReqBody extends BaseDto {
 
 	@ApiModelProperty(value = "商品id", required = true)
 	@NotNull
+	@Min(1)
 	private Long productId;
 
 	@ApiModelProperty(value = "购买数量", required = true)

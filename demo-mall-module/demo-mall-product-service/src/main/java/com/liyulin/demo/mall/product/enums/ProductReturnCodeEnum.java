@@ -16,7 +16,7 @@ import lombok.Getter;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public enum ProductReturnCodeEnum implements IBaseReturnCode {
 
-	STOCK_NOT_ENOUGH("201101", "库存不足，操作失败");
+	STOCK_NOT_ENOUGH("202101", "库存不足，操作失败");
 
 	/** 状态码 */
 	private String code;

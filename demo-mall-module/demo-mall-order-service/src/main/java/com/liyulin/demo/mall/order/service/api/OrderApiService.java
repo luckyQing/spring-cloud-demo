@@ -130,7 +130,7 @@ public class OrderApiService {
 
 		Long amount = entities.stream().mapToLong(item -> item.getBuyCount() * item.getPrice()).sum();
 		orderBillEntity.setAmount(amount);
-		orderBillEntity.setPayState(PayStateEnum.PENDING_PAY.getState());
+		orderBillEntity.setPayState(PayStateEnum.PENDING_PAY.getValue());
 		orderBillEntity.setBuyer(1L);
 		orderBillEntity.setAddTime(new Date());
 		orderBillEntity.setDelState(DelStateEnum.NORMAL.getDelState());

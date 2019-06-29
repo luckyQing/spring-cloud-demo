@@ -53,7 +53,7 @@ public class ApiLogInterceptor implements MethodInterceptor, Ordered {
 		logDto.setApiDesc(apiDesc);
 
 		logDto.setReqParams(WebUtil.getRequestArgs(invocation.getArguments()));
-		logDto.setReqHttpHeaders(ReqHttpHeadersUtil.getReqHttpHeadersDto(request));
+		logDto.setReqHttpHeaders(ReqHttpHeadersUtil.getReqHttpHeadersDto());
 
 		logDto.setUrl(request.getRequestURL().toString());
 		logDto.setIp(WebUtil.getRealIP(request));

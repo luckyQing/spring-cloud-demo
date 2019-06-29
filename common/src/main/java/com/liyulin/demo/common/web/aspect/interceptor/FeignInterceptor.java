@@ -52,7 +52,7 @@ public class FeignInterceptor implements MethodInterceptor {
 		logDto.setClassMethod(classMethod);
 
 		logDto.setReqParams(WebUtil.getRequestArgs(args));
-		logDto.setReqHttpHeaders(ReqHttpHeadersUtil.getReqHttpHeadersDto(request));
+		logDto.setReqHttpHeaders(ReqHttpHeadersUtil.getReqHttpHeadersDto());
 
 		// 2、rpc
 		Object result = invocation.proceed();

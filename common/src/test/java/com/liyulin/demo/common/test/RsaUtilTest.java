@@ -14,7 +14,6 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 
 import org.apache.commons.codec.DecoderException;
-import org.apache.commons.codec.binary.Hex;
 import org.assertj.core.api.Assertions;
 
 import com.liyulin.demo.common.util.security.RsaUtil;
@@ -40,14 +39,13 @@ public class RsaUtilTest extends TestCase {
 			IllegalBlockSizeException, BadPaddingException, InvalidKeySpecException, DecoderException {
 		KeyPair keyPair = RsaUtil.generateKeyPair();
 		RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPublic();
-		RSAPrivateKey privateKey = (RSAPrivateKey) keyPair.getPrivate();
 
 		String plainText = "hello world!";
 		// 加密后的文本
 		String encryptText = RsaUtil.encryptString(publicKey, plainText);
 
-		String modulus = new String(Hex.encodeHex(privateKey.getModulus().toByteArray()));
-		String privateExponent = new String(Hex.encodeHex(privateKey.getPrivateExponent().toByteArray()));
+		String modulus = RsaUtil.getModulus(keyPair);
+		String privateExponent = RsaUtil.getPrivateExponent(keyPair);
 		RSAPrivateKey decryptPrivateKey = RsaUtil.getRSAPrivateKey(modulus, privateExponent);
 
 		// 解密后的文本

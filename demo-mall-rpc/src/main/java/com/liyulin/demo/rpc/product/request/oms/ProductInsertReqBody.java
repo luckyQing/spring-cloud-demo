@@ -3,6 +3,7 @@ package com.liyulin.demo.rpc.product.request.oms;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import com.liyulin.demo.common.business.dto.BaseDto;
 
@@ -19,6 +20,7 @@ public class ProductInsertReqBody extends BaseDto {
 	private static final long serialVersionUID = 1L;
 
 	@ApiModelProperty(value = "商品名称", required = true)
+	@Size(max = 100)
 	@NotBlank
 	private String name;
 

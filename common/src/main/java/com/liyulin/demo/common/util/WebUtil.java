@@ -11,6 +11,12 @@ import java.util.stream.Stream;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+
+import com.liyulin.demo.common.business.exception.ServerException;
+import com.liyulin.demo.common.business.exception.enums.ReturnCodeEnum;
 
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
@@ -172,4 +178,19 @@ public class WebUtil {
 		return args;
 	}
 
+	/**
+	 * 获取HttpServletRequest
+	 * 
+	 * @return
+	 */
+	public static HttpServletRequest getHttpServletRequest() {
+		RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
+		if(requestAttributes instanceof ServletRequestAttributes) {
+			ServletRequestAttributes attributes = (ServletRequestAttributes) requestAttributes;
+			return attributes.getRequest();
+		}
+		
+		throw new ServerException(ReturnCodeEnum.GET_HTTPSERVLETREQUEST_FAIL);
+	}
+	
 }

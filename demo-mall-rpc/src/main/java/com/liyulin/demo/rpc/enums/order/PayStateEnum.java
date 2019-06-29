@@ -15,18 +15,18 @@ import lombok.Getter;
 public enum PayStateEnum {
 
 	/** 待支付 */
-	PENDING_PAY(1),
+	PENDING_PAY((byte)1),
 	/** 支付成功 */
-	PAY_SUCCESS(2),
+	PAY_SUCCESS((byte)2),
 	/** 支付失败 */
-	PAY_FAIL(3),
+	PAY_FAIL((byte)3),
 	/** 待退款 */
-	PENDING_REFUND(4),
+	PENDING_REFUND((byte)4),
 	/** 退款成功 */
-	PENDING_SUCCESS(5),
+	PENDING_SUCCESS((byte)5),
 	/** 退款失败 */
-	PENDING_FAIL(6);
+	PENDING_FAIL((byte)6);
 
-	private Integer state;
+	private Byte value;
 
 }

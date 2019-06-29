@@ -2,8 +2,13 @@ package com.liyulin.demo.common.business.signature.util;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.StringUtils;
+
+import com.liyulin.demo.common.business.exception.ParamValidateError;
+import com.liyulin.demo.common.business.exception.ParamValidateMessage;
 import com.liyulin.demo.common.business.signature.dto.ReqHttpHeadersDto;
 import com.liyulin.demo.common.business.signature.enums.ReqHttpHeadersEnum;
+import com.liyulin.demo.common.util.WebUtil;
 
 import lombok.experimental.UtilityClass;
 
@@ -19,16 +24,31 @@ public class ReqHttpHeadersUtil {
 	/**
 	 * 从<code>HttpServletRequest</code>中获取请求头信息
 	 * 
-	 * @param request
 	 * @return
 	 */
-	public static ReqHttpHeadersDto getReqHttpHeadersDto(HttpServletRequest request) {
+	public static ReqHttpHeadersDto getReqHttpHeadersDto() {
+		HttpServletRequest request = WebUtil.getHttpServletRequest();
+
 		String token = request.getHeader(ReqHttpHeadersEnum.SMART_TOKEN.getHeaderName());
 		String nonce = request.getHeader(ReqHttpHeadersEnum.SMART_NONCE.getHeaderName());
 		String timestamp = request.getHeader(ReqHttpHeadersEnum.SMART_TIMESTAMP.getHeaderName());
 		String sign = request.getHeader(ReqHttpHeadersEnum.SMART_SIGN.getHeaderName());
 
 		return ReqHttpHeadersDto.builder().token(token).nonce(nonce).timestamp(timestamp).sign(sign).build();
+	}
+
+	/**
+	 * 获取请求参数中的token
+	 * 
+	 * @return
+	 */
+	public static String getToken() {
+		HttpServletRequest request = WebUtil.getHttpServletRequest();
+		String token = request.getHeader(ReqHttpHeadersEnum.SMART_TOKEN.getHeaderName());
+		if (StringUtils.isBlank(token)) {
+			throw new ParamValidateError(ParamValidateMessage.TOKEN_MISSING);
+		}
+		return token;
 	}
 
 }

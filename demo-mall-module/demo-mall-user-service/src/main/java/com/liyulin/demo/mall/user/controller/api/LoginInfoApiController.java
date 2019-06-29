@@ -1,0 +1,53 @@
+package com.liyulin.demo.mall.user.controller.api;
+
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.liyulin.demo.common.business.dto.BaseDto;
+import com.liyulin.demo.common.business.dto.Req;
+import com.liyulin.demo.common.business.dto.Resp;
+import com.liyulin.demo.common.business.util.RespUtil;
+import com.liyulin.demo.mall.user.service.api.LoginInfoApiService;
+import com.liyulin.demo.rpc.user.request.api.login.CacheDesKeyReqBody;
+import com.liyulin.demo.rpc.user.request.api.login.LoginReqBody;
+import com.liyulin.demo.rpc.user.response.api.login.GetRsaKeyRespBody;
+import com.liyulin.demo.rpc.user.response.api.login.LoginRespBody;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
+@RestController
+@Validated
+@RequestMapping("api/pass/user/loginInfo")
+@Api(tags = "登陆api接口")
+public class LoginInfoApiController {
+
+	@Autowired
+	private LoginInfoApiService loginInfoApiService;
+
+	@PostMapping("getRsaKey")
+	@ApiOperation("获取rsa key")
+	public Resp<GetRsaKeyRespBody> getRsaKey() {
+		return RespUtil.success(loginInfoApiService.getRsaKey());
+	}
+
+	@PostMapping("cacheDesKey")
+	@ApiOperation("缓存aes key")
+	public Resp<BaseDto> cacheDesKey(@RequestBody @Valid Req<@NotNull CacheDesKeyReqBody> req) {
+
+	}
+	
+	@PostMapping("login")
+	@ApiOperation("登陆")
+	public Resp<LoginRespBody> login(@RequestBody @Valid Req<@NotNull LoginReqBody> req) {
+		return loginInfoApiService.login(req.getBody());
+	}
+
+}

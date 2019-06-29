@@ -18,7 +18,7 @@ import com.liyulin.demo.rpc.product.request.api.PageProductReqBody;
 import com.liyulin.demo.rpc.product.request.oms.ProductDeleteReqBody;
 import com.liyulin.demo.rpc.product.request.oms.ProductInsertReqBody;
 import com.liyulin.demo.rpc.product.request.oms.ProductUpdateReqBody;
-import com.liyulin.demo.rpc.product.response.base.ProductInfoBaseRespBodyBody;
+import com.liyulin.demo.rpc.product.response.base.ProductInfoBaseRespBody;
 
 public class ProductInfoOmsControllerTest extends AbstractIntegrationTest {
 

@@ -2,6 +2,7 @@ package com.liyulin.demo.mybatis.common.mapper.ext;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.beans.BeanUtils;
 
@@ -53,6 +54,24 @@ public interface ExtMapper<T extends BaseEntity, R extends BaseEntityRespBody, P
 		UpdateListByPrimaryKeySelectiveMapper<T>, UpdateByPrimaryKeySelectiveForceMapper<T>,
 		UpdateListByExamplesMapper<T>, UpdateListByExamplesSelectiveMapper<T>, LogicDeleteMapper<T>, Marker {
 
+	/**
+	 * 根据主键id查询resp对象
+	 * 
+	 * @param id
+	 * @return
+	 */
+	default R selectRespById(Long id) {
+		T entitydata = selectByPrimaryKey(id);
+		if (Objects.isNull(entitydata)) {
+			return null;
+		}
+
+		Class<R> clazz = ClassUtil.getActualTypeArgumentFromSuperGenericInterface(getClass(), 1);
+		R r = BeanUtils.instantiateClass(clazz);
+		BeanUtils.copyProperties(entitydata, r);
+		return r;
+	}
+	
 	/**
 	 * 根据example条件分页查询，返回entity对象
 	 * 

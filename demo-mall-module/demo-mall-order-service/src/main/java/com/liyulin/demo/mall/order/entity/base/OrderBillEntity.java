@@ -33,11 +33,11 @@ public class OrderBillEntity extends BaseEntity {
 
 	/** 支付状态（1：待支付；2：支付成功；3：支付失败） */
 	@Column(name = "f_pay_state")
-	private Integer payState;
+	private Byte payState;
 
 	/** 退款状态（1：无需退款；2：待退款；3：退款失败；4：退款成功） */
 	@Column(name = "f_refund_state")
-	private Integer refundState;
+	private Byte refundState;
 
 	/** 购买人id（demo_user库t_user_info表f_id） */
 	@Column(name = "f_buyer")

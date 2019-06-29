@@ -128,6 +128,21 @@ public class RsaUtil {
 		}
 		return null;
 	}
+	
+	public static String getPrivateExponent(KeyPair keyPair) {
+		RSAPrivateKey privateKey = (RSAPrivateKey) keyPair.getPrivate();
+		return new String(Hex.encodeHex(privateKey.getPrivateExponent().toByteArray()));
+	}
+	
+	public static String getPublicExponent(KeyPair keyPair) {
+		RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPublic();
+		return new String(Hex.encodeHex(publicKey.getPublicExponent().toByteArray()));
+	}
+	
+	public static String getModulus(KeyPair keyPair) {
+		RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPrivate();
+		return new String(Hex.encodeHex(publicKey.getModulus().toByteArray()));
+	}
 
 	/**
 	 * 根据给定的16进制系数和专用指数字符串构造一个RSA专用的公钥对象
