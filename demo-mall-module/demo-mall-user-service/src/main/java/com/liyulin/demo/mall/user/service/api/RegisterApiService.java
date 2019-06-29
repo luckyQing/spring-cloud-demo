@@ -10,7 +10,6 @@ import com.liyulin.demo.mall.user.biz.api.LoginInfoApiBiz;
 import com.liyulin.demo.mall.user.biz.api.UserInfoApiBiz;
 import com.liyulin.demo.mall.user.entity.base.UserInfoEntity;
 import com.liyulin.demo.rpc.user.request.api.register.RegisterUserReqBody;
-import com.liyulin.demo.rpc.user.response.api.login.LoginRespBody;
 import com.liyulin.demo.rpc.user.response.api.register.RegisterUserRespBody;
 
 /**
@@ -40,9 +39,12 @@ public class RegisterApiService {
 		UserInfoEntity userInfoEntity = userInfoApiBiz.insert(req.getUserInfo());
 		loginInfoApiBiz.insert(req.getLoginInfo(), userInfoEntity.getId());
 		
-		LoginRespBody loginRespBody = loginInfoApiService.buildLoginRespBody(userInfoEntity.getId());
+		Long userId = userInfoEntity.getId();
+		loginInfoApiService.cacheLoginAfterLoginSuccess(userId);
 		
-		return RespUtil.success(new RegisterUserRespBody(loginRespBody));
+		RegisterUserRespBody registerUserRespBody = new RegisterUserRespBody();
+		registerUserRespBody.setUserId(userId);
+		return RespUtil.success(registerUserRespBody);
 	}
 	
 }

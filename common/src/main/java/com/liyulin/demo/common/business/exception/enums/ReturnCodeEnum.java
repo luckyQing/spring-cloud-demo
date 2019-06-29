@@ -18,7 +18,7 @@ public enum ReturnCodeEnum implements IBaseReturnCode {
 	/** 校验失败 */
 	VALIDATE_FAIL("100101", "校验失败"),
 	/** 数据不存在 */
-	DATE_NOT_EXIST("100102", "数据不存在"),
+	DATE_MISSING("100102", "数据不存在"),
 	/** 数据已存在 */
 	DATE_EXISTED("100103", "数据已存在"),
 	/** 成功 */

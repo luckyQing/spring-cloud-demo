@@ -35,15 +35,16 @@ public class LoginInfoApiController {
 	@PostMapping("getRsaKey")
 	@ApiOperation("获取rsa key")
 	public Resp<GetRsaKeyRespBody> getRsaKey() {
-		return RespUtil.success(loginInfoApiService.getRsaKey());
+		return RespUtil.success(loginInfoApiService.generateRsaKey());
 	}
 
 	@PostMapping("cacheDesKey")
 	@ApiOperation("缓存aes key")
 	public Resp<BaseDto> cacheDesKey(@RequestBody @Valid Req<@NotNull CacheDesKeyReqBody> req) {
-
+		loginInfoApiService.cacheDesKey(req.getBody());
+		return RespUtil.success();
 	}
-	
+
 	@PostMapping("login")
 	@ApiOperation("登陆")
 	public Resp<LoginRespBody> login(@RequestBody @Valid Req<@NotNull LoginReqBody> req) {

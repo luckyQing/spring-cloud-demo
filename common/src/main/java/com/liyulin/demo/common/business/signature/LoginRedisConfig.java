@@ -9,7 +9,7 @@ public class LoginRedisConfig {
 		return "mall:user:login:token:" + token;
 	}
 
-	public static String getUserIdRedisKey(String userId) {
+	public static String getUserIdRedisKey(Long userId) {
 		return "mall:user:login:userId:" + userId;
 	}
 

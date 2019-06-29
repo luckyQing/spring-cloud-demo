@@ -96,7 +96,7 @@ public class RedisWrapper {
 	 * @param key
 	 * @return
 	 */
-	public Boolean delString(String key) {
+	public Boolean delete(String key) {
 		return stringRedisTemplate.delete(key);
 	}
 

@@ -20,8 +20,6 @@ public class LoginCache extends BaseDto {
 
 	private static final long serialVersionUID = 1L;
 
-	/** 是否登陆 */
-	private boolean login;
 	/** 访问token */
 	private String token;
 	/** 用户id */
