@@ -22,7 +22,7 @@ public class ProductInfoApiControllerTest extends AbstractIntegrationTest {
 	public void testPageProduct() throws Exception {
 		productInfoData.batchInsertTestData();
 
-		Resp<BasePageResp<PageProductRespBody>> result = super.postJson("/api/pass/product/productInfo/pageProduct",
+		Resp<BasePageResp<PageProductRespBody>> result = super.postJson("/api/identity/product/productInfo/pageProduct",
 				ReqUtil.build(null, 1, 10), new TypeReference<Resp<BasePageResp<PageProductRespBody>>>() {
 				});
 

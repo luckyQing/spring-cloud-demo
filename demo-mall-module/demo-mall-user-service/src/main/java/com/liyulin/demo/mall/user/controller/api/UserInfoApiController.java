@@ -22,7 +22,7 @@ import io.swagger.annotations.ApiOperation;
 
 @RestController
 @Validated
-@RequestMapping("api/pass/user/userInfo")
+@RequestMapping("api/identity/user/userInfo")
 @Api(tags = "用户api接口")
 public class UserInfoApiController {
 

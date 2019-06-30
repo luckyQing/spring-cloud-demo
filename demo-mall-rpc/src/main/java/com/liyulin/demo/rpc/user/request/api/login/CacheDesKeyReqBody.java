@@ -7,11 +7,13 @@ import com.liyulin.demo.common.business.dto.BaseDto;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 @Setter
 @Getter
+@NoArgsConstructor
 @SuperBuilder
 @ApiModel(description = "缓存aes key请求参数")
 public class CacheDesKeyReqBody extends BaseDto {

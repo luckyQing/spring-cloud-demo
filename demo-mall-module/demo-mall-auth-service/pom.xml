@@ -9,6 +9,6 @@
 		<artifactId>demo-mall-module</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	<artifactId>demo-mall-user-service</artifactId>
+	<artifactId>demo-mall-auth-service</artifactId>
 	<packaging>jar</packaging>
 </project>

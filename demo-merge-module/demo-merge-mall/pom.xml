@@ -22,5 +22,15 @@
 			<groupId>com.liyulin</groupId>
 			<artifactId>demo-mall-product-service</artifactId>
 		</dependency>
+
+		<dependency>
+			<groupId>com.liyulin</groupId>
+			<artifactId>demo-mall-user-service</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.liyulin</groupId>
+			<artifactId>demo-mall-auth-service</artifactId>
+		</dependency>
 	</dependencies>
 </project>

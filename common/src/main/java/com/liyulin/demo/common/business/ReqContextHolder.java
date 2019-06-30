@@ -11,12 +11,15 @@ import com.liyulin.demo.common.business.signature.util.ReqHttpHeadersUtil;
 import com.liyulin.demo.common.redis.RedisWrapper;
 import com.liyulin.demo.common.util.SpringUtil;
 
+import lombok.experimental.UtilityClass;
+
 /**
  * 请求上下文
  * 
  * @author liyulin
  * @date 2019年6月26日 下午5:07:13
  */
+@UtilityClass
 public class ReqContextHolder extends BaseDto {
 	private static final long serialVersionUID = 1L;
 

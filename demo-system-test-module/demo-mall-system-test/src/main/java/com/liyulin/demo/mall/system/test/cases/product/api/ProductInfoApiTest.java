@@ -20,7 +20,7 @@ public class ProductInfoApiTest extends AbstractSystemTest {
 	@Test
 	public void testPageProduct() throws IOException {
 		Resp<BasePageResp<PageProductRespBody>> result = HttpUtil.postWithRaw(
-				SystemTestConfig.getProductBaseUrl() + "api/pass/product/productInfo/pageProduct",
+				SystemTestConfig.getProductBaseUrl() + "api/identity/product/productInfo/pageProduct",
 				ReqUtil.build(null, 1, 10), new TypeReference<Resp<BasePageResp<PageProductRespBody>>>() {
 				});
 		Assertions.assertThat(result).isNotNull();

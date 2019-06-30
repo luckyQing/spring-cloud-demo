@@ -68,6 +68,18 @@
 				<artifactId>demo-mall-product-service</artifactId>
 				<version>${project.version}</version>
 			</dependency>
+			
+			<dependency>
+				<groupId>com.liyulin</groupId>
+				<artifactId>demo-mall-user-service</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>com.liyulin</groupId>
+				<artifactId>demo-mall-auth-service</artifactId>
+				<version>${project.version}</version>
+			</dependency>
 			<!-- 私有jar end -->
 
 			<!-- 第三方jar start -->

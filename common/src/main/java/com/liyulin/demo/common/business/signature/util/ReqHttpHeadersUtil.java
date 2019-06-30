@@ -36,7 +36,7 @@ public class ReqHttpHeadersUtil {
 
 		return ReqHttpHeadersDto.builder().token(token).nonce(nonce).timestamp(timestamp).sign(sign).build();
 	}
-
+	
 	/**
 	 * 获取请求参数中的token
 	 * 

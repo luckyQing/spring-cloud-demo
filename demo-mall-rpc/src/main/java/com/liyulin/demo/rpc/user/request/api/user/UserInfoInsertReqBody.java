@@ -38,7 +38,6 @@ public class UserInfoInsertReqBody extends BaseDto {
 	private String realname;
 
 	@ApiModelProperty(value = "性别=={\"1\":\"男\",\"2\":\"女\",\"3\":\"未知\"}")
-	@Size(max = 1)
 	private Byte sex;
 
 	@ApiModelProperty(value = "出生年月")
@@ -49,7 +48,6 @@ public class UserInfoInsertReqBody extends BaseDto {
 	private String profileImage;
 
 	@ApiModelProperty(value = "所在平台=={\"1\":\"app\",\"2\":\"web后台\",\"3\":\"微信\"}", required = true)
-	@Size(max = 1)
 	@NotNull
 	private Byte channel;
 

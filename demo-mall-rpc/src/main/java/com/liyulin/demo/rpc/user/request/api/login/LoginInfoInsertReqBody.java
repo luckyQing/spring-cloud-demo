@@ -1,6 +1,7 @@
 package com.liyulin.demo.rpc.user.request.api.login;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import com.liyulin.demo.common.business.dto.BaseDto;
@@ -32,7 +33,7 @@ public class LoginInfoInsertReqBody extends BaseDto {
 	private String password;
 	
 	@ApiModelProperty(value = "密码状态=={\"1\":\"未设置\",\"2\":\"已设置\"}", required = true)
-	@NotBlank
+	@NotNull
 	private Byte pwdState;
 
 }

@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.liyulin.demo.common.business.dto.BaseDto;
@@ -25,27 +24,26 @@ import io.swagger.annotations.ApiOperation;
 
 @RestController
 @Validated
-@RequestMapping("api/pass/user/loginInfo")
 @Api(tags = "登陆api接口")
 public class LoginInfoApiController {
 
 	@Autowired
 	private LoginInfoApiService loginInfoApiService;
 
-	@PostMapping("getRsaKey")
+	@PostMapping("api/open/user/loginInfo/getRsaKey")
 	@ApiOperation("获取rsa key")
 	public Resp<GetRsaKeyRespBody> getRsaKey() {
 		return RespUtil.success(loginInfoApiService.generateRsaKey());
 	}
 
-	@PostMapping("cacheDesKey")
+	@PostMapping("api/sign/user/loginInfo/cacheDesKey")
 	@ApiOperation("缓存aes key")
 	public Resp<BaseDto> cacheDesKey(@RequestBody @Valid Req<@NotNull CacheDesKeyReqBody> req) {
 		loginInfoApiService.cacheDesKey(req.getBody());
 		return RespUtil.success();
 	}
 
-	@PostMapping("login")
+	@PostMapping("api/sign/user/loginInfo/login")
 	@ApiOperation("登陆")
 	public Resp<LoginRespBody> login(@RequestBody @Valid Req<@NotNull LoginReqBody> req) {
 		return loginInfoApiService.login(req.getBody());

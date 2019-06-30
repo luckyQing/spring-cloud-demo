@@ -45,7 +45,7 @@ public class OrderApiControllerTest extends AbstractIntegrationTest {
 		setMockAttribute(orderApiService, productInfoRpc);
 		mockStubbing(productInfoRpc, buyProducts);
 		
-		Resp<CreateOrderRespBody> resp = postJson("/api/auth/order/order/create", ReqUtil.build(reqBody), new TypeReference<Resp<CreateOrderRespBody>>() {
+		Resp<CreateOrderRespBody> resp = postJson("/api/identity/order/order/create", ReqUtil.build(reqBody), new TypeReference<Resp<CreateOrderRespBody>>() {
 		});
 
 		// 3、断言结果

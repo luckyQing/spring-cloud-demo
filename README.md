@@ -48,7 +48,7 @@
 > 		<td>10002</td>
 > 	</tr>
 > 	<tr>
-> 		<td rowspan=4>电商模块</td>
+> 		<td rowspan=5>电商模块</td>
 > 		<td>demo-mall-module</td>
 > 		<td>电商模块父项目</td>
 > 		<td>-</td>
@@ -67,6 +67,11 @@
 > 		<td>demo-mall-user-service</td>
 > 		<td>用户服务（用户、登陆等）</td>
 > 		<td>20031</td>
+> 	</tr>
+> 	<tr>
+> 		<td>demo-mall-auth-service</td>
+> 		<td>权限服务</td>
+> 		<td>20041</td>
 > 	</tr>
 > 	<tr>
 > 		<td>电商模块rpc接口</td>

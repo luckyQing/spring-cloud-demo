@@ -92,5 +92,5 @@ public abstract class AbstractIntegrationTest {
 
 		return JSON.parseObject(content, typeReference);
 	}
-
+	
 }

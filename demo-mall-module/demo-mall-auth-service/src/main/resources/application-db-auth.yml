@@ -1,0 +1,17 @@
+smart:
+  swagger:
+    enable: true
+    group-name: mall_auth
+    title: 权限服务
+    description: 
+    name: luckyQing
+    url: https://github.com/luckyQing
+    email: 1634653825@qq.com
+  datasources:
+    order:
+      url: jdbc:mysql://127.0.0.1:3306/demo_auth
+      username: ENC(Ell/BrCjyLFI0+iZgPqo6w==)
+      password: ENC(Aq90bjkofJr0svNO4mtFfw==)
+      mapper-interface-location: com.liyulin.demo.mall.auth.mapper
+      transaction-base-packages: com.liyulin.demo.mall.auth.service
+      mapper-xml-location: classpath*:com/liyulin/demo/mall/auth/mybatis/**/*.xml

@@ -21,7 +21,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 @RestController
-@RequestMapping("api/auth/order/order")
+@RequestMapping("api/identity/order/order")
 @Validated
 @Api(tags = "订单api相关接口")
 public class OrderApiController {

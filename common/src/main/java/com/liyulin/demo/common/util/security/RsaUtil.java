@@ -140,7 +140,7 @@ public class RsaUtil {
 	}
 	
 	public static String getModulus(KeyPair keyPair) {
-		RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPrivate();
+		RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPublic();
 		return new String(Hex.encodeHex(publicKey.getModulus().toByteArray()));
 	}
 
