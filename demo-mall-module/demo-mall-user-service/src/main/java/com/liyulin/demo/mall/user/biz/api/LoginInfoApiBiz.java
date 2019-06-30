@@ -34,6 +34,7 @@ public class LoginInfoApiBiz extends BaseBiz<LoginInfoEntity> {
 		LoginInfoEntity entity = create();
 		entity.setUserId(userId);
 		entity.setUsername(loginInfo.getUsername());
+		// TODO:密码加密
 		entity.setPassword(loginInfo.getPassword());
 		entity.setPwdState(loginInfo.getPwdState());
 		entity.setLastLoginTime(new Date());

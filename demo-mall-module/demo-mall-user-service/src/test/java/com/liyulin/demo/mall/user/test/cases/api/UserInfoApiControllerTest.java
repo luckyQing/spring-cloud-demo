@@ -26,7 +26,7 @@ public class UserInfoApiControllerTest extends AbstractIntegrationTest {
 		QueryUserInfoByIdReqBody reqBody = new QueryUserInfoByIdReqBody();
 		reqBody.setUserId(userId);
 		
-		Resp<UserInfoBaseRespBody> result = super.postJson("/api/identity/user/userInfo/queryById",
+		Resp<UserInfoBaseRespBody> result = super.postWithNoHeaders("/api/identity/user/userInfo/queryById",
 				ReqUtil.build(reqBody), new TypeReference<Resp<UserInfoBaseRespBody>>() {
 				});
 

@@ -41,6 +41,10 @@ public class LoginInfoEntity extends BaseEntity {
 	@Column(name = "f_password")
 	private String password;
 
+	/** 16位盐值 */
+	@Column(name = "f_salt")
+	private String salt;
+
 	/** 最近成功登录时间 */
 	@Column(name = "f_last_login_time")
 	private Date lastLoginTime;
@@ -62,6 +66,8 @@ public class LoginInfoEntity extends BaseEntity {
 		USERNAME("username"),
 		/** 密码 */
 		PASSWORD("password"),
+		/** 16位盐值 */
+		SALT("salt"),
 		/** 最近成功登录时间 */
 		LAST_LOGIN_TIME("lastLoginTime"),
 		/** 密码状态 */

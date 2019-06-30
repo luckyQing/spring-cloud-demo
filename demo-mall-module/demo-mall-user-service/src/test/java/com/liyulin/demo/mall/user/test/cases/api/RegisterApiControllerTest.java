@@ -44,7 +44,7 @@ public class RegisterApiControllerTest extends AbstractIntegrationTest {
 		registerUserReqBody.setUserInfo(userInfo);
 		registerUserReqBody.setLoginInfo(loginInfo);
 		
-		Resp<RegisterUserRespBody> result = super.postJson("/api/sign/user/register",
+		Resp<RegisterUserRespBody> result = super.postWithNoHeaders("/api/sign/user/register",
 				ReqUtil.build(registerUserReqBody), new TypeReference<Resp<RegisterUserRespBody>>() {
 				});
 

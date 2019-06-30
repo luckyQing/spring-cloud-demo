@@ -15,10 +15,9 @@ import com.liyulin.demo.common.business.ReqContextHolder;
 import com.liyulin.demo.common.business.dto.Resp;
 import com.liyulin.demo.common.business.exception.ServerException;
 import com.liyulin.demo.common.business.signature.LoginRedisConfig;
+import com.liyulin.demo.common.business.signature.util.ReqHttpHeadersUtil;
 import com.liyulin.demo.common.business.util.RespUtil;
 import com.liyulin.demo.common.redis.RedisWrapper;
-import com.liyulin.demo.common.util.RandomUtil;
-import com.liyulin.demo.common.util.SnowFlakeIdUtil;
 import com.liyulin.demo.common.util.security.RsaUtil;
 import com.liyulin.demo.mall.user.biz.api.LoginInfoApiBiz;
 import com.liyulin.demo.mall.user.config.UserRedisConfig;
@@ -59,7 +58,7 @@ public class LoginInfoApiService {
 		GetRsaKeyRespBody getRsaKeyRespBody = new GetRsaKeyRespBody();
 		getRsaKeyRespBody.setRsaModulus(RsaUtil.getModulus(keyPair));
 		getRsaKeyRespBody.setRsaPubKey(RsaUtil.getPublicExponent(keyPair));
-		String token = generateToken();
+		String token = ReqHttpHeadersUtil.generateToken();
 		getRsaKeyRespBody.setToken(token);
 
 		cacheRsaKey(token, keyPair);
@@ -88,11 +87,6 @@ public class LoginInfoApiService {
 		String token = loginCache.getToken();
 		String tokenRedisKey = LoginRedisConfig.getTokenRedisKey(token);
 		redisWrapper.setObject(tokenRedisKey, loginCache, UserRedisConfig.NON_LOGIN_TOKEN_EXPIRE_MILLIS);
-	}
-
-	private String generateToken() {
-		// 产生规则：16进制（雪花算法）+2位随机字符混淆
-		return Long.toHexString(SnowFlakeIdUtil.getInstance().nextId()) + RandomUtil.createRandom(false, 2);
 	}
 
 	/**

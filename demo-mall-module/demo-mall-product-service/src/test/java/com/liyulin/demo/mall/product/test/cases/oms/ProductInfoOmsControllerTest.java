@@ -29,7 +29,7 @@ public class ProductInfoOmsControllerTest extends AbstractIntegrationTest {
 		productInsertReqBody.setSellPrice(10000L);
 		productInsertReqBody.setStock(200L);
 
-		Resp<BaseDto> result = super.postJson("/oms/auth/product/productInfo/create",
+		Resp<BaseDto> result = super.postWithNoHeaders("/oms/auth/product/productInfo/create",
 				ReqUtil.build(productInsertReqBody), new TypeReference<Resp<BaseDto>>() {
 				});
 
@@ -49,7 +49,7 @@ public class ProductInfoOmsControllerTest extends AbstractIntegrationTest {
 		productUpdateReqBody.setSellPrice(10000L);
 		productUpdateReqBody.setStock(200L);
 
-		Resp<BaseDto> result = super.postJson("/oms/auth/product/productInfo/update",
+		Resp<BaseDto> result = super.postWithNoHeaders("/oms/auth/product/productInfo/update",
 				ReqUtil.build(productUpdateReqBody), new TypeReference<Resp<BaseDto>>() {
 				});
 
@@ -66,7 +66,7 @@ public class ProductInfoOmsControllerTest extends AbstractIntegrationTest {
 		ProductDeleteReqBody productDeleteReqBody = new ProductDeleteReqBody();
 		productDeleteReqBody.setId(productId);
 
-		Resp<BaseDto> result = super.postJson("/oms/auth/product/productInfo/logicDelete", ReqUtil.build(productDeleteReqBody),
+		Resp<BaseDto> result = super.postWithNoHeaders("/oms/auth/product/productInfo/logicDelete", ReqUtil.build(productDeleteReqBody),
 				new TypeReference<Resp<BaseDto>>() {
 				});
 
@@ -79,7 +79,7 @@ public class ProductInfoOmsControllerTest extends AbstractIntegrationTest {
 	public void testPageProduct() throws Exception {
 		productInfoData.batchInsertTestData();
 
-		Resp<BasePageResp<ProductInfoBaseRespBody>> result = super.postJson("/oms/auth/product/productInfo/pageProduct",
+		Resp<BasePageResp<ProductInfoBaseRespBody>> result = super.postWithNoHeaders("/oms/auth/product/productInfo/pageProduct",
 				ReqUtil.build(null, 1, 10), new TypeReference<Resp<BasePageResp<ProductInfoBaseRespBody>>>() {
 				});
 

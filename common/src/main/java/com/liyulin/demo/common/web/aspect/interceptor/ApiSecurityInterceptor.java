@@ -25,7 +25,7 @@ public class ApiSecurityInterceptor implements MethodInterceptor, Ordered {
 		}
 
 //		SmartSignatureUtil.checkReqSign(reqHttpHeaders, encryptedBody, rsaPublicKey);
-		return null;
+		return invocation.proceed();
 	}
 	
 }

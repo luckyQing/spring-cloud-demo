@@ -8,6 +8,8 @@ import com.liyulin.demo.common.business.exception.ParamValidateError;
 import com.liyulin.demo.common.business.exception.ParamValidateMessage;
 import com.liyulin.demo.common.business.signature.dto.ReqHttpHeadersDto;
 import com.liyulin.demo.common.business.signature.enums.ReqHttpHeadersEnum;
+import com.liyulin.demo.common.util.RandomUtil;
+import com.liyulin.demo.common.util.SnowFlakeIdUtil;
 import com.liyulin.demo.common.util.WebUtil;
 
 import lombok.experimental.UtilityClass;
@@ -35,6 +37,16 @@ public class ReqHttpHeadersUtil {
 		String sign = request.getHeader(ReqHttpHeadersEnum.SMART_SIGN.getHeaderName());
 
 		return ReqHttpHeadersDto.builder().token(token).nonce(nonce).timestamp(timestamp).sign(sign).build();
+	}
+	
+	/**
+	 * 生成token
+	 * 
+	 * @return
+	 */
+	public static String generateToken() {
+		// 产生规则：16进制（雪花算法）+2位随机字符混淆
+		return Long.toHexString(SnowFlakeIdUtil.getInstance().nextId()) + RandomUtil.createRandom(false, 2);
 	}
 	
 	/**

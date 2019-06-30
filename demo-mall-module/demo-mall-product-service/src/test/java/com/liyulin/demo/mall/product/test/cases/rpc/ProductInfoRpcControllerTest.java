@@ -32,7 +32,7 @@ public class ProductInfoRpcControllerTest extends AbstractIntegrationTest {
 		QryProductByIdReqBody reqBody = new QryProductByIdReqBody();
 		reqBody.setId(productId);
 
-		Resp<QryProductByIdRespBody> result = super.postJson("/rpc/identity/product/productInfo/qryProductById",
+		Resp<QryProductByIdRespBody> result = super.postWithNoHeaders("/rpc/identity/product/productInfo/qryProductById",
 				ReqUtil.build(reqBody), new TypeReference<Resp<QryProductByIdRespBody>>() {
 				});
 
@@ -52,7 +52,7 @@ public class ProductInfoRpcControllerTest extends AbstractIntegrationTest {
 		QryProductByIdsReqBody qryProductByIdsReqBody = new QryProductByIdsReqBody();
 		qryProductByIdsReqBody.setIds(ids);
 
-		Resp<QryProductByIdsRespBody> result = super.postJson("/rpc/identity/product/productInfo/qryProductByIds",
+		Resp<QryProductByIdsRespBody> result = super.postWithNoHeaders("/rpc/identity/product/productInfo/qryProductByIds",
 				ReqUtil.build(qryProductByIdsReqBody), new TypeReference<Resp<QryProductByIdsRespBody>>() {
 				});
 
@@ -78,7 +78,7 @@ public class ProductInfoRpcControllerTest extends AbstractIntegrationTest {
 			updateStockReqBody.add(new UpdateStockReqBody(id, 3));
 		}
 
-		Resp<BaseDto> result = super.postJson("/rpc/identity/product/productInfo/updateStock",
+		Resp<BaseDto> result = super.postWithNoHeaders("/rpc/identity/product/productInfo/updateStock",
 				ReqUtil.build(updateStockReqBody), new TypeReference<Resp<BaseDto>>() {
 				});
 

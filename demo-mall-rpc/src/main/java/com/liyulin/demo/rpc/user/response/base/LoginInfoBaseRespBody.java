@@ -28,6 +28,9 @@ public class LoginInfoBaseRespBody extends BaseEntityRespBody {
 	@ApiModelProperty(value = "密码")
 	private String password;
 
+	@ApiModelProperty(value = "16位盐值")
+	private String salt;
+
 	@ApiModelProperty(value = "最近成功登录时间")
 	private Date lastLoginTime;
 
@@ -36,5 +39,5 @@ public class LoginInfoBaseRespBody extends BaseEntityRespBody {
 
 	@ApiModelProperty(value = "用户状态=={\"1\":\"启用\",\"2\":\"禁用\"}")
 	private Byte userState;
-	
+
 }
