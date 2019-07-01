@@ -217,11 +217,11 @@ smart-nonce: eb9f81e7cee1c000
 1）签名、加密的key传递
 ```
 1、C（客户端）请求S（服务端）；
-2、S随机产生两对rsa公钥、私钥（clientPriKey、serverPubKey；clientPubKey、serverPriKey），以及token，并返回token、clientPubKey、clientPriKey给客户端；
-3、客户端随机产生aes加密的key；
-4、客户端将aesKey用clientPubKey加密，用clientPriKey签名并发送给S；
-5、S校验签名并解密，保存aesKey；
-6、后续C与S通信，将会用aesKey加解密；C端用clientPriKey签名，用clientPubKey校验签名；S端用serverPriKey签名，用serverPubKey校验签名。
+2、S端随机产生两对rsa公钥、私钥（clientPriKey、serverPubKey；clientPubKey、serverPriKey），以及token，并返回token、clientPubKey、clientPriKey给C端；
+3、C端保存“token、clientPubKey、clientPriKey”，并随机生成aes加密的key；
+4、C端将aesKey用clientPubKey加密，用clientPriKey签名并发送给S端；
+5、S端校验签名并解密，保存aesKey；
+6、后续C端与S端通信，将会用aesKey加解密；C端用clientPriKey签名，用clientPubKey校验签名；S端用serverPriKey签名，用serverPubKey校验签名。
 ```
 2）请求参数
 ```
