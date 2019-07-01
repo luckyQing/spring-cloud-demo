@@ -29,7 +29,7 @@ public class ValidationUtil {
 	 */
 	public static <T> void validate(T object) {
 		if (object == null) {
-			throw new ParamValidateError();
+			throw new ParamValidateError("待校验参数object不能为null");
 		}
 
 		Validator validator = ValidatorSingleton.getInstance();

@@ -1,6 +1,7 @@
 package com.liyulin.demo.rpc.user.request.api.login;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 import com.liyulin.demo.common.business.dto.BaseDto;
 
@@ -21,6 +22,7 @@ public class CacheDesKeyReqBody extends BaseDto {
 	private static final long serialVersionUID = 1L;
 
 	@ApiModelProperty(value = "aes key", required = true)
+	@Size(min = 8, max = 16)
 	@NotBlank
 	private String key;
 

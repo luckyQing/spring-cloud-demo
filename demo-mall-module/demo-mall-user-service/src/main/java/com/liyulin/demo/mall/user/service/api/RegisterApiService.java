@@ -6,9 +6,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.liyulin.demo.common.business.dto.Resp;
 import com.liyulin.demo.common.business.util.RespUtil;
-import com.liyulin.demo.mall.user.biz.api.LoginInfoApiBiz;
-import com.liyulin.demo.mall.user.biz.api.UserInfoApiBiz;
+import com.liyulin.demo.mall.user.dto.login.LoginInfoInsertServiceDto;
 import com.liyulin.demo.mall.user.entity.base.UserInfoEntity;
+import com.liyulin.demo.rpc.user.request.api.login.LoginInfoInsertReqBody;
 import com.liyulin.demo.rpc.user.request.api.register.RegisterUserReqBody;
 import com.liyulin.demo.rpc.user.response.api.register.RegisterUserRespBody;
 
@@ -22,9 +22,7 @@ import com.liyulin.demo.rpc.user.response.api.register.RegisterUserRespBody;
 public class RegisterApiService {
 
 	@Autowired
-	private UserInfoApiBiz userInfoApiBiz;
-	@Autowired
-	private LoginInfoApiBiz loginInfoApiBiz;
+	private UserInfoApiService userInfoApiService;
 	@Autowired
 	private LoginInfoApiService loginInfoApiService;
 	
@@ -36,9 +34,21 @@ public class RegisterApiService {
 	 */
 	@Transactional
 	public Resp<RegisterUserRespBody> register(RegisterUserReqBody req){
-		UserInfoEntity userInfoEntity = userInfoApiBiz.insert(req.getUserInfo());
-		loginInfoApiBiz.insert(req.getLoginInfo(), userInfoEntity.getId());
+		// 用户信息
+		UserInfoEntity userInfoEntity = userInfoApiService.insert(req.getUserInfo());
 		
+		// 登陆信息
+		LoginInfoInsertReqBody loginInfo = req.getLoginInfo();
+		
+		LoginInfoInsertServiceDto loginInfoInsertDto = LoginInfoInsertServiceDto.builder()
+				.userId(userInfoEntity.getId())
+				.username(loginInfo.getUsername())
+				.password(loginInfo.getPassword())
+				.pwdState(loginInfo.getPwdState())
+				.build();
+		loginInfoApiService.insert(loginInfoInsertDto);
+		
+		// 注册成功，则缓存
 		Long userId = userInfoEntity.getId();
 		loginInfoApiService.cacheLoginAfterLoginSuccess(userId);
 		

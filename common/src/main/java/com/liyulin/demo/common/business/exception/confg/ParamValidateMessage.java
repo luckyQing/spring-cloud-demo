@@ -1,4 +1,4 @@
-package com.liyulin.demo.common.business.exception;
+package com.liyulin.demo.common.business.exception.confg;
 
 import lombok.experimental.UtilityClass;
 

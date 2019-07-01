@@ -5,10 +5,10 @@ import java.util.Objects;
 import com.alibaba.fastjson.TypeReference;
 import com.liyulin.demo.common.business.dto.BaseDto;
 import com.liyulin.demo.common.business.exception.DataValidateError;
-import com.liyulin.demo.common.business.exception.ParamValidateMessage;
+import com.liyulin.demo.common.business.exception.confg.ParamValidateMessage;
 import com.liyulin.demo.common.business.signature.LoginRedisConfig;
 import com.liyulin.demo.common.business.signature.util.ReqHttpHeadersUtil;
-import com.liyulin.demo.common.redis.RedisWrapper;
+import com.liyulin.demo.common.redis.RedisComponent;
 import com.liyulin.demo.common.util.SpringUtil;
 
 import lombok.experimental.UtilityClass;
@@ -50,7 +50,7 @@ public class ReqContextHolder extends BaseDto {
 			return loginCache;
 		}
 
-		RedisWrapper redisWrapper = SpringUtil.getBean(RedisWrapper.class);
+		RedisComponent redisWrapper = SpringUtil.getBean(RedisComponent.class);
 		String token = ReqHttpHeadersUtil.getToken();
 		String tokenRedisKey = LoginRedisConfig.getTokenRedisKey(token);
 		loginCache = redisWrapper.getObject(tokenRedisKey, new TypeReference<LoginCache>() {

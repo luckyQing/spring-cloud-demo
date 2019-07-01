@@ -36,7 +36,7 @@ public class RegisterApiControllerIntegrationTest extends AbstractIntegrationTes
 		userInfo.setSex(SexEnum.FEMALE.getValue());
 		
 		LoginInfoInsertReqBody loginInfo = new LoginInfoInsertReqBody();
-		loginInfo.setUsername("test");
+		loginInfo.setUsername("zhangsan");
 		loginInfo.setPwdState(PwdStateEnum.DONE_SETTING.getValue());
 		loginInfo.setPassword("123456");
 		

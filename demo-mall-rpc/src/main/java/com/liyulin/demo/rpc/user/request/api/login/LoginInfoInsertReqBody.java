@@ -23,12 +23,12 @@ public class LoginInfoInsertReqBody extends BaseDto {
 	private static final long serialVersionUID = 1L;
 	
 	@ApiModelProperty(value = "用户名", required = true)
-	@Size(max = 20)
+	@Size(min = 6, max = 20)
 	@NotBlank
 	private String username;
 
 	@ApiModelProperty(value = "密码", required = true)
-	@Size(max = 45)
+	@Size(min = 6, max = 45)
 	@NotBlank
 	private String password;
 	

@@ -5,7 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.StringUtils;
 
 import com.liyulin.demo.common.business.exception.ParamValidateError;
-import com.liyulin.demo.common.business.exception.ParamValidateMessage;
+import com.liyulin.demo.common.business.exception.confg.ParamValidateMessage;
 import com.liyulin.demo.common.business.signature.dto.ReqHttpHeadersDto;
 import com.liyulin.demo.common.business.signature.enums.ReqHttpHeadersEnum;
 import com.liyulin.demo.common.util.RandomUtil;

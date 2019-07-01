@@ -32,7 +32,7 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 @ConditionalOnClass({ Redisson.class, RedisOperations.class })
 @Slf4j
-public class RedisWrapper {
+public class RedisComponent {
 
 	@Autowired
 	private StringRedisTemplate stringRedisTemplate;

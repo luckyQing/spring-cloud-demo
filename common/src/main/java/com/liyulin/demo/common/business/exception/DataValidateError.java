@@ -12,10 +12,6 @@ public class DataValidateError extends BaseException {
 
 	private static final long serialVersionUID = 1L;
 
-	public DataValidateError() {
-		super(ReturnCodeEnum.DATE_MISSING);
-	}
-	
 	public DataValidateError(String message) {
 		setCode(ReturnCodeEnum.DATE_MISSING.getCode());
 		setMessage(message);

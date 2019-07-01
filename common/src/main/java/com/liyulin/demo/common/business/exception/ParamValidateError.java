@@ -12,10 +12,6 @@ public class ParamValidateError extends BaseException {
 
 	private static final long serialVersionUID = 1L;
 
-	public ParamValidateError() {
-		super(ReturnCodeEnum.PARAMETERS_MISSING);
-	}
-	
 	public ParamValidateError(String message) {
 		setCode(ReturnCodeEnum.PARAMETERS_MISSING.getCode());
 		setMessage(message);
