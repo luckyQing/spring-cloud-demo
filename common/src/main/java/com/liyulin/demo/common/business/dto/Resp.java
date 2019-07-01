@@ -24,6 +24,9 @@ public class Resp<T extends BaseDto> extends BaseDto {
 	@ApiModelProperty(value = "响应体")
 	private T body;
 
+	@ApiModelProperty(value = "签名")
+	private String sign;
+
 	public Resp(RespHead head) {
 		this.head = head;
 	}

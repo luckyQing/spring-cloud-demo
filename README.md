@@ -169,13 +169,21 @@
 
 # 三、相关说明
 ## （一）接口协议
-请求数据采用json格式，通过http body传输。
+请求数据采用json格式，通过流的形式传输。
 
-1、请求对象Req由head、body、sign三部分组成。
-- head部分为app版本号，接口版本号，请求时间戳（默认2分钟内有效），请求的token，交易流水号；
-- body部分为请求的实际参数；
-- sign为请求参数的签名。
+### 1、报文
+1）请求数据由http headers、http body两部分组成。
+- http head部分为请求时间戳（默认2分钟内有效）、请求的token、交易流水号、签名；
+- http body部分为请求的实际参数（json格式）。
 
+**http headers部分**
+```
+smart-sign: 109ad1a8e05f8de345e6d780f09b001e97dc3d6fa9bbbe6936edb2b75a81864ac3b0b071e093af001fbffa479217540138b98f6f165e8246dd25a2536649f1f6
+smart-timestamp: 1555778393862
+smart-token: 4c2e22605001000rK
+smart-nonce: eb9f81e7cee1c000
+```
+**http body部分**
 ```
 {
 	"body": {
@@ -184,18 +192,11 @@
 				"productId": 4
 			}
 		]
-	},
-	"head": {
-		"apiVersion": "1.0.0",
-		"timestamp": 1555778393862,
-		"token": "string",
-		"transactionId": "eb9f81e7cee1c000"
-	},
-	"sign": "string"
+	}
 }
 ```
 
-2、响应对象Resp组成
+2）响应对象Resp组成
 ```
 {
 	"head": {
@@ -208,8 +209,30 @@
 		"id": "2",
 		"name": "手机",
 		"price": "1200"
-	}
+	},
+	"sign": "109ad1a8e05f8de345e6d780f09b001e97dc3d6fa9bbbe6936edb2b75a81864ac3b0b071e093af001fbffa479217540138b98f6f165e8246dd25a2536649f1f6"
 }
+```
+### 2、加密、签名
+1）签名、加密的key传递
+```
+1、C（客户端）请求S（服务端）；
+2、S随机产生两对rsa公钥、私钥（clientPriKey、serverPubKey；clientPubKey、serverPriKey），以及token，并返回token、clientPubKey、clientPriKey给客户端；
+3、客户端随机产生aes加密的key；
+4、客户端将aesKey用clientPubKey加密，用clientPriKey签名并发送给S；
+5、S校验签名并解密，保存aesKey；
+6、后续C与S通信，将会用aesKey加解密；C端用clientPriKey签名，用clientPubKey校验签名；S端用serverPriKey签名，用serverPubKey校验签名。
+```
+2）请求参数
+```
+1.DES加密body的json串
+2.sign值由RSA签名“http headers（按自然排序的json串） + DES加密body的json串”组成
+```
+3）响应信息
+```
+1、head = AES加密(head的json串)
+2、body = AES加密(body json串)
+3、sign = RSA签名签名(AES加密(head的json串) + AES加密(body json串))
 ```
 
 ## （二）服务合并遇到的问题
