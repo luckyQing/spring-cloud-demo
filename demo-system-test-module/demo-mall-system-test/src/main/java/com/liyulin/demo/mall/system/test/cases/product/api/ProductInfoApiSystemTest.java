@@ -15,7 +15,7 @@ import com.liyulin.demo.common.util.HttpUtil;
 import com.liyulin.demo.mall.system.test.config.SystemTestConfig;
 import com.liyulin.demo.rpc.product.response.api.PageProductRespBody;
 
-public class ProductInfoApiTest extends AbstractSystemTest {
+public class ProductInfoApiSystemTest extends AbstractSystemTest {
 
 	@Test
 	public void testPageProduct() throws IOException {

@@ -17,7 +17,7 @@ public class MobileAttributeStrategy implements AttributeStrategy<String> {
 
 	@Override
 	public String getValue(Class<?> attrType, List<Annotation> attrAnnotations) {
-		return "1" + RandomUtil.rangeRandom(3, 8) + RandomUtil.createRandom(true, 9);
+		return "1" + RandomUtil.generateRangeRandom(3, 8) + RandomUtil.generateRandom(true, 9);
 	}
 
 }

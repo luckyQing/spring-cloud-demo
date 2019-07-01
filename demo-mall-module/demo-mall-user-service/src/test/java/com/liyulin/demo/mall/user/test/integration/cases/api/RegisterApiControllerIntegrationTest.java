@@ -1,4 +1,4 @@
-package com.liyulin.demo.mall.user.test.cases.api;
+package com.liyulin.demo.mall.user.test.integration.cases.api;
 
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
@@ -19,7 +19,7 @@ import com.liyulin.demo.rpc.user.request.api.register.RegisterUserReqBody;
 import com.liyulin.demo.rpc.user.request.api.user.UserInfoInsertReqBody;
 import com.liyulin.demo.rpc.user.response.api.register.RegisterUserRespBody;
 
-public class RegisterApiControllerTest extends AbstractIntegrationTest {
+public class RegisterApiControllerIntegrationTest extends AbstractIntegrationTest {
 
 	@Test
 	public void testRegister() throws Exception {

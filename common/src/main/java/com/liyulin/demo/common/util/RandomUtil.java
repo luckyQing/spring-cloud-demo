@@ -1,8 +1,8 @@
 package com.liyulin.demo.common.util;
 
 import java.util.List;
-import java.util.Random;
 import java.util.UUID;
+import java.util.concurrent.ThreadLocalRandom;
 
 import lombok.experimental.UtilityClass;
 
@@ -13,24 +13,17 @@ import lombok.experimental.UtilityClass;
  * @date 2019年4月8日下午5:04:27
  */
 @UtilityClass
-public class RandomUtil {
+public class RandomUtil extends AbstractRandomUtil{
 
 	/**
 	 * 创建指定数量的随机字符串
 	 * 
 	 * @param pureNumber 是否是纯数字
-	 * @param length 随机串长度
+	 * @param length     随机串长度
 	 * @return
 	 */
-	public static String createRandom(boolean pureNumber, int length) {
-		StringBuilder result = new StringBuilder(length);
-		String strTable = pureNumber ? "1234567890" : "1234567890abcdefghijkmnpqrstuvwxyz";
-		for (int i = 0; i < length; i++) {
-			int index = (int) Math.floor(Math.random() * strTable.length());
-			result.append(strTable.charAt(index));
-		}
-
-		return result.toString();
+	public static String generateRandom(boolean pureNumber, int length) {
+		return generateRandom(ThreadLocalRandom.current(), pureNumber, length);
 	}
 
 	/**
@@ -49,8 +42,8 @@ public class RandomUtil {
 	 * @param max
 	 * @return
 	 */
-	public static int rangeRandom(int min, int max) {
-		return new Random().nextInt(max - min + 1) + min;
+	public static int generateRangeRandom(int min, int max) {
+		return generateRangeRandom(ThreadLocalRandom.current(), min, max);
 	}
 
 	/**
@@ -65,7 +58,7 @@ public class RandomUtil {
 		}
 
 		for (int i = 0, len = array.length; i < len; i++) {
-			int currentRandom = Double.valueOf(Math.random() * (len - 1)).intValue();
+			int currentRandom = ThreadLocalRandom.current().nextInt(len);
 			E current = array[i];
 			array[i] = array[currentRandom];
 			array[currentRandom] = current;
@@ -86,7 +79,7 @@ public class RandomUtil {
 		}
 
 		for (int i = 0, len = list.size(); i < len; i++) {
-			int currentRandom = Double.valueOf(Math.random() * (len - 1)).intValue();
+			int currentRandom = ThreadLocalRandom.current().nextInt(len);
 			E current = list.get(i);
 			list.set(i, list.get(currentRandom));
 			list.set(currentRandom, current);

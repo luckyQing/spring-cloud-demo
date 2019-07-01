@@ -46,7 +46,7 @@ public class ReqHttpHeadersUtil {
 	 */
 	public static String generateToken() {
 		// 产生规则：16进制（雪花算法）+2位随机字符混淆
-		return Long.toHexString(SnowFlakeIdUtil.getInstance().nextId()) + RandomUtil.createRandom(false, 2);
+		return Long.toHexString(SnowFlakeIdUtil.getInstance().nextId()) + RandomUtil.generateRandom(false, 2);
 	}
 	
 	/**

@@ -1,4 +1,4 @@
-package com.liyulin.demo.mall.user.test.cases.api;
+package com.liyulin.demo.mall.user.test.integration.cases.api;
 
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
@@ -21,7 +21,7 @@ import com.liyulin.demo.rpc.user.request.api.user.QueryUserInfoByIdReqBody;
 import com.liyulin.demo.rpc.user.response.api.login.LoginRespBody;
 import com.liyulin.demo.rpc.user.response.base.UserInfoBaseRespBody;
 
-public class LoginInfoApiControllerTest extends AbstractIntegrationTest {
+public class LoginInfoApiControllerIntegrationTest extends AbstractIntegrationTest {
 
 	@Autowired
 	private RedisWrapper redisWrapper;

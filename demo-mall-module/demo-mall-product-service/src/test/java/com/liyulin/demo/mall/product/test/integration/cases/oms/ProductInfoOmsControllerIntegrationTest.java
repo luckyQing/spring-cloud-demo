@@ -1,4 +1,4 @@
-package com.liyulin.demo.mall.product.test.cases.oms;
+package com.liyulin.demo.mall.product.test.integration.cases.oms;
 
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
@@ -17,7 +17,7 @@ import com.liyulin.demo.rpc.product.request.oms.ProductInsertReqBody;
 import com.liyulin.demo.rpc.product.request.oms.ProductUpdateReqBody;
 import com.liyulin.demo.rpc.product.response.base.ProductInfoBaseRespBody;
 
-public class ProductInfoOmsControllerTest extends AbstractIntegrationTest {
+public class ProductInfoOmsControllerIntegrationTest extends AbstractIntegrationTest {
 
 	@Autowired
 	private ProductInfoData productInfoData;

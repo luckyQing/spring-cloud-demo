@@ -1,4 +1,4 @@
-package com.liyulin.demo.mall.order.test.cases.api;
+package com.liyulin.demo.mall.order.test.integration.cases.api;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +21,7 @@ import com.liyulin.demo.rpc.product.ProductInfoRpc;
 import com.liyulin.demo.rpc.product.response.rpc.QryProductByIdRespBody;
 import com.liyulin.demo.rpc.product.response.rpc.QryProductByIdsRespBody;
 
-public class OrderApiControllerTest extends AbstractIntegrationTest {
+public class OrderApiControllerIntegrationTest extends AbstractIntegrationTest {
 
 	@Test
 	public void testCreate() throws Exception {

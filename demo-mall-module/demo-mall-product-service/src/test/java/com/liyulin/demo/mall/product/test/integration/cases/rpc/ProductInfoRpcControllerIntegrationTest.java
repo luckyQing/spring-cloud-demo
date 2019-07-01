@@ -1,4 +1,4 @@
-package com.liyulin.demo.mall.product.test.cases.rpc;
+package com.liyulin.demo.mall.product.test.integration.cases.rpc;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +20,7 @@ import com.liyulin.demo.rpc.product.request.rpc.UpdateStockReqBody;
 import com.liyulin.demo.rpc.product.response.rpc.QryProductByIdRespBody;
 import com.liyulin.demo.rpc.product.response.rpc.QryProductByIdsRespBody;
 
-public class ProductInfoRpcControllerTest extends AbstractIntegrationTest {
+public class ProductInfoRpcControllerIntegrationTest extends AbstractIntegrationTest {
 
 	@Autowired
 	private ProductInfoData productInfoData;

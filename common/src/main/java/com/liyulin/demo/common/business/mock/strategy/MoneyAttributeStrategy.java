@@ -17,7 +17,7 @@ public class MoneyAttributeStrategy implements AttributeStrategy<Long> {
 
 	@Override
 	public Long getValue(Class<?> attrType, List<Annotation> attrAnnotations) {
-		return (long) RandomUtil.rangeRandom(100, 1000000);
+		return (long) RandomUtil.generateRangeRandom(100, 1000000);
 	}
 
 }

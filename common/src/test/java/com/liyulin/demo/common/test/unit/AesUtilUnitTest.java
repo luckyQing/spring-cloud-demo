@@ -1,4 +1,4 @@
-package com.liyulin.demo.common.test;
+package com.liyulin.demo.common.test.unit;
 
 import org.assertj.core.api.Assertions;
 
@@ -6,7 +6,7 @@ import com.liyulin.demo.common.util.security.AesUtil;
 
 import junit.framework.TestCase;
 
-public class AesUtilTest extends TestCase{
+public class AesUtilUnitTest extends TestCase{
 
 	public void testEncryptAndDecrypt() {
 		String password = "123456";

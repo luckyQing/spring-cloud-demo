@@ -1,4 +1,4 @@
-package com.liyulin.demo.common.test;
+package com.liyulin.demo.common.test.unit;
 
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
@@ -20,7 +20,7 @@ import com.liyulin.demo.common.util.security.RsaUtil;
 
 import junit.framework.TestCase;
 
-public class RsaUtilTest extends TestCase {
+public class RsaUtilUnitTest extends TestCase {
 
 	/**
 	 * 加密、解密

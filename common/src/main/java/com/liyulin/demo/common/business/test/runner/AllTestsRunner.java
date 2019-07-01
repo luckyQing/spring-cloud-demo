@@ -43,12 +43,10 @@ public class AllTestsRunner extends Suite {
 		Class<?>[] allSuperClass = { AbstractUnitTest.class, AbstractIntegrationTest.class, AbstractSystemTest.class,
 				TestCase.class };
 		Set<Class<?>> testClassSet = getTestClassSet(allSuperClass);
-		Set<Class<?>> suiteClasses = testClassSet.stream().filter(clazz -> {
-			// 过滤掉不符合条件的类
-			return !isAbstractClass(clazz) && isContainTestCase(clazz);
-		}).collect(Collectors.toSet());
-		
-		if(suiteClasses.isEmpty()) {
+		Set<Class<?>> suiteClasses = testClassSet.stream()
+				.filter(clazz -> !isAbstractClass(clazz) && isContainTestCase(clazz)).collect(Collectors.toSet());
+
+		if (suiteClasses.isEmpty()) {
 			log.warn("None suite test class is found!");
 		}
 		return suiteClasses.toArray(new Class<?>[suiteClasses.size()]);
@@ -90,14 +88,14 @@ public class AllTestsRunner extends Suite {
 		if (ArrayUtil.isEmpty(methods)) {
 			return false;
 		}
-		if (clazz.isAssignableFrom(TestCase.class)) {
+		if (TestCase.class.isAssignableFrom(clazz)) {
 			for (Method method : methods) {
 				if (method.getName().startsWith(TEST_CASE_PREFIX)) {
 					return true;
 				}
 			}
 		} else {
-			// 3.所有的method中，至少有一个被@Test修饰的类
+			// 所有的method中，至少有一个被@Test修饰的类
 			for (Method method : methods) {
 				if (AnnotationUtils.findAnnotation(method, Test.class) != null) {
 					return true;

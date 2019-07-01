@@ -1,6 +1,10 @@
 package com.liyulin.demo.common.business.util;
 
+import java.security.NoSuchAlgorithmException;
+
 import org.apache.commons.codec.digest.DigestUtils;
+
+import com.liyulin.demo.common.util.SecureRandomUtil;
 
 import lombok.experimental.UtilityClass;
 
@@ -23,11 +27,21 @@ public class PasswordUtil {
 	public static String secure(String password, String salt) {
 		// 第一次md5
 		String md5 = DigestUtils.md5Hex(password + salt);
-		// 截取前5位，继续第二次md5
-		int sublength = 5;
+		// 截取前8位，继续第二次md5
+		int sublength = 8;
 		String subMd5 = md5.substring(sublength);
 		md5 = DigestUtils.md5Hex(subMd5 + salt);
 		return md5.substring(0, sublength) + md5.substring(sublength);
+	}
+
+	/**
+	 * 生成16位随机盐值
+	 * 
+	 * @return
+	 * @throws NoSuchAlgorithmException 
+	 */
+	public static String generateRandomSalt() throws NoSuchAlgorithmException {
+		return SecureRandomUtil.generateRandom(false, 16);
 	}
 
 }
