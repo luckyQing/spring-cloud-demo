@@ -225,8 +225,8 @@ smart-nonce: eb9f81e7cee1c000
 ```
 2）请求参数
 ```
-1.DES加密body的json串
-2.sign值由RSA签名“http headers（按自然排序的json串） + DES加密body的json串”组成
+1.AES加密body的json串
+2.sign值由RSA签名“http headers（按自然排序的json串） + AES加密body的json串”组成
 ```
 3）响应信息
 ```
