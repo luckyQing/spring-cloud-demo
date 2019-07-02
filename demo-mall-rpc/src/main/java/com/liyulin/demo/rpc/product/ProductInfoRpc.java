@@ -4,14 +4,11 @@ import java.util.List;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import com.liyulin.demo.common.business.dto.BaseDto;
-import com.liyulin.demo.common.business.dto.Req;
-import com.liyulin.demo.common.business.dto.ReqObjectBody;
 import com.liyulin.demo.common.business.dto.Resp;
 import com.liyulin.demo.common.support.annotation.SmartFeignClient;
 import com.liyulin.demo.rpc.constants.RpcConstants;
@@ -30,14 +27,14 @@ public interface ProductInfoRpc {
 
 	@ApiOperation("根据id查询商品信息")
 	@PostMapping("rpc/identity/product/productInfo/qryProductById")
-	Resp<QryProductByIdRespBody> qryProductById(@RequestBody @Valid Req<@NotNull QryProductByIdReqBody> req);
+	Resp<QryProductByIdRespBody> qryProductById(@RequestBody @Valid QryProductByIdReqBody req);
 
 	@ApiOperation("根据ids查询商品信息")
 	@PostMapping("rpc/identity/product/productInfo/qryProductByIds")
-	Resp<QryProductByIdsRespBody> qryProductByIds(@RequestBody @Valid Req<@NotNull QryProductByIdsReqBody> req);
+	Resp<QryProductByIdsRespBody> qryProductByIds(@RequestBody @Valid QryProductByIdsReqBody req);
 
 	@ApiOperation("更新库存")
 	@PostMapping("rpc/identity/product/productInfo/updateStock")
-	Resp<BaseDto> updateStock(@RequestBody @Valid Req<@NotNull ReqObjectBody<@NotEmpty List<UpdateStockReqBody>>> req);
+	Resp<BaseDto> updateStock(@RequestBody @Valid @NotEmpty List<UpdateStockReqBody> req);
 
 }

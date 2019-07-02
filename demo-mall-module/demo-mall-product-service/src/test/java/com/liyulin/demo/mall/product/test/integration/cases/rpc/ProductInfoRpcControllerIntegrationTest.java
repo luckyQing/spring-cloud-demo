@@ -12,7 +12,6 @@ import com.liyulin.demo.common.business.dto.BaseDto;
 import com.liyulin.demo.common.business.dto.Resp;
 import com.liyulin.demo.common.business.exception.enums.ReturnCodeEnum;
 import com.liyulin.demo.common.business.test.AbstractIntegrationTest;
-import com.liyulin.demo.common.business.util.ReqUtil;
 import com.liyulin.demo.mall.product.test.data.ProductInfoData;
 import com.liyulin.demo.rpc.product.request.rpc.QryProductByIdReqBody;
 import com.liyulin.demo.rpc.product.request.rpc.QryProductByIdsReqBody;
@@ -32,8 +31,9 @@ public class ProductInfoRpcControllerIntegrationTest extends AbstractIntegration
 		QryProductByIdReqBody reqBody = new QryProductByIdReqBody();
 		reqBody.setId(productId);
 
-		Resp<QryProductByIdRespBody> result = super.postWithNoHeaders("/rpc/identity/product/productInfo/qryProductById",
-				ReqUtil.build(reqBody), new TypeReference<Resp<QryProductByIdRespBody>>() {
+		Resp<QryProductByIdRespBody> result = super.postWithNoHeaders(
+				"/rpc/identity/product/productInfo/qryProductById", reqBody,
+				new TypeReference<Resp<QryProductByIdRespBody>>() {
 				});
 
 		Assertions.assertThat(result).isNotNull();
@@ -52,8 +52,9 @@ public class ProductInfoRpcControllerIntegrationTest extends AbstractIntegration
 		QryProductByIdsReqBody qryProductByIdsReqBody = new QryProductByIdsReqBody();
 		qryProductByIdsReqBody.setIds(ids);
 
-		Resp<QryProductByIdsRespBody> result = super.postWithNoHeaders("/rpc/identity/product/productInfo/qryProductByIds",
-				ReqUtil.build(qryProductByIdsReqBody), new TypeReference<Resp<QryProductByIdsRespBody>>() {
+		Resp<QryProductByIdsRespBody> result = super.postWithNoHeaders(
+				"/rpc/identity/product/productInfo/qryProductByIds", qryProductByIdsReqBody,
+				new TypeReference<Resp<QryProductByIdsRespBody>>() {
 				});
 
 		Assertions.assertThat(result).isNotNull();
@@ -79,7 +80,7 @@ public class ProductInfoRpcControllerIntegrationTest extends AbstractIntegration
 		}
 
 		Resp<BaseDto> result = super.postWithNoHeaders("/rpc/identity/product/productInfo/updateStock",
-				ReqUtil.build(updateStockReqBody), new TypeReference<Resp<BaseDto>>() {
+				updateStockReqBody, new TypeReference<Resp<BaseDto>>() {
 				});
 
 		Assertions.assertThat(result).isNotNull();

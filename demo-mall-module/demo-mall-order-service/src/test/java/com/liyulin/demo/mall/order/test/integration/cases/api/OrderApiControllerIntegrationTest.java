@@ -11,7 +11,6 @@ import com.alibaba.fastjson.TypeReference;
 import com.liyulin.demo.common.business.dto.Resp;
 import com.liyulin.demo.common.business.exception.enums.ReturnCodeEnum;
 import com.liyulin.demo.common.business.test.AbstractIntegrationTest;
-import com.liyulin.demo.common.business.util.ReqUtil;
 import com.liyulin.demo.common.business.util.RespUtil;
 import com.liyulin.demo.mall.order.service.api.OrderApiService;
 import com.liyulin.demo.rpc.order.request.api.CreateOrderProductInfoReqBody;
@@ -45,7 +44,7 @@ public class OrderApiControllerIntegrationTest extends AbstractIntegrationTest {
 		setMockAttribute(orderApiService, productInfoRpc);
 		mockStubbing(productInfoRpc, buyProducts);
 		
-		Resp<CreateOrderRespBody> resp = postWithNoHeaders("/api/identity/order/order/create", ReqUtil.build(reqBody), new TypeReference<Resp<CreateOrderRespBody>>() {
+		Resp<CreateOrderRespBody> resp = postWithNoHeaders("/api/identity/order/order/create", reqBody, new TypeReference<Resp<CreateOrderRespBody>>() {
 		});
 
 		// 3、断言结果

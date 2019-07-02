@@ -7,8 +7,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.liyulin.demo.common.business.dto.BaseDto;
-import com.liyulin.demo.common.business.dto.Req;
-import com.liyulin.demo.common.business.dto.ReqObjectBody;
 import com.liyulin.demo.common.business.dto.Resp;
 import com.liyulin.demo.common.business.util.RespUtil;
 import com.liyulin.demo.mall.product.biz.rpc.ProductInfoRpcBiz;
@@ -54,12 +52,12 @@ public class ProductInfoRpcService {
 	/**
 	 * 扣减库存
 	 * 
-	 * @param req
+	 * @param list
 	 * @return
 	 */
 	@Transactional
-	public Resp<BaseDto> updateStock(Req<ReqObjectBody<List<UpdateStockReqBody>>> req) {
-		boolean success = productRpcBiz.updateStock(req.getBody().getObject());
+	public Resp<BaseDto> updateStock(List<UpdateStockReqBody> list) {
+		boolean success = productRpcBiz.updateStock(list);
 		return success ? RespUtil.success() : RespUtil.error(ProductReturnCodeEnum.STOCK_NOT_ENOUGH);
 	}
 

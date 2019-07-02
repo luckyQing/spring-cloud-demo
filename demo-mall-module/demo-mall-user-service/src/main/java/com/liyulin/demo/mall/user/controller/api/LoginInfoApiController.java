@@ -1,7 +1,6 @@
 package com.liyulin.demo.mall.user.controller.api;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -10,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.liyulin.demo.common.business.dto.BaseDto;
-import com.liyulin.demo.common.business.dto.Req;
 import com.liyulin.demo.common.business.dto.Resp;
 import com.liyulin.demo.common.business.util.RespUtil;
 import com.liyulin.demo.mall.user.service.api.LoginInfoApiService;
@@ -38,15 +36,15 @@ public class LoginInfoApiController {
 
 	@PostMapping("api/sign/user/loginInfo/cacheDesKey")
 	@ApiOperation("缓存aes key")
-	public Resp<BaseDto> cacheDesKey(@RequestBody @Valid Req<@NotNull CacheDesKeyReqBody> req) {
-		loginInfoApiService.cacheDesKey(req.getBody());
+	public Resp<BaseDto> cacheDesKey(@RequestBody @Valid CacheDesKeyReqBody req) {
+		loginInfoApiService.cacheDesKey(req);
 		return RespUtil.success();
 	}
 
 	@PostMapping("api/sign/user/loginInfo/login")
 	@ApiOperation("登陆")
-	public Resp<LoginRespBody> login(@RequestBody @Valid Req<@NotNull LoginReqBody> req) {
-		return loginInfoApiService.login(req.getBody());
+	public Resp<LoginRespBody> login(@RequestBody @Valid LoginReqBody req) {
+		return loginInfoApiService.login(req);
 	}
 
 }

@@ -29,8 +29,8 @@ public class ProductInfoOmsControllerIntegrationTest extends AbstractIntegration
 		productInsertReqBody.setSellPrice(10000L);
 		productInsertReqBody.setStock(200L);
 
-		Resp<BaseDto> result = super.postWithNoHeaders("/oms/auth/product/productInfo/create",
-				ReqUtil.build(productInsertReqBody), new TypeReference<Resp<BaseDto>>() {
+		Resp<BaseDto> result = super.postWithNoHeaders("/oms/auth/product/productInfo/create", productInsertReqBody,
+				new TypeReference<Resp<BaseDto>>() {
 				});
 
 		Assertions.assertThat(result).isNotNull();
@@ -49,8 +49,8 @@ public class ProductInfoOmsControllerIntegrationTest extends AbstractIntegration
 		productUpdateReqBody.setSellPrice(10000L);
 		productUpdateReqBody.setStock(200L);
 
-		Resp<BaseDto> result = super.postWithNoHeaders("/oms/auth/product/productInfo/update",
-				ReqUtil.build(productUpdateReqBody), new TypeReference<Resp<BaseDto>>() {
+		Resp<BaseDto> result = super.postWithNoHeaders("/oms/auth/product/productInfo/update", productUpdateReqBody,
+				new TypeReference<Resp<BaseDto>>() {
 				});
 
 		Assertions.assertThat(result).isNotNull();
@@ -66,8 +66,8 @@ public class ProductInfoOmsControllerIntegrationTest extends AbstractIntegration
 		ProductDeleteReqBody productDeleteReqBody = new ProductDeleteReqBody();
 		productDeleteReqBody.setId(productId);
 
-		Resp<BaseDto> result = super.postWithNoHeaders("/oms/auth/product/productInfo/logicDelete", ReqUtil.build(productDeleteReqBody),
-				new TypeReference<Resp<BaseDto>>() {
+		Resp<BaseDto> result = super.postWithNoHeaders("/oms/auth/product/productInfo/logicDelete",
+				productDeleteReqBody, new TypeReference<Resp<BaseDto>>() {
 				});
 
 		Assertions.assertThat(result).isNotNull();
@@ -79,8 +79,9 @@ public class ProductInfoOmsControllerIntegrationTest extends AbstractIntegration
 	public void testPageProduct() throws Exception {
 		productInfoData.batchInsertTestData();
 
-		Resp<BasePageResp<ProductInfoBaseRespBody>> result = super.postWithNoHeaders("/oms/auth/product/productInfo/pageProduct",
-				ReqUtil.build(null, 1, 10), new TypeReference<Resp<BasePageResp<ProductInfoBaseRespBody>>>() {
+		Resp<BasePageResp<ProductInfoBaseRespBody>> result = super.postWithNoHeaders(
+				"/oms/auth/product/productInfo/pageProduct", ReqUtil.build(null, 1, 10),
+				new TypeReference<Resp<BasePageResp<ProductInfoBaseRespBody>>>() {
 				});
 
 		Assertions.assertThat(result).isNotNull();

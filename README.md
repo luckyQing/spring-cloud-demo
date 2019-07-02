@@ -167,12 +167,15 @@
 [quicklink](https://github.com/GoogleChromeLabs/quicklink) | 在空闲时预取viewport内的链接来加快后续页面的加载速度
 [Font Awesome](http://fontawesome.dashgame.com/) | 图标
 
-# 三、相关说明
-## （一）接口协议
-```
-请求数据采用json格式，通过流的形式传输。
+# 三、接口协议
 
-接口mapping url格式：接口使用端标记/接口类型标志/服务模块名/接口模块名/接口名
+```
+仅支持http get、http post两种方式。
+对于http get，
+```
+## （一）约定
+```
+接口mapping url格式：接口使用端标志/接口类型标志/服务模块名/接口模块名/接口名
 如：api/sign/user/loginInfo/login
 
 接口使用端标记：
@@ -184,34 +187,34 @@
 	sign：不需登陆，需签名、加密
 	identity：需登陆，需签名、加密，无需鉴权
 	auth：需登陆，需签名、加密，需鉴权
+	
+http get、http post共同部分，即http headers部分的数据，它包含请求时间戳（默认2分钟内有效）、请求的token、交易流水号、签名等4个自定义字段：
+	smart-sign: 109ad1a8e05f8de345e6d780f09b001e97dc3d6fa9bbbe6936edb2b75a81864ac3b0b071e093af001fbffa479217540138b98f6f165e8246dd25a2536649f1f6
+	smart-timestamp: 1555778393862
+	smart-token: 4c2e22605001000rK
+	smart-nonce: eb9f81e7cee1c000
 ```
 
-### 1、报文
-1）请求数据由http headers、http body两部分组成。
-- http head部分为请求时间戳（默认2分钟内有效）、请求的token、交易流水号、签名；
-- http body部分为请求的实际参数（json格式）。
+## （二）Http GET
+请求数据由http headers、url查询字符串组成，url查询字符串为实际请求的参数。
+如http://localhost:10010/api/open/user/loginInfo/queryById?id=100
 
-**http headers部分**
-```
-smart-sign: 109ad1a8e05f8de345e6d780f09b001e97dc3d6fa9bbbe6936edb2b75a81864ac3b0b071e093af001fbffa479217540138b98f6f165e8246dd25a2536649f1f6
-smart-timestamp: 1555778393862
-smart-token: 4c2e22605001000rK
-smart-nonce: eb9f81e7cee1c000
-```
+## （三）Http POST
+请求数据采用json格式，通过流的形式传输。
+请求数据由http headers、http body两部分组成，http body部分为请求的实际参数（json格式）。
+
+### 1、请求数据组成
 **http body部分**
 ```
 {
-	"body": {
-		"products": [{
-				"buyCount": 1,
-				"productId": 4
-			}
-		]
-	}
+    "products": [{
+        "buyCount": 1,
+        "productId": 4
+	}]
 }
 ```
 
-2）响应对象Resp组成
+### 2、响应对象Resp组成
 ```
 {
 	"head": {
@@ -228,8 +231,8 @@ smart-nonce: eb9f81e7cee1c000
 	"sign": "109ad1a8e05f8de345e6d780f09b001e97dc3d6fa9bbbe6936edb2b75a81864ac3b0b071e093af001fbffa479217540138b98f6f165e8246dd25a2536649f1f6"
 }
 ```
-### 2、加密、签名
-1）签名、加密的key传递
+## （四）加密、签名
+### 1、签名、加密的key传递
 ```
 1、C（客户端）请求S（服务端）；
 2、S端随机产生两对rsa公钥、私钥（clientPriKey、serverPubKey；clientPubKey、serverPriKey），以及token，并返回token、clientPubKey、clientPriKey给C端；
@@ -238,19 +241,61 @@ smart-nonce: eb9f81e7cee1c000
 5、S端校验签名并解密，保存aesKey；
 6、后续C端与S端通信，将会用aesKey加解密；C端用clientPriKey签名，用clientPubKey校验签名；S端用serverPriKey签名，用serverPubKey校验签名。
 ```
-2）请求参数
+### 2、客户端
+#### 1.请求参数
 ```
-1.AES加密body的json串
-2.sign值由RSA签名“http headers（按自然排序的json串） + AES加密body的json串”组成
+Http Get请求方式 ：
+1.url查询字符串中的参数以json的格式组装得到查询的json串；
+2.AES加密查询的json串；
+3.sign = RSA签名（“http headers（按自然排序的json串） + AES加密body的json串”组成）
+
+Http Post请求方式 ：
+1.将http body部分的数据json化；
+2.AES加密body的json串；
+3.sign = RSA签名（“http headers（按自然排序的json串） + AES加密body的json串”）
 ```
-3）响应信息
+#### 2.响应信息
+Http Get、Http Post方式响应信息加密、签名相同。
 ```
-1、head = AES加密(head的json串)
-2、body = AES加密(body json串)
-3、sign = RSA签名签名(AES加密(head的json串) + AES加密(body json串))
+1.校验签名是否正确；
+2.解密数据
+head = AES解密(head的json串)
+body = AES解密(body json串)
 ```
 
-## （二）服务合并遇到的问题
+### 3、服务端
+#### 1.客户端的请求
+```
+1.校验签名是否正确；
+2.解密数据
+head = AES解密(head的json串)
+body = AES解密(body json串)
+
+
+
+
+
+Http Get请求方式 ：
+1.url查询字符串中的参数以json的格式组装得到查询的json串；
+2.AES加密查询的json串；
+3.sign = RSA签名（“http headers（按自然排序的json串） + AES加密body的json串”组成）
+
+Http Post请求方式 ：
+1.将http body部分的数据json化；
+2.AES加密body的json串；
+3.sign = RSA签名（“http headers（按自然排序的json串） + AES加密body的json串”）
+```
+#### 2.客户端的响应
+Http Get、Http Post请求方式响应信息加密、签名相同。
+```
+head = AES加密(head的json串)
+body = AES加密(body json串)
+sign = RSA签名签名(AES加密(head的json串) + AES加密(body json串))
+```
+
+
+# 四、相关说明
+## （一）服务合并遇到的问题
 单个服务以jar的形式，通过maven引入合并服务中。在单体服务中，feign接口通过http请求；服务合并后，feign接口通过内部进程的方式通信。
 ### 1、多数据源冲突
 ```
@@ -292,23 +337,23 @@ smart:
 合体服务打包时，单体服务依赖的包也打进单体服务jar。通过maven profiles解决
 ```
 
-## （三）接口mock数据
+## （二）接口mock数据
 接口通过切面拦截的方式，通过反射可以获取返回对象的所有信息，然后根据对象的属性类型，可以随机生成数据；对于特定要求的数据，可以制定mock规则，生成指定格式的数据。
 
-## （四）测试
+## （三）测试
 ### 1、单元测试
 利用单元测试，提高测试覆盖率。
 ### 2、集成测试
 在集成测试下，关闭eureka，减少依赖。依赖的服务rpc接口，通过mockito走挡板。
 ### 3、系统测试
 
-## （五）接口文档
+## （四）接口文档
 接口文档由三个步骤自动生成：
 1. 通过swagger自动生成接口文档的json格式数据；
 2. 将json格式数据转化为markdown格式；
 3. 在服务启动时将markdown格式数据上传（可根据配置的开关控制是否上传）到gitbook。
 
-# 四、笔记
+# 五、笔记
 ## （一）@EnableDiscoveryClient与@EnableEurekaClient区别
 如果选用的注册中心是eureka，那么就推荐@EnableEurekaClient，如果是其他的注册中心，那么推荐使用@EnableDiscoveryClient。
 
@@ -328,7 +373,7 @@ spring:
 ```
 
 ## （三）sleuth
-### 4.3.1、log4j2集成sleuth
+### 5.3.1、log4j2集成sleuth
 日志打印pattern中加入
 ```
 [%X{X-B3-TraceId},%X{X-B3-SpanId},%X{X-B3-ParentSpanId},%X{X-Span-Export}]
@@ -339,7 +384,7 @@ spring:
 - ParentSpanId为上级应用唯一id；
 - X-Span-Export是否是发送给Zipkin。
 
-### 4.3.2、sleuth的原理
+### 5.3.2、sleuth的原理
 Spring Cloud Sleuth可以追踪10种类型的组件：async、Hystrix、messaging、websocket、rxjava、scheduling、web（Spring MVC Controller，Servlet）、webclient（Spring RestTemplate）、Feign、Zuul。
 
 例如scheduling
@@ -347,7 +392,7 @@ Spring Cloud Sleuth可以追踪10种类型的组件：async、Hystrix、messagin
 
 其他组件实现见包org.springframework.cloud.sleuth.instrument。
 
-# 五、注意事项
+# 六、注意事项
 - 更改hosts文件，添加如下内容
 ```
   127.0.0.1       nodeA

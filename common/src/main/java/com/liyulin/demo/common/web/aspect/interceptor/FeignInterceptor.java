@@ -10,11 +10,9 @@ import org.aopalliance.intercept.MethodInvocation;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import com.liyulin.demo.common.business.dto.Req;
 import com.liyulin.demo.common.business.signature.util.ReqHttpHeadersUtil;
 import com.liyulin.demo.common.constants.SymbolConstant;
 import com.liyulin.demo.common.util.LogUtil;
-import com.liyulin.demo.common.util.ObjectUtil;
 import com.liyulin.demo.common.util.WebUtil;
 import com.liyulin.demo.common.web.aspect.dto.FeignAspectDto;
 import com.liyulin.demo.common.web.aspect.util.AspectInterceptorUtil;
@@ -31,9 +29,7 @@ public class FeignInterceptor implements MethodInterceptor {
 	public Object invoke(MethodInvocation invocation) throws Throwable {
 		Object[] args = invocation.getArguments();
 		// 1、填充head
-		if (isReq(args)) {
-			// TODO:填充token、sign
-		}
+		// TODO:填充token、sign
 
 		FeignAspectDto logDto = new FeignAspectDto();
 		logDto.setReqStartTime(new Date());
@@ -62,11 +58,6 @@ public class FeignInterceptor implements MethodInterceptor {
 		LogUtil.info("rpc.logDto=>{}", logDto);
 
 		return result;
-	}
-
-	private boolean isReq(Object[] args) {
-		return ObjectUtil.isNotNull(args) && args.length == 1 && ObjectUtil.isNotNull(args[0])
-				&& args[0] instanceof Req;
 	}
 
 }

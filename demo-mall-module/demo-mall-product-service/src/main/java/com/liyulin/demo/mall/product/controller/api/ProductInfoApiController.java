@@ -1,7 +1,6 @@
 package com.liyulin.demo.mall.product.controller.api;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.liyulin.demo.common.business.dto.BasePageReq;
 import com.liyulin.demo.common.business.dto.BasePageResp;
-import com.liyulin.demo.common.business.dto.Req;
 import com.liyulin.demo.common.business.dto.Resp;
 import com.liyulin.demo.common.business.util.RespUtil;
 import com.liyulin.demo.mall.product.service.api.ProductInfoApiService;
@@ -34,8 +32,8 @@ public class ProductInfoApiController {
 	@ApiOperation("分页查询商品信息")
 	@PostMapping("pageProduct")
 	public Resp<BasePageResp<PageProductRespBody>> pageProduct(
-			@RequestBody @Valid Req<@NotNull BasePageReq<PageProductReqBody>> req) {
-		return RespUtil.success(productService.pageProduct(req.getBody()));
+			@RequestBody @Valid BasePageReq<PageProductReqBody> req) {
+		return RespUtil.success(productService.pageProduct(req));
 	}
 
 }

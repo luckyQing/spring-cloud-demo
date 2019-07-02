@@ -8,9 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.liyulin.demo.common.business.dto.BaseDto;
-import com.liyulin.demo.common.business.dto.Req;
 import com.liyulin.demo.common.business.dto.Resp;
-import com.liyulin.demo.common.business.util.ReqUtil;
 import com.liyulin.demo.common.business.util.RespUtil;
 import com.liyulin.demo.common.util.CollectionUtil;
 import com.liyulin.demo.common.util.ObjectUtil;
@@ -56,14 +54,14 @@ public class OrderApiService {
 	 * @throws UpdateStockException 
 	 */
 	// TODO:分布式事务
-	public Resp<CreateOrderRespBody> create(Req<CreateOrderReqBody> req) throws UpdateStockException {
-		List<CreateOrderProductInfoReqBody> products = req.getBody().getProducts();
+	public Resp<CreateOrderRespBody> create(CreateOrderReqBody req) throws UpdateStockException {
+		List<CreateOrderProductInfoReqBody> products = req.getProducts();
 		// 1、查询商品信息
 		List<Long> productIds = products.stream().map(CreateOrderProductInfoReqBody::getProductId).collect(Collectors.toList());
 
 		QryProductByIdsReqBody qryProductByIdsReqBody = QryProductByIdsReqBody.builder().ids(productIds).build();
 		Resp<QryProductByIdsRespBody> qryProductByIdsResp = productInfoRpc
-				.qryProductByIds(ReqUtil.build(qryProductByIdsReqBody));
+				.qryProductByIds(qryProductByIdsReqBody);
 		if (!RespUtil.isSuccess(qryProductByIdsResp)) {
 			return RespUtil.error(qryProductByIdsResp);
 		}
@@ -88,7 +86,7 @@ public class OrderApiService {
 			return updateStockReqBody;
 		}).collect(Collectors.toList());
 		
-		Resp<BaseDto> updateStockResp = productInfoRpc.updateStock(ReqUtil.build(list));
+		Resp<BaseDto> updateStockResp = productInfoRpc.updateStock(list);
 		if(RespUtil.isSuccess(updateStockResp)) {
 			CreateOrderRespBody createOrderRespBody = new CreateOrderRespBody();
 			createOrderRespBody.setOrderId(orderBillId);

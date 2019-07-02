@@ -1,7 +1,6 @@
 package com.liyulin.demo.mall.user.controller.api;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -10,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.liyulin.demo.common.business.dto.Req;
 import com.liyulin.demo.common.business.dto.Resp;
 import com.liyulin.demo.common.business.util.RespUtil;
 import com.liyulin.demo.mall.user.service.api.UserInfoApiService;
@@ -31,8 +29,8 @@ public class UserInfoApiController {
 
 	@PostMapping("queryById")
 	@ApiOperation("根据id查询用户信息")
-	public Resp<UserInfoBaseRespBody> queryById(@RequestBody @Valid Req<@NotNull QueryUserInfoByIdReqBody> req) {
-		return RespUtil.success(userInfoApIService.queryById(req.getBody()));
+	public Resp<UserInfoBaseRespBody> queryById(@RequestBody @Valid QueryUserInfoByIdReqBody req) {
+		return RespUtil.success(userInfoApIService.queryById(req));
 	}
 
 }

@@ -1,7 +1,6 @@
 package com.liyulin.demo.mall.order.controller.api;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -10,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.liyulin.demo.common.business.dto.Req;
 import com.liyulin.demo.common.business.dto.Resp;
 import com.liyulin.demo.mall.order.exception.UpdateStockException;
 import com.liyulin.demo.mall.order.service.api.OrderApiService;
@@ -31,7 +29,7 @@ public class OrderApiController {
 
 	@ApiOperation("创建订单")
 	@PostMapping("create")
-	public Resp<CreateOrderRespBody> create(@RequestBody @Valid Req<@NotNull CreateOrderReqBody> req)
+	public Resp<CreateOrderRespBody> create(@RequestBody @Valid CreateOrderReqBody req)
 			throws UpdateStockException {
 		return orderApiService.create(req);
 	}
