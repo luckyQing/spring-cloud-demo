@@ -171,7 +171,8 @@
 
 ```
 仅支持http get、http post两种方式。
-对于http get，
+对于http get，请求参数只签名；响应信息加密，且签名。
+对于http post，请求响应皆加密，且签名。
 ```
 ## （一）约定
 ```
@@ -241,20 +242,19 @@ http get、http post共同部分，即http headers部分的数据，它包含请
 5、S端校验签名并解密，保存aesKey；
 6、后续C端与S端通信，将会用aesKey加解密；C端用clientPriKey签名，用clientPubKey校验签名；S端用serverPriKey签名，用serverPubKey校验签名。
 ```
-### 2、客户端
+### 2、请求方
 #### 1.请求参数
 ```
 Http Get请求方式 ：
 1.url查询字符串中的参数以json的格式组装得到查询的json串；
-2.AES加密查询的json串；
-3.sign = RSA签名（“http headers（按自然排序的json串） + AES加密body的json串”组成）
+2.sign = RSA签名（“http headers（按自然排序的json串） + url查询json串”组成）
 
 Http Post请求方式 ：
 1.将http body部分的数据json化；
 2.AES加密body的json串；
 3.sign = RSA签名（“http headers（按自然排序的json串） + AES加密body的json串”）
 ```
-#### 2.响应信息
+#### 2.返回结果
 Http Get、Http Post方式响应信息加密、签名相同。
 ```
 1.校验签名是否正确；
@@ -263,36 +263,25 @@ head = AES解密(head的json串)
 body = AES解密(body json串)
 ```
 
-### 3、服务端
-#### 1.客户端的请求
+### 3、响应方
+#### 1.请求入参
 ```
-1.校验签名是否正确；
-2.解密数据
-head = AES解密(head的json串)
-body = AES解密(body json串)
-
-
-
-
-
 Http Get请求方式 ：
-1.url查询字符串中的参数以json的格式组装得到查询的json串；
-2.AES加密查询的json串；
-3.sign = RSA签名（“http headers（按自然排序的json串） + AES加密body的json串”组成）
+校验签名是否正确
+sign = RSA签名校验（“http headers（按自然排序的json串） + url查询的json串”组成，sign， 公钥）
 
 Http Post请求方式 ：
-1.将http body部分的数据json化；
-2.AES加密body的json串；
-3.sign = RSA签名（“http headers（按自然排序的json串） + AES加密body的json串”）
+1.校验签名是否正确
+  sign = RSA签名校验（“http headers（按自然排序的json串） + AES加密body的json串”， 公钥）
+2.AES解密body的json串；
 ```
-#### 2.客户端的响应
+#### 2.响应结果
 Http Get、Http Post请求方式响应信息加密、签名相同。
 ```
 head = AES加密(head的json串)
 body = AES加密(body json串)
 sign = RSA签名签名(AES加密(head的json串) + AES加密(body json串))
 ```
-
 
 # 四、相关说明
 ## （一）服务合并遇到的问题
