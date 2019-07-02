@@ -23,10 +23,16 @@ public class GetRsaKeyRespBody extends BaseDto {
 	@ApiModelProperty("访问token")
 	private String token;
 
-	@ApiModelProperty("rsa modulus")
-	private String rsaModulus;
+	@ApiModelProperty("签名的modulus")
+	private String signModules;
 
-	@ApiModelProperty("rsa公钥")
-	private String rsaPubKey;
+	@ApiModelProperty("签名的key")
+	private String signKey;
+
+	@ApiModelProperty("校验签名的modulus")
+	private String checkSignModulus;
+
+	@ApiModelProperty("校验签名的key")
+	private String checkSignKey;
 
 }

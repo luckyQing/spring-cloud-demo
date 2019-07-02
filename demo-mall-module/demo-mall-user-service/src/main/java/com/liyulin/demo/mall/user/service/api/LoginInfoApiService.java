@@ -2,8 +2,6 @@ package com.liyulin.demo.mall.user.service.api;
 
 import java.security.KeyPair;
 import java.security.NoSuchAlgorithmException;
-import java.security.interfaces.RSAPrivateKey;
-import java.security.interfaces.RSAPublicKey;
 import java.util.Objects;
 
 import org.apache.commons.lang3.StringUtils;
@@ -52,36 +50,49 @@ public class LoginInfoApiService {
 	 * @return
 	 */
 	public GetRsaKeyRespBody generateRsaKey() {
-		KeyPair keyPair = null;
+		// 客户端公钥（校验签名）、服务端私钥（签名）
+		KeyPair clientPubServerPriKeyPair = null;
+		// 客户端私钥（签名）、服务端公钥（校验签名）
+		KeyPair clientPriServerPubkeyPair = null;
 		try {
-			keyPair = RsaUtil.generateKeyPair();
+			clientPubServerPriKeyPair = RsaUtil.generateKeyPair();
+			clientPriServerPubkeyPair = RsaUtil.generateKeyPair();
 		} catch (NoSuchAlgorithmException e) {
 			log.error(e.getMessage(), e);
 			throw new ServerException(UserReturnCodeEnum.GENERATE_RSAKEY_FAIL);
 		}
 
 		GetRsaKeyRespBody getRsaKeyRespBody = new GetRsaKeyRespBody();
-		getRsaKeyRespBody.setRsaModulus(RsaUtil.getModulus(keyPair));
-		getRsaKeyRespBody.setRsaPubKey(RsaUtil.getPublicExponent(keyPair));
+		getRsaKeyRespBody.setCheckSignModulus(RsaUtil.getModulus(clientPubServerPriKeyPair));
+		getRsaKeyRespBody.setCheckSignKey(RsaUtil.getPublicExponent(clientPubServerPriKeyPair));
+		
+		getRsaKeyRespBody.setSignModules(RsaUtil.getModulus(clientPriServerPubkeyPair));
+		getRsaKeyRespBody.setSignKey(RsaUtil.getPrivateExponent(clientPriServerPubkeyPair));
+		
 		String token = ReqHttpHeadersUtil.generateToken();
 		getRsaKeyRespBody.setToken(token);
 
-		cacheRsaKey(token, keyPair);
+		cacheRsaKey(token, clientPubServerPriKeyPair, clientPriServerPubkeyPair);
 		return getRsaKeyRespBody;
 	}
 
 	/**
 	 * 缓存rsa key相关信息
 	 * 
-	 * @param rsaKey
+	 * @param token
+	 * @param clientPubServerPriKeyPair
+	 * @param clientPriServerPubkeyPair
 	 */
-	private void cacheRsaKey(String token, KeyPair keyPair) {
+	private void cacheRsaKey(String token, KeyPair clientPubServerPriKeyPair, KeyPair clientPriServerPubkeyPair) {
 		String tokenRedisKey = LoginRedisConfig.getTokenRedisKey(token);
 
 		LoginCache loginCache = new LoginCache();
 		loginCache.setToken(token);
-		loginCache.setRsaPrivateKey((RSAPrivateKey) keyPair.getPrivate());
-		loginCache.setRsaPublicKey((RSAPublicKey) keyPair.getPublic());
+		loginCache.setSignModules(RsaUtil.getModulus(clientPubServerPriKeyPair));
+		loginCache.setSignKey(RsaUtil.getPrivateExponent(clientPubServerPriKeyPair));
+		loginCache.setCheckSignModulus(RsaUtil.getModulus(clientPriServerPubkeyPair));
+		loginCache.setCheckSignKey(RsaUtil.getPublicExponent(clientPriServerPubkeyPair));
+		
 		redisComponent.setObject(tokenRedisKey, loginCache, UserRedisConfig.NON_LOGIN_TOKEN_EXPIRE_MILLIS);
 	}
 

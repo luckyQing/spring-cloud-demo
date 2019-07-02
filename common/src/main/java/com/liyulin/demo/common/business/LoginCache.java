@@ -1,8 +1,5 @@
 package com.liyulin.demo.common.business;
 
-import java.security.interfaces.RSAPrivateKey;
-import java.security.interfaces.RSAPublicKey;
-
 import com.liyulin.demo.common.business.dto.BaseDto;
 
 import lombok.Getter;
@@ -26,9 +23,13 @@ public class LoginCache extends BaseDto {
 	private Long userId;
 	/** aes加密key */
 	private String aesKey;
-	/** rsa私钥 */
-	private RSAPublicKey rsaPublicKey;
-	/** rsa公钥 */
-	private RSAPrivateKey rsaPrivateKey;
+	/** 签名的modulus */
+	private String signModules;
+	/** 签名的key */
+	private String signKey;
+	/** 校验签名的modulus */
+	private String checkSignModulus;
+	/** 校验签名的key */
+	private String checkSignKey;
 
 }

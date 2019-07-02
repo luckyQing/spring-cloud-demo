@@ -13,7 +13,6 @@ import com.liyulin.demo.mall.user.entity.base.LoginInfoEntity;
 import com.liyulin.demo.mall.user.mapper.base.LoginInfoBaseMapper;
 import com.liyulin.demo.mybatis.common.biz.BaseBiz;
 import com.liyulin.demo.rpc.enums.user.UserStateEnum;
-import com.liyulin.demo.rpc.user.request.api.login.LoginReqBody;
 
 import tk.mybatis.mapper.entity.Example;
 
