@@ -10,7 +10,6 @@ import com.liyulin.demo.common.business.signature.util.ReqHttpHeadersUtil;
 import com.liyulin.demo.common.constants.OrderConstant;
 
 public class ApiSecurityInterceptor implements MethodInterceptor, Ordered {
-
 	@Override
 	public int getOrder() {
 		return OrderConstant.API_SECURITY;

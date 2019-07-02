@@ -7,7 +7,7 @@ public class FeignSecurityInterceptor implements MethodInterceptor {
 
 	@Override
 	public Object invoke(MethodInvocation invocation) throws Throwable {
-		return null;
+		return invocation.proceed();
 	}
 
 }
