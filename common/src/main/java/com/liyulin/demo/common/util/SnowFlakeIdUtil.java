@@ -68,7 +68,7 @@ public final class SnowFlakeIdUtil {
 	}
 	
 	private SnowFlakeIdUtil() {
-		Long dataMachineIdL = SpringUtil.getBean(SmartProperties.class).getDataMachineId();
+		Long dataMachineIdL = SpringContextUtil.getBean(SmartProperties.class).getDataMachineId();
 		if (ObjectUtil.isNull(dataMachineIdL)) {
 			throw new IllegalArgumentException(CommonConstant.SMART_PROPERTIES_PREFIX + "."
 					+ SmartProperties.PropertiesName.DATA_MACHINE_ID + "未配置！");

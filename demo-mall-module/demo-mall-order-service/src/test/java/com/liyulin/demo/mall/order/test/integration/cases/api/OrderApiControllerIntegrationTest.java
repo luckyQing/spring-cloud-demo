@@ -6,6 +6,8 @@ import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.mockito.Mockito;
+import org.springframework.test.annotation.Rollback;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.fastjson.TypeReference;
 import com.liyulin.demo.common.business.dto.Resp;
@@ -20,6 +22,8 @@ import com.liyulin.demo.rpc.product.ProductInfoRpc;
 import com.liyulin.demo.rpc.product.response.rpc.QryProductByIdRespBody;
 import com.liyulin.demo.rpc.product.response.rpc.QryProductByIdsRespBody;
 
+@Rollback
+@Transactional
 public class OrderApiControllerIntegrationTest extends AbstractIntegrationTest {
 
 	@Test

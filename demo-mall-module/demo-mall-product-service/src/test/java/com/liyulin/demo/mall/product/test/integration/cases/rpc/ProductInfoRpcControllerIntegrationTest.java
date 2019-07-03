@@ -6,6 +6,8 @@ import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.Rollback;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.fastjson.TypeReference;
 import com.liyulin.demo.common.business.dto.BaseDto;
@@ -19,6 +21,8 @@ import com.liyulin.demo.rpc.product.request.rpc.UpdateStockReqBody;
 import com.liyulin.demo.rpc.product.response.rpc.QryProductByIdRespBody;
 import com.liyulin.demo.rpc.product.response.rpc.QryProductByIdsRespBody;
 
+@Rollback
+@Transactional
 public class ProductInfoRpcControllerIntegrationTest extends AbstractIntegrationTest {
 
 	@Autowired

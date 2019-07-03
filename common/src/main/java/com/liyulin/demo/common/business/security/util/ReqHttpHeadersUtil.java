@@ -4,7 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.liyulin.demo.common.business.exception.ParamValidateError;
+import com.liyulin.demo.common.business.exception.ParamValidateException;
 import com.liyulin.demo.common.business.exception.confg.ParamValidateMessage;
 import com.liyulin.demo.common.business.security.dto.ReqHttpHeadersDto;
 import com.liyulin.demo.common.business.security.enums.ReqHttpHeadersEnum;
@@ -38,7 +38,7 @@ public class ReqHttpHeadersUtil {
 
 		return ReqHttpHeadersDto.builder().token(token).nonce(nonce).timestamp(timestamp).sign(sign).build();
 	}
-	
+
 	/**
 	 * 生成token
 	 * 
@@ -48,19 +48,28 @@ public class ReqHttpHeadersUtil {
 		// 产生规则：16进制（雪花算法）+2位随机字符混淆
 		return Long.toHexString(SnowFlakeIdUtil.getInstance().nextId()) + RandomUtil.generateRandom(false, 2);
 	}
-	
+
 	/**
-	 * 获取请求参数中的token
+	 * 获取请求参数中的token；如果不存在，则抛异常
 	 * 
 	 * @return
 	 */
-	public static String getToken() {
-		HttpServletRequest request = WebUtil.getHttpServletRequest();
-		String token = request.getHeader(ReqHttpHeadersEnum.SMART_TOKEN.getHeaderName());
+	public static String getTokenMustExist() {
+		String token = getTokenable();
 		if (StringUtils.isBlank(token)) {
-			throw new ParamValidateError(ParamValidateMessage.TOKEN_MISSING);
+			throw new ParamValidateException(ParamValidateMessage.TOKEN_MISSING);
 		}
 		return token;
+	}
+
+	/**
+	 * 获取请求参数中的token（有可能不存在）
+	 * 
+	 * @return
+	 */
+	public static String getTokenable() {
+		HttpServletRequest request = WebUtil.getHttpServletRequest();
+		return request.getHeader(ReqHttpHeadersEnum.SMART_TOKEN.getHeaderName());
 	}
 
 }

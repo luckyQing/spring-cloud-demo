@@ -12,14 +12,14 @@ import org.springframework.stereotype.Component;
  * @date 2019年4月3日下午10:06:52
  */
 @Component
-public class SpringUtil implements ApplicationListener<ContextRefreshedEvent> {
+public class SpringContextUtil implements ApplicationListener<ContextRefreshedEvent> {
 
 	private static ApplicationContext applicationContext;
 
 	@Override
 	public void onApplicationEvent(ContextRefreshedEvent event) {
-		if (SpringUtil.applicationContext == null) {
-			SpringUtil.applicationContext = event.getApplicationContext();
+		if (SpringContextUtil.applicationContext == null) {
+			SpringContextUtil.applicationContext = event.getApplicationContext();
 		}
 	}
 

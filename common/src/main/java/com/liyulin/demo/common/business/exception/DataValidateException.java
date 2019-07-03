@@ -8,11 +8,11 @@ import com.liyulin.demo.common.business.exception.enums.ReturnCodeEnum;
  * @author liyulin
  * @date 2019年5月1日上午11:56:59
  */
-public class DataValidateError extends BaseException {
+public class DataValidateException extends BaseException {
 
 	private static final long serialVersionUID = 1L;
 
-	public DataValidateError(String message) {
+	public DataValidateException(String message) {
 		setCode(ReturnCodeEnum.DATE_MISSING.getCode());
 		setMessage(message);
 	}

@@ -4,12 +4,12 @@ import java.util.Objects;
 
 import com.alibaba.fastjson.TypeReference;
 import com.liyulin.demo.common.business.dto.BaseDto;
-import com.liyulin.demo.common.business.exception.DataValidateError;
+import com.liyulin.demo.common.business.exception.DataValidateException;
 import com.liyulin.demo.common.business.exception.confg.ParamValidateMessage;
 import com.liyulin.demo.common.business.security.LoginRedisConfig;
 import com.liyulin.demo.common.business.security.util.ReqHttpHeadersUtil;
 import com.liyulin.demo.common.redis.RedisComponent;
-import com.liyulin.demo.common.util.SpringUtil;
+import com.liyulin.demo.common.util.SpringContextUtil;
 
 import lombok.experimental.UtilityClass;
 
@@ -34,7 +34,7 @@ public class ReqContextHolder extends BaseDto {
 		LoginCache loginCache = getLoginCache();
 		Long userId = loginCache.getUserId();
 		if (Objects.isNull(userId)) {
-			throw new DataValidateError(ParamValidateMessage.GET_USERID_FAIL);
+			throw new DataValidateException(ParamValidateMessage.GET_USERID_FAIL);
 		}
 		return userId;
 	}
@@ -50,13 +50,13 @@ public class ReqContextHolder extends BaseDto {
 			return loginCache;
 		}
 
-		RedisComponent redisWrapper = SpringUtil.getBean(RedisComponent.class);
-		String token = ReqHttpHeadersUtil.getToken();
+		RedisComponent redisWrapper = SpringContextUtil.getBean(RedisComponent.class);
+		String token = ReqHttpHeadersUtil.getTokenMustExist();
 		String tokenRedisKey = LoginRedisConfig.getTokenRedisKey(token);
 		loginCache = redisWrapper.getObject(tokenRedisKey, new TypeReference<LoginCache>() {
 		});
 		if (Objects.isNull(loginCache)) {
-			throw new DataValidateError(ParamValidateMessage.LOGIN_CACHE_MISSING);
+			throw new DataValidateException(ParamValidateMessage.LOGIN_CACHE_MISSING);
 		}
 
 		loginCacheThreadLocal.set(loginCache);

@@ -20,10 +20,10 @@ import com.liyulin.demo.common.web.aspect.interceptor.RepeatSubmitCheckIntercept
 @Documented
 public @interface RepeatReqValidate {
 
-	/** 重复提交的最大间隔时间（单位：毫秒） */
-	long expireMillis() default 10000;
+	/** 重复提交的最大间隔时间（默认30秒。单位：毫秒） */
+	long expireMillis() default 30000;
 
 	/** 提示消息（自定义消息时，要支持国际化） */
-	String message() default "message.repeat.submit";
+	String message() default "message.smart.repeat.submit";
 
 }

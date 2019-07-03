@@ -140,8 +140,9 @@ public class RedisComponent {
 		Boolean bool = stringRedisTemplate.execute(new RedisCallback<Boolean>() {
 			@Override
 			public Boolean doInRedis(RedisConnection connection) throws DataAccessException {
-				return connection.set(key.getBytes(), value.getBytes(), Expiration.milliseconds(expireMillis),
+				Boolean result = connection.set(key.getBytes(), value.getBytes(), Expiration.milliseconds(expireMillis),
 						SetOption.SET_IF_ABSENT);
+				return result == null ? true : result;
 			}
 		}, true);
 		return (null == bool) ? false : bool;

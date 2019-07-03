@@ -3,6 +3,8 @@ package com.liyulin.demo.mall.user.test.integration.cases.api;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.mockito.Mockito;
+import org.springframework.test.annotation.Rollback;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.fastjson.TypeReference;
 import com.liyulin.demo.common.business.dto.Resp;
@@ -18,6 +20,8 @@ import com.liyulin.demo.rpc.user.request.api.register.RegisterUserReqBody;
 import com.liyulin.demo.rpc.user.request.api.user.UserInfoInsertReqBody;
 import com.liyulin.demo.rpc.user.response.api.register.RegisterUserRespBody;
 
+@Rollback
+@Transactional
 public class RegisterApiControllerIntegrationTest extends AbstractIntegrationTest {
 
 	@Test

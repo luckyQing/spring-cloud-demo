@@ -21,5 +21,7 @@ public class RedisKeyPrefix {
 	public static final String CACHE = REDIS_KEY_PREPIX + "cache" + REDIS_KEY_SEPARATOR;
 	/** 锁 */
 	public static final String LOCK = REDIS_KEY_PREPIX + "lock" + REDIS_KEY_SEPARATOR;
+	/** 锁 */
+	public static final String API = REDIS_KEY_PREPIX + "api" + REDIS_KEY_SEPARATOR;
 
 }

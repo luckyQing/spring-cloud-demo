@@ -3,7 +3,7 @@ package com.liyulin.demo.mall.user.service.api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.liyulin.demo.common.business.exception.ParamValidateError;
+import com.liyulin.demo.common.business.exception.ParamValidateException;
 import com.liyulin.demo.mall.user.biz.api.UserInfoApiBiz;
 import com.liyulin.demo.mall.user.config.UserParamValidateMessage;
 import com.liyulin.demo.mall.user.entity.base.UserInfoEntity;
@@ -36,7 +36,7 @@ public class UserInfoApiService {
 	public UserInfoEntity insert(UserInfoInsertReqBody userInfo) {
 		boolean existMobile = userInfoApiBiz.existByMobile(userInfo.getMobile());
 		if(existMobile) {
-			throw new ParamValidateError(UserParamValidateMessage.REGISTER_MOBILE_EXSITED);
+			throw new ParamValidateException(UserParamValidateMessage.REGISTER_MOBILE_EXSITED);
 		}
 		
 		return userInfoApiBiz.insert(userInfo);

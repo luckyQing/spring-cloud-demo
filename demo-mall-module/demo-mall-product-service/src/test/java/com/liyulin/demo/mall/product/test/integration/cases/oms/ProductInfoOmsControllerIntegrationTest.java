@@ -3,6 +3,8 @@ package com.liyulin.demo.mall.product.test.integration.cases.oms;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.Rollback;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.fastjson.TypeReference;
 import com.liyulin.demo.common.business.dto.BaseDto;
@@ -17,6 +19,8 @@ import com.liyulin.demo.rpc.product.request.oms.ProductInsertReqBody;
 import com.liyulin.demo.rpc.product.request.oms.ProductUpdateReqBody;
 import com.liyulin.demo.rpc.product.response.base.ProductInfoBaseRespBody;
 
+@Rollback
+@Transactional
 public class ProductInfoOmsControllerIntegrationTest extends AbstractIntegrationTest {
 
 	@Autowired

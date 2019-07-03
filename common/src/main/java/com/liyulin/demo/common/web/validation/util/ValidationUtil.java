@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 
-import com.liyulin.demo.common.business.exception.ParamValidateError;
+import com.liyulin.demo.common.business.exception.ParamValidateException;
 import com.liyulin.demo.common.util.CollectionUtil;
 import com.liyulin.demo.common.util.ExceptionUtil;
 import com.liyulin.demo.common.web.validation.ValidatorSingleton;
@@ -29,7 +29,7 @@ public class ValidationUtil {
 	 */
 	public static <T> void validate(T object) {
 		if (object == null) {
-			throw new ParamValidateError("待校验参数object不能为null");
+			throw new ParamValidateException("待校验参数object不能为null");
 		}
 
 		Validator validator = ValidatorSingleton.getInstance();
@@ -40,7 +40,7 @@ public class ValidationUtil {
 					.map(item -> (ConstraintViolation<?>) (item)).collect(Collectors.toSet());
 
 			String errorMsg = ExceptionUtil.getErrorMsg(constraintViolationSetTmp);
-			throw new ParamValidateError(errorMsg);
+			throw new ParamValidateException(errorMsg);
 		}
 	}
 

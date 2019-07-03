@@ -1,16 +1,15 @@
 package com.liyulin.demo.common.web.autoconfigure;
 
-import org.redisson.Redisson;
 import org.springframework.aop.Advisor;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.aop.support.DefaultBeanFactoryPointcutAdvisor;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.redis.core.RedisOperations;
 
 import com.liyulin.demo.common.constants.CommonConstant;
+import com.liyulin.demo.common.redis.RedisComponent;
 import com.liyulin.demo.common.support.annotation.ConditionalOnPropertyBoolean;
 import com.liyulin.demo.common.web.aspect.interceptor.ApiLogInterceptor;
 import com.liyulin.demo.common.web.aspect.interceptor.ApiSecurityInterceptor;
@@ -50,12 +49,13 @@ public class ApiAspectAutoConfigure {
 	 * @date 2019年7月3日 下午3:58:27
 	 */
 	@Configuration
+	@ConditionalOnBean(RedisComponent.class)
 	@ConditionalOnPropertyBoolean(name = REPEAT_SUBMIT_CHECK_CONDITION_PROPERTY)
 	class RepeatSubmitCheckAutoConfigure {
 
 		@Bean
-		public RepeatSubmitCheckInterceptor repeatSubmitCheckInterceptor() {
-			return new RepeatSubmitCheckInterceptor();
+		public RepeatSubmitCheckInterceptor repeatSubmitCheckInterceptor(final RedisComponent redisComponent) {
+			return new RepeatSubmitCheckInterceptor(redisComponent);
 		}
 
 		/**
@@ -83,7 +83,7 @@ public class ApiAspectAutoConfigure {
 	 * @date 2019年7月3日 下午3:58:00
 	 */
 	@Configuration
-	@ConditionalOnClass({ Redisson.class, RedisOperations.class })
+	@ConditionalOnBean(RedisComponent.class)
 	@ConditionalOnPropertyBoolean(name = API_SECURITY_CONDITION_PROPERTY)
 	class ApiSecurityAutoConfigure {
 

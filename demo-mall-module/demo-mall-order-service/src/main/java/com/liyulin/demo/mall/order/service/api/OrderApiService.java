@@ -54,7 +54,7 @@ public class OrderApiService {
 	 * @throws UpdateStockException 
 	 */
 	// TODO:分布式事务
-	public Resp<CreateOrderRespBody> create(CreateOrderReqBody req) throws UpdateStockException {
+	public Resp<CreateOrderRespBody> create(CreateOrderReqBody req) {
 		List<CreateOrderProductInfoReqBody> products = req.getProducts();
 		// 1、查询商品信息
 		List<Long> productIds = products.stream().map(CreateOrderProductInfoReqBody::getProductId).collect(Collectors.toList());

@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import com.liyulin.demo.common.business.LoginCache;
 import com.liyulin.demo.common.business.ReqContextHolder;
 import com.liyulin.demo.common.business.dto.Resp;
-import com.liyulin.demo.common.business.exception.ParamValidateError;
+import com.liyulin.demo.common.business.exception.ParamValidateException;
 import com.liyulin.demo.common.business.exception.ServerException;
 import com.liyulin.demo.common.business.security.LoginRedisConfig;
 import com.liyulin.demo.common.business.security.util.ReqHttpHeadersUtil;
@@ -168,7 +168,7 @@ public class LoginInfoApiService {
 		// 判断该用户名是否已存在
 		boolean existUsername = loginInfoApiBiz.existByUsername(dto.getUsername());
 		if(existUsername) {
-			throw new ParamValidateError(UserParamValidateMessage.REGISTER_USERNAME_EXSITED);
+			throw new ParamValidateException(UserParamValidateMessage.REGISTER_USERNAME_EXSITED);
 		}
 		
 		String salt = generateRandomSalt();
