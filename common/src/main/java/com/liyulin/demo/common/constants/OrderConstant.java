@@ -11,9 +11,15 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class OrderConstant {
 
-	public static final int API_SECURITY = 1;
-	public static final int API_LOG = 2;
-	public static final int FEIGN_SECURITY = 3;
-	public static final int FEIGN_LOG = 4;
-	
+	/** 重复提交校验 */
+	public static final int REPEAT_SUBMIT_CHECK = 1;
+	/** 接口安全处理 */
+	public static final int API_SECURITY = 2;
+	/** 接口日志 */
+	public static final int API_LOG = 3;
+	/** feign安全处理 */
+	public static final int FEIGN_SECURITY = 4;
+	/** feign日志 */
+	public static final int FEIGN_LOG = 5;
+
 }

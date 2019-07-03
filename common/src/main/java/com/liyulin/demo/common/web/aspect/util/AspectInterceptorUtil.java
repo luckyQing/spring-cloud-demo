@@ -26,6 +26,7 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class AspectInterceptorUtil {
 
+	/** 接口描述缓存 */
 	private ConcurrentMap<String, String> apiDescMap = new ConcurrentHashMap<>();
 
 	/**

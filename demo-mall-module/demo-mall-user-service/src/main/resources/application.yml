@@ -3,8 +3,8 @@ smart:
   async: true
   api:
     validator: true
-    repeatSubmitCheck: true
   aspect:
+    repeatSubmitCheck: true
     rpclog: true
     rpcSecurity: true
     apilog: true

@@ -6,7 +6,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import com.liyulin.demo.common.web.interceptor.RepeatSubmitCheckInterceptor;
+import com.liyulin.demo.common.web.aspect.interceptor.RepeatSubmitCheckInterceptor;
 
 /**
  * 重复提交校验注解，用于请求接口，加注解表示校验

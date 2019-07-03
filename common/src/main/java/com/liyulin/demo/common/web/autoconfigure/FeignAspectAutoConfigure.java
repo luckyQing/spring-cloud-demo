@@ -46,6 +46,12 @@ public class FeignAspectAutoConfigure {
 		return feignClientPointcut;
 	}
 
+	/**
+	 * feign安全处理
+	 * 
+	 * @author liyulin
+	 * @date 2019年7月3日 下午3:58:39
+	 */
 	@Configuration
 	@ConditionalOnPropertyBoolean(name = FEIGN_SECURITY_CONDITION_PROPERTY)
 	class FeignSecurityAutoConfigure {
@@ -67,6 +73,12 @@ public class FeignAspectAutoConfigure {
 
 	}
 
+	/**
+	 * feign日志
+	 * 
+	 * @author liyulin
+	 * @date 2019年7月3日 下午3:58:48
+	 */
 	@Configuration
 	@ConditionalOnPropertyBoolean(name = FEIGN_LOG_CONDITION_PROPERTY)
 	class FeignLogAutoConfigure {

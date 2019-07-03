@@ -17,6 +17,8 @@ public class AspectProperties extends BaseDto {
 
 	private static final long serialVersionUID = 1L;
 
+	/** 重复提交校验切面开关 （默认false） */
+	private boolean repeatSubmitCheck = false;
 	/** feign切面开关 （默认false） */
 	private boolean rpclog = false;
 	/** feign加密、签名切面开关 （默认false） */

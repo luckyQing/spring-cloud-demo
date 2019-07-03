@@ -20,7 +20,5 @@ public class ApiProperties extends BaseDto {
 	private boolean validator = false;
 	/** api版本 */
 	private String apiVersion;
-	/** 重复提交校验开关 */
-	private boolean repeatSubmitCheck = false;
 	
 }
