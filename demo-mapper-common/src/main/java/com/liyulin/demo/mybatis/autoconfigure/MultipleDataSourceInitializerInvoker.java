@@ -24,6 +24,7 @@ import com.github.pagehelper.PageInterceptor;
 import com.liyulin.demo.common.constants.SymbolConstant;
 import com.liyulin.demo.common.support.bean.UniqueBeanNameGenerator;
 import com.liyulin.demo.common.util.LogUtil;
+import com.liyulin.demo.mybatis.constant.MultipleDataSourceConstant;
 import com.liyulin.demo.mybatis.plugin.MybatisSqlLogInterceptor;
 import com.liyulin.demo.mybatis.properties.MultipleDatasourceProperties;
 import com.liyulin.demo.mybatis.properties.ShardingJdbcDatasourceProperties;
@@ -43,8 +44,6 @@ public class MultipleDataSourceInitializerInvoker {
 
 	private final MultipleDatasourceProperties multipleDatasourceProperties;
 	private final ConfigurableBeanFactory beanFactory;
-	/** bean名称组成部分（后缀） */
-	public static final String TRANSACTION_MANAGER_NAME = "DataSourceTransactionManager";
 	private MybatisSqlLogInterceptor mybatisSqlLogInterceptor;
 	private PageInterceptor pageInterceptor;
 	/** jdbc url默认参数 */
@@ -102,17 +101,19 @@ public class MultipleDataSourceInitializerInvoker {
 	 * @param dataSource
 	 * @param properties
 	 */
-	private void initOtherBeanOfDatasource(String serviceName, DataSource dataSource, SingleDatasourceProperties properties) {
+	private void initOtherBeanOfDatasource(String serviceName, DataSource dataSource,
+			SingleDatasourceProperties properties) {
 		// 2.1、SqlSessionFactoryBean
 		String sqlSessionFactoryBeanName = generateBeanName(serviceName,
-				SqlSessionFactoryBean.class.getSimpleName());
+				MultipleDataSourceConstant.SQL_SESSIONFACTORY_BEAN_NAME_SUFFIX);
 		registerSqlSessionFactoryBean(sqlSessionFactoryBeanName, properties, dataSource);
 
 		// 2.2、MapperScannerConfigurer
 		registerMapperScannerConfigurer(serviceName, sqlSessionFactoryBeanName, properties);
 
 		// 2.3、DataSourceTransactionManager
-		String transactionManagerBeanName = generateBeanName(serviceName, TRANSACTION_MANAGER_NAME);
+		String transactionManagerBeanName = generateBeanName(serviceName,
+				MultipleDataSourceConstant.TRANSACTION_MANAGER_NAME_SUFFIX);
 		registerDataSourceTransactionManager(transactionManagerBeanName, dataSource);
 
 		// 2.4、cache transaction info
