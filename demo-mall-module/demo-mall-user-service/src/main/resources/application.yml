@@ -6,6 +6,7 @@ smart:
     repeatSubmitCheck: true
   aspect:
     rpclog: true
+    rpcSecurity: true
     apilog: true
     apiSecurity: true
     

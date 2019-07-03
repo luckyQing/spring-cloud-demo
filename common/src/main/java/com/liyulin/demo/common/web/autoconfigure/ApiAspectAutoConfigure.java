@@ -16,9 +16,14 @@ import com.liyulin.demo.common.web.aspect.interceptor.ApiLogInterceptor;
 import com.liyulin.demo.common.web.aspect.interceptor.ApiSecurityInterceptor;
 import com.liyulin.demo.common.web.aspect.util.AspectInterceptorUtil;
 
+/**
+ * api切面配置
+ * 
+ * @author liyulin
+ * @date 2019年7月3日 下午2:43:46
+ */
 @Configuration
 @ConditionalOnExpression(ApiAspectAutoConfigure.API_ASPECT_CONDITION)
-@ConditionalOnPropertyBoolean(name = "smart.aspect.apilog")
 public class ApiAspectAutoConfigure {
 
 	private static final String API_SECURITY_CONDITION_PROPERTY = "smart.aspect.apiSecurity";

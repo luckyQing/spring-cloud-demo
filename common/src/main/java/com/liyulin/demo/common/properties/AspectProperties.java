@@ -19,9 +19,11 @@ public class AspectProperties extends BaseDto {
 
 	/** feign切面开关 （默认false） */
 	private boolean rpclog = false;
+	/** feign加密、签名切面开关 （默认false） */
+	private boolean rpcSecurity = false;
 	/** 接口日志切面开关 （默认false） */
 	private boolean apilog = false;
-	/** 加密、签名切面开关（默认false） */
+	/** 接口加密、签名切面开关（默认false） */
 	private boolean apiSecurity = false;
 	/** mock开关 （默认false） */
 	private boolean mock = false;
