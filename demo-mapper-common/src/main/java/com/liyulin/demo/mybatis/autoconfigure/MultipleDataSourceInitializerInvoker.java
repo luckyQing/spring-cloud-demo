@@ -127,27 +127,26 @@ public class MultipleDataSourceInitializerInvoker {
 		if (shardingDatasources == null || shardingDatasources.isEmpty()) {
 			return;
 		}
-		
-		shardingDatasources.forEach((serviceName, config)->{
+
+		shardingDatasources.forEach((serviceName, config) -> {
 			Map<String, SingleDatasourceProperties> shardingJdbcDatasourcesMap = config.getDataSources();
 			Map<String, DataSource> dataSourceMap = new LinkedHashMap<>(shardingJdbcDatasourcesMap.size());
-			shardingJdbcDatasourcesMap.forEach((name, properties)->{
+			shardingJdbcDatasourcesMap.forEach((name, properties) -> {
 				HikariDataSource dataSource = createDataSource(name, properties, false);
 				dataSourceMap.put(name, dataSource);
 			});
-			
+
 			try {
 				DataSource dataSource = ShardingDataSourceFactory.createDataSource(dataSourceMap,
 						new ShardingRuleConfigurationYamlSwapper().swap(config.getShardingRule()), config.getProps());
-				
+
 				String dataSourceBeanName = generateBeanName(serviceName, ShardingDataSource.class.getSimpleName());
 				registerBean(dataSourceBeanName, dataSource);
-				
-				shardingJdbcDatasourcesMap
-						.forEach((name, properties) -> initOtherBeanOfDatasource(serviceName, dataSource, properties));
 			} catch (SQLException e) {
 				LogUtil.error(e.getMessage(), e);
 			}
+			shardingJdbcDatasourcesMap.forEach(
+					(name, properties) -> initOtherBeanOfDatasource(name, dataSourceMap.get(name), properties));
 		});
 	}
 
