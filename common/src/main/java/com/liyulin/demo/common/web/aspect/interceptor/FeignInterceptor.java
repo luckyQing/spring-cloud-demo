@@ -10,7 +10,7 @@ import org.aopalliance.intercept.MethodInvocation;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import com.liyulin.demo.common.business.signature.util.ReqHttpHeadersUtil;
+import com.liyulin.demo.common.business.security.util.ReqHttpHeadersUtil;
 import com.liyulin.demo.common.constants.SymbolConstant;
 import com.liyulin.demo.common.util.LogUtil;
 import com.liyulin.demo.common.util.WebUtil;

@@ -6,8 +6,8 @@ import com.alibaba.fastjson.TypeReference;
 import com.liyulin.demo.common.business.dto.BaseDto;
 import com.liyulin.demo.common.business.exception.DataValidateError;
 import com.liyulin.demo.common.business.exception.confg.ParamValidateMessage;
-import com.liyulin.demo.common.business.signature.LoginRedisConfig;
-import com.liyulin.demo.common.business.signature.util.ReqHttpHeadersUtil;
+import com.liyulin.demo.common.business.security.LoginRedisConfig;
+import com.liyulin.demo.common.business.security.util.ReqHttpHeadersUtil;
 import com.liyulin.demo.common.redis.RedisComponent;
 import com.liyulin.demo.common.util.SpringUtil;
 

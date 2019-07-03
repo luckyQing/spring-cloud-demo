@@ -1,4 +1,4 @@
-package com.liyulin.demo.common.business.signature.util;
+package com.liyulin.demo.common.business.security.util;
 
 import com.alibaba.fastjson.JSON;
 import com.liyulin.demo.common.util.security.AesUtil;

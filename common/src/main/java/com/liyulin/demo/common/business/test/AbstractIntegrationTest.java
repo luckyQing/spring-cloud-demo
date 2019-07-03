@@ -19,8 +19,8 @@ import org.springframework.web.context.WebApplicationContext;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
-import com.liyulin.demo.common.business.signature.enums.ReqHttpHeadersEnum;
-import com.liyulin.demo.common.business.signature.util.ReqHttpHeadersUtil;
+import com.liyulin.demo.common.business.security.enums.ReqHttpHeadersEnum;
+import com.liyulin.demo.common.business.security.util.ReqHttpHeadersUtil;
 import com.liyulin.demo.common.util.MockitoUtil;
 import com.liyulin.demo.common.util.NonceUtil;
 

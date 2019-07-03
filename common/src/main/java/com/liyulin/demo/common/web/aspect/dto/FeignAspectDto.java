@@ -4,7 +4,7 @@ import java.util.Date;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.liyulin.demo.common.business.dto.BaseDto;
-import com.liyulin.demo.common.business.signature.dto.ReqHttpHeadersDto;
+import com.liyulin.demo.common.business.security.dto.ReqHttpHeadersDto;
 import com.liyulin.demo.common.util.DateUtil;
 
 import lombok.AllArgsConstructor;

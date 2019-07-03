@@ -1,4 +1,4 @@
-package com.liyulin.demo.common.business.signature.dto;
+package com.liyulin.demo.common.business.security.dto;
 
 import com.liyulin.demo.common.business.dto.BaseDto;
 

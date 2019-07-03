@@ -1,4 +1,4 @@
-package com.liyulin.demo.common.business.signature.util;
+package com.liyulin.demo.common.business.security.util;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -6,8 +6,8 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.liyulin.demo.common.business.exception.ParamValidateError;
 import com.liyulin.demo.common.business.exception.confg.ParamValidateMessage;
-import com.liyulin.demo.common.business.signature.dto.ReqHttpHeadersDto;
-import com.liyulin.demo.common.business.signature.enums.ReqHttpHeadersEnum;
+import com.liyulin.demo.common.business.security.dto.ReqHttpHeadersDto;
+import com.liyulin.demo.common.business.security.enums.ReqHttpHeadersEnum;
 import com.liyulin.demo.common.util.RandomUtil;
 import com.liyulin.demo.common.util.SnowFlakeIdUtil;
 import com.liyulin.demo.common.util.WebUtil;

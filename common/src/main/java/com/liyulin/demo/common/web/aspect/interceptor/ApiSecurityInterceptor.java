@@ -5,8 +5,8 @@ import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.Ordered;
 
-import com.liyulin.demo.common.business.signature.dto.ReqHttpHeadersDto;
-import com.liyulin.demo.common.business.signature.util.ReqHttpHeadersUtil;
+import com.liyulin.demo.common.business.security.dto.ReqHttpHeadersDto;
+import com.liyulin.demo.common.business.security.util.ReqHttpHeadersUtil;
 import com.liyulin.demo.common.constants.OrderConstant;
 
 public class ApiSecurityInterceptor implements MethodInterceptor, Ordered {
