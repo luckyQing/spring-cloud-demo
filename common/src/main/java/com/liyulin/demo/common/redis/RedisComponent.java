@@ -136,16 +136,14 @@ public class RedisComponent {
 	 * @param expireMillis 有效期（毫秒）
 	 * @return {@code true}表示成功；{@code false}表示失败
 	 */
-	public boolean setNx(String key, String value, long expireMillis) {
-		Boolean bool = stringRedisTemplate.execute(new RedisCallback<Boolean>() {
+	public Boolean setNx(String key, String value, long expireMillis) {
+		return stringRedisTemplate.execute(new RedisCallback<Boolean>() {
 			@Override
 			public Boolean doInRedis(RedisConnection connection) throws DataAccessException {
-				Boolean result = connection.set(key.getBytes(), value.getBytes(), Expiration.milliseconds(expireMillis),
+				return connection.set(key.getBytes(), value.getBytes(), Expiration.milliseconds(expireMillis),
 						SetOption.SET_IF_ABSENT);
-				return result == null ? true : result;
 			}
 		}, true);
-		return (null == bool) ? false : bool;
 	}
 
 	@Getter

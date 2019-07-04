@@ -31,7 +31,7 @@ import com.alibaba.fastjson.support.spring.GenericFastJsonRedisSerializer;
 public class RedisAutoConfigure {
 
 	@Bean
-	public RedisTemplate<Serializable, Serializable> initRedisTemplate(RedisConnectionFactory connectionFactory) {
+	public RedisTemplate<Serializable, Serializable> initRedisTemplate(final RedisConnectionFactory connectionFactory) {
 		RedisTemplate<Serializable, Serializable> redisTemplate = new RedisTemplate<>();
 		redisTemplate.setConnectionFactory(connectionFactory);
 		redisTemplate.setEnableDefaultSerializer(true);
@@ -42,7 +42,7 @@ public class RedisAutoConfigure {
 	}
 
 	@Bean
-	public StringRedisTemplate initStringRedisTemplate(RedisConnectionFactory connectionFactory) {
+	public StringRedisTemplate initStringRedisTemplate(final RedisConnectionFactory connectionFactory) {
 		StringRedisTemplate stringRedisTemplate = new StringRedisTemplate();
 		stringRedisTemplate.setConnectionFactory(connectionFactory);
 		stringRedisTemplate.setEnableDefaultSerializer(true);
@@ -54,31 +54,31 @@ public class RedisAutoConfigure {
 
 	@Bean
 	public ValueOperations<Serializable, Serializable> redisValueOperations(
-			RedisTemplate<Serializable, Serializable> redisTemplate) {
+			final RedisTemplate<Serializable, Serializable> redisTemplate) {
 		return redisTemplate.opsForValue();
 	}
 
 	@Bean
 	public ListOperations<Serializable, Serializable> redisListOperations(
-			RedisTemplate<Serializable, Serializable> redisTemplate) {
+			final RedisTemplate<Serializable, Serializable> redisTemplate) {
 		return redisTemplate.opsForList();
 	}
 
 	@Bean
 	public SetOperations<Serializable, Serializable> redisSetOperations(
-			RedisTemplate<Serializable, Serializable> redisTemplate) {
+			final RedisTemplate<Serializable, Serializable> redisTemplate) {
 		return redisTemplate.opsForSet();
 	}
 
 	@Bean
 	public ZSetOperations<Serializable, Serializable> redisZSetOperations(
-			RedisTemplate<Serializable, Serializable> redisTemplate) {
+			final RedisTemplate<Serializable, Serializable> redisTemplate) {
 		return redisTemplate.opsForZSet();
 	}
 
 	@Bean
 	public HashOperations<Serializable, Serializable, Serializable> redisHashOperations(
-			RedisTemplate<Serializable, Serializable> redisTemplate) {
+			final RedisTemplate<Serializable, Serializable> redisTemplate) {
 		return redisTemplate.opsForHash();
 	}
 
