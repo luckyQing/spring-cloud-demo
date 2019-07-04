@@ -21,13 +21,13 @@
 		<!-- 2.1.5.RELEASE 升级后，IDE插件不兼容 -->
 		<maven-jar-plugin.version>3.1.1</maven-jar-plugin.version>
 		<spring-cloud>Greenwich.SR1</spring-cloud>
-		<spring.boot.admin>2.1.3</spring.boot.admin>
+		<spring.boot.admin>2.1.5</spring.boot.admin>
 		<redisson>3.11.1</redisson>
 		<mapper>4.1.5</mapper>
 		<pagehelper>5.1.8</pagehelper>
 		<sharding-jdbc>4.0.0-RC1</sharding-jdbc>
 		<mysql>8.0.15</mysql>
-		<fastjson>1.2.47</fastjson>
+		<fastjson>1.2.58</fastjson>
 		<springfox-swagger2>2.9.2</springfox-swagger2>
 		<podam>7.2.3.RELEASE</podam>
 		<guava>23.0</guava>
