@@ -27,13 +27,13 @@ public class ValidationUtil {
 	 * 
 	 * @param object
 	 */
-	public static <T> void validate(T object) {
+	public static void validate(Object object) {
 		if (object == null) {
 			throw new ParamValidateException("待校验参数object不能为null");
 		}
 
 		Validator validator = ValidatorSingleton.getInstance();
-		Set<ConstraintViolation<T>> constraintViolationSet = validator.validate(object);
+		Set<ConstraintViolation<Object>> constraintViolationSet = validator.validate(object);
 		// 抛出检验异常
 		if (CollectionUtil.isNotEmpty(constraintViolationSet)) {
 			Set<ConstraintViolation<?>> constraintViolationSetTmp = constraintViolationSet.stream()

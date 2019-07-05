@@ -24,9 +24,11 @@ public class ValidatorSingleton {
 		private Validator validator;
 
 		private Holder() {
-			ValidatorFactory validatorFactory = Validation.byProvider(HibernateValidator.class).configure()
+			ValidatorFactory validatorFactory = Validation.byProvider(HibernateValidator.class)
+					.configure()
 					.addValueExtractor(BasePageReqExtractor.DESCRIPTOR.getValueExtractor())
-					.addProperty("hibernate.validator.fail_fast", "true").buildValidatorFactory();
+					.addProperty("hibernate.validator.fail_fast", "true")
+					.buildValidatorFactory();
 			validator = validatorFactory.getValidator();
 		}
 	}
