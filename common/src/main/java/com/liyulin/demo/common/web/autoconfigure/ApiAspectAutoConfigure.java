@@ -5,12 +5,12 @@ import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.aop.support.DefaultBeanFactoryPointcutAdvisor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.liyulin.demo.common.constants.CommonConstant;
 import com.liyulin.demo.common.redis.RedisComponent;
-import com.liyulin.demo.common.support.annotation.ConditionalOnPropertyBoolean;
 import com.liyulin.demo.common.web.aspect.interceptor.ApiLogInterceptor;
 import com.liyulin.demo.common.web.aspect.interceptor.ApiSecurityInterceptor;
 import com.liyulin.demo.common.web.aspect.interceptor.RepeatSubmitCheckInterceptor;
@@ -50,7 +50,7 @@ public class ApiAspectAutoConfigure {
 	 */
 	@Configuration
 	@ConditionalOnBean(RedisComponent.class)
-	@ConditionalOnPropertyBoolean(name = REPEAT_SUBMIT_CHECK_CONDITION_PROPERTY)
+	@ConditionalOnProperty(name = REPEAT_SUBMIT_CHECK_CONDITION_PROPERTY, havingValue = "true")
 	class RepeatSubmitCheckAutoConfigure {
 
 		@Bean
@@ -84,7 +84,7 @@ public class ApiAspectAutoConfigure {
 	 */
 	@Configuration
 	@ConditionalOnBean(RedisComponent.class)
-	@ConditionalOnPropertyBoolean(name = API_SECURITY_CONDITION_PROPERTY)
+	@ConditionalOnProperty(name = API_SECURITY_CONDITION_PROPERTY, havingValue = "true")
 	class ApiSecurityAutoConfigure {
 
 		@Bean
@@ -110,7 +110,7 @@ public class ApiAspectAutoConfigure {
 	 * @date 2019年7月3日 下午3:58:27
 	 */
 	@Configuration
-	@ConditionalOnPropertyBoolean(name = API_LOG_CONDITION_PROPERTY)
+	@ConditionalOnProperty(name = API_LOG_CONDITION_PROPERTY, havingValue = "true")
 	class ApiLogAutoConfigure {
 
 		@Bean

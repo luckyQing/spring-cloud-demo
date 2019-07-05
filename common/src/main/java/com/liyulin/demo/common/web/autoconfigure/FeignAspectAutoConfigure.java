@@ -6,11 +6,11 @@ import org.springframework.aop.Advisor;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.aop.support.DefaultBeanFactoryPointcutAdvisor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.liyulin.demo.common.support.annotation.ConditionalOnPropertyBoolean;
 import com.liyulin.demo.common.support.annotation.SmartFeignClient;
 import com.liyulin.demo.common.web.aspect.interceptor.FeignInterceptor;
 import com.liyulin.demo.common.web.aspect.interceptor.FeignSecurityInterceptor;
@@ -53,7 +53,7 @@ public class FeignAspectAutoConfigure {
 	 * @date 2019年7月3日 下午3:58:39
 	 */
 	@Configuration
-	@ConditionalOnPropertyBoolean(name = FEIGN_SECURITY_CONDITION_PROPERTY)
+	@ConditionalOnProperty(name = FEIGN_SECURITY_CONDITION_PROPERTY, havingValue = "true")
 	class FeignSecurityAutoConfigure {
 
 		@Bean
@@ -80,7 +80,7 @@ public class FeignAspectAutoConfigure {
 	 * @date 2019年7月3日 下午3:58:48
 	 */
 	@Configuration
-	@ConditionalOnPropertyBoolean(name = FEIGN_LOG_CONDITION_PROPERTY)
+	@ConditionalOnProperty(name = FEIGN_LOG_CONDITION_PROPERTY, havingValue = "true")
 	class FeignLogAutoConfigure {
 
 		@Bean

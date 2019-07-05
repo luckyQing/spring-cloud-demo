@@ -3,11 +3,11 @@ package com.liyulin.demo.common.web.autoconfigure;
 import javax.validation.Validator;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
 
-import com.liyulin.demo.common.support.annotation.ConditionalOnPropertyBoolean;
 import com.liyulin.demo.common.web.validation.ValidatorSingleton;
 
 /**
@@ -17,7 +17,7 @@ import com.liyulin.demo.common.web.validation.ValidatorSingleton;
  * @date 2019年3月29日下午11:14:39
  */
 @Configuration
-@ConditionalOnPropertyBoolean(name = "smart.api.validator")
+@ConditionalOnProperty(name = "smart.api.validator", havingValue = "true")
 public class HibernateValidatorAutoConfigure {
 
 	@Bean
