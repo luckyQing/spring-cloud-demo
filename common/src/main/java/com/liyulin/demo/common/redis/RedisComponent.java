@@ -134,7 +134,7 @@ public class RedisComponent {
 	 * @param key
 	 * @param value
 	 * @param expireMillis 有效期（毫秒）
-	 * @return {@code true}表示成功；{@code false}表示失败
+	 * @return {@code true}表示成功；{@code false}表示失败；null when used in pipeline / transaction.
 	 */
 	public Boolean setNx(String key, String value, long expireMillis) {
 		return stringRedisTemplate.execute(new RedisCallback<Boolean>() {

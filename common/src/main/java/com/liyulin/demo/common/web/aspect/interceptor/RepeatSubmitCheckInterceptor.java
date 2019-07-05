@@ -48,20 +48,21 @@ public class RepeatSubmitCheckInterceptor implements MethodInterceptor, Ordered 
 		}
 
 		String repeatSubmitCheckRedisKey = getRepeatSubmitCheckRedisKey(token);
-		boolean success = false;
+		boolean result = false;
 		try {
 			Object reqObject = WebUtil.getRequestArgs(invocation.getArguments());
 			if (reqObject != null) {
 				String reqString = JSON.toJSONString(reqObject);
-				success = redisComponent.setNx(repeatSubmitCheckRedisKey, reqString, validate.expireMillis());
-				if (success) {
+				Boolean success = redisComponent.setNx(repeatSubmitCheckRedisKey, reqString, validate.expireMillis());
+				result = (success != null && success);
+				if (result) {
 					return invocation.proceed();
 				} else {
 					throw new RepeatSubmitException(validate.message());
 				}
 			}
 		} finally {
-			if (success) {
+			if (result) {
 				redisComponent.delete(repeatSubmitCheckRedisKey);
 			}
 		}
