@@ -8,7 +8,7 @@ import javax.validation.ConstraintViolationException;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.validation.BindException;
-import org.springframework.validation.ObjectError;
+import org.springframework.validation.FieldError;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -69,16 +69,15 @@ public class ExceptionUtil {
 		return errorMsg.toString();
 	}
 
-	public String getErrorMsg(List<ObjectError> objectErrors) {
+	public String getErrorMsg(List<FieldError> fieldErrors) {
 		StringBuilder errorMsg = new StringBuilder();
-		for (int i = 0, size = objectErrors.size(); i < size; i++) {
+		for (int i = 0, size = fieldErrors.size(); i < size; i++) {
 			if (size > 1) {
 				errorMsg.append((i + 1) + SymbolConstant.DOT);
 			}
-			String validateField = ArrayUtil.isNotEmpty(objectErrors.get(i).getCodes())
-					? objectErrors.get(i).getCodes()[0]
-					: StringUtils.EMPTY;
-			errorMsg.append(validateField + SymbolConstant.HYPHEN + objectErrors.get(i).getDefaultMessage());
+			
+			String validateField = fieldErrors.get(i).getField();
+			errorMsg.append(validateField + SymbolConstant.HYPHEN + fieldErrors.get(i).getDefaultMessage());
 			if (size > 1 && i < size - 1) {
 				errorMsg.append("; ");
 			}
@@ -97,10 +96,10 @@ public class ExceptionUtil {
 		if (e instanceof BindException) {
 			// 参数校验
 			BindException bindException = (BindException) e;
-			List<ObjectError> errorList = bindException.getAllErrors();
-			if (CollectionUtil.isNotEmpty(errorList)) {
-				ObjectError objectError = errorList.get(0);
-				return RespHeadUtil.of(ReturnCodeEnum.VALIDATE_FAIL, objectError.getDefaultMessage());
+			List<FieldError> fieldErrors  = bindException.getFieldErrors();
+			if (CollectionUtil.isNotEmpty(fieldErrors)) {
+				String errorMsg = getErrorMsg(fieldErrors);
+				return RespHeadUtil.of(ReturnCodeEnum.VALIDATE_FAIL, errorMsg);
 			}
 		}
 		if (e instanceof ConstraintViolationException) {
@@ -115,9 +114,9 @@ public class ExceptionUtil {
 		}
 		if (e instanceof MethodArgumentNotValidException) {
 			// 参数校验
-			List<ObjectError> objectErrors = ((MethodArgumentNotValidException) e).getBindingResult().getAllErrors();
-			if (CollectionUtil.isNotEmpty(objectErrors)) {
-				String errorMsg = getErrorMsg(objectErrors);
+			List<FieldError> fieldErrors = ((MethodArgumentNotValidException) e).getBindingResult().getFieldErrors();
+			if (CollectionUtil.isNotEmpty(fieldErrors)) {
+				String errorMsg = getErrorMsg(fieldErrors);
 				return RespHeadUtil.of(ReturnCodeEnum.VALIDATE_FAIL, errorMsg);
 			}
 			return RespHeadUtil.of(ReturnCodeEnum.VALIDATE_FAIL, e.getMessage());

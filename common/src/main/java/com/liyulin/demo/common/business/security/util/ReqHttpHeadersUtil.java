@@ -55,7 +55,7 @@ public class ReqHttpHeadersUtil {
 	 * @return
 	 */
 	public static String getTokenMustExist() {
-		String token = getTokenable();
+		String token = getAvailableToken();
 		if (StringUtils.isBlank(token)) {
 			throw new ParamValidateException(ParamValidateMessage.TOKEN_MISSING);
 		}
@@ -67,7 +67,7 @@ public class ReqHttpHeadersUtil {
 	 * 
 	 * @return
 	 */
-	public static String getTokenable() {
+	public static String getAvailableToken() {
 		HttpServletRequest request = WebUtil.getHttpServletRequest();
 		return request.getHeader(ReqHttpHeadersEnum.SMART_TOKEN.getHeaderName());
 	}

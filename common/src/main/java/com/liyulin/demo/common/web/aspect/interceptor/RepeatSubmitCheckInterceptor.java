@@ -36,7 +36,7 @@ public class RepeatSubmitCheckInterceptor implements MethodInterceptor, Ordered 
 
 	@Override
 	public Object invoke(MethodInvocation invocation) throws Throwable {
-		String token = ReqHttpHeadersUtil.getTokenable();
+		String token = ReqHttpHeadersUtil.getAvailableToken();
 		if (StringUtils.isBlank(token)) {
 			return invocation.proceed();
 		}

@@ -43,10 +43,14 @@ public enum ReturnCodeEnum implements IBaseReturnCode {
 	GET_LOCK_FAIL("100417", "获取锁失败"),
 	/** 上传文件大小超过限制 */
 	UPLOAD_FILE_SIZE_EXCEEDED("100418", "上传文件大小超过限制"),
+	/** 当前会话已失效，请重新登陆 */
+	NOT_LOGGED_IN("100419", "当前会话已失效，请重新登陆"),
 	/** 服务器异常 */
 	SERVER_ERROR("100500", "服务器异常"),
 	/** 获取HttpServletRequest失败 */
-	GET_HTTPSERVLETREQUEST_FAIL("100501", "获取HttpServletRequest失败");
+	GET_HTTPSERVLETREQUEST_FAIL("100501", "获取HttpServletRequest失败"),
+	/** 获取getHttpServletResponse失败 */
+	GET_HTTPSERVLETRESPONSE_FAIL("100501", "获取getHttpServletResponse失败");
 
 	/** 状态码 */
 	private String code;

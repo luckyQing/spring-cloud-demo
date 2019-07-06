@@ -30,7 +30,7 @@ public class ReqContextHolder extends BaseDto {
 	 * 
 	 * @return
 	 */
-	public static Long userId() {
+	public static Long getUserId() {
 		LoginCache loginCache = getLoginCache();
 		Long userId = loginCache.getUserId();
 		if (Objects.isNull(userId)) {
@@ -42,9 +42,31 @@ public class ReqContextHolder extends BaseDto {
 	/**
 	 * 获取当前用户信息
 	 * 
-	 * @return
+	 * @return 如果不存在，则会抛异常{@link DataValidateException}
 	 */
 	public static LoginCache getLoginCache() {
+		LoginCache loginCache = getAvailableLoginCache();
+		if (Objects.isNull(loginCache)) {
+			throw new DataValidateException(ParamValidateMessage.LOGIN_CACHE_MISSING);
+		}
+
+		return loginCache;
+	}
+
+	/**
+	 * 是否已登陆
+	 * 
+	 * @return true，已登陆；false，未登陆
+	 */
+	public static boolean isLogin() {
+		LoginCache loginCache = getAvailableLoginCache();
+		if (loginCache == null) {
+			return false;
+		}
+		return loginCache.getUserId() != null;
+	}
+
+	private static LoginCache getAvailableLoginCache() {
 		LoginCache loginCache = loginCacheThreadLocal.get();
 		if (loginCache != null) {
 			return loginCache;
@@ -55,11 +77,10 @@ public class ReqContextHolder extends BaseDto {
 		String tokenRedisKey = LoginRedisConfig.getTokenRedisKey(token);
 		loginCache = redisWrapper.getObject(tokenRedisKey, new TypeReference<LoginCache>() {
 		});
-		if (Objects.isNull(loginCache)) {
-			throw new DataValidateException(ParamValidateMessage.LOGIN_CACHE_MISSING);
+		if (!Objects.isNull(loginCache)) {
+			loginCacheThreadLocal.set(loginCache);
 		}
 
-		loginCacheThreadLocal.set(loginCache);
 		return loginCache;
 	}
 

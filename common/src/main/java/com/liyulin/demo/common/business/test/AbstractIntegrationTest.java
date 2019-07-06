@@ -1,5 +1,7 @@
 package com.liyulin.demo.common.business.test;
 
+import java.util.Map;
+
 import org.apache.commons.lang3.StringUtils;
 import org.junit.After;
 import org.junit.Before;
@@ -11,6 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
@@ -144,6 +147,55 @@ public abstract class AbstractIntegrationTest {
 		String content = result.getResponse().getContentAsString();
 		log.info("test.result={}", content);
 		
+		return JSON.parseObject(content, typeReference);
+	}
+	
+	/**
+	 * get请求（请求头部带有token、nonce、timestamp、sign等）
+	 * 
+	 * @param url           请求mapping的地址
+	 * @param req           请求参数
+	 * @param typeReference 返回对象类型
+	 * @return
+	 * @throws Exception
+	 */
+	protected <T> T getWithHeaders(String url, Object req, TypeReference<T> typeReference)
+			throws Exception {
+		return getWithHeaders(url, req, null, typeReference);
+	}
+	
+	/**
+	 * get请求（请求头部带有token、nonce、timestamp、sign等）
+	 * 
+	 * @param url           请求mapping的地址
+	 * @param req           请求参数
+	 * @param token         请求token；不传时，默认生成一个
+	 * @param typeReference 返回对象类型
+	 * @return
+	 * @throws Exception
+	 */
+	protected <T> T getWithHeaders(String url, Object req, String token, TypeReference<T> typeReference)
+			throws Exception {
+		String requestJsonStr = JSON.toJSONString(req);
+		HttpHeaders httpHeaders = generateHeaders(token);
+		log.info("test.httpHeaders={}; requestBody={}", JSON.toJSONString(httpHeaders), requestJsonStr);
+
+		MockHttpServletRequestBuilder mockHttpServletRequestBuilder = MockMvcRequestBuilders.get(url)
+				.contentType(MediaType.APPLICATION_JSON_UTF8).accept(MediaType.APPLICATION_JSON_UTF8)
+				.headers(httpHeaders);
+
+		Map<String, String> requestMap = JSON.parseObject(requestJsonStr, new TypeReference<Map<String, String>>() {
+		});
+		if (requestMap != null) {
+			requestMap.forEach((k, v) -> {
+				mockHttpServletRequestBuilder.param(k, v);
+			});
+		}
+		
+		MvcResult result = mockMvc.perform(mockHttpServletRequestBuilder).andReturn();
+		String content = result.getResponse().getContentAsString();
+		log.info("test.result={}", content);
+
 		return JSON.parseObject(content, typeReference);
 	}
 	

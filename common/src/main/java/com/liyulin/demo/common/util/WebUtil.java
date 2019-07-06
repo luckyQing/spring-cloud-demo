@@ -9,6 +9,7 @@ import java.net.UnknownHostException;
 import java.util.stream.Stream;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.context.request.RequestAttributes;
@@ -191,6 +192,22 @@ public class WebUtil {
 		}
 		
 		throw new ServerException(ReturnCodeEnum.GET_HTTPSERVLETREQUEST_FAIL);
+	}
+	
+
+	/**
+	 * 获取HttpServletResponse
+	 * 
+	 * @return
+	 */
+	public static HttpServletResponse getHttpServletResponse() {
+		RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
+		if(requestAttributes instanceof ServletRequestAttributes) {
+			ServletRequestAttributes attributes = (ServletRequestAttributes) requestAttributes;
+			return attributes.getResponse();
+		}
+		
+		throw new ServerException(ReturnCodeEnum.GET_HTTPSERVLETRESPONSE_FAIL);
 	}
 	
 }
