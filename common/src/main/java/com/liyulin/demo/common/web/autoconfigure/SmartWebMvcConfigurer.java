@@ -17,7 +17,7 @@ public class SmartWebMvcConfigurer implements WebMvcConfigurer {
 
 	@Override
 	public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-		converters.add(buildJsonHttpMessageConverter());
+		converters.add(0, buildJsonHttpMessageConverter());
 	}
 
 	private FastJsonHttpMessageConverter buildJsonHttpMessageConverter() {

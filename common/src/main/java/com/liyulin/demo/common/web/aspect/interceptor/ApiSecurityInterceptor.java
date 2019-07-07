@@ -9,6 +9,7 @@ import org.springframework.core.Ordered;
 import org.springframework.http.MediaType;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.liyulin.demo.common.business.ReqContextHolder;
 import com.liyulin.demo.common.business.exception.NotLoggedInException;
@@ -21,7 +22,8 @@ import com.liyulin.demo.common.util.WebUtil;
 
 public class ApiSecurityInterceptor implements MethodInterceptor, Ordered {
 
-	private long requestMaxExpireTimeMillis = 1000 * 60 * 2L;
+	/** 请求的最大有效时间间隔（2分钟） */
+	private final long REQUEST_MAX_EXPIRE_MILLIS = 1000 * 60 * 2L;
 
 	@Override
 	public int getOrder() {
@@ -51,15 +53,17 @@ public class ApiSecurityInterceptor implements MethodInterceptor, Ordered {
 		if (StringUtils.isBlank(contentType) || !contentType.startsWith(MediaType.APPLICATION_JSON_VALUE)) {
 			return invocation.proceed();
 		}
-
+		// 上传文件，怎么判断？MultipartHttpServletRequest?
+		
 		if (requestURI.contains(ApiTypeEnum.OPEN.getPathSegment())) {
 			return invocation.proceed();
 		}
 
 		if (requestURI.contains(ApiTypeEnum.SIGN.getPathSegment())) {
+			String queryString = request.getQueryString();
 			// 签名
 			if (RequestMethod.GET.toString().equals(httpMethod)) {
-
+//				String queryString = request.getQueryString();
 			} else {
 				
 			}
@@ -108,7 +112,7 @@ public class ApiSecurityInterceptor implements MethodInterceptor, Ordered {
 		long currentTimeMillis = System.currentTimeMillis();
 		long requestTimeMillis = Long.parseLong(timestamp);
 		long requestTimeRange = currentTimeMillis - requestTimeMillis;
-		if (requestTimeRange < 0 || requestTimeRange > requestMaxExpireTimeMillis) {
+		if (requestTimeRange < 0 || requestTimeRange > REQUEST_MAX_EXPIRE_MILLIS) {
 			throw new ParamValidateException("请求timestamp非法");
 		}
 	}
