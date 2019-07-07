@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.liyulin.demo.common.constants.CommonConstant;
+import com.liyulin.demo.common.constants.PackageConfig;
 import com.liyulin.demo.common.web.aspect.interceptor.MockInterceptor;
 import com.liyulin.demo.common.web.aspect.util.AspectInterceptorUtil;
 
@@ -23,7 +23,7 @@ public class MockAspectAutoConfigure {
 	@Bean
 	public Advisor mockAdvisor(final MockInterceptor mockInterceptor) {
 		AspectJExpressionPointcut mockPointcut = new AspectJExpressionPointcut();
-		String logExpression = AspectInterceptorUtil.getApiExpression(CommonConstant.BASE_PACAKGE);
+		String logExpression = AspectInterceptorUtil.getApiExpression(PackageConfig.getBasePackages());
 		mockPointcut.setExpression(logExpression);
 
 		DefaultBeanFactoryPointcutAdvisor mockAdvisor = new DefaultBeanFactoryPointcutAdvisor();

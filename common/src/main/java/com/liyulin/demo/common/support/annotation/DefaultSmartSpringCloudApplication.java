@@ -7,13 +7,11 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import com.liyulin.demo.common.constants.CommonConstant;
-
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
-@SmartSpringCloudApplication(componentBasePackages = CommonConstant.BASE_PACAKGE, feignClientBasePackages = CommonConstant.BASE_RPC_PACAKGE)
+@SmartSpringCloudApplication(componentBasePackages = "com.liyulin", feignClientBasePackages = "com.liyulin.demo.rpc")
 @YamlScan(locationPatterns = "classpath*:/application-*.yml")
 public @interface DefaultSmartSpringCloudApplication {
 

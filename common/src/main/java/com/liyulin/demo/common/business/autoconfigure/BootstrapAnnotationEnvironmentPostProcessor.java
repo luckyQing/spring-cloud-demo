@@ -11,6 +11,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.env.EnvironmentPostProcessor;
 import org.springframework.boot.env.YamlPropertySourceLoader;
 import org.springframework.boot.test.context.AnnotatedClassFinder;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.PropertySource;
@@ -18,21 +19,26 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
 
+import com.liyulin.demo.common.constants.PackageConfig;
+import com.liyulin.demo.common.support.annotation.SmartSpringCloudApplication;
 import com.liyulin.demo.common.support.annotation.YamlScan;
 import com.liyulin.demo.common.util.ArrayUtil;
 
 /**
- * 解析{@link YamlScan}
+ * 启动类注解值读取
  * 
  * @author liyulin
  * @date 2019年6月21日 下午12:58:22
  */
-public class YamlEnvironmentPostProcessor implements EnvironmentPostProcessor {
+public class BootstrapAnnotationEnvironmentPostProcessor implements EnvironmentPostProcessor {
 
 	@Override
 	public void postProcessEnvironment(ConfigurableEnvironment environment, SpringApplication application) {
 		if (isRegisterShutdownHook(application)) {
-			loadYaml(environment, application);
+			Class<?> mainApplicationClass = application.getMainApplicationClass();
+			
+			initBasePackages(mainApplicationClass);
+			loadYaml(environment, mainApplicationClass);
 		}
 	}
 
@@ -50,13 +56,25 @@ public class YamlEnvironmentPostProcessor implements EnvironmentPostProcessor {
 	}
 
 	/**
+	 * 设置{@link ComponentScan}的{@code basePackages}
+	 * 
+	 * @param mainApplicationClass
+	 */
+	private void initBasePackages(Class<?> mainApplicationClass) {
+		SmartSpringCloudApplication smartSpringCloudApplication = AnnotationUtils.findAnnotation(mainApplicationClass,
+				SmartSpringCloudApplication.class);
+		String[] componentBasePackages = smartSpringCloudApplication.componentBasePackages();
+		PackageConfig.setBasePackages(componentBasePackages);
+	}
+
+	/**
 	 * 将启动类注解上配置的yaml文件加到environment中
 	 * 
 	 * @param environment
-	 * @param application
+	 * @param mainApplicationClass
 	 */
-	private void loadYaml(ConfigurableEnvironment environment, SpringApplication application) {
-		String[] locationPatterns = getLocationPatterns(application.getMainApplicationClass());
+	private void loadYaml(ConfigurableEnvironment environment, Class<?> mainApplicationClass) {
+		String[] locationPatterns = getLocationPatterns(mainApplicationClass);
 		if (ArrayUtil.isEmpty(locationPatterns)) {
 			return;
 		}
@@ -150,7 +168,7 @@ public class YamlEnvironmentPostProcessor implements EnvironmentPostProcessor {
 		if (Objects.isNull(yamlScan)) {
 			return new String[0];
 		}
-
+		
 		return yamlScan.locationPatterns();
 	}
 

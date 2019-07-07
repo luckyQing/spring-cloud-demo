@@ -11,12 +11,6 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class CommonConstant {
 	
-	/** 基础包 */
-	public static final String BASE_PACAKGE = "com.liyulin";
-	
-	/** rpc基础包 */
-	public static final String BASE_RPC_PACAKGE = "com.liyulin.demo.rpc";
-	
 	/** 公共配置属性前缀 */
 	public static final String SMART_PROPERTIES_PREFIX = "smart";
 

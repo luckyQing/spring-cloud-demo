@@ -9,7 +9,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.liyulin.demo.common.constants.CommonConstant;
+import com.liyulin.demo.common.constants.PackageConfig;
 import com.liyulin.demo.common.redis.RedisComponent;
 import com.liyulin.demo.common.web.aspect.interceptor.ApiLogInterceptor;
 import com.liyulin.demo.common.web.aspect.interceptor.ApiSecurityInterceptor;
@@ -37,7 +37,7 @@ public class ApiAspectAutoConfigure {
 	@Bean
 	public AspectJExpressionPointcut apiPointcut() {
 		AspectJExpressionPointcut apiPointcut = new AspectJExpressionPointcut();
-		String logExpression = AspectInterceptorUtil.getApiExpression(CommonConstant.BASE_PACAKGE);
+		String logExpression = AspectInterceptorUtil.getApiExpression(PackageConfig.getBasePackages());
 		apiPointcut.setExpression(logExpression);
 		return apiPointcut;
 	}

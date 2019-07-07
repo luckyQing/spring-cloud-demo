@@ -1,1 +1,1 @@
-org.springframework.boot.env.EnvironmentPostProcessor=com.liyulin.demo.common.business.autoconfigure.YamlEnvironmentPostProcessor
+org.springframework.boot.env.EnvironmentPostProcessor=com.liyulin.demo.common.business.autoconfigure.BootstrapAnnotationEnvironmentPostProcessor

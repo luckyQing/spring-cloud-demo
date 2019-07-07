@@ -32,7 +32,7 @@ public class ApiSecurityInterceptor implements MethodInterceptor, Ordered {
 
 	@Override
 	public Object invoke(MethodInvocation invocation) throws Throwable {
-		HttpServletRequest request = WebUtil.getHttpServletRequest();
+		/*HttpServletRequest request = WebUtil.getHttpServletRequest();
 		String httpMethod = request.getMethod();
 
 		validateRequestMethod(httpMethod);
@@ -80,7 +80,7 @@ public class ApiSecurityInterceptor implements MethodInterceptor, Ordered {
 				// 加密
 			}
 			// 鉴权
-		}
+		}*/
 
 		return invocation.proceed();
 	}

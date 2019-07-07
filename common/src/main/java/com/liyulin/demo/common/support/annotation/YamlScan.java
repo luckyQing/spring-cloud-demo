@@ -18,7 +18,7 @@ import java.lang.annotation.Target;
  *
  * @author liyulin
  * @date 2019年5月11日下午5:08:26
- * @since YamlEnvironmentPostProcessor
+ * @since BootstrapAnnotationEnvironmentPostProcessor
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)

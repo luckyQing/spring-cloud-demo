@@ -111,12 +111,21 @@ public class AspectInterceptorUtil {
 	/**
 	 * 获取接口切面表达式
 	 * 
-	 * @param basePackage
+	 * @param basePackages
 	 * @return
 	 */
-	public static String getApiExpression(String basePackage) {
+	public static String getApiExpression(String[] basePackages) {
 		String controllerExpression = getWithinExpression(Arrays.asList(Controller.class, RestController.class));
-		return "execution( * " + basePackage + "..*.*(..)) && (" + controllerExpression + ")";
+		
+		StringBuilder executions = new StringBuilder();
+		for (int i = 0; i < basePackages.length; i++) {
+			executions.append("execution( * " + basePackages[i] + "..*.*(..))");
+			if (i != basePackages.length - 1) {
+				executions.append(" || ");
+			}
+		}
+		
+		return "(" + executions + ") && (" + controllerExpression + ")";
 	}
 
 	/**
