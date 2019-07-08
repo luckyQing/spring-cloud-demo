@@ -21,6 +21,12 @@
 		<dependency>
 			<groupId>com.liyulin</groupId>
 			<artifactId>common</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-web</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 	</dependencies>
 	
