@@ -49,8 +49,11 @@ public class MultipleDataSourceInitializerInvoker {
 	private final ConfigurableBeanFactory beanFactory;
 	private MybatisSqlLogInterceptor mybatisSqlLogInterceptor;
 	private PageInterceptor pageInterceptor;
-	/** jdbc url默认参数 */
-	private static final String DEFAULT_JDBCURL_PARAMS = "characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&serverTimezone=Asia/Shanghai";
+	/**
+	 * jdbc url默认参数
+	 * !!!此处添加“characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true”中任何一个参数，seata都会报错，可能是seata的bug
+	 */
+	private static final String DEFAULT_JDBCURL_PARAMS = "serverTimezone=Asia/Shanghai";
 
 	public MultipleDataSourceInitializerInvoker(final MultipleDatasourceProperties multipleDatasourceProperties,
 			final ConfigurableBeanFactory beanFactory) {
@@ -94,14 +97,14 @@ public class MultipleDataSourceInitializerInvoker {
 		// 2、创建所有需要的bean，并加入到容器中
 		dataSources.forEach((serviceName, properties)->{
 			DataSource dataSource = createDataSource(serviceName, properties);
-
+			
 			initOtherBeanOfDatasource(serviceName, dataSource, properties);
 		});
 	}
 	
 	private DataSource createDataSource(String serviceName, SingleDatasourceProperties properties) {
 		DataSource dataSource = createHikariDataSource(serviceName, properties);
-
+		
 		DataSource finalDataSource = dataSource;
 		if (properties.isSeataEnable()) {
 			finalDataSource = new DataSourceProxy(dataSource);

@@ -10,13 +10,13 @@ import org.junit.Test;
 import org.junit.runners.Suite;
 import org.junit.runners.model.InitializationError;
 import org.junit.runners.model.RunnerBuilder;
+import org.reflections.Reflections;
 import org.springframework.core.annotation.AnnotationUtils;
 
 import com.liyulin.demo.common.business.test.AbstractIntegrationTest;
 import com.liyulin.demo.common.business.test.AbstractSystemTest;
 import com.liyulin.demo.common.business.test.AbstractUnitTest;
 import com.liyulin.demo.common.util.ArrayUtil;
-import com.liyulin.demo.common.util.ReflectionUtil;
 
 import junit.framework.TestCase;
 import lombok.extern.slf4j.Slf4j;
@@ -36,13 +36,21 @@ public class AllTestsRunner extends Suite {
 	private static final String TEST_CASE_PREFIX = "test";
 
 	public AllTestsRunner(Class<?> clazz, RunnerBuilder builder) throws InitializationError {
-		super(builder, clazz, getSuiteClasses());
+		super(builder, clazz, getSuiteClasses(clazz));
 	}
 
-	private static Class<?>[] getSuiteClasses() {
+	private static Class<?>[] getSuiteClasses(Class<?> bootstrapClazz) {
+		String testCasePackage = bootstrapClazz.getPackage().getName();
+		log.info("扫描package={}", testCasePackage);
+		Reflections reflections = new Reflections(testCasePackage);
+		
 		Class<?>[] allSuperClass = { AbstractUnitTest.class, AbstractIntegrationTest.class, AbstractSystemTest.class,
 				TestCase.class };
-		Set<Class<?>> testClassSet = getTestClassSet(allSuperClass);
+		Set<Class<?>> testClassSet = new HashSet<>();
+		for (Class<?> superClass : allSuperClass) {
+			testClassSet.addAll(reflections.getSubTypesOf(superClass));
+		}
+		
 		Set<Class<?>> suiteClasses = testClassSet.stream()
 				.filter(clazz -> !isAbstractClass(clazz) && isContainTestCase(clazz)).collect(Collectors.toSet());
 
@@ -50,21 +58,6 @@ public class AllTestsRunner extends Suite {
 			log.warn("None suite test class is found!");
 		}
 		return suiteClasses.toArray(new Class<?>[suiteClasses.size()]);
-	}
-
-	/**
-	 * 根据父类获取所有的Test子类
-	 * 
-	 * @param allSuperClass
-	 * @return
-	 */
-	private static Set<Class<?>> getTestClassSet(Class<?>[] allSuperClass) {
-		Set<Class<?>> testClassSet = new HashSet<>();
-		for (Class<?> superClass : allSuperClass) {
-			testClassSet.addAll(ReflectionUtil.getSubTypesOf(superClass));
-		}
-
-		return testClassSet;
 	}
 
 	/**

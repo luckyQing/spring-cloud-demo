@@ -25,6 +25,7 @@
 		<spring.boot.admin>2.1.5</spring.boot.admin>
 		<!-- version>=3.10.0时，NX返回null -->
 		<redisson>3.9.1</redisson>
+		<mybatis>2.0.1</mybatis>
 		<mapper>4.1.5</mapper>
 		<pagehelper>5.1.8</pagehelper>
 		<sharding-jdbc>4.0.0-RC1</sharding-jdbc>
@@ -71,13 +72,13 @@
 				<artifactId>demo-mall-product-service</artifactId>
 				<version>${project.version}</version>
 			</dependency>
-			
+
 			<dependency>
 				<groupId>com.liyulin</groupId>
 				<artifactId>demo-mall-user-service</artifactId>
 				<version>${project.version}</version>
 			</dependency>
-			
+
 			<dependency>
 				<groupId>com.liyulin</groupId>
 				<artifactId>demo-mall-auth-service</artifactId>
@@ -93,19 +94,20 @@
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
-			
-            <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-alibaba-seata</artifactId>
-                <version>${spring-cloud-alibaba}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>io.seata</groupId>
-                        <artifactId>seata-spring</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-			
+
+			<!-- 分布式事务 -->
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-alibaba-seata</artifactId>
+				<version>${spring-cloud-alibaba}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>io.seata</groupId>
+						<artifactId>seata-spring</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+
 			<dependency>
 				<groupId>de.codecentric</groupId>
 				<artifactId>spring-boot-admin-starter-server</artifactId>
@@ -125,6 +127,12 @@
 			</dependency>
 
 			<dependency>
+				<groupId>org.mybatis.spring.boot</groupId>
+				<artifactId>mybatis-spring-boot-starter</artifactId>
+				<version>${mybatis}</version>
+			</dependency>
+			
+			<dependency>
 				<groupId>tk.mybatis</groupId>
 				<artifactId>mapper</artifactId>
 				<version>${mapper}</version>
@@ -141,12 +149,12 @@
 				<artifactId>sharding-jdbc-core</artifactId>
 				<version>${sharding-jdbc}</version>
 			</dependency>
-			
+
 			<!-- 分布式事务 -->
 			<dependency>
-			    <groupId>io.seata</groupId>
-			    <artifactId>seata-all</artifactId>
-			    <version>${seata}</version>
+				<groupId>io.seata</groupId>
+				<artifactId>seata-all</artifactId>
+				<version>${seata}</version>
 			</dependency>
 
 			<dependency>
@@ -319,40 +327,16 @@
 						</goals>
 					</execution>
 				</executions>
-				<!-- <configuration>
-					rules里面指定覆盖规则
-					<rules>
-						<rule implementation="org.jacoco.maven.RuleConfiguration">
-							<element>BUNDLE</element>
-							<limits>
-								指定行覆盖到90%
-								<limit implementation="org.jacoco.report.check.Limit">
-									<counter>LINE</counter>
-									<value>COVEREDRATIO</value>
-									<minimum>0.90</minimum>
-								</limit>
-								指定分支覆盖到100%
-								<limit implementation="org.jacoco.report.check.Limit">
-									<counter>BRANCH</counter>
-									<value>COVEREDRATIO</value>
-									<minimum>1</minimum>
-								</limit>
-								指定方法覆盖到95%
-								<limit implementation="org.jacoco.report.check.Limit">
-									<counter>METHOD</counter>
-									<value>COVEREDRATIO</value>
-									<minimum>0.95</minimum>
-								</limit>
-								指定类覆盖到100%，不能遗失任何类
-								<limit implementation="org.jacoco.report.check.Limit">
-									<counter>CLASS</counter>
-									<value>MISSEDCOUNT</value>
-									<maximum>0</maximum>
-								</limit>
-							</limits>
-						</rule>
-					</rules>
-				</configuration> -->
+				<!-- <configuration> rules里面指定覆盖规则 <rules> <rule implementation="org.jacoco.maven.RuleConfiguration"> 
+					<element>BUNDLE</element> <limits> 指定行覆盖到90% <limit implementation="org.jacoco.report.check.Limit"> 
+					<counter>LINE</counter> <value>COVEREDRATIO</value> <minimum>0.90</minimum> 
+					</limit> 指定分支覆盖到100% <limit implementation="org.jacoco.report.check.Limit"> 
+					<counter>BRANCH</counter> <value>COVEREDRATIO</value> <minimum>1</minimum> 
+					</limit> 指定方法覆盖到95% <limit implementation="org.jacoco.report.check.Limit"> 
+					<counter>METHOD</counter> <value>COVEREDRATIO</value> <minimum>0.95</minimum> 
+					</limit> 指定类覆盖到100%，不能遗失任何类 <limit implementation="org.jacoco.report.check.Limit"> 
+					<counter>CLASS</counter> <value>MISSEDCOUNT</value> <maximum>0</maximum> 
+					</limit> </limits> </rule> </rules> </configuration> -->
 			</plugin>
 		</plugins>
 	</build>

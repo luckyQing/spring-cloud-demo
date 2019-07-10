@@ -92,10 +92,6 @@ public class OrderApiService {
 		
 		Resp<BaseDto> updateStockResp = productInfoRpc.updateStock(list);
 		if(RespUtil.isSuccess(updateStockResp)) {
-			// 抛异常，测seata事务---start
-			orderBillEntity = null;
-			// 抛异常，测seata事务---end
-			
 			CreateOrderRespBody createOrderRespBody = new CreateOrderRespBody();
 			createOrderRespBody.setOrderId(orderBillId);
 			createOrderRespBody.setFree(orderBillEntity.getAmount()==0);

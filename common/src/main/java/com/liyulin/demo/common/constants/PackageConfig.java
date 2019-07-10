@@ -17,7 +17,6 @@ public class PackageConfig {
 	
 	public static String[] getBasePackages() {
 		Assert.isTrue(ArrayUtil.isNotEmpty(PackageConfig.basePackages), "basePackages未配置！！！");
-		
 		return basePackages;
 	}
 
