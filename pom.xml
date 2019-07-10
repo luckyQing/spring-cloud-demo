@@ -21,6 +21,7 @@
 		<!-- 2.1.5.RELEASE 升级后，IDE插件不兼容 -->
 		<maven-jar-plugin.version>3.1.1</maven-jar-plugin.version>
 		<spring-cloud>Greenwich.SR1</spring-cloud>
+		<spring.boot>2.1.5.RELEASE</spring.boot>
 		<spring-cloud-alibaba>0.9.1.BUILD-SNAPSHOT</spring-cloud-alibaba>
 		<spring.boot.admin>2.1.5</spring.boot.admin>
 		<!-- version>=3.10.0时，NX返回null -->
@@ -94,16 +95,19 @@
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
-
-			<!-- 分布式事务 -->
+			
 			<dependency>
-				<groupId>org.springframework.cloud</groupId>
-				<artifactId>spring-cloud-alibaba-seata</artifactId>
-				<version>${spring-cloud-alibaba}</version>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-starter-web</artifactId>
+				<version>${spring.boot}</version>
 				<exclusions>
 					<exclusion>
-						<groupId>io.seata</groupId>
-						<artifactId>seata-spring</artifactId>
+						<groupId>org.springframework.boot</groupId>
+						<artifactId>spring-boot-starter-logging</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.springframework.boot</groupId>
+						<artifactId>spring-boot-starter-tomcat</artifactId>
 					</exclusion>
 				</exclusions>
 			</dependency>
@@ -149,12 +153,30 @@
 				<artifactId>sharding-jdbc-core</artifactId>
 				<version>${sharding-jdbc}</version>
 			</dependency>
-
+		
 			<!-- 分布式事务 -->
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-alibaba-seata</artifactId>
+				<version>${spring-cloud-alibaba}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>io.seata</groupId>
+						<artifactId>seata-spring</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+
 			<dependency>
 				<groupId>io.seata</groupId>
 				<artifactId>seata-all</artifactId>
 				<version>${seata}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>com.alibaba</groupId>
+						<artifactId>druid</artifactId>
+					</exclusion>
+				</exclusions>
 			</dependency>
 
 			<dependency>

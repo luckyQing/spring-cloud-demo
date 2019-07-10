@@ -6,6 +6,7 @@
 - 业务无关代码自动生成
 - 接口（加密+签名）安全保证
 - 业务无关功能（如日志打印、公共配置、常用工具类等）抽象为公共模块
+- 支持多数据源、分表分库、分布式事务
 - 单体服务开发接阶段测试不依赖其他服务（挡板测试、关闭eureka）
 - 通过单元测试、集成测试、系统测试减少代码的缺陷
 - 代码安全保护
@@ -82,7 +83,7 @@
 > 	<tr>
 > 		<td>ORM</td>
 > 		<td>demo-mapper-common</td>
-> 		<td>mybatis、mapper、sharding jdbc封装。业务无关mapper动态生成，多数据源自动配置，sql日志打印等</td>
+> 		<td>mybatis、mapper、sharding jdbc封装。业务无关mapper动态生成，多数据源自动配置，分库分表，分布式事务，sql日志打印等</td>
 > 		<td>-</td>
 > 	</tr>
 > 	<tr>
@@ -141,6 +142,7 @@
 [openfeign](https://spring.io/projects/spring-cloud-openfeign) | 声明式服务调用 
 [sleuth](https://spring.io/projects/spring-cloud-sleuth)、[log4j2](https://logging.apache.org/log4j/2.x/) | 链路追踪、日志 
 [mybatis](http://www.mybatis.org/mybatis-3/zh/index.html) 、[mapper](https://github.com/abel533/Mapper)| ORM 
+[seata](https://github.com/seata/seata) | 分布式事务
 [sharding jdbc](https://github.com/apache/incubator-shardingsphere) | 分库分表
 [redis](https://redis.io/) | 缓存 
 [rocketmq](https://github.com/apache/rocketmq) | 消息队列 
@@ -385,13 +387,18 @@ Spring Cloud Sleuth可以追踪10种类型的组件：async、Hystrix、messagin
 
 其他组件实现见包org.springframework.cloud.sleuth.instrument。
 
-# 六、注意事项
+# 六、环境搭建
 - 更改hosts文件，添加如下内容
 ```
   127.0.0.1       nodeA
-  127.0.0.1       nodeB
 ```
 
+- 安装redis，并启动
+- 安装mysql，执行/docs/sql下脚本
+- 安装seata服务端，下载地址https://github.com/seata/seata
+- 服务启动（先启动eureka，然后依次启动mall下服务）
+
+# 七、注意事项
 - 针对**jasypt**加密，所有的需要合并的单体服务的**jasypt.encryptor.password**的值必须相同，否则会报错。
 
 - 服务构建
