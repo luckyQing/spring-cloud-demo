@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.liyulin.demo.common.business.dto.BaseDto;
 import com.liyulin.demo.common.business.dto.Resp;
@@ -30,6 +31,8 @@ import com.liyulin.demo.rpc.product.request.rpc.UpdateStockReqBody;
 import com.liyulin.demo.rpc.product.response.rpc.QryProductByIdRespBody;
 import com.liyulin.demo.rpc.product.response.rpc.QryProductByIdsRespBody;
 
+import io.seata.spring.annotation.GlobalTransactional;
+
 /**
  * 订单api service
  *
@@ -53,7 +56,8 @@ public class OrderApiService {
 	 * @return
 	 * @throws UpdateStockException 
 	 */
-	// TODO:分布式事务
+	@Transactional
+	@GlobalTransactional(name = "order-create", timeoutMills = 10000)
 	public Resp<CreateOrderRespBody> create(CreateOrderReqBody req) {
 		List<CreateOrderProductInfoReqBody> products = req.getProducts();
 		// 1、查询商品信息
@@ -88,6 +92,10 @@ public class OrderApiService {
 		
 		Resp<BaseDto> updateStockResp = productInfoRpc.updateStock(list);
 		if(RespUtil.isSuccess(updateStockResp)) {
+			// 抛异常，测seata事务---start
+			orderBillEntity = null;
+			// 抛异常，测seata事务---end
+			
 			CreateOrderRespBody createOrderRespBody = new CreateOrderRespBody();
 			createOrderRespBody.setOrderId(orderBillId);
 			createOrderRespBody.setFree(orderBillEntity.getAmount()==0);

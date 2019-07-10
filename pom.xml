@@ -21,12 +21,14 @@
 		<!-- 2.1.5.RELEASE 升级后，IDE插件不兼容 -->
 		<maven-jar-plugin.version>3.1.1</maven-jar-plugin.version>
 		<spring-cloud>Greenwich.SR1</spring-cloud>
+		<spring-cloud-alibaba>0.9.1.BUILD-SNAPSHOT</spring-cloud-alibaba>
 		<spring.boot.admin>2.1.5</spring.boot.admin>
 		<!-- version>=3.10.0时，NX返回null -->
 		<redisson>3.9.1</redisson>
 		<mapper>4.1.5</mapper>
 		<pagehelper>5.1.8</pagehelper>
 		<sharding-jdbc>4.0.0-RC1</sharding-jdbc>
+		<seata>0.6.1</seata>
 		<mysql>8.0.15</mysql>
 		<fastjson>1.2.58</fastjson>
 		<springfox-swagger2>2.9.2</springfox-swagger2>
@@ -91,7 +93,19 @@
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
-
+			
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-alibaba-seata</artifactId>
+                <version>${spring-cloud-alibaba}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>io.seata</groupId>
+                        <artifactId>seata-spring</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+			
 			<dependency>
 				<groupId>de.codecentric</groupId>
 				<artifactId>spring-boot-admin-starter-server</artifactId>
@@ -126,6 +140,13 @@
 				<groupId>org.apache.shardingsphere</groupId>
 				<artifactId>sharding-jdbc-core</artifactId>
 				<version>${sharding-jdbc}</version>
+			</dependency>
+			
+			<!-- 分布式事务 -->
+			<dependency>
+			    <groupId>io.seata</groupId>
+			    <artifactId>seata-all</artifactId>
+			    <version>${seata}</version>
 			</dependency>
 
 			<dependency>
@@ -343,6 +364,14 @@
 			<name>aliyun</name>
 			<url>http://maven.aliyun.com/nexus/content/groups/public</url>
 		</repository>
+		<repository>
+			<id>spring-snapshot</id>
+			<name>Spring Snapshot Repository</name>
+			<url>https://repo.spring.io/snapshot</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
 	</repositories>
 
 	<modules>
@@ -356,5 +385,6 @@
 		<module>demo-merge-module</module>
 		<module>demo-code-auto-generate</module>
 		<module>demo-system-test-module</module>
+		<module>seata-server</module>
 	</modules>
 </project>

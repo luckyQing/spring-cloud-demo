@@ -13,6 +13,8 @@ import org.apache.ibatis.plugin.Interceptor;
 import org.apache.shardingsphere.core.yaml.swapper.impl.ShardingRuleConfigurationYamlSwapper;
 import org.apache.shardingsphere.shardingjdbc.api.ShardingDataSourceFactory;
 import org.apache.shardingsphere.shardingjdbc.jdbc.core.datasource.ShardingDataSource;
+//import org.apache.shardingsphere.shardingjdbc.api.ShardingDataSourceFactory;
+//import org.apache.shardingsphere.shardingjdbc.jdbc.core.datasource.ShardingDataSource;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.core.io.Resource;
@@ -31,6 +33,7 @@ import com.liyulin.demo.mybatis.properties.ShardingJdbcDatasourceProperties;
 import com.liyulin.demo.mybatis.properties.SingleDatasourceProperties;
 import com.zaxxer.hikari.HikariDataSource;
 
+import io.seata.rm.datasource.DataSourceProxy;
 import tk.mybatis.spring.mapper.MapperScannerConfigurer;
 
 /**
@@ -90,9 +93,23 @@ public class MultipleDataSourceInitializerInvoker {
 
 		// 2、创建所有需要的bean，并加入到容器中
 		dataSources.forEach((serviceName, properties)->{
-			HikariDataSource dataSource = createDataSource(serviceName, properties, true);
+			DataSource dataSource = createDataSource(serviceName, properties);
+
 			initOtherBeanOfDatasource(serviceName, dataSource, properties);
 		});
+	}
+	
+	private DataSource createDataSource(String serviceName, SingleDatasourceProperties properties) {
+		DataSource dataSource = createHikariDataSource(serviceName, properties);
+
+		DataSource finalDataSource = dataSource;
+		if (properties.isSeataEnable()) {
+			finalDataSource = new DataSourceProxy(dataSource);
+			// 注册bean
+			registerBean(serviceName+"DataSourceProxy", finalDataSource);
+		}
+		
+		return finalDataSource;
 	}
 	
 	/**
@@ -133,7 +150,8 @@ public class MultipleDataSourceInitializerInvoker {
 			Map<String, SingleDatasourceProperties> shardingJdbcDatasourcesMap = config.getDataSources();
 			Map<String, DataSource> dataSourceMap = new LinkedHashMap<>(shardingJdbcDatasourcesMap.size());
 			shardingJdbcDatasourcesMap.forEach((name, properties) -> {
-				HikariDataSource dataSource = createDataSource(name, properties, false);
+				DataSource dataSource = createDataSource(name, properties);
+				
 				dataSourceMap.put(name, dataSource);
 			});
 
@@ -173,10 +191,9 @@ public class MultipleDataSourceInitializerInvoker {
 	 * 
 	 * @param serviceName
 	 * @param dataSourceProperties
-	 * @param registerBean 是否注册bean
 	 * @return
 	 */
-	private HikariDataSource createDataSource(String serviceName, SingleDatasourceProperties dataSourceProperties, boolean registerBean) {
+	private DataSource createHikariDataSource(String serviceName, SingleDatasourceProperties dataSourceProperties) {
 		String dataSourceBeanName = generateBeanName(serviceName, HikariDataSource.class.getSimpleName());
 		// 构建bean对象
 		HikariDataSource dataSource = new HikariDataSource();
@@ -189,10 +206,8 @@ public class MultipleDataSourceInitializerInvoker {
 		dataSource.setUsername(dataSourceProperties.getUsername());
 		dataSource.setPassword(dataSourceProperties.getPassword());
 		dataSource.setDriverClassName(dataSourceProperties.getDriverClassName());
-		if(registerBean) {
-			// 注册bean
-			registerBean(dataSourceBeanName, dataSource);
-		}
+		// 注册bean
+		registerBean(dataSourceBeanName, dataSource);
 
 		return dataSource;
 	}
@@ -237,7 +252,7 @@ public class MultipleDataSourceInitializerInvoker {
 		// 注册bean
 		registerBean(transactionManagerBeanName, dataSourceTransactionManager);
 	}
-
+	
 	/**
 	 * 创建并注册<code>MapperScannerConfigurer</code>
 	 * 

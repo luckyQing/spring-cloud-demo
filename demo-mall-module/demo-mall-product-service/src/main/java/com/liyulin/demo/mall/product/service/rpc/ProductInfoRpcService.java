@@ -58,6 +58,7 @@ public class ProductInfoRpcService {
 	@Transactional
 	public Resp<BaseDto> updateStock(List<UpdateStockReqBody> list) {
 		boolean success = productRpcBiz.updateStock(list);
+		
 		return success ? RespUtil.success() : RespUtil.error(ProductReturnCodeEnum.STOCK_NOT_ENOUGH);
 	}
 

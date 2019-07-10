@@ -11,4 +11,16 @@
 	</parent>
 	<artifactId>demo-mall-order-service</artifactId>
 	<packaging>jar</packaging>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-alibaba-seata</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>io.seata</groupId>
+			<artifactId>seata-all</artifactId>
+		</dependency>
+	</dependencies>
 </project>

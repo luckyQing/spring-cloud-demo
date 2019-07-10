@@ -9,7 +9,8 @@ import com.liyulin.demo.common.business.dto.BaseDto;
 import com.liyulin.demo.common.business.dto.Resp;
 import com.liyulin.demo.common.business.dto.RespHead;
 import com.liyulin.demo.common.util.ExceptionUtil;
-import com.liyulin.demo.common.util.LogUtil;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * 全局异常处理
@@ -18,12 +19,13 @@ import com.liyulin.demo.common.util.LogUtil;
  * @date 2019年4月8日下午9:05:25
  */
 @RestControllerAdvice
+@Slf4j
 public class ExceptionControllerAdvice {
 
 	@ExceptionHandler(Exception.class)
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	public Resp<BaseDto> handleException(Exception e) {
-		LogUtil.error(e.getMessage(), e);
+		log.error(e.getMessage(), e);
 
 		RespHead head = ExceptionUtil.parse(e);
 		return new Resp<>(head);

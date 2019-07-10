@@ -7,23 +7,12 @@ smart:
     name: luckyQing
     url: https://github.com/luckyQing
     email: 1634653825@qq.com
-  sharding-datasources:
-    test:
-      datasources:
-        product:
-          url: jdbc:mysql://127.0.0.1:3306/demo_product
-          username: ENC(PbMw+RtvRPYAo4Acbuxe4Q==)
-          password: ENC(IwbzHJPe93Wevq8LVx0AwQ==)
-          mapper-interface-location: com.liyulin.demo.mall.product.mapper
-          transaction-base-packages: com.liyulin.demo.mall.product.service
-          mapper-xml-location: classpath*:/com/liyulin/demo/mall/product/mybatis/**/*.xml
-      props:
-        sql.show: true
-      shardingRule:
-        default-data-source-name: product
-        tables:
-          t_api_log:
-            table-strategy:
-              standard:
-                sharding-column: f_sys_add_time
-                precise-algorithm-class-name: com.liyulin.demo.mall.product.algorithm.WeekPreciseShardingAlgorithm
+  datasources:
+    product:
+      url: jdbc:mysql://127.0.0.1:3306/demo_product
+      username: ENC(PbMw+RtvRPYAo4Acbuxe4Q==)
+      password: ENC(IwbzHJPe93Wevq8LVx0AwQ==)
+      mapper-interface-location: com.liyulin.demo.mall.product.mapper
+      transaction-base-packages: com.liyulin.demo.mall.product.service
+      mapper-xml-location: classpath*:/com/liyulin/demo/mall/product/mybatis/**/*.xml
+      seata-enable: true

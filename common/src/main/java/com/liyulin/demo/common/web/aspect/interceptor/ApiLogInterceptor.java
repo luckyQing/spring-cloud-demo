@@ -17,11 +17,12 @@ import com.liyulin.demo.common.business.security.util.ReqHttpHeadersUtil;
 import com.liyulin.demo.common.constants.OrderConstant;
 import com.liyulin.demo.common.constants.SymbolConstant;
 import com.liyulin.demo.common.util.ExceptionUtil;
-import com.liyulin.demo.common.util.LogUtil;
 import com.liyulin.demo.common.util.ObjectUtil;
 import com.liyulin.demo.common.util.WebUtil;
 import com.liyulin.demo.common.web.aspect.dto.LogAspectDto;
 import com.liyulin.demo.common.web.aspect.util.AspectInterceptorUtil;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * 接口日志切面
@@ -29,6 +30,7 @@ import com.liyulin.demo.common.web.aspect.util.AspectInterceptorUtil;
  * @author liyulin
  * @date 2019年4月8日下午8:49:29
  */
+@Slf4j
 public class ApiLogInterceptor implements MethodInterceptor, Ordered {
 
 	@Override
@@ -72,14 +74,13 @@ public class ApiLogInterceptor implements MethodInterceptor, Ordered {
 			logDto.setReqDealTime(getReqDealTime(logDto));
 			logDto.setRespData(result);
 
-			LogUtil.info("api.logDto.info=>{}", logDto);
+			log.info("api.logDto.info=>{}", logDto);
 			return result;
 		} catch (Exception e) {
 			logDto.setReqEndTime(new Date());
 			logDto.setReqDealTime(getReqDealTime(logDto));
 			logDto.setExceptionStackInfo(ExceptionUtil.toString(e));
-
-			LogUtil.error("api.logDto.error=>{}", logDto);
+			log.error("api.logDto.error=>"+logDto, e);
 
 			RespHead head = ExceptionUtil.parse(e);
 			return new Resp<>(head);

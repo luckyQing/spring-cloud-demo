@@ -15,3 +15,4 @@ smart:
       mapper-interface-location: com.liyulin.demo.mall.order.mapper
       transaction-base-packages: com.liyulin.demo.mall.order.service
       mapper-xml-location: classpath*:com/liyulin/demo/mall/order/mybatis/**/*.xml
+      seata-enable: true

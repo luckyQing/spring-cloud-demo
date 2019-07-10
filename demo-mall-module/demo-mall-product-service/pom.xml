@@ -14,8 +14,13 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>org.apache.shardingsphere</groupId>
-			<artifactId>sharding-jdbc-core</artifactId>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-alibaba-seata</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>io.seata</groupId>
+			<artifactId>seata-all</artifactId>
 		</dependency>
 	</dependencies>
 </project>
