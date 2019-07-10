@@ -57,7 +57,7 @@ public class OrderApiService {
 	 * @throws UpdateStockException 
 	 */
 	@Transactional
-	@GlobalTransactional(name = "order-create", timeoutMills = 10000)
+	@GlobalTransactional
 	public Resp<CreateOrderRespBody> create(CreateOrderReqBody req) {
 		List<CreateOrderProductInfoReqBody> products = req.getProducts();
 		// 1、查询商品信息

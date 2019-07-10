@@ -72,7 +72,7 @@ public class ProductInfoRpcControllerIntegrationTest extends AbstractIntegration
 	public void testUpdateStock() throws Exception {
 		// create test data
 		List<Long> ids = new ArrayList<>();
-		for (long id = 300; id < 303; id++) {
+		for (long id = 300; id < 301; id++) {
 			ids.add(id);
 		}
 		productInfoData.batchInsertTestData(ids);

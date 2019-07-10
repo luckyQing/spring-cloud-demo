@@ -22,7 +22,7 @@ public class OrderDeliveryInfoApiBiz extends BaseBiz<OrderDeliveryInfoEntity> {
 	private OrderDeliveryInfoBaseMapper orderDeliveryInfoBaseMapper;
 
 	public boolean create(List<OrderDeliveryInfoEntity> entities) {
-		return orderDeliveryInfoBaseMapper.insertListSelective(entities) > 0;
+		return orderDeliveryInfoBaseMapper.insertList(entities) > 0;
 	}
 
 }

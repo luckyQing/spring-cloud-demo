@@ -171,12 +171,6 @@
 				<groupId>io.seata</groupId>
 				<artifactId>seata-all</artifactId>
 				<version>${seata}</version>
-				<exclusions>
-					<exclusion>
-						<groupId>com.alibaba</groupId>
-						<artifactId>druid</artifactId>
-					</exclusion>
-				</exclusions>
 			</dependency>
 
 			<dependency>

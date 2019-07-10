@@ -38,7 +38,7 @@ public class ProductInfoData {
 	 */
 	public void batchInsertTestData() {
 		List<Long> list = new ArrayList<>();
-		for (long id = 100; id < 121; id++) {
+		for (long id = 100; id < 111; id++) {
 			list.add(id);
 		}
 		
@@ -61,7 +61,7 @@ public class ProductInfoData {
 
 			list.add(entity);
 		}
-		productInfoBaseMapper.insertListSelective(list);
+		productInfoBaseMapper.insertList(list);
 	}
 
 }
