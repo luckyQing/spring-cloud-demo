@@ -1,8 +1,9 @@
-----------
-> 此工程已将公共部分抽离出整合成框架smart-cloud。 
-> smart-cloud地址：https://github.com/smart-cloud/smart-cloud
-> smart-cloud对应示例smart-cloud-examples地址：https://github.com/smart-cloud/smart-cloud-examples
-----------
+```
+此工程已将公共部分抽离出整合成框架smart-cloud。 
+
+smart-cloud地址：https://github.com/smart-cloud/smart-cloud
+smart-cloud对应示例smart-cloud-examples地址：https://github.com/smart-cloud/smart-cloud-examples
+```
 
 # 一、项目说明
 **此项目为spring cloud微服务学习示例项目。所实现功能如下：**
